@@ -1,5 +1,12 @@
 # other
 ~notes_to_self/
+src/GUI/~ignore
+
+# the executable
+drp
+
+# external libraries
+ext/
 
 
 

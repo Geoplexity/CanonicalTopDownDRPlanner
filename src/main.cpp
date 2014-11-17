@@ -1,61 +1,62 @@
+#include "Graph/Graph.hpp"
+
+#include "GUI/MainGuiManager.hpp"
+#include "GUI/program.hpp"
+
+#include "GUI/Circle.hpp"
+
 #include <iostream>
-#include <deque>
-#include <iterator>
-
-#include <boost/graph/adjacency_list.hpp>
-#include <boost/graph/topological_sort.hpp>
-
-// #include <boost/graph/graph_traits.hpp>
-#include <boost/graph/undirected_graph.hpp>
-
+#include <vector>
 using namespace std;
 
-struct vertex {
-    int weight;
 
-    vertex(int w) {
-        weight = w;
+
+namespace global {
+    Program *myProg;
+
+    namespace window {
+        const int width_screen_coords = 1000, height_screen_coords = 1000;
+        // int width_px = 1000, height_px = 1000;
+        // const char *title = "Demo";
     }
+}
+
+
+class Demowindow : public Window {
+    void key_callback(int key, int scancode, int action, int mods) {
+        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+            cout << "HERE!" << endl;
+            // glfwSetWindowShouldClose(window, GL_TRUE);
+    };
 };
 
-struct edge {
-    int weight;
-};
-
-int main()
-{
-    // simplified adjacency list graph
-    // don't want adjacency matrix as these graphs have |E|=O(|V|)
-    boost::undirected_graph<vertex, edge> g;
-
-    vertex v0 = vertex(0);
-    vertex v1 = vertex(3);
-
-    // boost::graph_traits::vertex_descriptor v0 = g.add_vertex();
-    // boost::graph_traits::vertex_descriptor v1 = g.add_vertex();
-
-    g.add_edge(v0, v1);
 
 
 
-    // // Create a n adjacency list, add some vertices.
-    // boost::adjacency_list<void> g(num tasks);
-    // boost::add_vertex(0, g);
-    // boost::add_vertex(1, g);
-    // boost::add_vertex(2, g);
-    // boost::add_vertex(3, g);
-    // boost::add_vertex(4, g);
-    // boost::add_vertex(5, g);
-    // boost::add_vertex(6, g);
+Graph set_up_graph() {
+    Graph g;
 
-    // // Add edges between vertices.
-    // boost::add_edge(0, 3, g);
-    // boost::add_edge(1, 3, g);
-    // boost::add_edge(1, 4, g);
-    // boost::add_edge(2, 1, g);
-    // boost::add_edge(3, 5, g);
-    // boost::add_edge(4, 6, g);
-    // boost::add_edge(5, 6, g);
+    vector<Vertex> v;
+    for (int i = 0; i < 10; i++) {
+        v.push_back(g.add_vertex());
+    }
+
+    g.add_edge(v[0], v[4], 1);
+    g.add_edge(v[1], v[4], 1);
+    g.add_edge(v[2], v[4], 1);
+    g.add_edge(v[3], v[4], 1);
+    g.add_edge(v[0], v[1], 1);
+    g.add_edge(v[1], v[3], 1);
+    g.add_edge(v[2], v[3], 1);
+    g.add_edge(v[4], v[5], 1);
+    g.add_edge(v[5], v[6], 1);
+    g.add_edge(v[6], v[7], 1);
+    g.add_edge(v[7], v[8], 1);
+    g.add_edge(v[8], v[9], 1);
+    g.add_edge(v[9], v[3], 1);
+    g.add_edge(v[6], v[2], 1);
+    g.add_edge(v[5], v[8], 1);
+
 
     // // Perform a topological sort.
     // std::deque<int> topo_order;
@@ -68,6 +69,97 @@ int main()
     // {
     //     cout << tasks[v] << endl;
     // }
+
+    return g;
+}
+
+
+
+vector<gl_obj::pos_vec> verts_from_graph(Graph &g) {
+    vector<gl_obj::pos_vec> v;
+
+    for (std::pair<Vertex_iter, Vertex_iter> verts = g.vertices();
+        verts.first != verts.second;
+        verts.first++)
+    {
+        v.push_back(gl_obj::pos_vec(g[*verts.first].x, g[*verts.first].y));
+    }
+
+    return v;
+}
+
+
+vector<gl_obj::pos_vec> edges_from_graph(Graph &g) {
+    vector<gl_obj::pos_vec> v;
+
+    for (std::pair<Edge_iter, Edge_iter> edges = g.edges();
+        edges.first != edges.second;
+        edges.first++)
+    {
+        std::pair<Vertex, Vertex> uv = g.verts_on_edge(edges.first);
+        v.push_back(gl_obj::pos_vec(g[uv.first].x, g[uv.first].y));
+        v.push_back(gl_obj::pos_vec(g[uv.second].x, g[uv.second].y));
+    }
+
+
+    return v;
+}
+
+
+void display_graph(Window &wind, Graph &g) {
+    std::vector<gl_obj::pos_vec> vertices = verts_from_graph(g);
+    std::vector<gl_obj::pos_vec> edges = edges_from_graph(g);
+
+
+    wind.set_as_context();
+
+
+    // Clip the view port to match our ratio
+    int width, height;
+    wind.get_window_size_in_pixels(&width, &height);
+    glViewport(0, 0, width, height);
+
+
+    global::myProg->clearViewport();
+    global::myProg->draw_graph_edges(edges);
+    global::myProg->draw_graph_vertices(vertices);
+    // DRAW EDGES
+
+    // myProg->draw_colorpicking_scene();
+    global::myProg->flush();
+
+    wind.swap_buffers();
+}
+
+
+int main()
+{
+    Graph g = set_up_graph();
+
+    g.set_layout();
+
+
+    MainGuiManager mgm;
+
+    Demowindow myWindow;
+    mgm.create_window(&myWindow, global::window::width_screen_coords, global::window::height_screen_coords, "Graph Drawer", 3, 2);
+    myWindow.set_as_context();
+
+
+    // my stuff
+    global::myProg = new Program("src/GUI/shaders/vs.glsl", "src/GUI/shaders/fs.glsl");
+
+
+    display_graph(myWindow, g);
+
+
+    while (!myWindow.should_close()) {
+        // mgm.poll_for_events();
+        mgm.wait_for_events();
+    }
+
+
+
 
     return 0;
 }
