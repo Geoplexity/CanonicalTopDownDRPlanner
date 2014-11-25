@@ -184,12 +184,16 @@
 #include <boost/graph/fruchterman_reingold.hpp>
 
 
+
+#include "boost/graph/graphviz.hpp"
+
+
 // for layout
-typedef boost::property_map<gtype, std::size_t Vertex_Properties::*>::type VertexIndexPropertyMap;
+// typedef boost::property_map<gtype, std::size_t Vertex_Properties::*>::type VertexIndexPropertyMap;
 typedef boost::property_map<gtype, Point Vertex_Properties::*>::type PositionMap;
 typedef boost::property_map<gtype, double Edge_Properties::*>::type WeightPropertyMap;
 
-typedef boost::graph_traits<gtype>::vertex_descriptor VirtexDescriptor;
+typedef boost::graph_traits<gtype>::vertex_descriptor VertexDescriptor;
 
 
 
@@ -221,6 +225,10 @@ std::pair<Vertex_iter, Vertex_iter> Graph::vertices() {
 
 std::pair<Edge_iter, Edge_iter> Graph::edges() {
     return boost::edges(*this);
+}
+
+unsigned int Graph::num_vertices() {
+    return boost::num_vertices(*this);
 }
 
 std::pair<Vertex, Vertex> Graph::verts_on_edge(Edge_iter e) {
@@ -276,8 +284,8 @@ void Graph::set_layout() {
     }
 
 
-    centerx /= boost::num_vertices(*this);
-    centery /= boost::num_vertices(*this);
+    centerx /= this->num_vertices();
+    centery /= this->num_vertices();
 
     maxx -= centerx; minx -= centerx;
     maxy -= centery; miny -= centery;
@@ -314,12 +322,21 @@ void Graph::set_layout() {
 }
 
 
+#include <fstream>
+#include <boost/graph/property_maps/null_property_map.hpp>
 void Graph::write_to_file(const char* filename) {
-
+    std::ofstream f(filename);
+    boost::write_graphviz(f, *this);
 }
 
 void Graph::read_from_file(const char* filename) {
+    boost::dynamic_properties dp;
+    boost::property_map<gtype, std::string Vertex_Properties::*>::type name = boost::get(&Vertex_Properties::name, *this);
+    // boost::make_null_property<VertexDescriptor, std::string>
+    dp.property("node_id",name);
 
+    std::ifstream f(filename);
+    boost::read_graphviz(f, *this, dp);
 }
 
 

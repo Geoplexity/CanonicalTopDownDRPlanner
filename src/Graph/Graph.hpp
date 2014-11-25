@@ -16,15 +16,17 @@ struct Graph_Properties { };
 
 
 struct Vertex_Properties {
-    unsigned int pebbles;
+    // unsigned int pebbles;
     double x, y;
     unsigned int color;
+
+    std::string name;
 
     // for layout
     Point point;
 
     Vertex_Properties() {
-        pebbles = 2;
+        // pebbles = 2;
         x = 0;
         y = 0;
         color = 0x000000;
@@ -34,16 +36,16 @@ struct Vertex_Properties {
 
 struct Edge_Properties {
     double distance;
-    unsigned int pebbles;
+    // unsigned int pebbles;
 
     Edge_Properties() {
         distance = 1;
-        pebbles = 0;
+        // pebbles = 0;
     }
 
     Edge_Properties(double d) {
         distance = d;
-        pebbles = 0;
+        // pebbles = 0;
     }
 };
 
@@ -77,6 +79,8 @@ public:
 
     std::pair<Vertex_iter, Vertex_iter> vertices();
     std::pair<Edge_iter, Edge_iter> edges();
+
+    unsigned int num_vertices();
 
     std::pair<Vertex, Vertex> verts_on_edge(Edge_iter e);
 

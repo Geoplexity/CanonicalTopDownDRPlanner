@@ -78,6 +78,8 @@ public:
   void draw_graph_vertices(std::vector<gl_obj::pos_vec> &p);
   void draw_graph_edges(std::vector<gl_obj::pos_vec> &p);
 
+  void draw_letter(const GLfloat pos[4], const GLfloat tex_coord[4], GLuint tex_id);
+
   //// END DRAWING FUNCTIONS
   ////
 
@@ -109,11 +111,14 @@ private:
   GLuint vbo;
   GLuint vbo_indices;
   GLuint position_location,
-         color_location;
+         color_location,
+         texCoord_location;
 
 
   //uniforms
-  GLuint translate_location;
+  GLuint translate_location,
+         render_mode_location,
+         tex_sampler_location;
 };
 
 

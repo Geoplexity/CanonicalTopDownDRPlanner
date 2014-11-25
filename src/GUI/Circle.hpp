@@ -20,14 +20,20 @@
 namespace gl_obj {
   typedef glm::vec2 pos_vec;
   typedef glm::vec4 color_vec;
+  typedef glm::vec2 texc_vec;
 
   class Vertex {
   public:
-    pos_vec pos;
+    pos_vec   pos;
     color_vec color;
+    texc_vec  texCoord;
 
     Vertex(pos_vec p, color_vec c) {
-      pos = p; color = c;
+      pos = p; color = c; texCoord = texc_vec(0.f, 0.f);
+    }
+
+    Vertex(pos_vec p, texc_vec t) {
+      pos = p; color = color_vec(0.f,0.f,0.f,0.f); texCoord = t;
     }
 
     ~Vertex() {}
@@ -180,6 +186,36 @@ namespace gl_obj {
         Vertex(br, color),
         Vertex(tr, color));
       tf->addVertex(Vertex(tl, color));
+
+    };
+  };
+
+
+
+  // a quad with tex_coords
+  // print at 0, do not translate
+  class TexQuad {
+  public:
+    TriangleFan *tf;
+
+    TexQuad(float pos_l, float pos_r, float pos_t, float pos_b,
+      float texc_l, float texc_r, float texc_t, float texc_b)
+    {
+      pos_vec
+        pbl = pos_vec(pos_l, pos_b),
+        pbr = pos_vec(pos_r, pos_b),
+        ptl = pos_vec(pos_l, pos_t),
+        ptr = pos_vec(pos_r, pos_t);
+      texc_vec
+        tbl = texc_vec(texc_l, texc_b),
+        tbr = texc_vec(texc_r, texc_b),
+        ttl = texc_vec(texc_l, texc_t),
+        ttr = texc_vec(texc_r, texc_t);
+
+      tf = new TriangleFan(Vertex(pbl, tbl),
+        Vertex(pbr, tbr),
+        Vertex(ptr, ttr));
+      tf->addVertex(Vertex(ptl, ttl));
 
     };
   };

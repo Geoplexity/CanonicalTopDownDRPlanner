@@ -7,7 +7,17 @@
 #include <cstring>
 #include <cstdio>
 
+#include <iostream>
+
 using namespace std;
+
+
+
+namespace Render_Mode {
+  GLuint
+    basic2D = 0,
+    font = 1;
+}
 
 
 
@@ -124,6 +134,8 @@ void Program::init_shaders() {
 
   // enable depth test
   glEnable(GL_DEPTH_TEST);
+  // glEnable(GL_MULTISAMPLE_ARB);
+
 
   // specify the shaders we want to use
   glUseProgram(program);
@@ -139,10 +151,12 @@ void Program::init_attributes() {
   // get the input variable location in this shader
   position_location = glGetAttribLocation(program, "in_position");
   color_location    = glGetAttribLocation(program, "in_color");
+  texCoord_location = glGetAttribLocation(program, "in_texCoord");
 
   // enable the input locations we want to use for this VAO
   glEnableVertexAttribArray(position_location);
   glEnableVertexAttribArray(color_location);
+  glEnableVertexAttribArray(texCoord_location);
 
 
 
@@ -153,6 +167,7 @@ void Program::init_attributes() {
   // specify the input data format for this VBO
   glVertexAttribPointer(position_location,  2, GL_FLOAT, GL_FALSE, sizeof(gl_obj::Vertex), (void*)offsetof(gl_obj::Vertex, pos));
   glVertexAttribPointer(color_location,     4, GL_FLOAT, GL_FALSE, sizeof(gl_obj::Vertex), (void*)offsetof(gl_obj::Vertex, color));
+  glVertexAttribPointer(texCoord_location,  2, GL_FLOAT, GL_FALSE, sizeof(gl_obj::Vertex), (void*)offsetof(gl_obj::Vertex, texCoord));
 
 
 
@@ -167,7 +182,20 @@ void Program::init_attributes() {
 }
 
 void Program::init_uniforms() {
+  cout << "0 TL: " << translate_location << " RL: " << render_mode_location << endl;
   translate_location = glGetUniformLocation(program, "translate");
+
+  cout << "1 TL: " << translate_location << " RL: " << render_mode_location << endl;
+  render_mode_location = glGetUniformLocation(program, "render_mode");
+
+  cout << "2 TL: " << translate_location << " RL: " << render_mode_location << endl;
+
+  tex_sampler_location = glGetUniformLocation(program, "tex_sampler");
+  glUniform1i(tex_sampler_location, 0);
+  // cout << "3 TL: " << translate_location << " RL: " << render_mode_location << endl;
+  // rand_trans = glGetUniformLocation(program, "rand_trans");
+
+  // glUniform1i(rand_trans, 1);
 }
 
 //// END INITIALIZATION FUNCTIONS
@@ -205,8 +233,10 @@ void Program::draw_graph_vertices(
   float radius = 0.05;
   bool border = true;
 
+  check_for_GL_errors("Program::draw_graph_vertices - 0");
 
-  glEnable(GL_MULTISAMPLE_ARB);
+  glUniform1i(render_mode_location, Render_Mode::basic2D);
+  check_for_GL_errors("Program::draw_graph_vertices - 1");
 
 
   if (border) {
@@ -218,12 +248,15 @@ void Program::draw_graph_vertices(
 
     // initialize the vertex buffer with the vertex data
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  check_for_GL_errors("Program::draw_graph_vertices - 2");
     // glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(Vertex), &vg[0] , GL_STATIC_DRAW);
     glBufferData(GL_ARRAY_BUFFER, vg->size() * sizeof(gl_obj::Vertex), &vg->at(0) , GL_STREAM_DRAW);
+  check_for_GL_errors("Program::draw_graph_vertices - 3");
 
     for (int i = 0; i < p.size(); i++) {
       //define uniform
       glUniform2fv(translate_location, 1, (float*)&(p[i]));
+  check_for_GL_errors("Program::draw_graph_vertices - 4");
 
       // starts from 1
       glDrawArrays(GL_LINE_STRIP, 1, vg->size()-1);
@@ -292,11 +325,16 @@ void Program::draw_graph_vertices(
 // }
 
 
+
+// TODO: draw a line also, so width never goes below 1 pixel
 void Program::draw_graph_edges(
   vector<gl_obj::pos_vec> &e)
 {
   float thickness = 0.004f;
+    check_for_GL_errors("Program::draw_graph_edges - 0");
 
+  glUniform1i(render_mode_location, Render_Mode::basic2D);
+    check_for_GL_errors("Program::draw_graph_edges - 1");
 
   // prepare edges
   for (int i = 0; i < e.size(); i+=2) {
@@ -308,20 +346,60 @@ void Program::draw_graph_edges(
     // initialize the vertex buffer with the vertex data
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     // glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(Vertex), &vg[0] , GL_STATIC_DRAW);
+    check_for_GL_errors("Program::draw_graph_edges - 2");
     glBufferData(GL_ARRAY_BUFFER, vg->size() * sizeof(gl_obj::Vertex), &vg->at(0), GL_STREAM_DRAW);
+    check_for_GL_errors("Program::draw_graph_edges - 3");
 
 
     glUniform2fv(translate_location, 1, (float*)&(e[i]));
+    check_for_GL_errors("Program::draw_graph_edges - 4");
 
     // draw points
     glDrawArrays(GL_TRIANGLE_FAN, 0, vg->size());
 
     check_for_GL_errors("Program::draw_graph_edges");
   }
-
-
-
 }
+
+
+
+// TODO: what is the first argument in testure in fs.glsl?
+void Program::draw_letter(const GLfloat pos[4], const GLfloat tex_coord[4], GLuint tex_id) {
+  check_for_GL_errors("Program::draw_letter - 0");
+  // render_mode = 1 is for letters
+  // glUniform1i(render_mode_location, Render_Mode::font);
+
+  check_for_GL_errors("Program::draw_letter - 1");
+
+  // set up textures
+  glActiveTexture(GL_TEXTURE0);
+  check_for_GL_errors("Program::draw_letter - 2.1");
+  glBindTexture(GL_TEXTURE_RECTANGLE, tex_id);
+  check_for_GL_errors("Program::draw_letter - 2.2");
+
+  gl_obj::TexQuad letter(pos[1], pos[3], pos[2], pos[0],
+    tex_coord[1], tex_coord[3], tex_coord[2], tex_coord[0]);
+  gl_obj::VertexGroup *vg = &(letter.tf->vg);
+
+
+  // initialize the vertex buffer with the vertex data
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  // glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(Vertex), &vg[0] , GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, vg->size() * sizeof(gl_obj::Vertex), &vg->at(0), GL_STREAM_DRAW);
+  check_for_GL_errors("Program::draw_letter - 3");
+
+
+  // gl_obj::pos_vec p = gl_obj::pos_vec(0.f, 0.f);
+  // GLfloat p[2] = {0.f, 0.f};
+  glUniform2f(translate_location, 0.f, 0.f);
+  check_for_GL_errors("Program::draw_letter - 4");
+
+  // draw points
+  glDrawArrays(GL_TRIANGLE_FAN, 0, vg->size());
+
+  check_for_GL_errors("Program::draw_letter");
+}
+
 
 
 //// END DRAWING FUNCTIONS
