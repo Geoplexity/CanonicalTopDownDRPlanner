@@ -1,0 +1,130 @@
+Computational design and analysis of constrained geometric configuration spaces of 2-dimensional, multilayered, aperiodic or self-similar materials and biological structures.
+
+=======================
+
+Many natural and engineered materials are nearly rigid,   2D multilayers, possibly consisting of inter-constraining monolayers each of which is topologically planar (genus 0). They are often aperiodic, recursively self-similar or both \cite{XX} http://arxiv.org/pdf/1204.6389.pdf, enabling formation of diverse, larger structures with multiple functions.
+
+Examples include:
+    - (cross-sections) of  "necklaces" of microtubules \cite{XX} http://www.pnas.org/content/101/46/16099.full  e.g., in ciliary membranes and transitions \cite{XX}http://jcb.rupress.org/content/197/6/697.figures-only;
+
+    - and interlinked monolayers of cellulose microfibrils e.g., in cell-walls http://www.sciencephoto.com/media/10573/view http://teachline.ls.huji.ac.il/72346/PlantCell/cellwall.html.
+
+    - Inorganic examples include silica and glass \cite{XX} http://arxiv.org/pdf/1303.5898v2.pdf http://www.sciencemag.org/content/342/6155/201.figures-only (bi)layers and other structures that behave like assemblies of 2D particles under non-overlap constraints, i.e, jammed disks on the plane \cite{XX} https://www.princeton.edu/~fhs/paper277/989_1-F6.jpg.
+
+    - More recent, engineered examples include disordered graphene layers http://www.nature.com/srep/2013/131211/srep03482/full/srep03482.html http://www.nature.com/srep/2014/140211/srep04060/full/srep04060.html  even reinforced by  microfibrils,  and DNA assemblies  \cite{XX} http://www.dna.caltech.edu/SupplementaryMaterial/DNA_Sierpinski_Triangles/SierpinskiDNA_supp_PLoS2004.pdf including a recent Sierpinski carpet bringing other structures \cite{XX} http://en.wikipedia.org/wiki/Fractal#mediaviewer/File:Finite_subdivision_of_a_radial_link.png within reach.
+
+Understanding the structural and mechanical properties of these materials and structures at multiple scales, including rigidity, flexibility and motion is best achieved in the tradition of computer-aided mechanical design:  by modeling the structure as a configuration of appropriate geometric primitives inter-constrained by metric or algebraic constraints; and designing the constraint-system to achieve the desired properties and their robustness/sensitivity to constraint-system variations.
+
+Contributions
+=============
+
+The starting point of this paper is the observation that the above 2D
+Geometric Materials Constraint Systems (resp. 2DGMCS) belong to a combinatorial class for which algorithms with formally proven efficiency guarantees exist for  decomposing into maximal generically well-constrained components \cite{XX}. However, these systems do not belong in the largest combinatorial class of 2D systems, whose configuration spaces have formally proven  characterizations and algorithmic guarantees (e.g. for algebraic complexity, path and volume measures, and  topology).
+
+Specifically, these results \cite{XX} rely on the fact that rigid systems in this  class, in contrast to GMCS, have a straightforward and immediate {\sl optimal} recursive decomposition, (so-called {\sl optimal} DR-plan) and  recombination or realization (with a formal disambiguation by minimal orientation specification).
+
+It is known \cite{XX} that already the optimal DR-planning problem for general 2DGMCS is NP-hard, intuitively because of a combinatorial explosion of polynomially-sized DR-plans.  In this paper, we  navigate this barrier by defining a so-called {\it canonical} DR-plan and showing that all canonical DR-plans for non-overconstrained 2DGMCS are optimal. We then give an efficient ($O(n^2)$) algorithm to find a canonical DR-plan for all 2DGMCS. The notion of a canonical DR-plan illuminates the essence of the NP-hardness of finding optimal DR-plans for overconstrained 2DGMCS and gives classes of overconstrained 2DGMCS for which the above  algorithm finds an optimal DR-plan. We then show how to judiciously combine existing methods for recombination, search of so-called, convex Cayley configuration spaces, and navigation of realizations, to explore a connected component of the configuration space of a flexible 2DGMCS, given a starting configuration. Software implementation can be found at: XX
+
+
+Previous work
+============
+
+Computer aided mechanical design represents a mature application of geometric constraint systems,  leading to and borrowing from deep and fundamental problems and techniques in distance geometry, convex analysis, combinatorics, algebra, topology and complexity theory.
+
+Broadly,  these problems can be classified into three types that draw upon each other, and possess mathematical, algorithmic, and software implementation aspects: (i) combinatorial (generic) minimal rigidity (or isostaticity or well-constrained-ness) characterization, (ii) (optimal) recursive decomposition (DR plans), recombination and realization, (iii) configuration space characterization (topology, complexity, path and volume measures).
+
+In general, proofs of combinatorial (generic) minimal rigidity characterizations for geometric constraint systems rely on underlying matroids \cite{XX} In these cases, more-or-less greedy algorithms such as simplified network-flow, or so-called pebble games can be used.
+
+Nothing nontrivial known until now for optimal DR plans, although efficient algorithms are known for DR-plans satisfying various other formal properties.
+
+Recombination and realization navigation of realizations (disambiguation with orientation, faster with overconstraints, mention also totally different distance geometry method - low rank PSD matrix completions SDP/SVD)
+
+Gelfand/McPherson, Walker's conjecture solution, Convex Cayley, EASAL and Caymos for low Cayley complexity and bijective representation using global rigidity.
+
+TABLE
+
+
+
+
+####################################################
+####################################################
+####################################################
+####################################################
+
+
+
+DR-Plans:
+
+Big thing to do is find the best, most interesting example.
+
+Steward platform (C3 X C2) is good non tree-decomposable graph (smallest possible). As is K3,3.
+Build larger examples as self-similar examples. Where do they arise, are they somehow important?
+
+3 main steps: DRP, recombination, solution space navigation.
+
+Recombination:
+Spanning tree with minimum depth. NP-hard to find but needed to reduce the system of equations. But it's run on a small system. There are papers for 3D; need to show it for 2D.
+
+Sol'n space nav:
+ACM transactions paper on how FRONTIER does solution space navigation.
+
+Overconstraints will help in the sense that the optimal DRP is better than the wellconstrained case. But it's a lot harder to find. Cuts down number of solutions, too.
+
+GMP: 10 pages (total!), two column.
+- Intro & motivation (previous work)
+- Preliminaries
+- DR-Plan (Canonical)
+   - algo
+- Recombination
+   - algo
+- Solution space navigation
+Combined with discussion/implementation.
+
+
+
+
+line/angle and bar/joint is the same. body/pin is subclass.
+all goes back to a White & Whitely paper about spanning trees.
+
+
+
+
+
+
+####################################################
+####################################################
+####################################################
+####################################################
+
+
+
+
+
+
+
+Relate to old work
+    Clarify what's new about the DRP
+    Old one is Sitharam and Hoffman - Cluster minimality
+    We show optimality
+    But is it the same as cluster minimality (equivalence)
+    same features?
+
+Technical importance
+    Non-tree decomposable
+    optimal
+    Use low cayley complexity algo for solving
+    Initial ideas fore underconstrained/overcon... Config space
+        point out difficulties
+    multi-body pin - body is just a cluster. start a few steps up from leaves
+    pinned line
+
+Applications
+    Isostatic boundary (mention thorpe) but in general, can we find algo to pin
+    Hierarchical structures (material minimization)
+        Want to create some big structure (like eiffel tower), make the big esign and repeat it it in the bar. Bone is done this way
+        Can talk about stresses (pre-stressed = over-constrained)
+        Like eiffel tower has load pressing on the joints. Need to decompose stresses
+
+
+
+Can do non-generic over-constrained
