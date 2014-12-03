@@ -25,7 +25,6 @@ private:
     // pebbles per node = k = 2
     // pebbles for sparsity/tightness = l = 3
     // solving for (k, l)-sparse graphs
-    // ONLY GUARANTEED TO WORK ON (2,3)
     static const unsigned int k = 2;
     static const unsigned int l = 3;
 
@@ -62,9 +61,9 @@ private:
         vert_peb() {}
         vert_peb(Vertex_ID v, unsigned int p) {vertex = v; pebble = p;}
     };
-    // // typedef std::pair<Vertex_ID, unsigned int> vert_peb;
-    // // used to reconstruct the path for rearranging.
-    // std::map<Vertex_ID, vert_peb> path;
+    // typedef std::pair<Vertex_ID, unsigned int> vert_peb;
+    // used to reconstruct the path for rearranging.
+    std::map<Vertex_ID, vert_peb> path;
 
 
     // enum pebble {
@@ -91,14 +90,8 @@ private:
     // returns the index of a free pebble or k if there is none
     unsigned int identify_free_pebble(Vertex_ID v);
 
-    // returns the number of pebbles free on given vertex
-    unsigned int num_pebbles_on_vert(Vertex_ID v);
-
-    // gives the inverted directed pebble game graph
-    std::map<Vertex_ID, pebbles> get_reversed_pebbles();
-
     // Finds a free pebble if there is one and sets up the path to it.
-    bool find_pebble(Vertex_ID v, std::map<Vertex_ID, vert_peb> *path);
+    bool find_pebble(Vertex_ID v);
 
     // Frees a pebble at vertex_ID v, if there is one. Returns true if successful
     bool make_pebble_available(Vertex_ID v);

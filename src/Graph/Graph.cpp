@@ -30,7 +30,7 @@
 
 //   for (int y = (int)min_point[1]; y <= (int)max_point[1]; ++y) {
 //     for (int x = (int)min_point[0]; x <= (int)max_point[0]; ++x) {
-//       typename graph_traits<Graph>::vertex_iterator vi, vi_end;
+//       typename graph_traits<Graph>::vertex_Iteratorator vi, vi_end;
 //       // Find vertex at this position
 //       typename graph_traits<Graph>::vertices_size_type index = 0;
 //       for (tie(vi, vi_end) = vertices(g); vi != vi_end; ++vi, ++index) {
@@ -51,14 +51,14 @@
 //   std::ofstream out((name + ".dot").c_str());
 //   out << "graph " << name << " {" << std::endl;
 
-//   typename graph_traits<Graph>::vertex_iterator vi, vi_end;
+//   typename graph_traits<Graph>::vertex_Iteratorator vi, vi_end;
 //   for (tie(vi, vi_end) = vertices(g); vi != vi_end; ++vi) {
 //     out << "  n" << get(vertex_index, g, *vi) << "[ pos=\""
 //         << (int)position[*vi][0] + 25 << ", " << (int)position[*vi][1] + 25
 //         << "\" ];\n";
 //   }
 
-//   typename graph_traits<Graph>::edge_iterator ei, ei_end;
+//   typename graph_traits<Graph>::edge_Iteratorator ei, ei_end;
 //   for (tie(ei, ei_end) = edges(g); ei != ei_end; ++ei) {
 //     out << "  n" << get(vertex_index, g, source(*ei, g)) << " -- n"
 //         << get(vertex_index, g, target(*ei, g)) << ";\n";
@@ -71,14 +71,14 @@
 // test_circle_layout(Graph*, typename graph_traits<Graph>::vertices_size_type n)
 // {
 //   typedef typename graph_traits<Graph>::vertex_descriptor vertex;
-//   typedef typename graph_traits<Graph>::vertex_iterator vertex_iterator;
+//   typedef typename graph_traits<Graph>::vertex_Iteratorator vertex_Iteratorator;
 //   typedef typename graph_traits<Graph>::vertices_size_type vertices_size_type;
 //   typedef typename graph_traits<Graph>::edges_size_type edges_size_type;
 
 //   Graph g(n);
 
 //   // Initialize vertex indices
-//   vertex_iterator vi = vertices(g).first;
+//   vertex_Iteratorator vi = vertices(g).first;
 //   for (vertices_size_type i = 0; i < n; ++i, ++vi)
 //     put(vertex_index, g, *vi, i);
 
@@ -166,6 +166,8 @@
 // #include <boost/graph/topological_sort.hpp>
 
 
+#include <boost/graph/copy.hpp>
+
 
 
 // for layout
@@ -188,26 +190,76 @@
 #include "boost/graph/graphviz.hpp"
 
 
+
+#include <fstream>
+#include <map>
+
+
+
 // for layout
-// typedef boost::property_map<gtype, std::size_t Vertex_Properties::*>::type VertexIndexPropertyMap;
-typedef boost::property_map<gtype, Point Vertex_Properties::*>::type PositionMap;
-typedef boost::property_map<gtype, double Edge_Properties::*>::type WeightPropertyMap;
+// typedef boost::property_map<Graph_Type, std::size_t Vertex_Properties::*>::type VertexIndexPropertyMap;
+typedef boost::property_map<Graph_Type, Point Vertex_Properties::*>::type Vertex_Point_Map;
+typedef boost::property_map<Graph_Type, double Edge_Properties::*>::type Edge_Distance_Map;
 
-typedef boost::graph_traits<gtype>::vertex_descriptor VertexDescriptor;
-
-
+// typedef boost::graph_traits<Graph_Type>::vertex_descriptor VertexDescriptor;
 
 
 
+#include <boost/graph/iteration_macros.hpp>
+#include <vector>
+// Graph::Graph(const Graph& other) {
+//     // // boost::copy_graph<Graph, Graph>(other, *this);
 
 
-Vertex Graph::add_vertex() {
-    return this->gtype::add_vertex(Vertex_Properties());
+
+//     // typedef std::map<Vertex_ID, size_t> IndexMap;
+//     // IndexMap mapIndex;
+//     // boost::associative_property_map<IndexMap> propmapIndex(mapIndex);
+
+//     // int i=0;
+//     // std::pair<Vertex_Iterator, Vertex_Iterator> vs = other.vertices();
+//     // for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+//     // {
+//     //     put(propmapIndex, *it, i++);
+//     // }
+
+//     // this->clear();
+//     // boost::copy_graph(other, *this, vertex_index_map( propmapIndex ) );
+
+
+
+
+//     this->clear();
+
+//     std::vector<Vertex_ID> verts;
+
+//     std::pair<Vertex_Iterator, Vertex_Iterator> vs = other.vertices();
+//     for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+//     {
+//         verts.push_back(this->add_vertex(other[*it]));
+//     }
+
+//     std::pair<Edge_Iterator, Edge_Iterator> es = other.edges();
+//     for (Edge_Iterator it = es.first; it != es.second; it++)
+//     {
+//         std::pair<Vertex_ID, Vertex_ID> vs_on_e = verts_on_edge(it);
+//         this->add_edge(vs_on_e.first, vs_on_e.second, other[*it]);
+//     }
+// }
+
+
+
+Vertex_ID Graph::add_vertex(Vertex_Properties vp) {
+    return this->Graph_Type::add_vertex(vp);
 }
 
-Edge Graph::add_edge(Vertex v0, Vertex v1, double distance) {
-    std::pair<Edge, bool> p = this->gtype::add_edge(v0, v1, Edge_Properties(distance));
-    Edge e = p.first;
+Vertex_ID Graph::add_vertex() {
+    return this->add_vertex(Vertex_Properties());
+}
+
+Edge_ID Graph::add_edge(Vertex_ID v0, Vertex_ID v1, Edge_Properties ep) {
+    std::pair<Edge_ID, bool> p = this->Graph_Type::add_edge(v0, v1, ep);
+    Edge_ID e = p.first;
     bool success = p.second;
 
     if (success) {
@@ -219,11 +271,15 @@ Edge Graph::add_edge(Vertex v0, Vertex v1, double distance) {
     return e;
 }
 
-std::pair<Vertex_iter, Vertex_iter> Graph::vertices() {
+Edge_ID Graph::add_edge(Vertex_ID v0, Vertex_ID v1, double distance) {
+    return this->add_edge(v0, v1, Edge_Properties(distance));
+}
+
+std::pair<Vertex_Iterator, Vertex_Iterator> Graph::vertices() const {
     return boost::vertices(*this);
 }
 
-std::pair<Edge_iter, Edge_iter> Graph::edges() {
+std::pair<Edge_Iterator, Edge_Iterator> Graph::edges() const {
     return boost::edges(*this);
 }
 
@@ -231,7 +287,7 @@ unsigned int Graph::num_vertices() {
     return boost::num_vertices(*this);
 }
 
-std::pair<Vertex, Vertex> Graph::verts_on_edge(Edge_iter e) {
+std::pair<Vertex_ID, Vertex_ID> Graph::verts_on_edge(Edge_Iterator e) {
     return std::make_pair(boost::source(*e, *this), boost::target(*e, *this));
 }
 // Graph* test() {return this;}
@@ -239,14 +295,14 @@ std::pair<Vertex, Vertex> Graph::verts_on_edge(Edge_iter e) {
 
 
 void Graph::set_layout() {
-    PositionMap positionMap = boost::get(&Vertex_Properties::point, *this);
-    WeightPropertyMap weightPropertyMap = boost::get(&Edge_Properties::distance, *this);
+    Vertex_Point_Map vp_map = boost::get(&Vertex_Properties::point, *this);
+    Edge_Distance_Map ed_map = boost::get(&Edge_Properties::distance, *this);
 
-    boost::circle_graph_layout(*this, positionMap, 100);
+    boost::circle_graph_layout(*this, vp_map, 100);
     boost::kamada_kawai_spring_layout(
         *this,
-        positionMap,
-        weightPropertyMap,
+        vp_map,
+        ed_map,
         boost::square_topology<>(),
         boost::side_length<double>(0.4)
         // boost::layout_tolerance<>(),
@@ -254,25 +310,25 @@ void Graph::set_layout() {
         // vertexIdPropertyMap
         );
 
-    // boost::random_graph_layout(*this, positionMap, boost::square_topology<>());
+    // boost::random_graph_layout(*this, vp_map, boost::square_topology<>());
     // boost::fruchterman_reingold_force_directed_layout(
     //     *this,
-    //     positionMap,
+    //     vp_map,
     //     boost::square_topology<>());
 
 
-    boost::graph_traits<Graph>::vertex_iterator i, end;
+    Vertex_Iterator i, end;
     boost::tie(i, end) = this->vertices();
     double
-        maxx = positionMap[*i][0],
-        minx = positionMap[*i][0],
-        maxy = positionMap[*i][1],
-        miny = positionMap[*i][1];
+        maxx = vp_map[*i][0],
+        minx = vp_map[*i][0],
+        maxy = vp_map[*i][1],
+        miny = vp_map[*i][1];
     double centerx=0, centery=0;
 
     for (; i != end; i++) {
-        double x = positionMap[*i][0];
-        double y = positionMap[*i][1];
+        double x = vp_map[*i][0];
+        double y = vp_map[*i][1];
 
         centerx += x; centery += y;
 
@@ -310,8 +366,8 @@ void Graph::set_layout() {
 
 
     for (boost::tie(i, end) = this->vertices(); i != end; i++) {
-        double x = positionMap[*i][0];
-        double y = positionMap[*i][1];
+        double x = vp_map[*i][0];
+        double y = vp_map[*i][1];
 
         (*this)[*i].x = (x - centerx)/diff;
         (*this)[*i].y = (y - centery)/diff;
@@ -322,18 +378,17 @@ void Graph::set_layout() {
 }
 
 
-#include <fstream>
-#include <boost/graph/property_maps/null_property_map.hpp>
 void Graph::write_to_file(const char* filename) {
     std::ofstream f(filename);
     boost::write_graphviz(f, *this);
 }
 
+// #include <boost/graph/property_maps/null_property_map.hpp>
 void Graph::read_from_file(const char* filename) {
     boost::dynamic_properties dp;
-    boost::property_map<gtype, std::string Vertex_Properties::*>::type name = boost::get(&Vertex_Properties::name, *this);
-    // boost::make_null_property<VertexDescriptor, std::string>
-    dp.property("node_id",name);
+    boost::property_map<Graph_Type, std::string Vertex_Properties::*>::type name = boost::get(&Vertex_Properties::name, *this);
+    // boost::make_null_property<Vertex_ID, std::string>
+    dp.property("node_id", name);
 
     std::ifstream f(filename);
     boost::read_graphviz(f, *this, dp);

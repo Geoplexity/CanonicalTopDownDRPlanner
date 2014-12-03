@@ -4,13 +4,6 @@
 
 
 
-
-
-
-
-
-
-
 Pebbled_Graph::Pebbled_Graph(Graph *g) {
     this->g = g;
 }
@@ -78,137 +71,14 @@ Clusters Pebbled_Graph::pebble_game_2D_exclude(Vertex_ID excluded_vert) {
         if (v1_cid != cid_end && v2_cid != cid_end && v1_cid == v2_cid)
             continue;
 
-        // gather l+1 pebbles around the edge
-        // bool found_l_plus_1 = false;
-        bool done_with_v1 = false, done_with_v2 = false;
-        while (true) {
-            unsigned int
-                pebs_on_v1 = num_pebbles_on_vert(v1),
-                pebs_on_v2 = num_pebbles_on_vert(v2);
-
-            if (pebs_on_v1 + pebs_on_v2 > this->l) {
-                // found_l_plus_1 = true;
-                break;
-            }
-
-            // initialize
-            std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-            for (Vertex_Iterator it = vs.first; it != vs.second; it++)
-            {
-                seen[*it] = false;
-            }
-
-            if (!done_with_v1) {
-                if (!make_pebble_available(v1)) {
-                    done_with_v1 = true;
-                }
-            }
-            else if (!done_with_v2) {
-                if (!make_pebble_available(v2)) {
-                    done_with_v2 = true;
-                }
-            }
-            else {
-                // found_l stays false
-                break;
-            }
-        }
-
-        // 2 pebbles should be on each for (2,3)
-        // but just to be safe and have some generality...
-        unsigned int
-            pebs_on_v1 = num_pebbles_on_vert(v1),
-            pebs_on_v2 = num_pebbles_on_vert(v2);
-        if (pebs_on_v1 + pebs_on_v2 > this->l) {
-            if (pebs_on_v1 > 0)
-                place_available_pebble(v1, v2);
-            else
-                place_available_pebble(v2, v1);
-        }
-
-        // just for generality...
-        if (pebs_on_v1 + pebs_on_v2 - 1 > this->l)
-            continue;
-
-
-
         // if everything is fine, enlarge cover
         this->enlarge_cover(it);
 
     }
 
     return cs;
-
-
-
-
-
-    //     // initialize
-    // std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-    // for (Vertex_Iterator it = vs.first; it != vs.second; it++)
-    // {
-    //     seen[*it] = false;
-    // }
-
-    // std::pair<Vertex_ID, Vertex_ID> vs_on_e = g->verts_on_edge(e);
-    // Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
-
-    // unsigned int free_pebble;
-
-    // // check the first vert in the edge
-    // free_pebble = identify_free_pebble(v1);
-    // if (free_pebble < this->k) {
-    //     place_available_pebble(v1, v2);
-    //     return true;
-    // } else {
-    //     if (make_pebble_available(v1)) {
-    //         place_available_pebble(v1, v2);
-    //         return true;
-    //     }
-    // }
-
-    // // check the second vert in the edge
-    // // note that the search for the first may have included the second
-    // if (!seen[v2]) {
-    //     free_pebble = identify_free_pebble(v1);
-    //     if (free_pebble < this->k) {
-    //         place_available_pebble(v2, v1);
-    //         return true;
-    //     } else {
-    //         if (make_pebble_available(v2)) {
-    //             place_available_pebble(v2, v1);
-    //             return true;
-    //         }
-    //     }
-    // }
-
-    // return false;
 }
 
-
-std::map<Vertex_ID, Pebbled_Graph::pebbles> Pebbled_Graph::get_reversed_pebbles() {
-    std::map<Vertex_ID, pebbles> ret;
-
-    // put all of the pebbles on their vertex
-    std::pair<Vertex_Iterator, Vertex_Iterator> vs = this->g->vertices();
-    for (Vertex_Iterator it = vs.first; it != vs.second; it++)
-    {
-        for (unsigned int i = 0; i < k; i++) {
-            ret[pebbles_at_vertex[*it][i]][i] = *it;
-        }
-    }
-
-    return ret;
-}
-
-unsigned int Pebbled_Graph::num_pebbles_on_vert(Vertex_ID v) {
-    unsigned int count = 0;
-    for (unsigned int i = 0; i < k; i++)
-        if (this->pebbles_at_vertex[v][i] == v)
-            count++;
-
-    return count;
-}
 
 void Pebbled_Graph::reset_pebbles() {
     // put all of the pebbles back on their vertex
@@ -238,10 +108,9 @@ unsigned int Pebbled_Graph::identify_free_pebble(Vertex_ID v) {
 
 
 // Finds a free pebble if there is one and sets up the path to it.
-// Puts the path in path
-bool Pebbled_Graph::find_pebble(Vertex_ID v, std::map<Vertex_ID, vert_peb> *path){
+bool Pebbled_Graph::find_pebble(Vertex_ID v){
     // Initialize
-    path->erase(v);
+    this->path.erase(v);
     this->seen[v] = true;
 
     // Is there already is an available pebble? If so, return
@@ -249,10 +118,10 @@ bool Pebbled_Graph::find_pebble(Vertex_ID v, std::map<Vertex_ID, vert_peb> *path
 
     // Go through the edges the pebbles are on
     for (unsigned int i = 0; i < this->k; i++) {
-        Vertex_ID neighbor = this->pebbles_at_vertex[v][i];
-        if (!seen[neighbor]) {
-            (*path)[v] = vert_peb(neighbor, i);
-            if (find_pebble(neighbor, path))
+        Vertex_ID other_v = this->pebbles_at_vertex[v][i];
+        if (!seen[other_v]) {
+            this->path[v] = vert_peb(other_v, i);
+            if (find_pebble(other_v))
                 return true;
         }
     }
@@ -280,28 +149,15 @@ bool Pebbled_Graph::place_available_pebble(Vertex_ID origin, Vertex_ID destinati
 }
 
 
-// Frees a pebble at vertex v, if there is one. Returns false if all the pebbles
-// are already free, or if it can't free anything up there.
+// Frees a pebble at vertex_ID v, if there is one. Returns true if successful
 bool Pebbled_Graph::make_pebble_available(Vertex_ID v) {
-    std::map<Vertex_ID, vert_peb> path;
+    // finds a pebble if there is one and initializes the path. If not,
+    // terminate
+    path.clear();
+    if (!find_pebble(v)) return false;
 
-    unsigned int i;
-    for (i = 0; i < this->k; i++) {
-        Vertex_ID neighbor = pebbles_at_vertex[v][i];
-
-        if (neighbor == v)
-            continue;
-
-        path.clear();
-        if (find_pebble(neighbor, &path)) {
-            this->seen[v] = true;
-            path[v] = vert_peb(neighbor, i);
-            break;
-        }
-    }
-
-    // if true, no pebbles were found or they were already all free
-    if (i == this->k) return false;
+    // was the free pebble already on v? If so terminate
+    if (path.find(v) == path.end()) return true;
 
 
 
@@ -352,32 +208,18 @@ bool Pebbled_Graph::enlarge_cover(Edge_Iterator e) {
     std::pair<Vertex_ID, Vertex_ID> vs_on_e = g->verts_on_edge(e);
     Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
 
-    unsigned int free_pebble;
-
     // check the first vert in the edge
-    free_pebble = identify_free_pebble(v1);
-    if (free_pebble < this->k) {
+    if (make_pebble_available(v1)) {
         place_available_pebble(v1, v2);
         return true;
-    } else {
-        if (make_pebble_available(v1)) {
-            place_available_pebble(v1, v2);
-            return true;
-        }
     }
 
     // check the second vert in the edge
     // note that the search for the first may have included the second
     if (!seen[v2]) {
-        free_pebble = identify_free_pebble(v1);
-        if (free_pebble < this->k) {
+        if (make_pebble_available(v2)) {
             place_available_pebble(v2, v1);
             return true;
-        } else {
-            if (make_pebble_available(v2)) {
-                place_available_pebble(v2, v1);
-                return true;
-            }
         }
     }
 

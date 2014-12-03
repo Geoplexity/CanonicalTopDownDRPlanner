@@ -60,29 +60,35 @@ struct Edge_Properties {
 
 // undirected is simplified adjacency list graph
 // don't want adjacency matrix as these graphs have |E|=O(|V|)
-typedef boost::undirected_graph<Vertex_Properties, Edge_Properties> gtype;
-typedef boost::graph_traits<gtype>::vertex_descriptor Vertex;
-typedef boost::graph_traits<gtype>::edge_descriptor Edge;
+typedef boost::undirected_graph<Vertex_Properties, Edge_Properties> Graph_Type;
+typedef boost::graph_traits<Graph_Type>::vertex_descriptor Vertex_ID;
+typedef boost::graph_traits<Graph_Type>::edge_descriptor Edge_ID;
 
-typedef boost::graph_traits<gtype>::vertex_iterator Vertex_iter;
-typedef boost::graph_traits<gtype>::edge_iterator Edge_iter;
-
-
+typedef boost::graph_traits<Graph_Type>::vertex_iterator Vertex_Iterator;
+typedef boost::graph_traits<Graph_Type>::edge_iterator Edge_Iterator;
 
 
 
-class Graph : public gtype
+
+
+class Graph : public Graph_Type
 {
 public:
-    Vertex add_vertex();
-    Edge add_edge(Vertex v0, Vertex v1, double distance);
+    Graph() : Graph_Type() {}
+    // Graph(const Graph& g);
 
-    std::pair<Vertex_iter, Vertex_iter> vertices();
-    std::pair<Edge_iter, Edge_iter> edges();
+    Vertex_ID add_vertex(Vertex_Properties vp);
+    Vertex_ID add_vertex();
+
+    Edge_ID add_edge(Vertex_ID v0, Vertex_ID v1, Edge_Properties ep);
+    Edge_ID add_edge(Vertex_ID v0, Vertex_ID v1, double distance);
+
+    std::pair<Vertex_Iterator, Vertex_Iterator> vertices() const;
+    std::pair<Edge_Iterator, Edge_Iterator> edges() const;
 
     unsigned int num_vertices();
 
-    std::pair<Vertex, Vertex> verts_on_edge(Edge_iter e);
+    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_Iterator e);
 
     void set_layout();
 

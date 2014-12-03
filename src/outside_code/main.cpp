@@ -115,7 +115,7 @@ void do_font_stuff() {
 Graph set_up_graph() {
     Graph g;
 
-    vector<Vertex> v;
+    vector<Vertex_ID> v;
     for (int i = 0; i < 10; i++) {
         v.push_back(g.add_vertex());
     }
@@ -157,7 +157,7 @@ Graph set_up_graph() {
 vector<gl_obj::pos_vec> verts_from_graph(Graph &g) {
     vector<gl_obj::pos_vec> v;
 
-    for (std::pair<Vertex_iter, Vertex_iter> verts = g.vertices();
+    for (std::pair<Vertex_Iterator, Vertex_Iterator> verts = g.vertices();
         verts.first != verts.second;
         verts.first++)
     {
@@ -171,11 +171,11 @@ vector<gl_obj::pos_vec> verts_from_graph(Graph &g) {
 vector<gl_obj::pos_vec> edges_from_graph(Graph &g) {
     vector<gl_obj::pos_vec> v;
 
-    for (std::pair<Edge_iter, Edge_iter> edges = g.edges();
+    for (std::pair<Edge_Iterator, Edge_Iterator> edges = g.edges();
         edges.first != edges.second;
         edges.first++)
     {
-        std::pair<Vertex, Vertex> uv = g.verts_on_edge(edges.first);
+        std::pair<Vertex_ID, Vertex_ID> uv = g.verts_on_edge(edges.first);
         v.push_back(gl_obj::pos_vec(g[uv.first].x, g[uv.first].y));
         v.push_back(gl_obj::pos_vec(g[uv.second].x, g[uv.second].y));
     }
@@ -287,6 +287,9 @@ int main(int argc, char **argv) {
     Graph g;
     g.read_from_file(dot_file.c_str());
 
+    Graph copy(g);
+    g.write_to_file("out.dot");
+
     g.set_layout();
 
 
@@ -307,7 +310,7 @@ int main(int argc, char **argv) {
 
 
     Pebbled_Graph pg(&g);
-    cout << "Pebbles remaining: " << pg.DRP_2D() << endl;
+    cout << "Pebbles remaining: " << pg.pebble_game_2D() << endl;
 
 
 
