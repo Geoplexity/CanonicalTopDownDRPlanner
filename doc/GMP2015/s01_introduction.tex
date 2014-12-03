@@ -1,45 +1,80 @@
 \section{Introduction}
-Computational design and analysis of constrained geometric configuration spaces of 2-dimensional, multilayered, aperiodic or self-similar materials and biological structures.
+Constrained geometric configurations in layered materials and biological structures.
 
 =======================
 
-Many natural and engineered materials are nearly rigid, 2D multilayers, possibly consisting of inter-constraining monolayers each of which is topologically planar (genus 0). They are often aperiodic, recursively self-similar or both \cite{Intro1}, enabling formation of diverse, larger structures with multiple functions.
+Many natural and engineered materials are essentially two dimensional multilayers 
+that not planar (genus 0). i.e., they consist of interconstraining planar monolayers. In addition,
+they are often  
+aperiodic and recursively self-similar \cite{Intro1}, enabling minimization of mass, 
+optimal distribution of stresses, and formation  
+of diverse, larger structures with multiple functions.
 
 Examples include:
 
 \begin{itemize}
     \item (cross-sections) of ``necklaces'' of microtubules \cite{Necklace1} e.g., in ciliary membranes and transitions \cite{Necklace2}
 
-    \item interlinked monolayers of cellulose microfibrils e.g., in cell-walls \cite{CellWalls1} \cite{CellWalls1}
+    \item interlinked or interwoven cellulose or collagen microfibrils e.g., in cell-walls \cite{CellWalls1} \cite{CellWalls1}
 
     \item Inorganic examples include silica and glass \cite{SilicaGlass1} \cite{SilicaGlass2}
 
-    \item (bi)layers and other structures that behave like assemblies of 2D particles under non-overlap constraints, i.e, jammed disks on the plane \cite{JammedDisk1}
+    \item (bi)layers and other structures that behave like assemblies of 2D particles under non-overlap constraints, i.e, jammed 
+    disks on the plane \cite{JammedDisk1}
 
-    \item More recent, engineered examples include disordered graphene layers \cite{Graphene1} \cite{Graphene2}  even reinforced by  microfibrils, and DNA assemblies \cite{Microfibrils1} including a recent Sierpinski carpet bringing other structures \cite{Microfibrils2} within reach.
+    \item More recent, engineered examples include disordered graphene layers \cite{Graphene1} \cite{Graphene2}  even reinforced 
+    by  microfibrils, and DNA assemblies \cite{Microfibrils1} including a recent Sierpinski carpet bringing other structures 
+    \cite{Microfibrils2} within reach.
 \end{itemize}
 
-Understanding the structural and mechanical properties of these materials and structures at multiple scales, including rigidity, flexibility and motion is best achieved in the tradition of computer-aided mechanical design:  by modeling the structure as a configuration of appropriate geometric primitives inter-constrained by metric or algebraic constraints; and designing the constraint-system to achieve the desired properties and their robustness/sensitivity to constraint-system variations.
+Understanding the structural and mechanical properties of these materials and structures at multiple scales, including rigidity, 
+flexibility and motion is best achieved in the tradition of computer-aided mechanical design:  by modeling the structure as a 
+configuration of appropriate geometric primitives inter-constrained by metric or algebraic constraints; and designing the 
+constraint-system to achieve the desired properties and their robustness/sensitivity to constraint-system variations.
 
 \subsection{Contributions}
 
-The starting point of this paper is the observation that the above 2D Geometric Materials Constraint Systems (resp. 2DGMCS) belong to a combinatorial class for which algorithms with formally proven efficiency guarantees exist for  decomposing into maximal generically well-constrained components \todo{[Citation Needed]}. However, these systems do not belong in the largest combinatorial class of 2D systems, whose configuration spaces have formally proven  characterizations and algorithmic guarantees (e.g. for algebraic complexity, path and volume measures, and  topology).
+The starting point of this paper is the observation that the above 2D Geometric Materials Constraint Systems (resp. 2DGMCS) 
+belong to a combinatorial class for which algorithms with formally proven efficiency guarantees exist for  
+decomposing into maximal generically well-constrained components \todo{[Citation Needed]}. However, these systems do not 
+belong in the largest combinatorial class of 2D systems, whose configuration spaces have formally proven  characterizations and 
+algorithmic guarantees (e.g. for algebraic complexity, path and volume measures, and  topology).
 
-Specifically, these results \todo{[Citation Needed]} rely on the fact that rigid systems in this  class, in contrast to GMCS, have a straightforward and immediate {\sl optimal} recursive decomposition, (so-called {\sl optimal} DR-plan) and  recombination or realization (with a formal disambiguation by minimal orientation specification).
+Specifically, these results \todo{[Citation Needed]} rely on the fact that rigid systems in this  class, in contrast to GMCS, 
+have a straightforward and immediate {\sl optimal} recursive decomposition, (so-called {\sl optimal} DR-plan) and  recombination 
+or realization (with a formal disambiguation by minimal orientation specification).
 
-It is known \todo{[Citation Needed]} that already the optimal DR-planning problem for general 2DGMCS is NP-hard, intuitively because of a combinatorial explosion of polynomially-sized DR-plans.  In this paper, we  navigate this barrier by defining a so-called {\it canonical} DR-plan and showing that all canonical DR-plans for non-overconstrained 2DGMCS are optimal. We then give an efficient ($O(n^2)$) algorithm to find a canonical DR-plan for all 2DGMCS. The notion of a canonical DR-plan illuminates the essence of the NP-hardness of finding optimal DR-plans for overconstrained 2DGMCS and gives classes of overconstrained 2DGMCS for which the above  algorithm finds an optimal DR-plan. We then show how to judiciously combine existing methods for recombination, search of so-called, convex Cayley configuration spaces, and navigation of realizations, to explore a connected component of the configuration space of a flexible 2DGMCS, given a starting configuration. Software implementation can be found at: \todo{Provide Link}.
+It is known \todo{[Citation Needed]} that already the optimal DR-planning problem for general 2DGMCS is NP-hard, intuitively 
+because of a combinatorial explosion of polynomially-sized DR-plans.  In this paper, we  navigate this barrier by defining a 
+so-called {\it canonical} DR-plan and showing that all canonical DR-plans for non-overconstrained 2DGMCS are optimal. 
+We then give an efficient ($O(n^2)$) algorithm to find a canonical DR-plan for all 2DGMCS. The notion of a canonical DR-plan 
+illuminates the essence of the NP-hardness of finding optimal DR-plans for overconstrained 2DGMCS and gives classes of 
+overconstrained 2DGMCS for which the above  algorithm finds an optimal DR-plan. We then show how to judiciously combine 
+existing methods for recombination, search of so-called, convex Cayley configuration spaces, and navigation of realizations, 
+to explore a connected component of the configuration space of a flexible 2DGMCS, given a starting configuration. 
+Software implementation can be found at: \todo{Provide Link}.
 
 
 \subsection{Previous work}
 
-Computer aided mechanical design represents a mature application of geometric constraint systems,  leading to and borrowing from deep and fundamental problems and techniques in distance geometry, convex analysis, combinatorics, algebra, topology and complexity theory.
+Computer aided mechanical design represents a mature application of geometric constraint systems,  leading to and borrowing 
+from deep and fundamental problems and techniques in distance geometry, convex analysis, combinatorics, algebra, topology 
+and complexity theory.
 
-Broadly, these problems can be classified into three types that draw upon each other, and possess mathematical, algorithmic, and software implementation aspects: (i) combinatorial (generic) minimal rigidity (or isostaticity or well-constrained-ness) characterization, (ii) (optimal) recursive decomposition (DR plans), recombination and realization, (iii) configuration space characterization (topology, complexity, path and volume measures).
+Broadly, these problems can be classified into three types that draw upon each other, and possess mathematical, algorithmic, 
+and software implementation aspects: (i) combinatorial (generic) minimal rigidity (or isostaticity or well-constrained-ness) 
+characterization, (ii) (optimal) recursive decomposition (DR plans), recombination and realization, (iii) configuration space 
+characterization (topology, complexity, path and volume measures).
 
-In general, proofs of combinatorial (generic) minimal rigidity characterizations for geometric constraint systems rely on underlying matroids \todo{[Citation Needed]} In these cases, more-or-less greedy algorithms such as simplified network-flow, or so-called pebble games can be used.
+In general, proofs of combinatorial (generic) minimal rigidity characterizations for geometric constraint systems rely on 
+underlying matroids \todo{[Citation Needed]} In these cases, more-or-less greedy algorithms such as simplified network-flow, 
+or so-called pebble games can be used.
 
-Nothing nontrivial known until now for optimal DR plans, although efficient algorithms are known for DR-plans satisfying various other formal properties.
+Nothing nontrivial known until now for optimal DR plans, although efficient algorithms are known for DR-plans satisfying 
+various other formal properties.
 
-Recombination and realization navigation of realizations (disambiguation with orientation, faster with overconstraints, mention also totally different distance geometry method - low rank PSD matrix completions SDP/SVD)
+Recombination and realization navigation of realizations (disambiguation with orientation, faster with overconstraints, mention 
+also totally different distance geometry method - low rank PSD matrix completions SDP/SVD)
 
-Gelfand/McPherson, Walker's conjecture solution, Convex Cayley, EASAL and Caymos for low Cayley complexity and bijective representation using global rigidity.
+Gelfand/McPherson, Walker's conjecture solution, Convex Cayley, EASAL and Caymos for low Cayley complexity and bijective 
+representation using global rigidity.
