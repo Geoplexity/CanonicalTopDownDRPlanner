@@ -1,42 +1,59 @@
 \section{Introduction}
-Constrained geometric configurations in layered materials and biological structures.
+Modeling, analysis and design of self-similar, aperiodic layered materials as geometric constraint systems
+ 
 
-=======================
-
-Many natural and engineered materials are essentially two dimensional multilayers 
-that not planar (genus 0). i.e., they consist of interconstraining planar monolayers. In addition,
-they are often  
-aperiodic and recursively self-similar \cite{Intro1}, enabling minimization of mass, 
-optimal distribution of stresses, and formation  
-of diverse, larger structures with multiple functions.
+Many natural and engineered materials are recursively self-similar \cite{Intro1}, 
+spanning multiple scales. Within any one scale, the materials are quasiuniform, but aperiodic, 
+consisting of a few different motifs repeating in random combinations.
+In addition, many materials are stacked two dimensional (2D) layers, where each layer is independently self-similar and aperiodic.
+Each layer is not necessarily planar, i.e., it consists of multiple, inter-constraining planar (genus 0) monolayers. 
+Furthermore, a layer is often   either isostatic or somewhat flexible, and rarely self-stressed, at any scale. This is 
+consistent with a self-assembled structure that minimizes mass, optimally distributes external stresses and itself 
+participates in the assembly of diverse, 
+larger structures with multiple functions, all within the same layer.  
 
 Examples include:
 
 \begin{itemize}
-    \item (cross-sections) of ``necklaces'' of microtubules \cite{Necklace1} e.g., in ciliary membranes and transitions \cite{Necklace2}
-
-    \item interlinked or interwoven cellulose or collagen microfibrils e.g., in cell-walls \cite{CellWalls1} \cite{CellWalls1}
-
-    \item Inorganic examples include silica and glass \cite{SilicaGlass1} \cite{SilicaGlass2}
-
-    \item (bi)layers and other structures that behave like assemblies of 2D particles under non-overlap constraints, i.e, jammed 
+    
+    \item (cross-section) of microtubules \cite{Necklace1} e.g., in ciliary membranes and transitions \cite{Necklace2}
+    
+    \item (cross-section) of hierarchical bone structure \cite{XX}
+    
+    \item interlinked cellulose or collagen microfibril monolayers e.g., in cell-walls \cite{CellWalls1} \cite{CellWalls1}
+    
+    \item more recent, engineered examples including  disordered graphene layers \cite{Graphene1} \cite{Graphene2} sometimes reinforced 
+    by  microfibrils; and DNA assemblies \cite{Microfibrils1} including a recent Sierpinski carpet, bringing other structures 
+    \cite{Microfibrils2} within reach.
+    
+    \item  silica bi-layers, glass \cite{SilicaGlass1} \cite{SilicaGlass2}, and materials that behave like assemblies of 
+    2D particles under non-overlap constraints, e.g, jammed 
     disks on the plane \cite{JammedDisk1}
 
-    \item More recent, engineered examples include disordered graphene layers \cite{Graphene1} \cite{Graphene2}  even reinforced 
-    by  microfibrils, and DNA assemblies \cite{Microfibrils1} including a recent Sierpinski carpet bringing other structures 
-    \cite{Microfibrils2} within reach.
+   
 \end{itemize}
 
-Understanding the structural and mechanical properties of these materials and structures at multiple scales, including rigidity, 
-flexibility and motion is best achieved in the tradition of computer-aided mechanical design:  by modeling the structure as a 
-configuration of appropriate geometric primitives inter-constrained by metric or algebraic constraints; and designing the 
-constraint-system to achieve the desired properties and their robustness/sensitivity to constraint-system variations.
+It is natural to model such a self-similar, aperiodic material using appropriate geometric primitives under metric or algebraic constraints; design the 
+constraint-system to achieve the desired properties; and study robustness/sensitivity to constraint variations.
+
+Two key observations serve as the motivations for this paper:
+As constraint systems, the above 2D {\em sesamacs} (Self-similar, aperiodic material constraint systems) involve multiple types of 
+well-studied geometric primitives and constraints: they can be modeled as so-called
+{\it bar-joint} systems (Examples 1,2 above), {\it multibody-pin} systems (Example 4,5) or {\it pinned-line incidence} systems (Example 3).  
+All of these systems have highly efficient combinatorial algorithms (pebble-game \cite{XX}, or equivalently, simplified network flow \cite{XX}) 
+for locating maximal, generically rigid components \cite{XX}.
+
+Recursive decompositions of {\em slamacs} into rigid subsystems is For , is important to understand or design the structural 
+and mechanical properties - such as rigidity, flexes and distribution of external stresses within the layer - at all scales.  
+
+ 
 
 \subsection{Contributions}
 
-The starting point of this paper is the observation that the above 2D Geometric Materials Constraint Systems (resp. 2DGMCS) 
-belong to a combinatorial class for which algorithms with formally proven efficiency guarantees exist for  
-decomposing into maximal generically well-constrained components \todo{[Citation Needed]}. However, these systems do not 
+The starting point of this paper is the observation that the above 2D Geometric Materials Constraint Systems (resp. 2D-GEMS) 
+belong to a  
+
+However, these systems do not 
 belong in the largest combinatorial class of 2D systems, whose configuration spaces have formally proven  characterizations and 
 algorithmic guarantees (e.g. for algebraic complexity, path and volume measures, and  topology).
 
