@@ -1,16 +1,16 @@
 \section{Introduction}
-Modeling, analysis and design of self-similar, aperiodic layered materials as geometric constraint systems
+Modeling, analysis and design of self-similar, aperiodic layered materials using geometric constraint systems
  
 
-Many natural and engineered materials are recursively self-similar \cite{Intro1}, 
-spanning multiple scales. Within any one scale, the materials are quasiuniform, but aperiodic, 
-consisting of a few different motifs repeating in random combinations.
-In addition, many materials are stacked two dimensional (2D) layers, where each layer is independently self-similar and aperiodic.
+Many natural and engineered materials are stacked two dimensional (2D) layers, where the structure within each layer is recursively 
+self-similar \cite{Intro1}, 
+spanning multiple scales. Within any one scale, the material layer is aperiodic, and quasi-uniform,
+consisting of a few repeated motifs appearing in disordered arrangments.
 Each layer is not necessarily planar, i.e., it consists of multiple, inter-constraining planar (genus 0) monolayers. 
-Furthermore, a layer is often   either isostatic or somewhat flexible, and rarely self-stressed, at any scale. This is 
-consistent with a self-assembled structure that minimizes mass, optimally distributes external stresses and itself 
-participates in the assembly of diverse, 
-larger structures with multiple functions, all within the same layer.  
+Furthermore, a layer is often   either isostatic or somewhat flexible, and rarely self-stressed, at any scale. These properties are
+consistent with a self-assembled 2D structure that minimizes mass, optimally distributes external stresses and itself 
+participates in the assembly of diverse and multifunctional, 
+larger 2D structures.
 
 Examples include:
 
@@ -33,18 +33,23 @@ Examples include:
    
 \end{itemize}
 
-It is natural to model such a self-similar, aperiodic material using appropriate geometric primitives under metric or algebraic constraints; design the 
-constraint-system to achieve the desired properties; and study robustness/sensitivity to constraint variations.
+
+In order to study structural and mechanical properties such as rigidity, flexes and distribution of external stresses 
+within the material layer, 
+it is natural to model them using appropriate geometric primitives under metric or algebraic constraints, 
+Such  2D {\em sesamacs} (Self-similar, aperiodic material constraint systems) can be used to 
+study robustness/sensitivity to constraint variations and to design material layers 
+to achieve the desired properties.
 
 Two key observations serve as the motivations for this paper:
-As constraint systems, the above 2D {\em sesamacs} (Self-similar, aperiodic material constraint systems) involve multiple types of 
-well-studied geometric primitives and constraints: they can be modeled as so-called
+As constraint systems, 2D sesamacs involve multiple types of 
+well-studied geometric constraint systems: so-called
 {\it bar-joint} systems (Examples 1,2 above), {\it multibody-pin} systems (Example 4,5) or {\it pinned-line incidence} systems (Example 3).  
 All of these systems have highly efficient combinatorial algorithms (pebble-game \cite{XX}, or equivalently, simplified network flow \cite{XX}) 
 for locating maximal, generically rigid components \cite{XX}.
 
-Recursive decompositions of {\em slamacs} into rigid subsystems is For , is important to understand or design the structural 
-and mechanical properties - such as rigidity, flexes and distribution of external stresses within the layer - at all scales.  
+Recursive decompositions of 2D sesamacs into rigid subsystems is important in order to understand or design rigidity, flexes and distribution 
+of external stresses  -- at all scales.  
 
  
 
