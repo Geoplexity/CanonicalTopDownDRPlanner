@@ -1,10 +1,10 @@
 \section{Introduction}
-Modeling, analysis and design of self-similar, aperiodic layered materials using geometric constraint systems
+Modeling, analysis and design of quasi-uniform or self-similar material layers using geometric constraint systems
  
 
 Many natural and engineered materials are stacked two dimensional (2D) layers, where the structure within each layer may be recursively 
 self-similar \cite{Intro1}, 
-spanning multiple scales. Within any one scale, the material layer is aperiodic, and quasi-uniform,
+spanning multiple scales. Within any one scale, the material layer is generally aperiodic, and quasi-uniform,
 consisting of a few repeated motifs appearing in disordered arrangments.
 Each layer is not necessarily planar, i.e., it consists of multiple, inter-constraining planar (genus 0) monolayers. 
 Furthermore, a layer is often   either isostatic or somewhat flexible, and rarely self-stressed, at any scale. These properties are
@@ -37,28 +37,44 @@ Examples include:
 In order to study structural and mechanical properties such as rigidity, flexes and distribution of external stresses 
 within the material layer, it is natural to model a material layer as a solution of geometric constraint systems 
 arising from appropriate geometric primitives under metric or algebraic constraints. 
-Such  2D {\em sesamacs} (Self-similar or aperiodic material constraint systems) can be used to 
+Such  2D {\em qusecs} (quasi-uniform or self-similar constraint systems) can be used to 
 to understand or design material layers (their solutions) with desired properties.
 
-As constraint systems, 2D sesamacs  are  well-studied: so-called
-{\it bar-joint} systems (Examples 1,2 above), {\it multibody-pin} systems (Example 4,5) or {\it pinned-line incidence} systems (Example 3).  
-All of these systems have highly efficient combinatorial algorithms (pebble-game \cite{XX}, or equivalently, simplified network flow \cite{XX}) 
-for locating maximal, generically rigid subsystems \cite{XX}.
+We now briefly survey existing techniques and their limitations, for 2D {\em qusecs,} which are most naturally treated as
+{\it bar-joint} systems (Examples 1,2 above), {\it multibody-pin} systems (Example 4,5) or {\it pinned-line incidence} systems (Example 3). 
+The limitations directly motivate the contributions of this paper.
 
-Whether self-similar, or just aperiodic, recursive decomposition of 2D sesamacs 
-is imperative for understanding or designing rigidity, flexes and distribution 
+First, all of these have highly efficient combinatorial algorithms (pebble-game \cite{XX}, or equivalently, simplified network flow \cite{XX}), 
+for locating maximal, generically rigid subsystems \cite{XX}. When the input is rigid, these algorithms do nothing, i.e, the output is the same as the input.
+However, both for self-similar or just aperiodic 2D qusecs, recursive decomposition into rigid subsystems
+is imperative for understanding or designing rigidity, flexes, distribution 
 of external stresses as well as robustness/sensitivity to constraint variations -- at all scales. 
-In fact, the Decomposition-Recombination (DR)
--planning problem  for a geometric constraint system has been formalized \cite{XX} and 
-studied by many \cite{XX}. The problem is purely combinatorial  - since decomposition does not require
-knowledge of the geometry. In addition, there are efficient  algorithms 
-for optimal recombination of solutions to child systems, in order to obtain a solution to the parent system at any
+In particular, recursive decomposition of rigid systems down to the geometric primitives is necessary.
+
+Second,  decomposition of geometric constraint systems has been formalized \cite{XX} and well-studied \cite{XX} 
+as the Decomposition-Recombination (DR)
+-planning problem.
+For the types of 2D qusecs listed above, generic rigidity is 
+a combinatorial property and hence decomposition does not require
+knowledge of the geometric information in the constraint system. 
+In particular, since many different such decompositions typically exist, 
+some criteria  to ensure good or optimal DR-plans were given in \cite{XX}. An optimal DR-plan is one
+that minimizes the maximum number of child subsystems, over all its parent systems, a property that is 
+crucial for obtaining a solution to the parent constraint system from the solutions of the child systems.
+For special 2D qusecs such as so-called {\em tree-decomposable} systems, optimal DR-planning is immediate.
+
+the optimal DR-planning problem was shown to be NP-hard for general 2D qusecs. 
+
+Other criteria where any parent system is composed of  
+a minimal set of maximal rigid proper subsystems  
+
+
+
+Third, In addition, there are general algorithms for
+recombination of  child system solutions, in order to obtain a solution to the parent system at any
 given level of the DR-plan.
 
-In particular, since many different such decompositions typically exist, is to ensure 
-that any system is decomposed into a minimal set 
-of maximal rigid proper subsystems  
-such that they can be recombined efficiently 
+
  Two key observations serve as the motivations for this paper:
 
 
