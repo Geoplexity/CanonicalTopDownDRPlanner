@@ -42,16 +42,21 @@ study robustness/sensitivity to constraint variations and to design material lay
 to achieve the desired properties.
 
 Two key observations serve as the motivations for this paper:
-As constraint systems, 2D sesamacs involve multiple types of 
-well-studied geometric constraint systems: so-called
+As constraint systems, 2D sesamacs  are  well-studied: so-called
 {\it bar-joint} systems (Examples 1,2 above), {\it multibody-pin} systems (Example 4,5) or {\it pinned-line incidence} systems (Example 3).  
 All of these systems have highly efficient combinatorial algorithms (pebble-game \cite{XX}, or equivalently, simplified network flow \cite{XX}) 
 for locating maximal, generically rigid components \cite{XX}.
 
-Recursive decompositions of 2D sesamacs into rigid subsystems is important in order to understand or design rigidity, flexes and distribution 
-of external stresses  -- at all scales.  
-
+Especially due to their recursive structure, recursive decompositions of 2D sesamacs 
+is imperative
+in order to understand or design rigidity, flexes and distribution 
+of external stresses  -- at all scales. In fact, this has been studied combinatorially as the Decomposition-Recombination (DR)
+-planning problem \cite{XX}.  
+In particular, since many different such decompositions typically exist, is to ensure that any system is decomposed into a minimal set 
+of maximal rigid proper subsystems  
+such that they can be recombined efficiently 
  
+
 
 \subsection{Contributions}
 
