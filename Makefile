@@ -1,3 +1,13 @@
+ifneq (,$(findstring /cygdrive/,$(PATH)))
+    uname_S := Cygwin
+else
+ifneq (,$(findstring WINDOWS,$(PATH)))
+    uname_S := Windows
+else
+    uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
+endif
+endif
+
 EXTERN_DIRECTORY=ext
 SOURCE_DIRECTORY=src
 OBJECT_DIRECTORY=obj
@@ -5,14 +15,36 @@ OBJECT_DIRECTORY=obj
 CC=g++
 # CFLAGS=-w -Wall
 # CFLAGS=-w
-CFLAGS=-Wdeprecated-declarations
+# CFLAGS=-Wdeprecated-declarations 
+CFLAGS=-std=c++11
 
-# # GLUT - Ubuntu
-# INCLUDE_PATHS=-I$(EXTERN_DIRECTORY)
-# LIBRARY_PATHS=-L/usr/local/lib -L/opt/local/lib -L/opt/X11/lib
-# LINKER_FLAGS=-lGL -lGLU -lglut -lGLEW
+# GLUT - Ubuntu
+ifeq ($(uname_S),Linux)
+	INCLUDE_PATHS=-I$(EXTERN_DIRECTORY) -I/usr/include -I/usr/include/freetype2
+	LIBRARY_PATHS=-L/usr/local/lib -L/opt/local/lib
+	LINKER_FLAGS=-lGL -lGLU -lglut -lGLEW -lfreetype -lglfw -lboost_graph
+endif
 
-# # GLUT - OS X
+# GLUT - OS X
+ifeq ($(uname_S),Darwin)
+	INCLUDE_PATHS=-I$(EXTERN_DIRECTORY) -I/opt/local/include -I/opt/local/include/freetype2
+	LIBRARY_PATHS=-L/opt/local/lib
+	LINKER_FLAGS=-lglfw -lGLEW -framework OpenGL -lboost_graph-mt -lfreetype
+endif
+
+ifeq ($(uname_S),Windows)
+	# Don't know yet
+endif
+
+ifeq ($(uname_S),Cygwin)
+	# Don't know yet
+endif
+
+# # LINKER_FLAGS=-lglfw -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
+# `freetype-config --libs`
+# LINKER_FLAGS=-lglfw
+
+# GLUT - OS X
 # INCLUDE_PATHS=-I$(EXTERN_DIRECTORY) -I/opt/local/include -I/usr/local/include -I/opt/X11/include
 # LIBRARY_PATHS=-L/usr/local/lib -L/opt/local/lib -L/opt/X11/lib
 # LINKER_FLAGS=-framework OpenGL -lGLUT -lGLEW
@@ -22,14 +54,6 @@ CFLAGS=-Wdeprecated-declarations
 # INCLUDE_PATHS=-I$(EXTERN_DIRECTORY) -I/opt/local/include -I/usr/local/include
 # LIBRARY_PATHS=-L/usr/local/lib -L/opt/local/lib
 # LINKER_FLAGS=-lglfw -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
-
-INCLUDE_PATHS=-I$(EXTERN_DIRECTORY) -I/opt/local/include -I/opt/local/include/freetype2
-LIBRARY_PATHS=-L/opt/local/lib
-# LINKER_FLAGS=-lglfw -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo
-LINKER_FLAGS=-lglfw -lGLEW -framework OpenGL -lboost_graph-mt -lfreetype
-# `freetype-config --libs`
-# LINKER_FLAGS=-lglfw
-
 
 
 

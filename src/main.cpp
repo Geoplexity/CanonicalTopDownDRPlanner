@@ -23,7 +23,7 @@ using namespace std;
 
 
 
-#include "GUI/font.hpp"
+#include "GUI/Font.hpp"
 
 
 
