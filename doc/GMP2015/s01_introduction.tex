@@ -2,7 +2,7 @@
 Modeling, analysis and design of self-similar, aperiodic layered materials using geometric constraint systems
  
 
-Many natural and engineered materials are stacked two dimensional (2D) layers, where the structure within each layer is recursively 
+Many natural and engineered materials are stacked two dimensional (2D) layers, where the structure within each layer may be recursively 
 self-similar \cite{Intro1}, 
 spanning multiple scales. Within any one scale, the material layer is aperiodic, and quasi-uniform,
 consisting of a few repeated motifs appearing in disordered arrangments.
@@ -35,27 +35,31 @@ Examples include:
 
 
 In order to study structural and mechanical properties such as rigidity, flexes and distribution of external stresses 
-within the material layer, 
-it is natural to model them using appropriate geometric primitives under metric or algebraic constraints, 
-Such  2D {\em sesamacs} (Self-similar, aperiodic material constraint systems) can be used to 
-study robustness/sensitivity to constraint variations and to design material layers 
-to achieve the desired properties.
+within the material layer, it is natural to model a material layer as a solution of geometric constraint systems 
+arising from appropriate geometric primitives under metric or algebraic constraints. 
+Such  2D {\em sesamacs} (Self-similar or aperiodic material constraint systems) can be used to 
+to understand or design material layers (their solutions) with desired properties.
 
-Two key observations serve as the motivations for this paper:
 As constraint systems, 2D sesamacs  are  well-studied: so-called
 {\it bar-joint} systems (Examples 1,2 above), {\it multibody-pin} systems (Example 4,5) or {\it pinned-line incidence} systems (Example 3).  
 All of these systems have highly efficient combinatorial algorithms (pebble-game \cite{XX}, or equivalently, simplified network flow \cite{XX}) 
-for locating maximal, generically rigid components \cite{XX}.
+for locating maximal, generically rigid subsystems \cite{XX}.
 
-Especially due to their recursive structure, recursive decompositions of 2D sesamacs 
-is imperative
-in order to understand or design rigidity, flexes and distribution 
-of external stresses  -- at all scales. In fact, this has been studied combinatorially as the Decomposition-Recombination (DR)
--planning problem \cite{XX}.  
-In particular, since many different such decompositions typically exist, is to ensure that any system is decomposed into a minimal set 
+Whether self-similar, or just aperiodic, recursive decomposition of 2D sesamacs 
+is imperative for understanding or designing rigidity, flexes and distribution 
+of external stresses as well as robustness/sensitivity to constraint variations -- at all scales. 
+In fact, the Decomposition-Recombination (DR)
+-planning problem  for a geometric constraint system has been formalized \cite{XX} and 
+studied by many \cite{XX}. The problem is purely combinatorial  - since decomposition does not require
+knowledge of the geometry. In addition, there are efficient  algorithms 
+for optimal recombination of solutions to child systems, in order to obtain a solution to the parent system at any
+given level of the DR-plan.
+
+In particular, since many different such decompositions typically exist, is to ensure 
+that any system is decomposed into a minimal set 
 of maximal rigid proper subsystems  
 such that they can be recombined efficiently 
- 
+ Two key observations serve as the motivations for this paper:
 
 
 \subsection{Contributions}
