@@ -1,8 +1,9 @@
 \section{Introduction}
-Modeling, analysis and design of quasi-uniform or self-similar material layers using geometric constraint systems
+Modeling, analysis and design of quasi-uniform or self-similar layered materials using geometric constraint systems
  
 
-Many natural and engineered materials are stacked two dimensional (2D) layers, where the structure within each layer may be recursively 
+Some properties of natural and engineered materials can be studied by treating them as stacked two dimensional (2D) layers, 
+where the structure within each layer may be recursively 
 self-similar \cite{Intro1}, 
 spanning multiple scales. Within any one scale, the material layer is generally aperiodic, and quasi-uniform,
 consisting of a few repeated motifs appearing in disordered arrangments.
@@ -40,45 +41,67 @@ arising from appropriate geometric primitives under metric or algebraic constrai
 Such  2D {\em qusecs} (quasi-uniform or self-similar constraint systems) can be used to 
 to understand or design material layers (their solutions) with desired properties.
 
-We now briefly survey existing techniques and their limitations, for 2D {\em qusecs,} which are most naturally treated as
+\subsection{Previous Work}
+We now briefly survey existing techniques for studying 2D {\em qusecs,}  many of which are
 {\it bar-joint} systems (Examples 1,2 above), {\it multibody-pin} systems (Example 4,5) or {\it pinned-line incidence} systems (Example 3). 
-The limitations directly motivate the contributions of this paper.
+The limitations of these techniques directly motivate the contributions of this paper.
 
-First, all of these have highly efficient combinatorial algorithms (pebble-game \cite{XX}, or equivalently, simplified network flow \cite{XX}), 
-for locating maximal, generically rigid subsystems \cite{XX}. When the input is rigid, these algorithms do nothing, i.e, the output is the same as the input.
-However, both for self-similar or just aperiodic 2D qusecs, recursive decomposition into rigid subsystems
-is imperative for understanding or designing rigidity, flexes, distribution 
-of external stresses as well as robustness/sensitivity to constraint variations -- at all scales. 
-In particular, recursive decomposition of rigid systems down to the geometric primitives is necessary.
-
-Second,  decomposition of geometric constraint systems has been formalized \cite{XX} and well-studied \cite{XX} 
-as the Decomposition-Recombination (DR)
--planning problem.
-For the types of 2D qusecs listed above, generic rigidity is 
-a combinatorial property and hence decomposition does not require
-knowledge of the geometric information in the constraint system. 
-In particular, since many different such decompositions typically exist, 
-some criteria  to ensure good or optimal DR-plans were given in \cite{XX}. An optimal DR-plan is one
-that minimizes the maximum number of child subsystems, over all its parent systems, a property that is 
+Fast, graph-based algorithms exist (pebble-game \cite{XX}),   
+for locating all maximal, generically rigid subsystems \cite{XX}. 
+When the input is rigid, these algorithms do nothing, i.e, the output is the same as the input.
+However, both for self-similar or just aperiodic 2D qusecs, it is imperative to recursively decompose rigid systems 
+into their rigid subsystems, down to the level of geometric primitives, in order to 
+understand or design properties at all scales, such as: rigidity, flexes, distribution 
+of external stresses as well as robustness/sensitivity to constraint variations.
+ 
+Recursive decomposition of geometric constraint systems has been formalized \cite{XX} and well-studied \cite{XX} 
+as the Decomposition-Recombination (DR)-planning problem.
+For the above-mentioned classes of 2D qusecs, generic rigidity is 
+a combinatorial property and hence decomposition can, in principle, be done by a graph-based algorithm, without
+involving geometric information in the constraint system.  
+However, since many  such decompositions can exist for a given constraint system, 
+criteria defining desirable or optimal DR-plans and DR-planning algorithms were given in \cite{XX}. An {\em optimal DR-plan} is one
+that minimizes the maximum number of child subsystems of any parent system, a property that is 
 crucial for obtaining a solution to the parent constraint system from the solutions of the child systems.
-For special 2D qusecs such as so-called {\em tree-decomposable} systems, optimal DR-planning is immediate.
 
-the optimal DR-planning problem was shown to be NP-hard for general 2D qusecs. 
+For a special class of 2D qusecs, namely  {\em tree-decomposable} systems \cite{XX} common in computer aided mechanical design, 
+(which includes ruler-and-compass and Henneberg-I constuctible systems), all DR-plans turn out to 
+be optimal. This satisfies the so-called {\em Church-Rosser} criterion, leading to highly efficient DR-planning algorithms.
+However, for general 2D qusecs, even when restricted to bar-joint systems, 
+the optimal DR-planning problem was shown to be NP-hard \cite{XX}.
+Subsequently, alternate criteria were suggested   
+such as {\em cluster minimality} 
+requiring parent systems to be composed of  
+a minimal set of at least 2 rigid proper subsystems (i.e., no proper subset forms a rigid system); 
+and {\em proper maximality}, requiring child subsystems
+to be maximal rigid proper subsystems of the parent system.
+While polynomial time algorithms were given \cite{XX} to generate DR-plans meeting the cluster minimality criterion,
+no such algorithm is known for the latter criterion.
 
-Other criteria where any parent system is composed of  
-a minimal set of maximal rigid proper subsystems  
+For fairly general constraint systems, there are algorithms that use a constraint system's DR-plan \cite{XX} for solving the system.
+They optimize the algebraic complexity of (re)combining child system solutions, 
+and algebraically solve the optimized recombination system to give a solution to the parent system at any
+given level of the DR-plan. However, the generality of these algorithms trades-off with efficiency. 
+Faster algorithms should exist for 2D cusecs that leverage recent developments on so-called Cayley configuration spaces
+\cite{XX,XX}.
 
+For underconstrained 2D cusecs obtained from various subclasses of tree-decomposable systems, algorithms have been developed \cite{XX} that 
+leverage Cayley configuration space theory to provide descriptions of connected components and find paths within the connected components 
+of the standard cartesian configuration spaces. However, no such algorithms are known for non-tree-decomposable systems.
 
-
-Third, In addition, there are general algorithms for
-recombination of  child system solutions, in order to obtain a solution to the parent system at any
-given level of the DR-plan.
-
-
- Two key observations serve as the motivations for this paper:
+ 
+  
 
 
 \subsection{Contributions}
+In this paper, we  navigate the NP-hardness barrier for finding optimal DR-plans by defining a 
+so-called {\it canonical} DR-plan and showing that all canonical DR-plans for isostatic 2DGMCS are optimal. 
+We then give an efficient ($O(n^2)$) algorithm to find a canonical DR-plan for all 2DGMCS. The notion of a canonical DR-plan 
+illuminates the essence of the NP-hardness of finding optimal DR-plans for overconstrained 2DGMCS and gives classes of 
+overconstrained 2DGMCS for which the above  algorithm finds an optimal DR-plan. We then show how to judiciously combine 
+existing methods for recombination, search of so-called, convex Cayley configuration spaces, and navigation of realizations, 
+to explore a connected component of the configuration space of a flexible 2DGMCS, given a starting configuration. 
+Software implementation can be found at: \todo{Provide Link}.
 
 The starting point of this paper is the observation that the above 2D Geometric Materials Constraint Systems (resp. 2D-GEMS) 
 belong to a  
@@ -92,14 +115,7 @@ have a straightforward and immediate {\sl optimal} recursive decomposition, (so-
 or realization (with a formal disambiguation by minimal orientation specification).
 
 It is known \todo{[Citation Needed]} that already the optimal DR-planning problem for general 2DGMCS is NP-hard, intuitively 
-because of a combinatorial explosion of polynomially-sized DR-plans.  In this paper, we  navigate this barrier by defining a 
-so-called {\it canonical} DR-plan and showing that all canonical DR-plans for non-overconstrained 2DGMCS are optimal. 
-We then give an efficient ($O(n^2)$) algorithm to find a canonical DR-plan for all 2DGMCS. The notion of a canonical DR-plan 
-illuminates the essence of the NP-hardness of finding optimal DR-plans for overconstrained 2DGMCS and gives classes of 
-overconstrained 2DGMCS for which the above  algorithm finds an optimal DR-plan. We then show how to judiciously combine 
-existing methods for recombination, search of so-called, convex Cayley configuration spaces, and navigation of realizations, 
-to explore a connected component of the configuration space of a flexible 2DGMCS, given a starting configuration. 
-Software implementation can be found at: \todo{Provide Link}.
+because of a combinatorial explosion of polynomially-sized DR-plans.  
 
 
 \subsection{Previous work}
