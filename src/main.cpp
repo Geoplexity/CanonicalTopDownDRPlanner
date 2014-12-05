@@ -288,9 +288,12 @@ int main(int argc, char **argv) {
     g.read_from_file(dot_file.c_str());
 
     Graph copy(g);
-    g.write_to_file("out.dot");
+    g.write_to_file("test_files/out.dot");
 
     g.set_layout();
+
+    // Subgraph_Type sg;
+    // sg.read_from_file(dot_file.c_str());
 
 
 
@@ -310,8 +313,8 @@ int main(int argc, char **argv) {
 
 
     Pebbled_Graph pg(&g);
-    cout << "Pebbles remaining: " << pg.pebble_game_2D() << endl;
-
+    // cout << "Pebbles remaining: " << pg.pebble_game_2D() << endl;
+    pg.component_pebble_game_2D();
 
 
 

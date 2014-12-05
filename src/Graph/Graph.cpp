@@ -287,6 +287,10 @@ unsigned int Graph::num_vertices() {
     return boost::num_vertices(*this);
 }
 
+unsigned int Graph::num_edges() {
+    return boost::num_edges(*this);
+}
+
 std::pair<Vertex_ID, Vertex_ID> Graph::verts_on_edge(Edge_Iterator e) {
     return std::make_pair(boost::source(*e, *this), boost::target(*e, *this));
 }

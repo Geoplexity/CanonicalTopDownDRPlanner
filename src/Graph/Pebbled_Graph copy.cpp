@@ -54,14 +54,6 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D() {
     // init pebbles
     reset_pebbles();
 
-    // for differencing
-    std::set<Vertex_ID> all_vertices;
-    std::pair<Vertex_Iterator, Vertex_Iterator> vs = this->g->vertices();
-    for (Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++) {
-        all_vertices.insert(*v_it);
-    }
-
-
     // the clusters found
     std::set<Cluster*> cs;
 
@@ -85,7 +77,7 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D() {
         std::cout << "    Pebbles before: "; print_all_verts_with_pebbles();
 
         // if edge can't be added, move on
-        if (!enlarge_cover(it)) {
+        if (!component_enlarge_cover(it)) {
             std::cout << "    Pebbles after : "; print_all_verts_with_pebbles();
             continue;
         }
@@ -93,54 +85,11 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D() {
         std::cout << "  Successfully added." << std::endl;;
 
 
-
-
-        // work on v1
-        while (num_pebbles_on_vert(v1) != this->k &&
-            num_pebbles_on_vert(v1) + num_pebbles_on_vert(v2) < this->l)
-        {
-            std::map<Vertex_ID, bool> seen;
-
-            std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-            for (Vertex_Iterator it = vs.first; it != vs.second; it++)
-            {
-                seen[*it] = false;
-            }
-
-            // leave if you can't get any more pebbles
-            if (!make_pebble_available(v1, &seen, &v2))
-                break;
-        }
-
-
-        // work on v2
-        while (num_pebbles_on_vert(v2) != this->k &&
-            num_pebbles_on_vert(v1) + num_pebbles_on_vert(v2) < this->l)
-        {
-            std::map<Vertex_ID, bool> seen;
-
-            std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-            for (Vertex_Iterator it = vs.first; it != vs.second; it++)
-            {
-                seen[*it] = false;
-            }
-            // seen[v1] = true;
-
-            // leave if you can't get any more pebbles
-            if (!make_pebble_available(v2, &seen, &v1))
-                break;
-        }
-
-
-
-
-
-
         //cluster maintenance
 
 
         // just for generality...
-        if (num_pebbles_on_vert(v1) + num_pebbles_on_vert(v2) != this->l)
+        if (num_pebbles_on_vert(v1) + num_pebbles_on_vert(v2) > this->l + 1)
             continue;
 
         std::set<Vertex_ID>
@@ -176,13 +125,12 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D() {
 
         // get -- V \ Reach(v1, v2)
         std::set<Vertex_ID> diff;
+        std::pair<Vertex_Iterator, Vertex_Iterator> all_vs = this->g->vertices();
         std::set_difference(
-            all_vertices.begin(), all_vertices.end(),
+            all_vs.first, all_vs.second,
             reach.begin(), reach.end(),
             std::inserter(diff, diff.begin()));
 
-        std::cout << "  Diff          : ";
-        print_verts(diff);
 
         // get inverse directed graph
         std::map<Vertex_ID, std::set<Vertex_ID> > rev = inverse_graph();
@@ -202,21 +150,14 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D() {
             }
         }
 
-
-        std::cout << "  Visited       : ";
-        print_verts(visited);
-
         Cluster *c = new Cluster();
 
         // get -- V \ visited
-        // std::set<Vertex_ID> unvisited;
+        std::set<Vertex_ID> unvisited;
         std::set_difference(
-            all_vertices.begin(), all_vertices.end(),
+            all_vs.first, all_vs.second,
             visited.begin(), visited.end(),
             std::inserter(c->vertices, c->vertices.begin()));
-
-        std::cout << "  Unvisited     : ";
-        print_verts(c->vertices);
 
         // unvisited is the new cluster!
 
@@ -442,17 +383,17 @@ bool Pebbled_Graph::find_pebble(
     std::map<Vertex_ID, vert_peb> *path,
     Vertex_ID *dont_take_pebble_from)
 {
-    // std::cout << "find_pebble: 1" << std::endl;
+    std::cout << "find_pebble: 1" << std::endl;
     // Initialize
     path->erase(v);
     (*seen)[v] = true;
 
     // Is there already is an available pebble? If so, return
-    if (identify_free_pebble(v) < this->k
-        && (dont_take_pebble_from == NULL
-            || v != *dont_take_pebble_from))
-    {
-        return true;
+    if (identify_free_pebble(v) < this->k) {
+        if (dont_take_pebble_from == NULL)
+            return true;
+        else if (v != *dont_take_pebble_from)
+            return true;
     }
 
     // Go through the edges the pebbles are on
@@ -606,70 +547,70 @@ bool Pebbled_Graph::enlarge_cover(Edge_Iterator e) {
 }
 
 
-// bool Pebbled_Graph::component_enlarge_cover(Edge_Iterator e) {
-//     std::pair<Vertex_ID, Vertex_ID> vs_on_e = g->verts_on_edge(e);
-//     Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
+bool Pebbled_Graph::component_enlarge_cover(Edge_Iterator e) {
+    std::pair<Vertex_ID, Vertex_ID> vs_on_e = g->verts_on_edge(e);
+    Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
 
 
-//     // gather l+1 pebbles around the edge
+    // gather l+1 pebbles around the edge
 
-//     // work on v1
-//     while (num_pebbles_on_vert(v1) != this->k &&
-//         num_pebbles_on_vert(v1) + num_pebbles_on_vert(v2) < this->l + 1)
-//     {
-//         std::map<Vertex_ID, bool> seen;
+    // work on v1
+    while (num_pebbles_on_vert(v1) != this->k &&
+        num_pebbles_on_vert(v1) + num_pebbles_on_vert(v2) < this->l + 1)
+    {
+        std::map<Vertex_ID, bool> seen;
 
-//         std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-//         for (Vertex_Iterator it = vs.first; it != vs.second; it++)
-//         {
-//             seen[*it] = false;
-//         }
+        std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
+        for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+        {
+            seen[*it] = false;
+        }
 
-//         // leave if you can't get any more pebbles
-//         if (!make_pebble_available(v1, &seen, &v2))
-//             break;
-//     }
-
-
-//     // work on v2
-//     while (num_pebbles_on_vert(v2) != this->k &&
-//         num_pebbles_on_vert(v1) + num_pebbles_on_vert(v2) < this->l + 1)
-//     {
-//         std::map<Vertex_ID, bool> seen;
-
-//         std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-//         for (Vertex_Iterator it = vs.first; it != vs.second; it++)
-//         {
-//             seen[*it] = false;
-//         }
-//         // seen[v1] = true;
-
-//         // leave if you can't get any more pebbles
-//         if (!make_pebble_available(v2, &seen, &v1))
-//             break;
-//     }
+        // leave if you can't get any more pebbles
+        if (!make_pebble_available(v1, &seen, &v2))
+            break;
+    }
 
 
-//     // 2 pebbles should be on each for (2,3)
-//     // but just to be safe and have some generality...
-//     unsigned int
-//         pebs_on_v1 = num_pebbles_on_vert(v1),
-//         pebs_on_v2 = num_pebbles_on_vert(v2);
+    // work on v2
+    while (num_pebbles_on_vert(v2) != this->k &&
+        num_pebbles_on_vert(v1) + num_pebbles_on_vert(v2) < this->l + 1)
+    {
+        std::map<Vertex_ID, bool> seen;
 
-//     // std::cout << "    Pebbles: " << pebs_on_v1 << " " << pebs_on_v2 << std::endl;
+        std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
+        for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+        {
+            seen[*it] = false;
+        }
+        // seen[v1] = true;
 
-//     if (pebs_on_v1 + pebs_on_v2 > this->l) {
-//         if (pebs_on_v1 > 0) {
-//             place_available_pebble(v1, v2);
-//             return true;
-//         } else {
-//             place_available_pebble(v2, v1);
-//             return true;
-//         }
-//     }
+        // leave if you can't get any more pebbles
+        if (!make_pebble_available(v2, &seen, &v1))
+            break;
+    }
 
-//     return false;
-// }
+
+    // 2 pebbles should be on each for (2,3)
+    // but just to be safe and have some generality...
+    unsigned int
+        pebs_on_v1 = num_pebbles_on_vert(v1),
+        pebs_on_v2 = num_pebbles_on_vert(v2);
+
+    // std::cout << "    Pebbles: " << pebs_on_v1 << " " << pebs_on_v2 << std::endl;
+
+    if (pebs_on_v1 + pebs_on_v2 > this->l) {
+        if (pebs_on_v1 > 0) {
+            place_available_pebble(v1, v2);
+            return true;
+        } else {
+            place_available_pebble(v2, v1);
+            return true;
+        }
+    }
+
+    return false;
+}
 
 
 

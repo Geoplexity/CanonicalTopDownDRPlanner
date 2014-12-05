@@ -3,6 +3,7 @@
 
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/undirected_graph.hpp>
+#include <boost/graph/subgraph.hpp>
 // #include <boost/graph/adjacency_list.hpp>
 
 // for layout
@@ -87,6 +88,7 @@ public:
     std::pair<Edge_Iterator, Edge_Iterator> edges() const;
 
     unsigned int num_vertices();
+    unsigned int num_edges();
 
     std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_Iterator e);
 
@@ -95,6 +97,11 @@ public:
     void write_to_file(const char* filename);
     void read_from_file(const char* filename);
 };
+
+
+
+typedef boost::subgraph<Graph> Subgraph_Type;
+
 
 
 #endif

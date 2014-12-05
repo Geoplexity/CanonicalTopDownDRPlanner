@@ -6,9 +6,18 @@
 #include <map>
 #include <vector>
 #include <array>
+#include <set>
 
 
-typedef std::vector<std::vector<Vertex_ID> > Clusters;
+struct Cluster {
+    std::set<Vertex_ID> vertices;
+    std::set<Edge_ID> edges;
+
+    void add_vertex(Vertex_ID v) {vertices.insert(v);}
+    void add_edge(Edge_ID e) {edges.insert(e);}
+
+    unsigned int num_edges() {return edges.size();}
+};
 
 
 class Pebbled_Graph {
@@ -17,14 +26,17 @@ public:
 
     // if there are exactly 2 pebbles free in the end, the graph is rigid
     unsigned int pebble_game_2D();
+    // if there is exactly 1 cluster, the graph is rigid
+    std::set<Cluster*> component_pebble_game_2D();
 
-    Clusters DRP_2D();
+    std::set<Cluster*> DRP_2D();
 
 
 private:
     // pebbles per node = k = 2
     // pebbles for sparsity/tightness = l = 3
     // solving for (k, l)-sparse graphs
+    // ONLY GUARANTEED TO WORK ON (2,3)
     static const unsigned int k = 2;
     static const unsigned int l = 3;
 
@@ -51,8 +63,8 @@ private:
 
 
 
-    // a flag to prevent repeat work and infinite recursion
-    std::map<Vertex_ID, bool> seen;
+    // // a flag to prevent repeat work and infinite recursion
+    // std::map<Vertex_ID, bool> seen;
 
     // A vertex and an important pebble (index)
     struct vert_peb {
@@ -61,9 +73,9 @@ private:
         vert_peb() {}
         vert_peb(Vertex_ID v, unsigned int p) {vertex = v; pebble = p;}
     };
-    // typedef std::pair<Vertex_ID, unsigned int> vert_peb;
-    // used to reconstruct the path for rearranging.
-    std::map<Vertex_ID, vert_peb> path;
+    // // typedef std::pair<Vertex_ID, unsigned int> vert_peb;
+    // // used to reconstruct the path for rearranging.
+    // std::map<Vertex_ID, vert_peb> path;
 
 
     // enum pebble {
@@ -90,11 +102,28 @@ private:
     // returns the index of a free pebble or k if there is none
     unsigned int identify_free_pebble(Vertex_ID v);
 
+    // returns the number of pebbles free on given vertex
+    unsigned int num_pebbles_on_vert(Vertex_ID v);
+
+
+    void print_verts(std::set<Vertex_ID> &v);
+    void print_all_verts_with_pebbles();
+
+
+
     // Finds a free pebble if there is one and sets up the path to it.
-    bool find_pebble(Vertex_ID v);
+    bool find_pebble(
+        Vertex_ID v,
+        std::map<Vertex_ID, bool> *seen,
+        std::map<Vertex_ID, vert_peb> *path,
+        Vertex_ID *dont_take_pebble_from = NULL);
 
     // Frees a pebble at vertex_ID v, if there is one. Returns true if successful
-    bool make_pebble_available(Vertex_ID v);
+    bool make_pebble_available(
+        Vertex_ID v,
+        std::map<Vertex_ID, bool> *seen,
+        Vertex_ID *dont_take_pebble_from = NULL);
+
 
     // takes one of origin's available pebbles and places it on the edge to
     // the destination vertex_ID. Returns false if there was no available pebble
@@ -102,13 +131,29 @@ private:
 
     // true means the edge was added to the cover
     bool enlarge_cover(Edge_Iterator e);
+    bool component_enlarge_cover(Edge_Iterator e);
+
+
+
+    // gives the inverted directed pebble game graph
+    // std::map<Vertex_ID, pebbles> get_reversed_pebbles();
+    std::map<Vertex_ID, std::set<Vertex_ID> > inverse_graph();
+
+    // all the vertices that can be reached by following pebbles (DFS/BFS on directed graph)
+    std::set<Vertex_ID> determine_reach(Vertex_ID v);
+    std::set<Vertex_ID> determine_reach(Vertex_ID v, std::map<Vertex_ID, std::set<Vertex_ID> > &digraph);
+
+    // std::set<Vertex_ID> get_visited_vertices(std::map<Vertex_ID, pebbles> &graph, Vertex_ID v);
+
+    // std::set<Vertex_ID> union_vertex_sets(std::set<Vertex_ID> &s1, std::set<Vertex_ID> &s2);
+
 
 
 
 
     void reset_pebbles();
 
-    Clusters pebble_game_2D_exclude(Vertex_ID excluded_vert);
+    std::set<Cluster*> pebble_game_2D_exclude(Vertex_ID excluded_vert);
 };
 
 
