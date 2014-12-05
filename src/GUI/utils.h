@@ -24,8 +24,8 @@
 //     #include <GL/glu.h>
 //     #include <GL/freeglut.h>
 // #else
-//     #include <GL/glew.h>
-//     #include <GL/freeglut.h>
+    #include <GL/glew.h>
+    #include <GL/freeglut.h>
 // #endif
 
 #include <GLFW/glfw3.h>
