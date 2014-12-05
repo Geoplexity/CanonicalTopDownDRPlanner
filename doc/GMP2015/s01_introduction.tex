@@ -40,7 +40,7 @@ arising from appropriate geometric primitives under metric or algebraic constrai
 Such  2D {\bf{\em qusecs}} (quasi-uniform or self-similar constraint systems) can be used to 
 to understand or design material layers (their solutions) with desired properties.
 
-\subsection{Previous Work}
+\subsection{Previous Work on Relevant 2D Geometric Constraint Systems}
 We now briefly survey existing techniques for studying 2D {\em qusecs,}  many of which are
 {\it bar-joint} systems (Examples 1,2 above), {\it multibody-pin} systems (Example 4,5) or {\it pinned-line incidence} systems (Example 3). 
 The limitations of these techniques directly motivate the contributions of this paper.
@@ -52,7 +52,7 @@ When the input is rigid, these algorithms do nothing, i.e, the output is the sam
 However, both for self-similar or just aperiodic 2D qusecs, it is imperative to recursively decompose rigid systems 
 into their rigid subsystems, down to the level of geometric primitives, in order to 
 understand or design properties at all scales, such as: rigidity, flexes, distribution 
-of external stresses as well as robustness/sensitivity to constraint variations.
+of external stresses,  well as robustness/sensitivity to constraint variations.
  
 \medskip\noindent\underbar{{\sl (2) Optimal Recursive Decomposition (DR-planning)}}
 Recursive decomposition of geometric constraint systems has been formalized \cite{XX} and well-studied \cite{XX} 
@@ -67,7 +67,6 @@ crucial for obtaining a solution to the parent constraint system from the soluti
 However, for general 2D qusecs, even when restricted to bar-joint systems, 
 the optimal DR-planning problem was shown to be NP-hard \cite{XX}.
 
- 
 \medskip\noindent\underbar{{\sl (3) DR-plans for special classes and with other criteria}}
 For a special class of 2D qusecs, namely  {\em tree-decomposable} systems \cite{XX} common in computer aided mechanical design, 
 (which includes ruler-and-compass and Henneberg-I constuctible systems), all DR-plans turn out to 
@@ -113,9 +112,11 @@ While software suites exist \cite{XX,XX}, no such formal algorithms and guarante
 \subsection{Contributions}
 \label{sec:cont}
 In this paper, we  navigate the NP-hardness barrier mentioned in (2) above, for finding optimal DR-plans by defining a 
-so-called {\it canonical} DR-plan and showing that all canonical DR-plans for isostatic 2D qusecs are optimal. 
-We then give an efficient ($O(n^2)$) algorithm to find a canonical DR-plan for all 2DGMCS. The notion of a canonical DR-plan 
-illuminates the essence of the NP-hardness of finding optimal DR-plans for overconstrained 2DGMCS and gives classes of 
+so-called {\it canonical} DR-plan and showing a strong Church-Rosser property: {\it all canonical DR-plans for isostatic or underconstrained (independent) 
+2D qusecs are optimal}. 
+We then give an efficient ($O(n^2)$) algorithm to find a canonical (and hence optimal) DR-plan for all 3 types of 2D qusecs mentioned above.
+canonical DR-plan 
+illuminates the essence of the NP-hardness of finding optimal DR-plans for overconstrained  and gives classes of 
 overconstrained 2DGMCS for which the above  algorithm finds an optimal DR-plan. We then show how to judiciously combine 
 existing methods for recombination, search of so-called, convex Cayley configuration spaces, and navigation of realizations, 
 to explore a connected component of the configuration space of a flexible 2DGMCS, given a starting configuration. 
