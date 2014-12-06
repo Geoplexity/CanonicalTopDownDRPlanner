@@ -1,3 +1,290 @@
+
+
+#include "Graph.hpp"
+
+
+
+// #include <boost/graph/topological_sort.hpp>
+
+
+#include <boost/graph/copy.hpp>
+
+
+
+// for layout
+#include <boost/config.hpp>
+// #include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/graph_utility.hpp>
+#include <boost/graph/simple_point.hpp>
+#include <boost/property_map/property_map.hpp>
+
+
+#include <boost/graph/circle_layout.hpp>
+#include <boost/graph/kamada_kawai_spring_layout.hpp>
+
+#include <boost/graph/random_layout.hpp>
+#include <boost/graph/fruchterman_reingold.hpp>
+
+
+#include <boost/graph/graphviz.hpp>
+
+#include <boost/graph/iteration_macros.hpp>
+
+
+
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <vector>
+
+
+
+// Graph::Graph(const Graph& other) {
+//     // // boost::copy_graph<Graph, Graph>(other, *this);
+
+
+
+//     // typedef std::map<Vertex_ID, size_t> IndexMap;
+//     // IndexMap mapIndex;
+//     // boost::associative_property_map<IndexMap> propmapIndex(mapIndex);
+
+//     // int i=0;
+//     // std::pair<Vertex_Iterator, Vertex_Iterator> vs = other.vertices();
+//     // for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+//     // {
+//     //     put(propmapIndex, *it, i++);
+//     // }
+
+//     // this->clear();
+//     // boost::copy_graph(other, *this, vertex_index_map( propmapIndex ) );
+
+
+
+
+//     this->clear();
+
+//     std::vector<Vertex_ID> verts;
+
+//     std::pair<Vertex_Iterator, Vertex_Iterator> vs = other.vertices();
+//     for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+//     {
+//         verts.push_back(this->add_vertex(other[*it]));
+//     }
+
+//     std::pair<Edge_Iterator, Edge_Iterator> es = other.edges();
+//     for (Edge_Iterator it = es.first; it != es.second; it++)
+//     {
+//         std::pair<Vertex_ID, Vertex_ID> vs_on_e = verts_on_edge(it);
+//         this->add_edge(vs_on_e.first, vs_on_e.second, other[*it]);
+//     }
+// }
+
+
+
+Vertex_ID Graph::add_vertex(Vertex_Properties vp) {
+    return this->Graph_Type::add_vertex(vp);
+}
+
+Vertex_ID Graph::add_vertex() {
+    return this->add_vertex(Vertex_Properties());
+}
+
+Edge_ID Graph::add_edge(Vertex_ID v0, Vertex_ID v1, Edge_Properties ep) {
+    std::pair<Edge_ID, bool> p = this->Graph_Type::add_edge(v0, v1, ep);
+    Edge_ID e = p.first;
+    bool success = p.second;
+
+    if (success) {
+        //
+    } else {
+        //
+    }
+
+    return e;
+}
+
+Edge_ID Graph::add_edge(Vertex_ID v0, Vertex_ID v1, double distance) {
+    return this->add_edge(v0, v1, Edge_Properties(distance));
+}
+
+std::pair<Vertex_Iterator, Vertex_Iterator> Graph::vertices() const {
+    return boost::vertices(*this);
+}
+
+std::pair<Edge_Iterator, Edge_Iterator> Graph::edges() const {
+    return boost::edges(*this);
+}
+
+unsigned int Graph::num_vertices() {
+    return boost::num_vertices(*this);
+}
+
+unsigned int Graph::num_edges() {
+    return boost::num_edges(*this);
+}
+
+std::pair<Vertex_ID, Vertex_ID> Graph::verts_on_edge(Edge_Iterator e) {
+    return std::make_pair(boost::source(*e, *this), boost::target(*e, *this));
+}
+
+
+
+void Graph::set_layout() {
+    typedef boost::property_map<Graph_Type, Point Vertex_Properties::*>::type Vertex_Point_Map;
+    typedef boost::property_map<Graph_Type, double Edge_Properties::*>::type Edge_Distance_Map;
+
+
+    Vertex_Point_Map vp_map = boost::get(&Vertex_Properties::point, *this);
+    Edge_Distance_Map ed_map = boost::get(&Edge_Properties::length, *this);
+
+    boost::circle_graph_layout(*this, vp_map, 100);
+    boost::kamada_kawai_spring_layout(
+        *this,
+        vp_map,
+        ed_map,
+        boost::square_topology<>(),
+        boost::side_length<double>(0.4)
+        // boost::layout_tolerance<>(),
+        // 1,
+        // vertexIdPropertyMap
+        );
+
+    // boost::random_graph_layout(*this, vp_map, boost::square_topology<>());
+    // boost::fruchterman_reingold_force_directed_layout(
+    //     *this,
+    //     vp_map,
+    //     boost::square_topology<>());
+
+
+    Vertex_Iterator i, end;
+    boost::tie(i, end) = this->vertices();
+    double
+        maxx = vp_map[*i][0],
+        minx = vp_map[*i][0],
+        maxy = vp_map[*i][1],
+        miny = vp_map[*i][1];
+    double centerx=0, centery=0;
+
+    for (; i != end; i++) {
+        double x = vp_map[*i][0];
+        double y = vp_map[*i][1];
+
+        centerx += x; centery += y;
+
+        maxx = (x > maxx)? x: maxx;
+        maxy = (y > maxy)? y: maxy;
+
+        minx = (x < minx)? x: minx;
+        miny = (y < miny)? y: miny;
+    }
+
+
+    centerx /= this->num_vertices();
+    centery /= this->num_vertices();
+
+    maxx -= centerx; minx -= centerx;
+    maxy -= centery; miny -= centery;
+
+    // std::cout << maxx << minx << std::endl;
+    // std::cout << maxy << miny << std::endl;
+
+    double diffx, diffy;
+    diffx = (maxx > -minx)? maxx: -minx;
+    diffy = (maxy > -miny)? maxy: -miny;
+    double diff = (diffx > diffy)? diffx: diffy;
+
+    // double diffx = maxx-minx, diffy = maxy-miny;
+    // double diff = (diffx > diffy)? diffx/2.0: diffy/2.0;
+
+    // std::cout << "Diff: " << diff << std::endl;
+
+
+
+    // TODO: this is a hueristic to prevent node from hanging off the edge of display
+    diff /= .9;
+
+
+    for (boost::tie(i, end) = this->vertices(); i != end; i++) {
+        double x = vp_map[*i][0];
+        double y = vp_map[*i][1];
+
+        (*this)[*i].x = (x - centerx)/diff;
+        (*this)[*i].y = (y - centery)/diff;
+
+        // std::cout << "X: " << (*this)[*i].x << " Y: " << (*this)[*i].y << std::endl;
+
+    }
+}
+
+
+void Graph::write_to_file(const char* filename) {
+    std::ofstream f(filename);
+    boost::write_graphviz(f, *this);
+}
+
+// #include <boost/graph/property_maps/null_property_map.hpp>
+void Graph::read_from_file(const char* filename) {
+    boost::dynamic_properties dp;
+    // boost::property_map<Graph_Type, std::string Vertex_Properties::*>::type name = ;
+    // boost::property_map<Graph_Type, double Vertex_Properties::*>::type name = boost::get(&Vertex_Properties::name, *this);
+    // boost::make_null_property<Vertex_ID, std::string>
+    dp.property("node_id", boost::get(&Vertex_Properties::name, *this));
+    dp.property("length", boost::get(&Edge_Properties::length, *this));
+
+    std::ifstream f(filename);
+    boost::read_graphviz(f, *this, dp);
+}
+
+
+
+
+
+
+
+
+
+// template <class WeightMap,class CapacityMap>
+// class edge_writer {
+// public:
+//   edge_writer(WeightMap w, CapacityMap c) : wm(w),cm(c) {}
+//   template <class Edge>
+//   void operator()(ostream &out, const Edge& e) const {
+//     out << "[label=\"" << wm[e] << "\", taillabel=\"" << cm[e] << "\"]";
+//   }
+// private:
+//   WeightMap wm;
+//   CapacityMap cm;
+// };
+
+// template <class WeightMap, class CapacityMap>
+// inline edge_writer<WeightMap,CapacityMap>
+// make_edge_writer(WeightMap w,CapacityMap c) {
+//   return edge_writer<WeightMap,CapacityMap>(w,c);
+// }
+
+// ofstream dot("graph.dot");
+// write_graphviz(dot, g,
+//   boost::make_label_writer(boost::get(&vert::name, g)),
+//   make_edge_writer(boost::get(&edge::weight,g),boost::get(&edge::capacity,g)));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // #include <boost/graph/fruchterman_reingold.hpp>
 // #include <boost/graph/random_layout.hpp>
 // #include <boost/graph/kamada_kawai_spring_layout.hpp>
@@ -146,287 +433,3 @@
 //   std::cout << "Triangle layout (Kamada-Kawai).\n";
 //   print_graph_layout(g, get(vertex_position, g));
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include "Graph.hpp"
-
-
-
-// #include <boost/graph/topological_sort.hpp>
-
-
-#include <boost/graph/copy.hpp>
-
-
-
-// for layout
-#include <boost/config.hpp>
-// #include <boost/graph/adjacency_list.hpp>
-#include <boost/graph/graph_utility.hpp>
-#include <boost/graph/simple_point.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <iostream>
-
-
-#include <boost/graph/circle_layout.hpp>
-#include <boost/graph/kamada_kawai_spring_layout.hpp>
-
-#include <boost/graph/random_layout.hpp>
-#include <boost/graph/fruchterman_reingold.hpp>
-
-
-
-#include "boost/graph/graphviz.hpp"
-
-
-
-#include <fstream>
-#include <map>
-
-
-
-// for layout
-// typedef boost::property_map<Graph_Type, std::size_t Vertex_Properties::*>::type VertexIndexPropertyMap;
-typedef boost::property_map<Graph_Type, Point Vertex_Properties::*>::type Vertex_Point_Map;
-typedef boost::property_map<Graph_Type, double Edge_Properties::*>::type Edge_Distance_Map;
-
-// typedef boost::graph_traits<Graph_Type>::vertex_descriptor VertexDescriptor;
-
-
-
-#include <boost/graph/iteration_macros.hpp>
-#include <vector>
-// Graph::Graph(const Graph& other) {
-//     // // boost::copy_graph<Graph, Graph>(other, *this);
-
-
-
-//     // typedef std::map<Vertex_ID, size_t> IndexMap;
-//     // IndexMap mapIndex;
-//     // boost::associative_property_map<IndexMap> propmapIndex(mapIndex);
-
-//     // int i=0;
-//     // std::pair<Vertex_Iterator, Vertex_Iterator> vs = other.vertices();
-//     // for (Vertex_Iterator it = vs.first; it != vs.second; it++)
-//     // {
-//     //     put(propmapIndex, *it, i++);
-//     // }
-
-//     // this->clear();
-//     // boost::copy_graph(other, *this, vertex_index_map( propmapIndex ) );
-
-
-
-
-//     this->clear();
-
-//     std::vector<Vertex_ID> verts;
-
-//     std::pair<Vertex_Iterator, Vertex_Iterator> vs = other.vertices();
-//     for (Vertex_Iterator it = vs.first; it != vs.second; it++)
-//     {
-//         verts.push_back(this->add_vertex(other[*it]));
-//     }
-
-//     std::pair<Edge_Iterator, Edge_Iterator> es = other.edges();
-//     for (Edge_Iterator it = es.first; it != es.second; it++)
-//     {
-//         std::pair<Vertex_ID, Vertex_ID> vs_on_e = verts_on_edge(it);
-//         this->add_edge(vs_on_e.first, vs_on_e.second, other[*it]);
-//     }
-// }
-
-
-
-Vertex_ID Graph::add_vertex(Vertex_Properties vp) {
-    return this->Graph_Type::add_vertex(vp);
-}
-
-Vertex_ID Graph::add_vertex() {
-    return this->add_vertex(Vertex_Properties());
-}
-
-Edge_ID Graph::add_edge(Vertex_ID v0, Vertex_ID v1, Edge_Properties ep) {
-    std::pair<Edge_ID, bool> p = this->Graph_Type::add_edge(v0, v1, ep);
-    Edge_ID e = p.first;
-    bool success = p.second;
-
-    if (success) {
-        //
-    } else {
-        //
-    }
-
-    return e;
-}
-
-Edge_ID Graph::add_edge(Vertex_ID v0, Vertex_ID v1, double distance) {
-    return this->add_edge(v0, v1, Edge_Properties(distance));
-}
-
-std::pair<Vertex_Iterator, Vertex_Iterator> Graph::vertices() const {
-    return boost::vertices(*this);
-}
-
-std::pair<Edge_Iterator, Edge_Iterator> Graph::edges() const {
-    return boost::edges(*this);
-}
-
-unsigned int Graph::num_vertices() {
-    return boost::num_vertices(*this);
-}
-
-unsigned int Graph::num_edges() {
-    return boost::num_edges(*this);
-}
-
-std::pair<Vertex_ID, Vertex_ID> Graph::verts_on_edge(Edge_Iterator e) {
-    return std::make_pair(boost::source(*e, *this), boost::target(*e, *this));
-}
-// Graph* test() {return this;}
-
-
-
-void Graph::set_layout() {
-    Vertex_Point_Map vp_map = boost::get(&Vertex_Properties::point, *this);
-    Edge_Distance_Map ed_map = boost::get(&Edge_Properties::distance, *this);
-
-    boost::circle_graph_layout(*this, vp_map, 100);
-    boost::kamada_kawai_spring_layout(
-        *this,
-        vp_map,
-        ed_map,
-        boost::square_topology<>(),
-        boost::side_length<double>(0.4)
-        // boost::layout_tolerance<>(),
-        // 1,
-        // vertexIdPropertyMap
-        );
-
-    // boost::random_graph_layout(*this, vp_map, boost::square_topology<>());
-    // boost::fruchterman_reingold_force_directed_layout(
-    //     *this,
-    //     vp_map,
-    //     boost::square_topology<>());
-
-
-    Vertex_Iterator i, end;
-    boost::tie(i, end) = this->vertices();
-    double
-        maxx = vp_map[*i][0],
-        minx = vp_map[*i][0],
-        maxy = vp_map[*i][1],
-        miny = vp_map[*i][1];
-    double centerx=0, centery=0;
-
-    for (; i != end; i++) {
-        double x = vp_map[*i][0];
-        double y = vp_map[*i][1];
-
-        centerx += x; centery += y;
-
-        maxx = (x > maxx)? x: maxx;
-        maxy = (y > maxy)? y: maxy;
-
-        minx = (x < minx)? x: minx;
-        miny = (y < miny)? y: miny;
-    }
-
-
-    centerx /= this->num_vertices();
-    centery /= this->num_vertices();
-
-    maxx -= centerx; minx -= centerx;
-    maxy -= centery; miny -= centery;
-
-    // std::cout << maxx << minx << std::endl;
-    // std::cout << maxy << miny << std::endl;
-
-    double diffx, diffy;
-    diffx = (maxx > -minx)? maxx: -minx;
-    diffy = (maxy > -miny)? maxy: -miny;
-    double diff = (diffx > diffy)? diffx: diffy;
-
-    // double diffx = maxx-minx, diffy = maxy-miny;
-    // double diff = (diffx > diffy)? diffx/2.0: diffy/2.0;
-
-    // std::cout << "Diff: " << diff << std::endl;
-
-
-
-    // TODO: this is a hueristic to prevent node from hanging off the edge of display
-    diff /= .9;
-
-
-    for (boost::tie(i, end) = this->vertices(); i != end; i++) {
-        double x = vp_map[*i][0];
-        double y = vp_map[*i][1];
-
-        (*this)[*i].x = (x - centerx)/diff;
-        (*this)[*i].y = (y - centery)/diff;
-
-        // std::cout << "X: " << (*this)[*i].x << " Y: " << (*this)[*i].y << std::endl;
-
-    }
-}
-
-
-void Graph::write_to_file(const char* filename) {
-    std::ofstream f(filename);
-    boost::write_graphviz(f, *this);
-}
-
-// #include <boost/graph/property_maps/null_property_map.hpp>
-void Graph::read_from_file(const char* filename) {
-    boost::dynamic_properties dp;
-    boost::property_map<Graph_Type, std::string Vertex_Properties::*>::type name = boost::get(&Vertex_Properties::name, *this);
-    // boost::make_null_property<Vertex_ID, std::string>
-    dp.property("node_id", name);
-
-    std::ifstream f(filename);
-    boost::read_graphviz(f, *this, dp);
-}
-
-
-
-
-
-
-
-
-
-// template <class WeightMap,class CapacityMap>
-// class edge_writer {
-// public:
-//   edge_writer(WeightMap w, CapacityMap c) : wm(w),cm(c) {}
-//   template <class Edge>
-//   void operator()(ostream &out, const Edge& e) const {
-//     out << "[label=\"" << wm[e] << "\", taillabel=\"" << cm[e] << "\"]";
-//   }
-// private:
-//   WeightMap wm;
-//   CapacityMap cm;
-// };
-
-// template <class WeightMap, class CapacityMap>
-// inline edge_writer<WeightMap,CapacityMap>
-// make_edge_writer(WeightMap w,CapacityMap c) {
-//   return edge_writer<WeightMap,CapacityMap>(w,c);
-// }
-
-// ofstream dot("graph.dot");
-// write_graphviz(dot, g,
-//   boost::make_label_writer(boost::get(&vert::name, g)),
-//   make_edge_writer(boost::get(&edge::weight,g),boost::get(&edge::capacity,g)));
-

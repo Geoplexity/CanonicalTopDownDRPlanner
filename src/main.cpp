@@ -233,6 +233,8 @@ void display_graph(Window &wind, Graph &g) {
 int main(int argc, char **argv) {
     string dot_file = "test_files/test.dot";
 
+    int runtime_option = 0;
+
     // handle command-line arguments
     for (int i = 1; i < argc; i++) {
         string inp = argv[i];
@@ -259,6 +261,19 @@ int main(int argc, char **argv) {
                     return 0;
                 }
                 dot_file = argv[i];
+            } else {
+                cerr << "Invalid value for flag " << flag << "." << endl;
+                return 0;
+            }
+        }
+
+        else if (!flag.compare("-opt")) {
+            if (!val.compare("0")) {
+                runtime_option = 0;
+            } else if (!val.compare("1")) {
+                runtime_option = 1;
+            } else if (!val.compare("2")) {
+                runtime_option = 2;
             } else {
                 cerr << "Invalid value for flag " << flag << "." << endl;
                 return 0;
@@ -313,9 +328,15 @@ int main(int argc, char **argv) {
 
 
     Pebbled_Graph pg(&g);
-    // cout << "Pebbles remaining: " << pg.pebble_game_2D() << endl;
-    pg.component_pebble_game_2D();
 
+    if (runtime_option == 0) {
+        pg.component_pebble_game_2D();
+    } else if (runtime_option == 1) {
+        pg.DRP_2D();
+    } else if (runtime_option == 2) {
+        int pebbles_remaining = pg.pebble_game_2D();
+        cout << "Pebbles remaining: " << pebbles_remaining << endl;
+    }
 
 
     while (!myWindow.should_close()) {

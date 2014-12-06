@@ -36,16 +36,16 @@ struct Vertex_Properties {
 
 
 struct Edge_Properties {
-    double distance;
+    double length;
     // unsigned int pebbles;
 
     Edge_Properties() {
-        distance = 1;
+        length = 1;
         // pebbles = 0;
     }
 
     Edge_Properties(double d) {
-        distance = d;
+        length = d;
         // pebbles = 0;
     }
 };

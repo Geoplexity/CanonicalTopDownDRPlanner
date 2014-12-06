@@ -27,7 +27,7 @@ public:
     // if there are exactly 2 pebbles free in the end, the graph is rigid
     unsigned int pebble_game_2D();
     // if there is exactly 1 cluster, the graph is rigid
-    std::set<Cluster*> component_pebble_game_2D();
+    std::set<Cluster*> component_pebble_game_2D(Vertex_ID *exclude = NULL);
 
     std::set<Cluster*> DRP_2D();
 
@@ -112,26 +112,34 @@ private:
 
 
     // Finds a free pebble if there is one and sets up the path to it.
-    bool find_pebble(
+    bool _find_pebble_aux(
         Vertex_ID v,
         std::map<Vertex_ID, bool> *seen,
         std::map<Vertex_ID, vert_peb> *path,
-        Vertex_ID *dont_take_pebble_from = NULL);
+        Vertex_ID *dont_take_pebble_from = NULL,
+        Vertex_ID *exclude = NULL);
+    bool find_pebble(
+        Vertex_ID v,
+        std::map<Vertex_ID, vert_peb> *path,
+        Vertex_ID *dont_take_pebble_from = NULL,
+        Vertex_ID *exclude = NULL);
 
     // Frees a pebble at vertex_ID v, if there is one. Returns true if successful
     bool make_pebble_available(
         Vertex_ID v,
-        std::map<Vertex_ID, bool> *seen,
-        Vertex_ID *dont_take_pebble_from = NULL);
+        Vertex_ID *dont_take_pebble_from = NULL,
+        Vertex_ID *exclude = NULL);
 
+    // true means the edge was added to the cover
+    bool enlarge_cover(
+        Edge_Iterator e,
+        Vertex_ID *exclude = NULL);
+    // bool component_enlarge_cover(Edge_Iterator e);
 
     // takes one of origin's available pebbles and places it on the edge to
     // the destination vertex_ID. Returns false if there was no available pebble
     bool place_available_pebble(Vertex_ID origin, Vertex_ID destination);
 
-    // true means the edge was added to the cover
-    bool enlarge_cover(Edge_Iterator e);
-    bool component_enlarge_cover(Edge_Iterator e);
 
 
 
