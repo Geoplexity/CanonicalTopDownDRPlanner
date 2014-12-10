@@ -11,12 +11,16 @@
 
 struct Cluster {
     std::set<Vertex_ID> vertices;
-    std::set<Edge_ID> edges;
+    std::set<Cluster*> children;
+
+    // std::set<Edge_ID> edges;
 
     void add_vertex(Vertex_ID v) {vertices.insert(v);}
-    void add_edge(Edge_ID e) {edges.insert(e);}
+    // void add_edge(Edge_ID e) {edges.insert(e);}
 
-    unsigned int num_edges() {return edges.size();}
+    // unsigned int num_edges() {return edges.size();}
+
+    void print_tree(Graph &g, unsigned int tabs = 0);
 };
 
 
@@ -30,7 +34,8 @@ public:
     // if there is exactly 1 cluster, the graph is rigid
     std::set<Cluster*> component_pebble_game_2D(Vertex_ID *exclude = NULL);
 
-    std::set<Cluster*> DRP_2D();
+    // If optimal is false, you find completeDRP
+    std::set<Cluster*> DRP_2D(bool optimalDRP = true);
 
 
 private:

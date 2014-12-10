@@ -91,12 +91,12 @@ public:
     std::pair<Vertex_Iterator, Vertex_Iterator> vertices() const;
     std::pair<Edge_Iterator, Edge_Iterator> edges() const;
 
-    Vertex_Iterator find_vertex(const char *name);
+    Vertex_Iterator find_vertex(const char *name) const;
 
-    unsigned int num_vertices();
-    unsigned int num_edges();
+    unsigned int num_vertices() const;
+    unsigned int num_edges() const;
 
-    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e);
+    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e) const;
 
     void set_layout();
 
@@ -116,7 +116,7 @@ typedef std::set<Edge_ID>::iterator Sg_Edge_Iterator;
 // An induced subgraph of the input graph. Initially empty.
 class Subgraph {
 public:
-    Subgraph(Graph *g);
+    Subgraph(const Graph *g);
 
     void induce(Vertex_Iterator begin, Vertex_Iterator end);
     void induce(std::set<Vertex_ID> *vertices);
@@ -133,9 +133,9 @@ public:
     unsigned int num_vertices();
     unsigned int num_edges();
 
-    Vertex_Properties& operator[](Vertex_ID vertex);
+    const Vertex_Properties& operator[](Vertex_ID vertex);
 private:
-    Graph *_graph;
+    const Graph *_graph;
 
     std::set<Vertex_ID> _vertices;
     std::set<Edge_ID> _edges;

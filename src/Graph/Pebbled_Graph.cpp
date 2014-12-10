@@ -10,6 +10,23 @@
 
 
 
+void Cluster::print_tree(Graph &g, unsigned int tabs) {
+    // std::string t = "";
+    // for (int i = 0; i < tabs; i++) t.append("\t");
+
+
+    for (int i = 0; i < tabs; i++) std::cout << "\t";
+    for (std::set<Vertex_ID>::iterator v_it = vertices.begin(); v_it != vertices.end(); v_it++) {
+        std::cout << g[*v_it].name << " ";
+    }
+    std::cout << std::endl;
+
+    for (std::set<Cluster*>::iterator c_it = children.begin(); c_it != children.end(); c_it++) {
+        (*c_it)->print_tree(g, tabs+1);
+    }
+}
+
+
 
 
 
@@ -236,12 +253,14 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
 
 
 
-std::set<Cluster*> Pebbled_Graph::DRP_2D() {
+std::set<Cluster*> Pebbled_Graph::DRP_2D(bool optimalDRP) {
     std::set<Cluster*> all_clusts;
 
     // the system is not wellconstrained
-    if (pebble_game_2D() != this->l)
+    if (pebble_game_2D() != this->l) {
+        std::cout << "Not wellconstrained, " << _total_pebbles_available << ": "; print_all_verts_with_pebbles();
         return all_clusts;
+    }
 
     std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = this->in_subgraph->vertices();
     for (Sg_Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++)
@@ -300,15 +319,43 @@ std::set<Cluster*> Pebbled_Graph::DRP_2D() {
 
     }
 
-    // this->pebble_game_2D();
+    // If looking for optimalDRP, check if intersection is wellconstrained
+    // if it is, only save two clusters as children.
+    if (optimalDRP) {
+        if (all_clusts.size() != 0) {
+            std::set<Cluster*>::iterator c_it1, c_it2;
+            c_it1 = all_clusts.begin();
+            c_it2 = all_clusts.begin();
+            c_it2++;
+                    std::cout << *c_it2 << " " << *c_it1 << std::endl;
 
-    std::cout << "\n" << std::endl;
-    for (std::set<Cluster*>::iterator c_it = all_clusts.begin(); c_it != all_clusts.end(); c_it++) {
-        std::cout << "Cluster: ";
-        for (std::set<Vertex_ID>::iterator v_it = (*c_it)->vertices.begin(); v_it != (*c_it)->vertices.end(); v_it++) {
-            std::cout << (*in_subgraph)[*v_it].name << " ";
+            std::set<Vertex_ID> intersection;
+            std::set_intersection(
+                (*c_it1)->vertices.begin(), (*c_it1)->vertices.end(),
+                (*c_it2)->vertices.begin(), (*c_it2)->vertices.end(),
+                std::inserter(intersection, intersection.begin()));
+
+
+            // for 2D wellconstrained input, if it intersects on more than 1 node, it's wellconstrained
+            if (intersection.size() > 1) {
+                std::set<Cluster*>::iterator c_it = all_clusts.end();
+                c_it--;
+                for (; c_it != c_it2; c_it--) {
+                    std::cout << *c_it << " " << *all_clusts.end() << std::endl;
+                    delete (*c_it);
+                    all_clusts.erase(c_it);
+                }
+            }
         }
-        std::cout << std::endl;
+    }
+
+    // Recursively perform on all children
+    for (std::set<Cluster*>::iterator c_it = all_clusts.begin(); c_it != all_clusts.end(); c_it++) {
+        Subgraph sg(in_subgraph->graph());
+        sg.induce(&(*c_it)->vertices);
+
+        Pebbled_Graph pg(&sg);
+        (*c_it)->children = pg.DRP_2D(optimalDRP);
     }
 
     return all_clusts;

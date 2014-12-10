@@ -117,7 +117,7 @@ std::pair<Edge_Iterator, Edge_Iterator> Graph::edges() const {
     return boost::edges(*this);
 }
 
-Vertex_Iterator Graph::find_vertex(const char *name) {
+Vertex_Iterator Graph::find_vertex(const char *name) const {
     Vertex_Iterator v, v_end;
     for (boost::tie(v, v_end) = this->vertices(); v != v_end; v++) {
         if ((*this)[*v].name.compare(name) == 0) {
@@ -129,15 +129,15 @@ Vertex_Iterator Graph::find_vertex(const char *name) {
 }
 
 
-unsigned int Graph::num_vertices() {
+unsigned int Graph::num_vertices() const {
     return boost::num_vertices(*this);
 }
 
-unsigned int Graph::num_edges() {
+unsigned int Graph::num_edges() const {
     return boost::num_edges(*this);
 }
 
-std::pair<Vertex_ID, Vertex_ID> Graph::verts_on_edge(Edge_ID e) {
+std::pair<Vertex_ID, Vertex_ID> Graph::verts_on_edge(Edge_ID e) const {
     return std::make_pair(boost::source(e, *this), boost::target(e, *this));
 }
 
@@ -455,7 +455,7 @@ void Graph::read_from_file(const char* filename) {
 
 
 
-Subgraph::Subgraph(Graph *g) {
+Subgraph::Subgraph(const Graph *g) {
     _graph = g;
 }
 
@@ -517,8 +517,10 @@ void Subgraph::add_vertex(Vertex_ID vertex) {
     for (boost::tie(v, v_end) = boost::adjacent_vertices(vertex, *_graph);
         v != v_end; v++)
     {
-        Edge_ID e = boost::edge(vertex, *v, *_graph).first;
-        _edges.insert(e);
+        if (_vertices.find(*v) != _vertices.end()) {
+            Edge_ID e = boost::edge(vertex, *v, *_graph).first;
+            _edges.insert(e);
+        }
     }
 }
 
@@ -576,6 +578,6 @@ unsigned int Subgraph::num_edges() {
 }
 
 
-Vertex_Properties& Subgraph::operator[](Vertex_ID vertex) {
+const Vertex_Properties& Subgraph::operator[](Vertex_ID vertex) {
     return (*_graph)[vertex];
 }

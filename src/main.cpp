@@ -343,7 +343,13 @@ int main(int argc, char **argv) {
 
         Pebbled_Graph pg(&sg);
 
-        pg.DRP_2D();
+        Cluster c;
+        std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> sgvs = sg.vertices();
+        for (Sg_Vertex_Iterator v_it = sgvs.first; v_it != sgvs.second; v_it++)
+            c.add_vertex(*v_it);
+
+        c.children = pg.DRP_2D();
+        c.print_tree(g);
     } else if (runtime_option == 1) {
         Pebbled_Graph pg(&g);
         pg.component_pebble_game_2D();
