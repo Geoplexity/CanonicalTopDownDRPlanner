@@ -23,6 +23,7 @@ struct Cluster {
 class Pebbled_Graph {
 public:
     Pebbled_Graph(Graph *g);
+    Pebbled_Graph(Subgraph *g);
 
     // if there are exactly 2 pebbles free in the end, the graph is rigid
     unsigned int pebble_game_2D();
@@ -45,7 +46,7 @@ private:
 
 
     // the graph we're playing the game on
-    Graph *g;
+    Subgraph *in_subgraph;
 
 
 
@@ -58,13 +59,10 @@ private:
     std::map<Vertex_ID, pebbles> pebbles_at_vertex;
 
     // starts at 2 * the number of vertices
+    // set in reset_pebbles, decremented in place_available_pebble
     unsigned int _total_pebbles_available;
 
 
-
-
-    // // a flag to prevent repeat work and infinite recursion
-    // std::map<Vertex_ID, bool> seen;
 
     // A vertex and an important pebble (index)
     struct vert_peb {
@@ -73,28 +71,6 @@ private:
         vert_peb() {}
         vert_peb(Vertex_ID v, unsigned int p) {vertex = v; pebble = p;}
     };
-    // // typedef std::pair<Vertex_ID, unsigned int> vert_peb;
-    // // used to reconstruct the path for rearranging.
-    // std::map<Vertex_ID, vert_peb> path;
-
-
-    // enum pebble {
-    //     p1, p2
-    // };
-
-    // // the edge a pebble from a vertex_ID is on, represented as the vertex_ID it's
-    // // pointing to. If it maps to nothing, then the pebble is available
-    // typedef std::pair<Vertex_ID, pebble> vert_peb;
-    // std::map<vert_peb, Vertex_ID> pebbles_on_verts;
-
-    // // set in the constructor, decremented in place_available_pebble
-    // unsigned int _total_pebbles_available;
-
-
-    // // used to reconstruct the path for rearranging. the key is the vertex_ID
-    // // the value is the pair of the next vertex_ID in the path and the pebble
-    // // used from the original to cover the edge.
-    // std::map<Vertex_ID, vert_peb> path;
 
 
 
@@ -132,7 +108,7 @@ private:
 
     // true means the edge was added to the cover
     bool enlarge_cover(
-        Edge_Iterator e,
+        Edge_ID e,
         Vertex_ID *exclude = NULL);
     // bool component_enlarge_cover(Edge_Iterator e);
 
@@ -144,16 +120,11 @@ private:
 
 
     // gives the inverted directed pebble game graph
-    // std::map<Vertex_ID, pebbles> get_reversed_pebbles();
     std::map<Vertex_ID, std::set<Vertex_ID> > inverse_graph();
 
     // all the vertices that can be reached by following pebbles (DFS/BFS on directed graph)
     std::set<Vertex_ID> determine_reach(Vertex_ID v);
     std::set<Vertex_ID> determine_reach(Vertex_ID v, std::map<Vertex_ID, std::set<Vertex_ID> > &digraph);
-
-    // std::set<Vertex_ID> get_visited_vertices(std::map<Vertex_ID, pebbles> &graph, Vertex_ID v);
-
-    // std::set<Vertex_ID> union_vertex_sets(std::set<Vertex_ID> &s1, std::set<Vertex_ID> &s2);
 
 
 

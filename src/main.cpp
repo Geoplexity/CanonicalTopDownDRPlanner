@@ -175,7 +175,7 @@ vector<gl_obj::pos_vec> edges_from_graph(Graph &g) {
         edges.first != edges.second;
         edges.first++)
     {
-        std::pair<Vertex_ID, Vertex_ID> uv = g.verts_on_edge(edges.first);
+        std::pair<Vertex_ID, Vertex_ID> uv = g.verts_on_edge(*edges.first);
         v.push_back(gl_obj::pos_vec(g[uv.first].x, g[uv.first].y));
         v.push_back(gl_obj::pos_vec(g[uv.second].x, g[uv.second].y));
     }
@@ -303,7 +303,8 @@ int main(int argc, char **argv) {
     g.read_from_file(dot_file.c_str());
 
     Graph copy(g);
-    g.write_to_file("test_files/out.dot");
+    copy.write_to_file("test_files/out.dot");
+
 
     g.set_layout();
 
@@ -327,13 +328,27 @@ int main(int argc, char **argv) {
 
 
 
-    Pebbled_Graph pg(&g);
 
     if (runtime_option == 0) {
-        pg.component_pebble_game_2D();
-    } else if (runtime_option == 1) {
+
+        Subgraph sg(&g);
+        std::pair<Vertex_Iterator, Vertex_Iterator> vs = g.vertices();
+        sg.induce(vs.first, vs.second);
+
+        // sg.remove_vertex(*(g.find_vertex("7")));
+        // sg.remove_vertex(*(g.find_vertex("8")));
+        // sg.remove_vertex(*(g.find_vertex("9")));
+        // sg.remove_vertex(*(g.find_vertex("10")));
+
+
+        Pebbled_Graph pg(&sg);
+
         pg.DRP_2D();
+    } else if (runtime_option == 1) {
+        Pebbled_Graph pg(&g);
+        pg.component_pebble_game_2D();
     } else if (runtime_option == 2) {
+        Pebbled_Graph pg(&g);
         int pebbles_remaining = pg.pebble_game_2D();
         cout << "Pebbles remaining: " << pebbles_remaining << endl;
     }

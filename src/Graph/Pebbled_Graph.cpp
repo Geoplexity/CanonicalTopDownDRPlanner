@@ -15,17 +15,23 @@
 
 
 Pebbled_Graph::Pebbled_Graph(Graph *g) {
-    this->g = g;
+    this->in_subgraph = new Subgraph(g);
+    std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
+    in_subgraph->induce(vs.first, vs.second);
+}
+
+Pebbled_Graph::Pebbled_Graph(Subgraph *g) {
+    this->in_subgraph = g;
 }
 
 // if there are exactly 2 pebbles free in the end, the graph is rigid
 unsigned int Pebbled_Graph::pebble_game_2D() {
     reset_pebbles();
 
-    std::pair<Edge_Iterator, Edge_Iterator> es = this->g->edges();
-    for (Edge_Iterator it = es.first; it != es.second; it++)
+    std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> es = this->in_subgraph->edges();
+    for (Sg_Edge_Iterator it = es.first; it != es.second; it++)
     {
-        this->enlarge_cover(it);
+        this->enlarge_cover(*it);
     }
 
     return _total_pebbles_available;
@@ -37,10 +43,11 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
     // init pebbles
     reset_pebbles();
 
+    // std::cout << "Pebbled_Graph::component_pebble_game_2D: here0" << std::endl;
     // for differencing
     std::set<Vertex_ID> all_vertices;
-    std::pair<Vertex_Iterator, Vertex_Iterator> vs = this->g->vertices();
-    for (Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++) {
+    std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = this->in_subgraph->vertices();
+    for (Sg_Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++) {
         all_vertices.insert(*v_it);
     }
 
@@ -51,10 +58,10 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
     // true if they're in the same cluster, not in map if not
     std::map<std::pair<Vertex_ID, Vertex_ID>, bool> in_same_clust;
 
-    std::pair<Edge_Iterator, Edge_Iterator> es = this->g->edges();
-    for (Edge_Iterator it = es.first; it != es.second; it++)
+    std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> es = this->in_subgraph->edges();
+    for (Sg_Edge_Iterator it = es.first; it != es.second; it++)
     {
-        std::pair<Vertex_ID, Vertex_ID> vs_on_e = g->verts_on_edge(it);
+        std::pair<Vertex_ID, Vertex_ID> vs_on_e = in_subgraph->verts_on_edge(*it);
         Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
 
         // std::cout << "Edge ("<< (*g)[v1].name << "--" << (*g)[v2].name << "): " << std::endl;;
@@ -70,14 +77,16 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
         // std::cout << "  Total pebbles remaining: " << _total_pebbles_available << std::endl;
         // std::cout << "    Pebbles before: "; print_all_verts_with_pebbles();
 
+        // std::cout << "Pebbled_Graph::component_pebble_game_2D: here1" << std::endl;
         // if edge can't be added, move on
-        if (!enlarge_cover(it, exclude)) {
+        if (!enlarge_cover(*it, exclude)) {
             // std::cout << "    Pebbles after : "; print_all_verts_with_pebbles();
             continue;
         }
 
         // std::cout << "  Successfully added." << std::endl;;
 
+        // std::cout << "Pebbled_Graph::component_pebble_game_2D: here2" << std::endl;
 
 
 
@@ -102,6 +111,7 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
 
 
 
+        // std::cout << "Pebbled_Graph::component_pebble_game_2D: here3" << std::endl;
 
 
 
@@ -138,6 +148,7 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
             }
         }
         if (pebbles_in_reach) continue;
+        // std::cout << "Pebbled_Graph::component_pebble_game_2D: here4" << std::endl;
 
 
         // get -- V \ Reach(v1, v2)
@@ -167,6 +178,7 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
             }
         }
 
+        // std::cout << "Pebbled_Graph::component_pebble_game_2D: here5" << std::endl;
 
         // std::cout << "  Visited       : "; print_verts(visited);
 
@@ -215,6 +227,7 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
     //     }
     //     std::cout << std::endl;
     // }
+        // std::cout << "Pebbled_Graph::component_pebble_game_2D: here6" << std::endl;
 
     return cs;
 
@@ -226,10 +239,15 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
 std::set<Cluster*> Pebbled_Graph::DRP_2D() {
     std::set<Cluster*> all_clusts;
 
-    std::pair<Vertex_Iterator, Vertex_Iterator> vs = this->g->vertices();
-    for (Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++)
+    // the system is not wellconstrained
+    if (pebble_game_2D() != this->l)
+        return all_clusts;
+
+    std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = this->in_subgraph->vertices();
+    for (Sg_Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++)
     {
-        std::set<Cluster*> new_clusts = component_pebble_game_2D(&*v_it);
+        Vertex_ID vid = *v_it;
+        std::set<Cluster*> new_clusts = component_pebble_game_2D(&vid);
 
         // remove anything from all that's a subset of something from new
         // TODO: this is quite inefficient, the paper says there is a better way
@@ -243,6 +261,7 @@ std::set<Cluster*> Pebbled_Graph::DRP_2D() {
                     std::inserter(all_diff_new, all_diff_new.begin()));
                 if (all_diff_new.empty()) {
                     to_erase.push_back(ac_it);
+                    break; // don't want to add it twice
                 }
             }
         }
@@ -264,6 +283,7 @@ std::set<Cluster*> Pebbled_Graph::DRP_2D() {
                     std::inserter(new_diff_all, new_diff_all.begin()));
                 if (new_diff_all.empty()) {
                     to_erase.push_back(nc_it);
+                    break; // don't want to add it twice
                 }
             }
         }
@@ -286,7 +306,7 @@ std::set<Cluster*> Pebbled_Graph::DRP_2D() {
     for (std::set<Cluster*>::iterator c_it = all_clusts.begin(); c_it != all_clusts.end(); c_it++) {
         std::cout << "Cluster: ";
         for (std::set<Vertex_ID>::iterator v_it = (*c_it)->vertices.begin(); v_it != (*c_it)->vertices.end(); v_it++) {
-            std::cout << (*g)[*v_it].name << " ";
+            std::cout << (*in_subgraph)[*v_it].name << " ";
         }
         std::cout << std::endl;
     }
@@ -300,17 +320,17 @@ std::set<Cluster*> Pebbled_Graph::DRP_2D() {
 
 void Pebbled_Graph::print_verts(std::set<Vertex_ID> &v) {
     for (std::set<Vertex_ID>::iterator v_it = v.begin(); v_it != v.end(); v_it++) {
-        std::cout << (*g)[*v_it].name << " ";
+        std::cout << (*in_subgraph)[*v_it].name << " ";
     }
     std::cout << std::endl;
 }
 
 void Pebbled_Graph::print_all_verts_with_pebbles() {
-    std::pair<Vertex_Iterator, Vertex_Iterator> vs = this->g->vertices();
-    for (Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++) {
-        std::cout << (*g)[*v_it].name << "("
-            << (*g)[pebbles_at_vertex[*v_it][0]].name
-            << (*g)[pebbles_at_vertex[*v_it][1]].name << ") ";
+    std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = this->in_subgraph->vertices();
+    for (Sg_Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++) {
+        std::cout << (*in_subgraph)[*v_it].name << "("
+            << (*in_subgraph)[pebbles_at_vertex[*v_it][0]].name
+            << (*in_subgraph)[pebbles_at_vertex[*v_it][1]].name << ") ";
     }
     std::cout << std::endl;
 }
@@ -331,8 +351,8 @@ void Pebbled_Graph::print_all_verts_with_pebbles() {
 
 
 //     //
-//     std::pair<Edge_Iterator, Edge_Iterator> es = this->g->edges();
-//     for (Edge_Iterator it = es.first; it != es.second; it++)
+//     std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> es = this->in_subgraph->edges();
+//     for (Sg_Edge_Iterator it = es.first; it != es.second; it++)
 //     {
 //         std::pair<Vertex_ID, Vertex_ID> vs_on_e = g->verts_on_edge(it);
 //         Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
@@ -371,8 +391,8 @@ void Pebbled_Graph::print_all_verts_with_pebbles() {
 //             // a flag to prevent repeat work and infinite recursion
 //             std::map<Vertex_ID, bool> seen;
 
-//             std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-//             for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+//             std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = g->vertices();
+//             for (Sg_Vertex_Iterator it = vs.first; it != vs.second; it++)
 //             {
 //                 seen[*it] = false;
 //             }
@@ -423,8 +443,8 @@ void Pebbled_Graph::print_all_verts_with_pebbles() {
 
 
 //     //     // initialize
-//     // std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-//     // for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+//     // std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = g->vertices();
+//     // for (Sg_Vertex_Iterator it = vs.first; it != vs.second; it++)
 //     // {
 //     //     seen[*it] = false;
 //     // }
@@ -478,8 +498,8 @@ unsigned int Pebbled_Graph::num_pebbles_on_vert(Vertex_ID v) {
 void Pebbled_Graph::reset_pebbles() {
     // put all of the pebbles back on their vertex
     pebbles_at_vertex.clear();
-    std::pair<Vertex_Iterator, Vertex_Iterator> vs = this->g->vertices();
-    for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+    std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = this->in_subgraph->vertices();
+    for (Sg_Vertex_Iterator it = vs.first; it != vs.second; it++)
     {
         for (unsigned int i = 0; i < k; i++) {
             pebbles_at_vertex[*it][i] = *it;
@@ -487,7 +507,7 @@ void Pebbled_Graph::reset_pebbles() {
     }
 
     // reset the pebble count
-    _total_pebbles_available = this->k * g->num_vertices();
+    _total_pebbles_available = this->k * in_subgraph->num_vertices();
 }
 
 
@@ -562,8 +582,8 @@ bool Pebbled_Graph::find_pebble(
             continue;
 
         // initialize the seen map
-        // std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-        // for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+        // std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = g->vertices();
+        // for (Sg_Vertex_Iterator it = vs.first; it != vs.second; it++)
         // {
         //     seen[*it] = false;
         // }
@@ -612,6 +632,10 @@ bool Pebbled_Graph::make_pebble_available(
         return false;
 
     // std::cout << "make_pebble_available: 0" <<std::endl;
+
+    // used to reconstruct the path for rearranging. the key is the vertex_ID
+    // the value is the pair of the next vertex_ID in the path and the pebble
+    // used from the original to cover the edge.
     std::map<Vertex_ID, vert_peb> path;
 
 
@@ -663,11 +687,11 @@ bool Pebbled_Graph::make_pebble_available(
 
 // true means the edge was added to the cover
 bool Pebbled_Graph::enlarge_cover(
-    Edge_Iterator e,
+    Edge_ID e,
     Vertex_ID *exclude)
 {
     // initialize
-    std::pair<Vertex_ID, Vertex_ID> vs_on_e = g->verts_on_edge(e);
+    std::pair<Vertex_ID, Vertex_ID> vs_on_e = in_subgraph->verts_on_edge(e);
     Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
 
     if (exclude != NULL && (v1 == *exclude || v2 == *exclude))
@@ -705,7 +729,7 @@ bool Pebbled_Graph::enlarge_cover(
 }
 
 
-// bool Pebbled_Graph::component_enlarge_cover(Edge_Iterator e) {
+// bool Pebbled_Graph::component_enlarge_cover(Sg_Edge_Iterator e) {
 //     std::pair<Vertex_ID, Vertex_ID> vs_on_e = g->verts_on_edge(e);
 //     Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
 
@@ -718,8 +742,8 @@ bool Pebbled_Graph::enlarge_cover(
 //     {
 //         std::map<Vertex_ID, bool> seen;
 
-//         std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-//         for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+//         std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = g->vertices();
+//         for (Sg_Vertex_Iterator it = vs.first; it != vs.second; it++)
 //         {
 //             seen[*it] = false;
 //         }
@@ -736,8 +760,8 @@ bool Pebbled_Graph::enlarge_cover(
 //     {
 //         std::map<Vertex_ID, bool> seen;
 
-//         std::pair<Vertex_Iterator, Vertex_Iterator> vs = g->vertices();
-//         for (Vertex_Iterator it = vs.first; it != vs.second; it++)
+//         std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = g->vertices();
+//         for (Sg_Vertex_Iterator it = vs.first; it != vs.second; it++)
 //         {
 //             seen[*it] = false;
 //         }
@@ -785,8 +809,8 @@ std::map<Vertex_ID, std::set<Vertex_ID> > Pebbled_Graph::inverse_graph() {
     std::map<Vertex_ID, std::set<Vertex_ID> > ret;
 
     // put all of the pebbles on their vertex
-    std::pair<Vertex_Iterator, Vertex_Iterator> vs = this->g->vertices();
-    for (Vertex_Iterator vert = vs.first; vert != vs.second; vert++)
+    std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = this->in_subgraph->vertices();
+    for (Sg_Vertex_Iterator vert = vs.first; vert != vs.second; vert++)
     {
         for (unsigned int i = 0; i < k; i++) {
             Vertex_ID other_vert = pebbles_at_vertex[*vert][i];

@@ -12,6 +12,10 @@ typedef boost::square_topology<>::point_type Point;
 
 
 
+#include <set>
+#include <string>
+
+
 
 struct Graph_Properties { };
 
@@ -87,10 +91,12 @@ public:
     std::pair<Vertex_Iterator, Vertex_Iterator> vertices() const;
     std::pair<Edge_Iterator, Edge_Iterator> edges() const;
 
+    Vertex_Iterator find_vertex(const char *name);
+
     unsigned int num_vertices();
     unsigned int num_edges();
 
-    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_Iterator e);
+    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e);
 
     void set_layout();
 
@@ -100,7 +106,40 @@ public:
 
 
 
-typedef boost::subgraph<Graph> Subgraph_Type;
+// typedef boost::subgraph<Graph> Subgraph_Type;
+
+
+
+typedef std::set<Vertex_ID>::iterator Sg_Vertex_Iterator;
+typedef std::set<Edge_ID>::iterator Sg_Edge_Iterator;
+
+// An induced subgraph of the input graph. Initially empty.
+class Subgraph {
+public:
+    Subgraph(Graph *g);
+
+    void induce(Vertex_Iterator begin, Vertex_Iterator end);
+    void induce(std::set<Vertex_ID> *vertices);
+
+    void add_vertex(Vertex_ID vertex);
+    void remove_vertex(Vertex_ID vertex);
+
+    const Graph* graph();
+    std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vertices();
+    std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> edges();
+
+    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e);
+
+    unsigned int num_vertices();
+    unsigned int num_edges();
+
+    Vertex_Properties& operator[](Vertex_ID vertex);
+private:
+    Graph *_graph;
+
+    std::set<Vertex_ID> _vertices;
+    std::set<Edge_ID> _edges;
+};
 
 
 

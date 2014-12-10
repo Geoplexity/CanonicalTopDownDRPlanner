@@ -37,6 +37,8 @@
 #include <map>
 #include <vector>
 
+// #include <cstring>
+
 
 
 // Graph::Graph(const Graph& other) {
@@ -115,6 +117,18 @@ std::pair<Edge_Iterator, Edge_Iterator> Graph::edges() const {
     return boost::edges(*this);
 }
 
+Vertex_Iterator Graph::find_vertex(const char *name) {
+    Vertex_Iterator v, v_end;
+    for (boost::tie(v, v_end) = this->vertices(); v != v_end; v++) {
+        if ((*this)[*v].name.compare(name) == 0) {
+            return v;
+        }
+    }
+
+    return v_end;
+}
+
+
 unsigned int Graph::num_vertices() {
     return boost::num_vertices(*this);
 }
@@ -123,9 +137,10 @@ unsigned int Graph::num_edges() {
     return boost::num_edges(*this);
 }
 
-std::pair<Vertex_ID, Vertex_ID> Graph::verts_on_edge(Edge_Iterator e) {
-    return std::make_pair(boost::source(*e, *this), boost::target(*e, *this));
+std::pair<Vertex_ID, Vertex_ID> Graph::verts_on_edge(Edge_ID e) {
+    return std::make_pair(boost::source(e, *this), boost::target(e, *this));
 }
+
 
 
 
@@ -433,3 +448,134 @@ void Graph::read_from_file(const char* filename) {
 //   std::cout << "Triangle layout (Kamada-Kawai).\n";
 //   print_graph_layout(g, get(vertex_position, g));
 // }
+
+
+
+
+
+
+
+Subgraph::Subgraph(Graph *g) {
+    _graph = g;
+}
+
+const Graph* Subgraph::graph() {
+    return _graph;
+}
+
+// void Subgraph::induce(Vertex_Iterator begin, Vertex_Iterator end) {
+//     for (Vertex_Iterator v_it = begin; v_it != end; v_it++) {
+//         _vertices.insert(*v_it);
+//     }
+
+
+//     std::pair<Edge_Iterator, Edge_Iterator> es = _graph->edges();
+//     for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++) {
+//         std::pair<Vertex_ID, Vertex_ID> vs = _graph->verts_on_edge(e_it);
+//         if (_vertices.find(vs.first) != _vertices.end()
+//             && _vertices.find(vs.second) != _vertices.end())
+//         {
+//             _edges.insert(*e_it);
+//         }
+//     }
+// }
+
+// void Subgraph::induce(std::set<Vertex_ID> *vertices) {
+//     for (Vertex_Iterator v_it = begin; v_it != end; v_it++) {
+//         _vertices.insert(*v_it);
+//     }
+
+
+//     std::pair<Edge_Iterator, Edge_Iterator> es = _graph->edges();
+//     for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++) {
+//         std::pair<Vertex_ID, Vertex_ID> vs = _graph->verts_on_edge(e_it);
+//         if (_vertices.find(vs.first) != _vertices.end()
+//             && _vertices.find(vs.second) != _vertices.end())
+//         {
+//             _edges.insert(*e_it);
+//         }
+//     }
+// }
+
+void Subgraph::induce(Vertex_Iterator begin, Vertex_Iterator end) {
+    for (Vertex_Iterator v_it = begin; v_it != end; v_it++)
+        add_vertex(*v_it);
+}
+
+void Subgraph::induce(std::set<Vertex_ID> *vertices) {
+    for (std::set<Vertex_ID>::iterator v_it = vertices->begin();
+        v_it != vertices->end(); v_it++)
+    {
+        add_vertex(*v_it);
+    }
+}
+
+void Subgraph::add_vertex(Vertex_ID vertex) {
+    _vertices.insert(vertex);
+
+    boost::graph_traits<Graph>::adjacency_iterator v, v_end;
+    for (boost::tie(v, v_end) = boost::adjacent_vertices(vertex, *_graph);
+        v != v_end; v++)
+    {
+        Edge_ID e = boost::edge(vertex, *v, *_graph).first;
+        _edges.insert(e);
+    }
+}
+
+void Subgraph::remove_vertex(Vertex_ID vertex) {
+    _vertices.erase(vertex);
+
+    boost::graph_traits<Graph>::adjacency_iterator v, v_end;
+    for (boost::tie(v, v_end) = boost::adjacent_vertices(vertex, *_graph);
+        v != v_end; v++)
+    {
+        Edge_ID e = boost::edge(vertex, *v, *_graph).first;
+        _edges.erase(e);
+    }
+}
+
+
+// void Subgraph::add_vertex(Vertex_ID vertex) {
+//     _vertices.insert(vertex);
+
+//     // check all the edges. if they are
+//     boost::graph_traits<Graph>::out_edge_iterator e, e_end;
+//     boost::tie(e, e_end) = boost::out_edges(vertex, *_graph);
+//     for (; e != e_end; e++) {
+//         std::pair<Vertex_ID, Vertex_ID> vs = _graph->verts_on_edge(*e);
+//         Vertex_ID v = (vs.first==vertex)? vs.first: vs.second;
+//         if (_vertices.find(v) != _vertices.end()) {
+//             _edges.insert(*e);
+//         }
+//     }
+// }
+
+
+std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> Subgraph::vertices() {
+    return std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator>(_vertices.begin(), _vertices.end());
+}
+
+std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> Subgraph::edges() {
+    return std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator>(_edges.begin(), _edges.end());
+}
+
+// const std::set<Vertex_ID>* Subgraph::vertices() {return &_vertices; }
+// const std::set<Edge_ID>* Subgraph::edges() {return &_edges; }
+
+std::pair<Vertex_ID, Vertex_ID> Subgraph::verts_on_edge(Edge_ID e) {
+    return _graph->verts_on_edge(e);
+}
+
+
+unsigned int Subgraph::num_vertices() {
+    return _vertices.size();
+}
+
+unsigned int Subgraph::num_edges() {
+    return _edges.size();
+}
+
+
+Vertex_Properties& Subgraph::operator[](Vertex_ID vertex) {
+    return (*_graph)[vertex];
+}
