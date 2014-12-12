@@ -1,0 +1,81 @@
+<CP_Scriptfile>
+  <CPscript title="dodecpl1.xmd">
+<cmd>act 0;infile_read dodecpl1.xmd.p;</cmd>
+<text>Read the file into canvas 0.</text>
+<cmd>repack;layout;disp -w -c;geom_to_e;</cmd>
+<text>Pack the file, draw the circles, and change the geometry to euclidean.</text>
+<cmd>set_aim 1.0 b;set_aim 0.5 22 25 28 34</cmd>
+<text>Set the boundary angles.</text>
+<cmd>gamma 31;repack;fix; disp -w -c -e b; </cmd>
+<text>Repack the file, and draw the circles and the boundary edges.</text>
+<cmd>mark -cw -c a(22,51);disp -w -e m; </cmd>
+<text>Draw the edges corresponding to the tiling.</text>
+
+  </CPscript>
+  <CPdata>
+
+<circlepacking name="dodecpl1.xmd.p">
+
+NODECOUNT: 51
+
+GEOMETRY: hyperbolic
+
+FLOWERS: 
+1 5 37 41 40 39 38 37
+2 5 23 43 42 27 22 23
+3 4 23 24 44 43 23
+4 5 34 35 45 44 24 34
+5 4 42 46 26 27 42
+6 3 42 39 46 42
+7 4 43 38 39 42 43
+8 3 44 38 43 44
+9 4 45 37 38 44 45
+10 3 47 37 45 47
+11 4 35 36 47 45 35
+12 5 26 46 48 33 25 26
+13 4 40 48 46 39 40
+14 3 40 49 48 40
+15 4 41 50 49 40 41
+16 3 51 50 41 51
+17 4 51 41 37 47 51
+18 5 29 51 47 36 28 29
+19 4 48 49 32 33 48
+20 5 32 49 50 30 31 32
+21 4 29 30 50 51 29
+22 2 23 2 27 
+23 4 24 3 43 2 22 
+24 4 34 4 44 3 23 
+25 2 26 12 33 
+26 4 27 5 46 12 25 
+27 4 22 2 42 5 26 
+28 2 29 18 36 
+29 4 30 21 51 18 28 
+30 4 31 20 50 21 29 
+31 2 32 20 30 
+32 4 33 19 49 20 31 
+33 4 25 12 48 19 32 
+34 2 35 4 24 
+35 4 36 11 45 4 34 
+36 4 28 18 47 11 35 
+37 8 38 9 45 10 47 17 41 1 38 
+38 8 39 7 43 8 44 9 37 1 39 
+39 8 40 13 46 6 42 7 38 1 40 
+40 8 41 15 49 14 48 13 39 1 41 
+41 8 37 17 51 16 50 15 40 1 37 
+42 8 43 7 39 6 46 5 27 2 43 
+43 8 23 3 44 8 38 7 42 2 23 
+44 8 24 4 45 9 38 8 43 3 24 
+45 8 35 11 47 10 37 9 44 4 35 
+46 8 42 6 39 13 48 12 26 5 42 
+47 8 45 11 36 18 51 17 37 10 45 
+48 8 46 13 40 14 49 19 33 12 46 
+49 8 40 15 50 20 32 19 48 14 40 
+50 8 41 16 51 21 30 20 49 15 41 
+51 8 41 17 47 18 29 21 50 16 41 
+
+END
+
+  </circlepacking>
+
+ </CPdata>
+</CP_Scriptfile>
