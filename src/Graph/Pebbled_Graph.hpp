@@ -12,13 +12,19 @@
 struct Cluster {
     std::set<Vertex_ID> vertices;
     std::set<Cluster*> children;
-
     // std::set<Edge_ID> edges;
 
-    void add_vertex(Vertex_ID v) {vertices.insert(v);}
-    // void add_edge(Edge_ID e) {edges.insert(e);}
+    bool finished;
 
-    // unsigned int num_edges() {return edges.size();}
+
+    Cluster() {finished = false;}
+
+
+    void add_vertex(Vertex_ID v) {vertices.insert(v);}
+
+    // void finished(bool f) {_finished = f}
+    // bool finished() {return finished;}
+    // void add_edge(Edge_ID e) {edges.insert(e);}
 
     void print_tree(Graph &g, unsigned int tabs = 0);
 };
@@ -35,7 +41,7 @@ public:
     std::set<Cluster*> component_pebble_game_2D(Vertex_ID *exclude = NULL);
 
     // If optimal is false, you find completeDRP
-    std::set<Cluster*> DRP_2D(bool optimalDRP = true);
+    Cluster DRP_2D(bool optimalDRP = true);
 
 
 private:
@@ -76,6 +82,16 @@ private:
         vert_peb() {}
         vert_peb(Vertex_ID v, unsigned int p) {vertex = v; pebble = p;}
     };
+
+
+    std::set<Cluster*> _DRP_2D_aux(
+        Cluster* known_cluster,
+        bool optimalDRP);
+
+    std::set<Cluster*> _DRP_2D_linear_aux(
+        Cluster* known_cluster,
+        bool optimalDRP);
+
 
 
 

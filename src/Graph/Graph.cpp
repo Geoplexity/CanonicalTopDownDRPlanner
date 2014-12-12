@@ -561,6 +561,21 @@ std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> Subgraph::edges() {
     return std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator>(_edges.begin(), _edges.end());
 }
 
+std::set<Vertex_ID> Subgraph::vertices_adjacent(std::set<Vertex_ID> &v_set) {
+    std::set<Vertex_ID> ret;
+    for (std::set<Vertex_ID>::iterator set_v = v_set.begin(); set_v != v_set.end(); set_v++) {
+        boost::graph_traits<Graph>::adjacency_iterator v, v_end;
+        for (boost::tie(v, v_end) = boost::adjacent_vertices(*set_v, *_graph);
+            v != v_end; v++)
+        {
+            ret.insert(*v);
+        }
+    }
+
+    return ret;
+}
+
+
 // const std::set<Vertex_ID>* Subgraph::vertices() {return &_vertices; }
 // const std::set<Edge_ID>* Subgraph::edges() {return &_edges; }
 

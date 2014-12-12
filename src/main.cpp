@@ -112,45 +112,6 @@ void do_font_stuff() {
 
 
 
-Graph set_up_graph() {
-    Graph g;
-
-    vector<Vertex_ID> v;
-    for (int i = 0; i < 10; i++) {
-        v.push_back(g.add_vertex());
-    }
-
-    g.add_edge(v[0], v[4], 1);
-    g.add_edge(v[1], v[4], 1);
-    g.add_edge(v[2], v[4], 1);
-    g.add_edge(v[3], v[4], 1);
-    g.add_edge(v[0], v[1], 1);
-    g.add_edge(v[1], v[3], 1);
-    g.add_edge(v[2], v[3], 1);
-    g.add_edge(v[4], v[5], 1);
-    g.add_edge(v[5], v[6], 1);
-    g.add_edge(v[6], v[7], 1);
-    g.add_edge(v[7], v[8], 1);
-    g.add_edge(v[8], v[9], 1);
-    g.add_edge(v[9], v[3], 1);
-    g.add_edge(v[6], v[2], 1);
-    g.add_edge(v[5], v[8], 1);
-
-
-    // // Perform a topological sort.
-    // std::deque<int> topo_order;
-    // boost::topological_sort(g, std::front_inserter(topo_order));
-
-    // // Print the results.
-    // for(std::deque<int>::const_iterator i = topo_order.begin();
-    //     i != topo_order.end();
-    //     ++i)
-    // {
-    //     cout << tasks[v] << endl;
-    // }
-
-    return g;
-}
 
 
 
@@ -343,12 +304,7 @@ int main(int argc, char **argv) {
 
         Pebbled_Graph pg(&sg);
 
-        Cluster c;
-        std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> sgvs = sg.vertices();
-        for (Sg_Vertex_Iterator v_it = sgvs.first; v_it != sgvs.second; v_it++)
-            c.add_vertex(*v_it);
-
-        c.children = pg.DRP_2D();
+        Cluster c = pg.DRP_2D();
         c.print_tree(g);
     } else if (runtime_option == 1) {
         Pebbled_Graph pg(&g);
