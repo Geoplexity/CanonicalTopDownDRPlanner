@@ -128,6 +128,8 @@ public:
     std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vertices();
     std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> edges();
 
+    std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set);
+
     std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e);
 
     unsigned int num_vertices();
