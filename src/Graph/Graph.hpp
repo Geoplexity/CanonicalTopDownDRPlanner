@@ -99,6 +99,7 @@ public:
     std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e) const;
 
     void set_layout();
+    void get_graph_in_range(float x_min, float x_max, float y_min, float y_max);
 
     void write_to_file(const char* filename);
     void read_from_file(const char* filename);

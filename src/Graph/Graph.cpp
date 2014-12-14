@@ -172,17 +172,50 @@ void Graph::set_layout() {
 
 
     Vertex_Iterator i, end;
-    boost::tie(i, end) = this->vertices();
+    for (boost::tie(i, end) = this->vertices(); i != end; i++) {
+        (*this)[*i].x = vp_map[*i][0];
+        (*this)[*i].y = vp_map[*i][1];
+    }
+}
+
+
+// TODO: Potentially scale edge length
+void Graph::get_graph_in_range(float x_min, float x_max, float y_min, float y_max) {
+    // Vertex_Iterator v, v_end;
+    // boost::tie(v, v_end) = vertices();
+
+    // float
+    //     min_x_seen = (*this)[*v].x,
+    //     max_x_seen = (*this)[*v].x,
+    //     min_y_seen = (*this)[*v].y,
+    //     max_y_seen = (*this)[*v].y;
+
+    // v++;
+    // for (; v != v_end; v++) {
+    //     float v_x = (*this)[*v].x, v_y = (*this)[*v].y;
+    //     if ()
+    //     add_vertex(*v_it);
+    // }
+
+    float
+        del_x = x_max - x_min,
+        del_y = y_max - y_min;
+
+
+
+
+    Vertex_Iterator v, end;
+    boost::tie(v, end) = this->vertices();
     double
-        maxx = vp_map[*i][0],
-        minx = vp_map[*i][0],
-        maxy = vp_map[*i][1],
-        miny = vp_map[*i][1];
+        maxx = (*this)[*v].x,
+        minx = (*this)[*v].x,
+        maxy = (*this)[*v].y,
+        miny = (*this)[*v].y;
     double centerx=0, centery=0;
 
-    for (; i != end; i++) {
-        double x = vp_map[*i][0];
-        double y = vp_map[*i][1];
+    for (; v != end; v++) {
+        double x = (*this)[*v].x;
+        double y = (*this)[*v].y;
 
         centerx += x; centery += y;
 
@@ -203,10 +236,18 @@ void Graph::set_layout() {
     // std::cout << maxx << minx << std::endl;
     // std::cout << maxy << miny << std::endl;
 
-    double diffx, diffy;
-    diffx = (maxx > -minx)? maxx: -minx;
-    diffy = (maxy > -miny)? maxy: -miny;
-    double diff = (diffx > diffy)? diffx: diffy;
+    double
+        diff_x = (maxx > -minx)? maxx: -minx,
+        diff_y = (maxy > -miny)? maxy: -miny,
+        scale_x = del_x/2/diff_x,
+        scale_y = del_y/2/diff_y,
+        // scale_x = diff_x/del_x/2,
+        // scale_y = diff_y/del_y/2,
+        scale = (scale_x < scale_y)? scale_x: scale_y;
+    // diffx ;
+    // diffy;
+
+    // double diff = (del_x/2/diffx < del_y/2/diffy)? del_x/2/diffx: del_y/2/diffy;
 
     // double diffx = maxx-minx, diffy = maxy-miny;
     // double diff = (diffx > diffy)? diffx/2.0: diffy/2.0;
@@ -216,18 +257,12 @@ void Graph::set_layout() {
 
 
     // TODO: this is a hueristic to prevent node from hanging off the edge of display
-    diff /= .9;
+    // diff /= .9;
 
 
-    for (boost::tie(i, end) = this->vertices(); i != end; i++) {
-        double x = vp_map[*i][0];
-        double y = vp_map[*i][1];
-
-        (*this)[*i].x = (x - centerx)/diff;
-        (*this)[*i].y = (y - centery)/diff;
-
-        // std::cout << "X: " << (*this)[*i].x << " Y: " << (*this)[*i].y << std::endl;
-
+    for (boost::tie(v, end) = this->vertices(); v != end; v++) {
+        (*this)[*v].x = ((*this)[*v].x - centerx) * scale;
+        (*this)[*v].y = ((*this)[*v].y - centery) * scale;
     }
 }
 
@@ -240,12 +275,17 @@ void Graph::write_to_file(const char* filename) {
 // #include <boost/graph/property_maps/null_property_map.hpp>
 void Graph::read_from_file(const char* filename) {
     boost::dynamic_properties dp;
-    // boost::property_map<Graph_Type, std::string Vertex_Properties::*>::type name = ;
-    // boost::property_map<Graph_Type, double Vertex_Properties::*>::type name = boost::get(&Vertex_Properties::name, *this);
-    // boost::make_null_property<Vertex_ID, std::string>
+
+    // vertex properties
     dp.property("node_id", boost::get(&Vertex_Properties::name, *this));
+    // boost::make_null_property<Vertex_ID, std::string>
+    dp.property("x", boost::get(&Vertex_Properties::x, *this));
+    dp.property("y", boost::get(&Vertex_Properties::y, *this));
+
+    // edge properties
     dp.property("length", boost::get(&Edge_Properties::length, *this));
 
+    // read in
     std::ifstream f(filename);
     boost::read_graphviz(f, *this, dp);
 }

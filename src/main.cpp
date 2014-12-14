@@ -187,14 +187,18 @@ void display_graph(Window &wind, Graph &g) {
 
 
 
-
+enum runtime_options {
+    ro_drp_2d,
+    ro_display_realized_graph,
+    ro_test
+};
 
 
 
 int main(int argc, char **argv) {
     string dot_file = "test_files/test.dot";
 
-    int runtime_option = 0;
+    runtime_options runtime_option = ro_drp_2d;
 
     // handle command-line arguments
     for (int i = 1; i < argc; i++) {
@@ -230,11 +234,11 @@ int main(int argc, char **argv) {
 
         else if (!flag.compare("-opt")) {
             if (!val.compare("0")) {
-                runtime_option = 0;
+                runtime_option = ro_drp_2d;
             } else if (!val.compare("1")) {
-                runtime_option = 1;
+                runtime_option = ro_display_realized_graph;
             } else if (!val.compare("2")) {
-                runtime_option = 2;
+                runtime_option = ro_test;
             } else {
                 cerr << "Invalid value for flag " << flag << "." << endl;
                 return 0;
@@ -257,21 +261,21 @@ int main(int argc, char **argv) {
     }
 
 
-    // Graph g = set_up_graph();
-    // g.write_to_file("test.dot");
-
+    // read in
     Graph g;
     g.read_from_file(dot_file.c_str());
 
-    Graph copy(g);
-    copy.write_to_file("test_files/out.dot");
+    // // test output
+    // Graph copy(g);
+    // copy.write_to_file("test_files/out.dot");
 
-
-    g.set_layout();
-
-    // Subgraph_Type sg;
-    // sg.read_from_file(dot_file.c_str());
-
+    // get layout... x/y coords
+    if (runtime_option != ro_display_realized_graph) {
+        g.set_layout();
+        g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+    } else {
+        g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+    }
 
 
     MainGuiManager mgm;
@@ -290,29 +294,31 @@ int main(int argc, char **argv) {
 
 
 
-    if (runtime_option == 0) {
+    if (runtime_option == ro_drp_2d) {
+        cout << "Running DRP_2D on \"" << dot_file << "\"." << endl;
 
         Subgraph sg(&g);
         std::pair<Vertex_Iterator, Vertex_Iterator> vs = g.vertices();
         sg.induce(vs.first, vs.second);
 
         // sg.remove_vertex(*(g.find_vertex("7")));
-        // sg.remove_vertex(*(g.find_vertex("8")));
-        // sg.remove_vertex(*(g.find_vertex("9")));
-        // sg.remove_vertex(*(g.find_vertex("10")));
 
 
         Pebbled_Graph pg(&sg);
 
         Cluster c = pg.DRP_2D();
         c.print_tree(g);
-    } else if (runtime_option == 1) {
-        Pebbled_Graph pg(&g);
-        pg.component_pebble_game_2D();
-    } else if (runtime_option == 2) {
-        Pebbled_Graph pg(&g);
-        int pebbles_remaining = pg.pebble_game_2D();
-        cout << "Pebbles remaining: " << pebbles_remaining << endl;
+    } else if (runtime_option == ro_display_realized_graph) {
+        cout << "Displaying realized graph \"" << dot_file << "\"." << endl;
+
+        Subgraph sg(&g);
+        std::pair<Vertex_Iterator, Vertex_Iterator> vs = g.vertices();
+        sg.induce(vs.first, vs.second);
+        Pebbled_Graph pg(&sg);
+
+        cout << "Pebbles remaining: " << pg.pebble_game_2D() << endl;
+    } else if (runtime_option == ro_test) {
+        cout << "Nothing." << endl;
     }
 
 
