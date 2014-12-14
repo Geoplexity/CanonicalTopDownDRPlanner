@@ -1,0 +1,70 @@
+\section{Problem Pinning}
+
+We can use DR plans to help in solving questions in designs for graphene and silica bilayers (\textcolor{red}{Add Citation}). Specifically, we will look into the problem when you have a monolayer and it is underconstrained. To make this thing isostatic, there are a few methods we can apply. 
+
+\begin{itemize}
+    \item Pin together 2 underconstrained monolayers in such a way that the resulting bilayer becomes isostatic.
+    \item Pin the boundary in such a way that the resulting system is isostatic.
+    \item Apply a self-similarity constraint and essentially wrap the monolayer and pin it to itself (pin one edge to another in certain places)
+\end{itemize}
+
+In each case, we are specifically interested in how to pin these things so that the resultiing structure also has a small DR plan.
+
+\subsection{Body-Pin}
+
+To answer these questions, we first restrict ourselves to a specific case of Body-Pin networks such that:
+
+\begin{itemize}
+    \item Each pin is shared by at most 2 bodies
+    \item No 2 bodies share more than one pin 
+\end{itemize}
+
+Such a body-pin system can also be seen as a {\em body-bar system} where the bodies are the original bodies and each pin represents 2 edges from one body to another. Then, such a system is sparse iff its body-bar system is $(3,3)$-tight (\textcolor{red}{cite needed?}). The goal is to take a general underconstrained graph and add in some number of bodies and pins to make it well-constrained with as small of a DR plan as possible.
+
+\begin{theorem}
+\label{thm:34tight}
+    $(3,4)$-tight is equivalent to 1 dof for these body bar systems. 
+\end{theorem}  
+
+\begin{proof}
+    The follows because $(3,3)$-tightness is isostatic.
+\end{proof}
+
+\begin{theorem}
+    We can get a canonical DR plan using $(3,4)$-tightness and $(3,5)$ tighness as a condition exactly like we have been doing for wellconstrained.
+\end{theorem}
+
+\begin{proof}
+    It was shown in \cite{XX} that $(3,4)$ and $(3,5)$ tight graphs are matroidal and have a pebble game analog. Thus, we can use similar techniques to find such maximal subgraphs and obtain a similar DR plan as the well-constrained case.
+\end{proof}
+
+Suppose we are given a body pin system $G$ and have obtained the DR plan guaranteed by Theorem \ref{thm:34tight} for $G$, denoted $T$. Each node of $T$ will then be a vertex maximal proper 1 dof subgraph of $G$. To make the entire graph wellconstrained, we can add a body and pin it to a node $b$ in $T$ such that the body is pinned to 2 separate children of $b$. We can do this easily by considering this theorem.
+
+\begin{theorem}
+    Each node of $T$ will fall into one of the following
+    \begin{enumerate}
+        \item Its children will be 2 proper vertex maximal 1 dof graphs that intersect on a nontrivial 1 dof subgraph
+        \item Its children will be a number of proper maximal 1 dof subgraphs, joined pairwise by at most one pin  
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \textcolor{red}{Item 1 Follows from paper?}
+
+    For item 2, consider the case where we have more than 2 proper vertex maximal 1 dof subgraphs $s_1, ..., s_k, k > 2$. Then, if $k_i$ and $k_j$ are joined by $2$ pins, $k_i \Cup k_j$ would be $(3,4)$ tight and hence $k_i$ and $k_j$ are not vertex maximal
+\end{proof}
+
+Thus, the body we need to add to $v$ must be pinned to 2 separate children of $v$. Doing so will ensure the following
+
+\begin{itemize}
+    \item All children of $b$ will remain 1 dof
+    \item All ancestors of $b$ (including $b$) will now be wellconstrained
+\end{itemize}
+
+Then, we can form a valid wellconstrained DR plan $T_b$ from $T$. In $T_b$, $b$'s children are now all of the leaf nodes of the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $w$'s children will be the node that leads to $b$, denoted $b'$, along with all of the other leaf nodes in the tree rooted at $w$ excluding $b'$. Then, for any node $b$ that we choose, $T_b$ is a valid DR plan. Thus, if we want to minimize the size of our DR plan, we simply need to take the $b$ that has the $T_b$ of smallest size. Running this algorithm in a brute force fashion is quadratic in the number of bodies of our given body-pin system.
+
+\begin{theorem}
+\label{thm:35tight}
+
+\end{theorem}
+
