@@ -211,13 +211,13 @@ void Graph::get_graph_in_range(float x_min, float x_max, float y_min, float y_ma
         minx = (*this)[*v].x,
         maxy = (*this)[*v].y,
         miny = (*this)[*v].y;
-    double centerx=0, centery=0;
+    // double centerx=0, centery=0;
 
     for (; v != end; v++) {
         double x = (*this)[*v].x;
         double y = (*this)[*v].y;
 
-        centerx += x; centery += y;
+        // centerx += x; centery += y;
 
         maxx = (x > maxx)? x: maxx;
         maxy = (y > maxy)? y: maxy;
@@ -227,38 +227,26 @@ void Graph::get_graph_in_range(float x_min, float x_max, float y_min, float y_ma
     }
 
 
-    centerx /= this->num_vertices();
-    centery /= this->num_vertices();
+    // centerx /= this->num_vertices();
+    // centery /= this->num_vertices();
+
+    // maxx -= centerx; minx -= centerx;
+    // maxy -= centery; miny -= centery;
+
+    double
+        centerx = minx + (maxx - minx)/2,
+        centery = miny + (maxy - miny)/2;
 
     maxx -= centerx; minx -= centerx;
     maxy -= centery; miny -= centery;
 
-    // std::cout << maxx << minx << std::endl;
-    // std::cout << maxy << miny << std::endl;
 
     double
         diff_x = (maxx > -minx)? maxx: -minx,
         diff_y = (maxy > -miny)? maxy: -miny,
         scale_x = del_x/2/diff_x,
         scale_y = del_y/2/diff_y,
-        // scale_x = diff_x/del_x/2,
-        // scale_y = diff_y/del_y/2,
         scale = (scale_x < scale_y)? scale_x: scale_y;
-    // diffx ;
-    // diffy;
-
-    // double diff = (del_x/2/diffx < del_y/2/diffy)? del_x/2/diffx: del_y/2/diffy;
-
-    // double diffx = maxx-minx, diffy = maxy-miny;
-    // double diff = (diffx > diffy)? diffx/2.0: diffy/2.0;
-
-    // std::cout << "Diff: " << diff << std::endl;
-
-
-
-    // TODO: this is a hueristic to prevent node from hanging off the edge of display
-    // diff /= .9;
-
 
     for (boost::tie(v, end) = this->vertices(); v != end; v++) {
         (*this)[*v].x = ((*this)[*v].x - centerx) * scale;
