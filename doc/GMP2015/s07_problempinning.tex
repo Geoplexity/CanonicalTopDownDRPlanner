@@ -1,6 +1,6 @@
 \section{Problem Pinning}
 
-We can use DR plans to help in solving questions in designs for graphene and silica bilayers (\textcolor{red}{Add Citation}). Specifically, we will look into the problem when you have a monolayer and it is underconstrained. To make this thing isostatic, there are a few methods we can apply. 
+We can use DR plans to help in solving questions in designs for graphene and silica bilayers (\todo{Add Citation}). Specifically, we will look into the problem when you have a monolayer and it is underconstrained. To make this thing isostatic, there are a few methods we can apply.
 
 \begin{itemize}
     \item Pin together 2 underconstrained monolayers in such a way that the resulting bilayer becomes isostatic.
@@ -26,28 +26,28 @@ To answer these questions, we first inroduce the structures we model the problem
     We can replace each body that has only one pin by a single vertex. A body with 2 pins can be replaced by an edge. A body with 3 pins can be replaced by a triangle. In general, a body with $n$ pins can be replaced by a 2-tree on $n$ vertices. When looking for a DR plan, we treat each body as trivial, so they become the leaves of our plan.
 \end{proof}
 
-In this section we will go over 2 subclasses of multi-body-pin qusecs for modeling Examples 4 and 5 in Section \ref{intro}. 
+In this section we will go over 2 subclasses of multi-body-pin qusecs for modeling Examples 4 and 5 in Section \ref{intro}.
 
-\begin{defintion}
+\begin{definition}
     A body-pin qusec is a multi-body-pin qusec with the following conditions:
     \begin{itemize}
         \item Each pin is shared by at most 2 bodies
-        \item No 2 bodies share more than one pin 
+        \item No 2 bodies share more than one pin
     \end{itemize}
     Such a body-pin qusec can also be seen as a {\em body-bar qusec} where the bodies are the original bodies and each pin represents 2 bars from one body to another. For such body-bar qusecs, graphs with 1 and 2 dofs can be characterized by being $(3,4)$ and $(3,5)$ tight respectively.
-\end{defintion}
+\end{definition}
 
 \begin{definition}
-    A multi-triangle-pin qusec is a multi-body-pin qusec where each body is a triangle, meaning it is pinned in at most 3 places. This is also represented as a hyper qusec where each pin is a vertex and each triangle represents a tri-hyperedge. For such hyper qusecs, 1 and 2 dofs can be characterized by $(2,4)$ and $(2,5)$ tightness respectively. 
+    A multi-triangle-pin qusec is a multi-body-pin qusec where each body is a triangle, meaning it is pinned in at most 3 places. This is also represented as a hyper qusec where each pin is a vertex and each triangle represents a tri-hyperedge. For such hyper qusecs, 1 and 2 dofs can be characterized by $(2,4)$ and $(2,5)$ tightness respectively.
 \end{definition}
 
 Body-pin qusecs are of particular interest to us in the context of Example 4 in \ref{intro}. Multi-triangle-pin qusec can be used to reprsent the silica bi-layers described in Example 5 of \ref{intro}, where each triangle is the junction of ``disks''. Typically, these systems are not isostatic, so to relate the work of this paper to the systems, we define a slightly different kind of DR plan:
 
-\begin{defnition}
-    A $(k,l)$ tight DR plan is one in which each child node is either a vertex maximal proper $(k,l)$ tight subgraph of the parent node or it is trivial. In our case, the trivial nodes are just the bodies. 
-\end{defnition}
+\begin{definition}
+    A $(k,l)$ tight DR plan is one in which each child node is either a vertex maximal proper $(k,l)$ tight subgraph of the parent node or it is trivial. In our case, the trivial nodes are just the bodies.
+\end{definition}
 
-We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness conditions similar to the way we did in Section \ref{dr}. 
+We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness conditions similar to the way we did in Section \ref{dr}.
 
 \begin{remark}
 \label{rem:1dofcanon}
@@ -55,13 +55,13 @@ We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness c
 
     \begin{itemize}
         \item Its children will be 2 proper vertex maximal 1 dof graphs that intersect on a single body
-        \item Its children will be a number of proper maximal 1 dof subgraphs, joined pairwise by at most one pin  
+        \item Its children will be a number of proper maximal 1 dof subgraphs, joined pairwise by at most one pin
     \end{itemize}
 \end{remark}
 
 \begin{proof}
-    \textcolor{red}{Item 1 Follows from paper?}
-    
+    \todo{Item 1 Follows from paper?}
+
     For item 2, consider the case where we have more than 2 proper vertex maximal 1 dof subgraphs $s_1, ..., s_k, k > 2$. Then, if $k_i$ and $k_j$ are joined by $2$ pins, $k_i \Cup k_j$ would be $(3,4)$ tight and hence $k_i$ and $k_j$ are not vertex maximal.
 \end{proof}
 

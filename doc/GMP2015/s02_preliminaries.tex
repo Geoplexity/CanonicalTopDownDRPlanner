@@ -1,11 +1,20 @@
-\section{Preliminaries}
+\section{Preliminaries}\label{prelim}
 
 \subsection{Definitions}
 
 % TODO
 
-% A paragraph of preliminaries such as rigidity matrix R, stress vectors S one coordinate per edge (w/ SR =E (external stress vector, 2 coordinates  per vertex)); flex vectors F (2 coordinates per vertex) (right nullspace/kernel of R) should precede the definition of independent, overconstrained (not independent), rigid (contains an independent set with sufficiently many eedges/constraints) isostatic (wellconstrained/minimally rigid), , flexible (not rigid), underconstrained (independent and not rigid).
-
+% A paragraph of preliminaries such as:
+%     - rigidity matrix R,
+%     - stress vectors S one coordinate per edge (w/ SR =E (external stress vector, 2 coordinates  per vertex));
+%     - flex vectors F (2 coordinates per vertex) (right nullspace/kernel of R)
+% Should precede the definition of
+%     + independent,
+%     + overconstrained (not independent),
+%     - rigid (contains an independent set with sufficiently many eedges/constraints)
+%     - isostatic (wellconstrained/minimally rigid), ,
+%     - flexible (not rigid),
+%     + underconstrained (independent and not rigid).
 % After that, define DR plans etc.
 
 
@@ -21,15 +30,27 @@
 \end{definition}
 
 \begin{definition}
-    A graph is \textbf{independent} (or \textbf{sparse}) if \todo{define}.
+    A graph is \textbf{independent} (or \textbf{sparse}) if, given constant $k$, for all non-trivial subgraphs $S\subseteq G$, $d(S) \leq k$.
 \end{definition}
 
-\begin{definition}
-    A graph is \textbf{over-constrained} if, given constant $k$, there exists some induced subgraph $S\subseteq G$ such that $d(S) > k$.
-\end{definition}
+% \begin{definition}
+%     A graph is \textbf{over-constrained} if, given constant $k$, there exists some
+%     % induced
+%     subgraph $S\subseteq G$ such that $d(S) > k$.
+% \end{definition}
 
 \begin{definition}
-    A graph is \textbf{well-constrained} if, given constant $k$, $d(G) = k$ and for all induced subgraphs $S\subseteq G$, (1) $d(S)\leq k$, or (2) given a set of trivial graphs $T$, $S$ is isomorphic to one of the graphs in $T$ (i.e.\ $S$ is trivial).
+    A graph is \textbf{over-constrained} if it is not independent.
+\end{definition}
+
+% \begin{definition}
+%     A graph is \textbf{well-constrained} if, given constant $k$, $d(G) = k$ and for all
+%     % induced
+%     subgraphs $S\subseteq G$, (1) $d(S)\leq k$, or (2) given a set of trivial graphs $T$, $S$ is isomorphic to one of the graphs in $T$ (i.e.\ $S$ is trivial).
+% \end{definition}
+
+\begin{definition}
+    A graph is \textbf{well-constrained} (or \textbf{tight}) if, given constant $k$, $G$ is independent and $d(G)=k$.
 \end{definition}
 
 \begin{definition}
@@ -37,7 +58,7 @@
 \end{definition}
 
 \begin{definition}
-    A graph is \textbf{under-constrained} if, given constant $k$, $G$ is not rigid.
+    A graph is \textbf{under-constrained} if $G$ is independent and not rigid.
 \end{definition}
 
 \begin{definition}
@@ -50,7 +71,7 @@
     The \textbf{decomposition-recombination (DR-) plan} of graph $G$, $DRP(G)$, is defined as a tree that has the following properties:
     \begin{enumerate}
         \item The root of the tree `contains' $G$.
-        \item For all nodes, $C$, that `contain' nontrivial graphs, its $N$ children, $C_1, \ldots, C_N$, are trivial or well-constrained vertex-maximal proper subgraphs of that node $C$.
+        \item For all nodes, $C$, that `contain' non-trivial graphs, its $N$ children, $C_1, \ldots, C_N$, are trivial or well-constrained vertex-maximal proper subgraphs of that node $C$.
         \item The vertex set of $\bigcup_{i=1}^N{C_i}$ is the vertex set of $C$.
         \item A node with a trivial subgraph is a leaf.
     \end{enumerate}
