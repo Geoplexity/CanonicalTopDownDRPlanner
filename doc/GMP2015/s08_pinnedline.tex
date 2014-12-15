@@ -1,22 +1,23 @@
 \section{Application: finding optimal DR-plans and realizations for cross-linking microfibrils }
+\label{sec:pinnedline}
 
 The optimal qusecs DR-plan can also be applied to analyze and solve
 the structure of  cross-linking microfibrils in collagen and cellulose in biology,
 by modeling these structures as {\em pinned line incidence systems}.
 
-{\em Collagen} is an important protein material in biological tissues with highly elastic mechanical property. 
-{\em Cellulose} is the most important constituent of the cell wall of plants (see Figure~\ref{fig:cellulose}). 
+{\em Collagen} is an important protein material in biological tissues with highly elastic mechanical property.
+{\em Cellulose} is the most important constituent of the cell wall of plants (see Figure~\ref{fig:cellulose}).
 Both of these substances consist of a large number {\em microfibrils},
 %fibril itself straight?
 %Each fibril is attached to some fixed larger organelle/membrane at one spot (typically on the boundary).
-%It is additionally 
-each of which is cross-linked at 2 places with some two other fibrils, 
-where the {\em  cross-linking} is like an incidence constraint that 
+%It is additionally
+each of which is cross-linked at 2 places with some two other fibrils,
+where the {\em  cross-linking} is like an incidence constraint that
 the two crosslinked fibrils can slide with each other  \cite{xxx} (see Figure~\ref{fig:crosslink}).
 
 %Collagen
 %
-%layers of microfibril with cross-linking??? 
+%layers of microfibril with cross-linking???
 %
 %
 %- different cross-linking densities
@@ -45,7 +46,7 @@ the two crosslinked fibrils can slide with each other  \cite{xxx} (see Figure~\r
   \caption{}
   \label{fig:crosslink}
 \end{subfigure}%
-\caption{(a) Microfibrils of carboxymethylated nanocellulose adsorbed on a silica surface~\cite{xxx}. (b) Cross-linking of cellulose microfibrils~\cite{xxx}.} 
+\caption{(a) Microfibrils of carboxymethylated nanocellulose adsorbed on a silica surface~\cite{xxx}. (b) Cross-linking of cellulose microfibrils~\cite{xxx}.}
 \end{figure}
 
 
@@ -57,53 +58,53 @@ the two crosslinked fibrils can slide with each other  \cite{xxx} (see Figure~\r
 
 
 
-The cross-linking  microfibrils can be modeled as a 2-dimensional pinned line incidence constraint system, 
-where incidence constraints are used instead of distance constraints. 
+The cross-linking  microfibrils can be modeled as a 2-dimensional pinned line incidence constraint system,
+where incidence constraints are used instead of distance constraints.
 
 
 \begin{definition} %[2-Dimensional Pinned Line Incidence Graph] \label{prob:pinned_subspace}
-A  graph $G=(V,E, w_V, w_E)$ is a \textbf{2-dimensional pinned line incidence graph}, 
+A  graph $G=(V,E, w_V, w_E)$ is a \textbf{2-dimensional pinned line incidence graph},
 if  $w_V(v) = 2, w_E(e) = 1$ for all $v \in V, e \in E$, and
 there is  a  set $X$ of $|E|$ \textbf{pins} with fixed positions in $\mathbb{R}^2$,
-such that  %every edge $e \in E$ corresponds to a pin $x \in X$ where 
+such that  %every edge $e \in E$ corresponds to a pin $x \in X$ where
 for each edge $e \in E$, there is a uniquely corresponding pin $x \in X$,
 such that $e$ is constrained to lie on a line passing through $x$.
 %There exists a set $X$ of $|E|$ pins fixed in $\mathbb{R}^2$, such that each edge $e_i$
 
-%Let $X$ be a  set of $m$ pins that are fixed in $\mathbb{R}^2$, and $V$ be the index set of a set of vertices. 
-%For every pin $x \in X$, we are also given the indices of two vertices $v_1,v_2$ in $V$, 
-%such that the line (edge) spanned by $v_1$ and $v_2$ must pass through $x$. 
+%Let $X$ be a  set of $m$ pins that are fixed in $\mathbb{R}^2$, and $V$ be the index set of a set of vertices.
+%For every pin $x \in X$, we are also given the indices of two vertices $v_1,v_2$ in $V$,
+%such that the line (edge) spanned by $v_1$ and $v_2$ must pass through $x$.
 % % % % % % % % % % % % % % % % % % %
-%Find any such set of points $P$ satisfying the given incidences. 
-%For every pin $x\in X$, we are also given a line $\supp{x}$, %of %a set of $s$-dimensional subspaces passing through 
-%i.e, a size-two index subset of an unknown set of points $D = \{v_1,\ldots,v_n\}$ in $\mathbb{R}^2$, %$P = \{p_1,\ldots, p_n \}$, 
-%such that  $x_i$ lies on the line spanned by $\supp{x}$. 
-%%assume additionally that  
+%Find any such set of points $P$ satisfying the given incidences.
+%For every pin $x\in X$, we are also given a line $\supp{x}$, %of %a set of $s$-dimensional subspaces passing through
+%i.e, a size-two index subset of an unknown set of points $D = \{v_1,\ldots,v_n\}$ in $\mathbb{R}^2$, %$P = \{p_1,\ldots, p_n \}$,
+%such that  $x_i$ lies on the line spanned by $\supp{x}$.
+%%assume additionally that
 %%no $s$ pins lie on any single subspace defined by one of the above hyperedges.
-%Find any such set D %$P[X]$ 
+%Find any such set D %$P[X]$
 %that satisfies the given subspace incidences. % specified by $\supp[P]{x}$.%$\{S_i\}$. % on $P[X]$ and $X$.
 \end{definition}
 
 \begin{remark}
-For 2-dimensional pinned line incidence graphs, 
+For 2-dimensional pinned line incidence graphs,
 the constant $k$ used in the definition of independence and rigidity is $0$  \cite{xxx} (see Definition~\ref{xxx}--\ref{xxx}).
 \end{remark}
 
 
 
-In the case of microfibril cross-linking, each fibril is 
+In the case of microfibril cross-linking, each fibril is
 attached to some fixed larger organelle/membrane at one spot.
-Consequently, each fibril can be modeled as an edge of the graph, 
-with the attachment being the corresponding pin in $X$. 
-The two cross-linkings on the fibril are modeled as the two vertices in $V$ defining the edge. 
-%so it can be modeled as an edge/line segment incident at a pin in $X$. 
-%For cross-linking density 2, 
-%i.e.\ each fibril has two cross-linkings with other fibrils, 
+Consequently, each fibril can be modeled as an edge of the graph,
+with the attachment being the corresponding pin in $X$.
+The two cross-linkings on the fibril are modeled as the two vertices in $V$ defining the edge.
+%so it can be modeled as an edge/line segment incident at a pin in $X$.
+%For cross-linking density 2,
+%i.e.\ each fibril has two cross-linkings with other fibrils,
 %The cross-linkings can be modeled as vertices in $V$.
 
 
-Figure~\ref{fig:pinned_line} shows an example of a 2-dimensional pinned line incidence graph, 
-where the grey ovals stand for pins representing attachments of fibrils, 
+Figure~\ref{fig:pinned_line} shows an example of a 2-dimensional pinned line incidence graph,
+where the grey ovals stand for pins representing attachments of fibrils,
 and the vertices $a_1,a_2,\ldots, d_3$ represent cross-linkings.
 % and the black dots stand for vertices/cross-linkings.
 %There are  and 10 vertices/cross-linkings in the graph.
@@ -111,7 +112,7 @@ The graph is well-constrained, with 12 vertices and 24 edges/pins.
 
 \begin{figure}
   \centering
-  \includegraphics[width=.9\linewidth]{img/pinned}
+  % \includegraphics[width=.9\linewidth]{img/pinned}
 \caption{ A well-constrained pinned line incidence graph.}
 \label{fig:pinned_line}
 \end{figure}
@@ -121,14 +122,14 @@ The graph is well-constrained, with 12 vertices and 24 edges/pins.
 
 %Recall the definitions in Section~\ref{priliminary}.
 
-In this section, we will adapt the results in Section~\ref{dr}
+In this section, we will adapt the results in Section~\ref{sec:DRP}
 to give the Optimal DR-plan for 2-dimensional pinned line incidence graphs.
 First, we note the following differences of pinned line incidence graphs from the bar-joint graphs.
 
 \begin{itemize}
 
-\item For pinned line incidence graphs, 
-since the pins in $X$ have fixed positions on the plane, 
+\item For pinned line incidence graphs,
+since the pins in $X$ have fixed positions on the plane,
 o trivial motion exists, therefore {\em no trivial over-constrained graphs exist} (the smallest over-constrained graph has $6$ vertices).\\
 In particular, note that both a single vertex and a single edge are under-constrained graphs.
 
@@ -136,19 +137,19 @@ In particular, note that both a single vertex and a single edge are under-constr
 %\todo{Both a single vertex and a single edge are underconstrained}
 %\begin{itemize}
 %%\item For  pinned line incidence graphs:
-%%no trivial motion exists since the pins have fixed locations. 
-%\item 
+%%no trivial motion exists since the pins have fixed locations.
+%\item
 %\todo{We just define the %trivial graph/
 %DR-plan leaves for 2-dimensional pinned line incidence graphs to be single vertices...  }
 %\item \todo{A single edge can be a node of the DR-plan}
 %\end{itemize}
 
-\item 
-For pinned line incidence graphs, 
-since the pins in $X$ have fixed positions on the plane, 
-{\em a well-constrained vertex-maximal proper subgraph can be disconnected}, 
+\item
+For pinned line incidence graphs,
+since the pins in $X$ have fixed positions on the plane,
+{\em a well-constrained vertex-maximal proper subgraph can be disconnected},
 being the disjoint union of two or more well-constrained subgraphs. \\
-%Without loss of generality, 
+%Without loss of generality,
 %we slightly modify the requirement of DR-plan for pinned line incidence graphs
 %such that only connected subgraphs can be considered as a node of the DR-plan.
 
@@ -159,7 +160,7 @@ We make  a few corresponding modifications to the definition of the DR-plan:
 %\begin{itemize}
 %\item For any $C$, its $N$ children, $C_1, \ldots, C_N$, are {\em edges} or {\em connected} well-constrained vertex-maximal proper subgraphs of that node $C$.
 %\item A node containing a single edge is a leaf.
-%%\item 
+%%\item
 %%\todo{We just define the %trivial graph/
 %%DR-plan leaves for 2-dimensional pinned line incidence graphs to be single vertices...  }
 %%\item \todo{A single edge can be a node of the DR-plan}
@@ -179,8 +180,8 @@ We make  a few corresponding modifications to the definition of the DR-plan:
 \end{definition}
 
 
-With the above modification, 
-we now adapt Theorem~\ref{t1} %, the optimal DR-plan for 2-dimensional bar-joint graphs,
+With the above modification,
+we now adapt Theorem~\ref{theorem:main} %, the optimal DR-plan for 2-dimensional bar-joint graphs,
 for the optimal DR-plan for 2-dimensional pinned line incidence graphs.
 
 
@@ -193,22 +194,22 @@ Given a well-constrained 2-dimensional pinned line incidence graph, for node $C$
 \label{cor:pinned}
 \end{corollary}
 
-The following lemma serves a similar function to Lemma~\ref{t-l1}--\ref{iuc-l1} in Section~\ref{sec:union_intersection} 
-%Using similar counting-based argument, %  to Lemma~\ref{t-l1}--\ref{iuc-l1} in Section~\ref{sec:union_intersection}, 
+The following lemma serves a similar function to Lemma~\ref{lemma:union_intersection} in Section~\ref{sec:union_intersection}
+%Using similar counting-based argument, %  to Lemma~\ref{t-l1}--\ref{iuc-l1} in Section~\ref{sec:union_intersection},
 and can be proved using a similar counting based argument.
 
 
 \begin{lemma}
 \label{lem:pinned_union_intersection}
-Let $F_i$ and $F_j$ to be subgraphs of the same well-constrained graph $F$, 
-where each of them can be either  a single edge or a connected well-constrained subgraph. 
-There are only two possible cases: 
+Let $F_i$ and $F_j$ to be subgraphs of the same well-constrained graph $F$,
+where each of them can be either  a single edge or a connected well-constrained subgraph.
+There are only two possible cases:
 \begin{itemize}
-\item At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is under-constrained, if and only if $F_i \cap F_j$ is a vertex. 
-\item Both $F_i$ and $F_j$ are well-constrained, if and only if $F_i \cup F_j$ is well-constrained, if and only if $F_i \cap F_j$ is well-constrained. 
+\item At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is under-constrained, if and only if $F_i \cap F_j$ is a vertex.
+\item Both $F_i$ and $F_j$ are well-constrained, if and only if $F_i \cup F_j$ is well-constrained, if and only if $F_i \cap F_j$ is well-constrained.
 \end{itemize}
 
-%The following table summarizes all bijections: 
+%The following table summarizes all bijections:
 %\setlength{\tabcolsep}{3pt}
 %{\small
 %\begin{center}
@@ -229,42 +230,42 @@ There are only two possible cases:
 %The proof of Lemma~\ref{lem:pinned_union_intersection} is similar to the proofs of Lemma~\ref{t-l1}--\ref{iuc-l1}.
 
 %\begin{lemma}
-%Let $F_j$ and $F_j$ be well-constrained subgraphs of the same well-constrained graph $F$. 
+%Let $F_j$ and $F_j$ be well-constrained subgraphs of the same well-constrained graph $F$.
 %Both $F_i \cup F_j$ and $F_i \cap F_j$ can only be well-constrained.
 %\end{lemma}
 %
 %\begin{proof}
 %\begin{enumerate}
 %\item Obviously $F_i \cup F_j$ cannot be over-constrained since it is a subgraph of well-constrained graph $F$.
-%\item $F_i \cup F_j$ cannot be under-constrained, otherwise $F_i \cap F_j$ would be over-constrained while there are no trivial over-constrained graphs. 
+%\item $F_i \cup F_j$ cannot be under-constrained, otherwise $F_i \cap F_j$ would be over-constrained while there are no trivial over-constrained graphs.
 %\item The only remaining case is that $F_i \cup F_j$ is well-constrained, which is true if and only if $F_i \cap F_j$ is well-constrained.
 %\end{enumerate}
 %\end{proof}
 
-Proofs of Lemma~\ref{wc-l2} and \ref{wc-c1} straightforwardly extend to 2-dimensional pinned line incidence graphs 
+Proofs of Lemma~\ref{lemma:wc_intersection_is_C} and \ref{corollary:no_edges_between_diff} straightforwardly extend to 2-dimensional pinned line incidence graphs
 given Lemma~\ref{lem:pinned_union_intersection} and the modified definition of DR-plan.
-Now we  show that Lemma~\ref{wc-l3} also holds. 
+Now we  show that Lemma~\ref{lemma:wc_intersection_makes_all_wc} also holds.
 
-\begin{proof}[Proof of Lemma~\ref{wc-l3} for 2D pinned line incidence graphs]
-We use the same notations as in the original proof of Lemma~\ref{wc-l3} in Section~\ref{sec:infer_parent}.
+\begin{proof}[Proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for 2D pinned line incidence graphs]
+We use the same notations as in the original proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} in Section~\ref{sec:infer_parent}.
 
-First notice that since $C_i \cup C_j$ is well-constrained, by Lemma~\ref{lem:pinned_union_intersection}, 
+First notice that since $C_i \cup C_j$ is well-constrained, by Lemma~\ref{lem:pinned_union_intersection},
 both $C_i$ and $C_j$ are connected well-constrained vertex-maximal proper subgraphs of  $C$.
 Since $C_j \cup C_j = C$, there are no edges in $C$ that is not contained in a well-constrained subgraph, so $C$ does not have any single-edge child node, and $C_k$ is a connected well-constrained vertex-maximal proper subgraph of  $C$.
 
 Then we analyze all the possible cases for $C_k$.
 \begin{itemize}
 %    \item 4 cases: $C_k$ cannot be $Idc(C,R_i\cup R_j)$, $Idc(C,R'_i\cup R_j)$, $Idc(C,R_i\cup R'_j)$, or $Idc(C,R'_i\cup R'_j)$ because these are all disconnected (Corollary~\ref{wc-c1}) and by our modified requirement of DR-plan nodes.
-    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D_{i,j})$ is not possible. Since $C_k\cup C_i = Idc(C,R'_i\cup R_j\cup D_{i,j})\neq C$ we have from Lemma \ref{wc-l2} that $C_k\cup C_i$ cannot be well-constrained. 
-    By Lemma~\ref{lem:pinned_union_intersection}, it must be under-constrained, 
+    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D_{i,j})$ is not possible. Since $C_k\cup C_i = Idc(C,R'_i\cup R_j\cup D_{i,j})\neq C$ we have from Lemma \ref{lemma:wc_intersection_is_C} that $C_k\cup C_i$ cannot be well-constrained.
+    By Lemma~\ref{lem:pinned_union_intersection}, it must be under-constrained,
     so one of $C_i$ and $C_k$ must be an edge, contradicting the assumption that both $C_i$ and $C_k$ are well-constrained.
 %    We also know it cannot be trivial because it contains well-constrained subgraphs. This means it must be under-constrained. From Lemma \ref{uc-l1}, we know that $C_k\cap C_i=Idc(C,R'_j\cup D_{i,j})$ must then be trivial. This is impossible because $D_{i,j}$ is well-constrained, thereby contradicting the assumption that $C_k$ is well-constrained.
 
-    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D'_{i,j})$ is not possible. The proof is similar to the previous case.  
+    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D'_{i,j})$ is not possible. The proof is similar to the previous case.
 %    union with $C_i$ (or $C_j$) is not equal to $C$. Therefore, the union must be under-constrained which means the intersection must be trivial (a single node). However, $C_k\cap C_i=Idc(C,R'_j\cup D'_{i,j})$ and since $R'_j$ and $D'_{i,j}$ are not empty sets, it cannot be trivial making a contradiction.
 
-    \item 2 cases: $C_k=Idc(C,R'_i\cup R_j\cup D'_{i,j})$ and $C_k=Idc(C,R_i\cup R'_j\cup D'_{i,j})$ are not possible. 
-    The proof is similar to the previous case.  
+    \item 2 cases: $C_k=Idc(C,R'_i\cup R_j\cup D'_{i,j})$ and $C_k=Idc(C,R_i\cup R'_j\cup D'_{i,j})$ are not possible.
+    The proof is similar to the previous case.
     %The proof mirrors the previous case, except you must choose $C_i$ and $C_j$, respectively, here.
 \end{itemize}
 
@@ -274,22 +275,22 @@ All the remaining cases are similar to the original proof.
 
 %How theorems go through when only considering connected rigidity components
 
-The following lemma serves as Lemma~\ref{uc-l2} for pinned line incidence and can be proved similarly.
+The following lemma serves as Lemma~\ref{lemma:uc_intersection_makes_all_uc} for pinned line incidence and can be proved similarly.
 \begin{lemma}
 \label{lem:vertex_intersection}
 If $C_i\cap C_j$ is a single vertex, then $\forall k: C_i\cap C_k$ is a single vertex.
 \end{lemma}
 
-Given Lemma~\ref{wc-l3} and Lemma~\ref{lem:vertex_intersection}, 
-it is straightforward to adapt the proof of Theorem~\ref{uc-t1} and \ref{wc-t1} 
+Given Lemma~\ref{lemma:wc_intersection_makes_all_wc} and Lemma~\ref{lem:vertex_intersection},
+it is straightforward to adapt the proof of Theorem~\ref{theorem:main_trivial} and \ref{theorem:main_wellconstrained}
 to  2-dimensional pinned line incidence graphs,
-thus proving Corollary~\ref{cor:pinned}. 
+thus proving Corollary~\ref{cor:pinned}.
 Consequently, we can efficiently find the optimal DR-plan for 2-dimensional pinned line incidence graphs using basically the same algorithm as for 2-dimensional bar-joint graphs.
 %we can analyze microfibril cross-linkings by finding the optimal DR-plan for  2-dimensional pinned line incidence graphs in the same way as for 2-dimensional bar-joint graphs.
 
 %TODO ???
-The recombination problem for 2-dimensional pinned line incidence systems is trivial. 
-Since the pins are given fixed positions in the plane, 
-once we get a solution a well-constrained sub-system, 
-the solution will automatically be consistent with the remaining of the system. 
- 
+The recombination problem for 2-dimensional pinned line incidence systems is trivial.
+Since the pins are given fixed positions in the plane,
+once we get a solution a well-constrained sub-system,
+the solution will automatically be consistent with the remaining of the system.
+

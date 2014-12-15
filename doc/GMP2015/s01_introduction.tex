@@ -1,5 +1,5 @@
 \section{Introduction}
-\label{sec:prev}
+\label{sec:intro}
 
 Some properties of natural and engineered materials can be analyzed  by
 treating them as stacked two dimensional (2D) layers.
@@ -13,7 +13,7 @@ it consists of multiple,
 inter-constraining planar (genus 0) monolayers.
 Furthermore, a layer is often  either
 {\sl isostatic or underconstrained, not
-self-stressed} (See Section \ref{prelim} for definitions).
+self-stressed} (See Section \ref{sec:prelim} for definitions).
 These properties are
 consistent with a self-assembled 2D structure that minimizes mass,
 optimally distributes external stresses and itself
@@ -59,9 +59,9 @@ with desired properties.
 \subsection{Previous Work on Relevant 2D Geometric Constraint Systems} We
 now briefly survey existing techniques for studying 2D {\em qusecs,}  many
 of which are {\it bar-joint} systems (Examples 1,2 above, see Sections
-\ref{dr}, \ref{recomb}),
-{\it multibody-pin} systems (Example 4,5, see Section \ref{app}) or  {\it
-pinned-line incidence} systems (Example 3, see Section \ref{app}). The
+\ref{sec:DRP}, \ref{sec:recomb}),
+{\it multibody-pin} systems (Example 4,5, see Section \ref{sec:bodypin}) or  {\it
+pinned-line incidence} systems (Example 3, see Section \ref{sec:pinnedline}). The
 limitations of these techniques directly motivate
 the contributions of this paper.
 
@@ -124,27 +124,38 @@ no such algorithm is known for the latter criterion.
 
 \medskip\noindent\underbar{{\sl (iv) Optimal Recombination and Solution
 Space Navigation}}
-For fairly general 3D constraint systems, there are algorithms with formal
-guarantees that
-solve the parent (sub)systems that occur in the DR-plan \cite{XX, XX,XX},
-provided the DR-plan meets some of the above criteria.
-These algorithms  uncover underlying matroids to combinatorially optimize
-the algebraic complexity of (re)combining child system solutions,
-and algebraically solve the optimized recombination system to give a
+For the entire DR-plan, finding all
+desired solutions is barely tractable even if recombination
+of solved subsystems is easy for each indecomposable parent system in the
+DR-plan.
+This is because even for the simplest, highly decomposable systems
+with small DR-plans, the problem of finding even a single
+solution to the input system at the root of the DR-plan
+is NP-hard \cite{XX} and there is a
+combinatorial explosion of solutions \cite{XX}. Typically, however,
+the desired solution has a given orientation type, in which case,
+the crux of the difficulty is concentrated in the algebraic complexity of
+(re)combining child system solutions, to give a
 solution to the parent system at any
 given level of the DR-plan.
+For fairly general 3D constraint systems,
+there are algorithms with formal
+guarantees that uncover underlying matroids to combinatorially
+obtain an optimal parameterization to minimize the algebraic
+complexity of the indecomposable parent (sub)systems that occur in the
+DR-plan \cite{XX, XX,XX},
+provided the DR-plan meets some of the abovementioned criteria.
 
 However, the generality of these algorithms
 trades-off against efficiency, and despite the optimization,
 the best algorithms can still take
-exponential time in the number of child subsystems in order to guarantee
-all solutions even for a single (sub)system in a DR-plan. They
-are prohibitively slow in practice. For the entire DR-plan, finding all
-solutions is barely tractable even with fast recombination algorithms for
-the subsystems in the DR-plan. This is because even for the simplest
-systems, the problem is NP-hard \cite{XX} and there is a
-combinatorial explosion of solutions \cite{XX}.  Using the DR-plan and
-optimal recombination as a principled basis, high performance software
+exponential time in the number of child subsystems (which can be arbitrarily
+large even for optimal DR-plans) in order to guarantee
+all solutions of a given orientation type,
+even for a single (sub)system in a DR-plan. They
+are prohibitively slow in practice. We note that utilizing the DR-plan and
+optimal recombination as a principled basis, high performance heuristics
+and software
 exists \cite{XX,XX} to
 tame combinatorial explosion via user intervention.
 
@@ -182,25 +193,28 @@ optimal DR-plans by defining a
 so-called {\it canonical} DR-plan and showing a strong Church-Rosser
 property: {\it all canonical DR-plans for isostatic or
 underconstrained
-2D qusecs are optimal} (Section \ref{dr}).
+2D qusecs are optimal} (Section \ref{sec:DRP}).
 \item
 We give an efficient ($O(n^2)$) algorithm to find a canonical (and hence
 optimal) DR-plan for all 3 types of 2D qusecs mentioned above (Sections
-\ref{dr} and \ref{app}.
+\ref{sec:DRP}, \ref{sec:bodypin}, and \ref{sec:pinnedline}.
 The canonical DR-plan
 illuminates the essence of the NP-hardness of finding optimal DR-plans for
 overconstrained systems.
 \item
-We show reductions between different well-known problems related to
-realization or solution by
-recombining the realizations or solutions of subsystems (at any given level
-of the DR-plan). Example problems include optimal completion of
-underconstrained  systems  \cite{XX}, and optimal parametrization in
-isostatic systems \cite{XX}). When completions and parametrizations are
-given from certain well-known classes, we obtain new,
-efficient algorithms for realizing both isostatic and underconstrained
+We give a method to deal with the
+algebraic complexity of recombining the realizations or
+solutions of  child subsystems into a solution of the parent system.
+Specifically, we define the problem of  minimally modifying the
+indecomposable recombination system so that it becomes decomposable via a
+ small DR-plan and yet preserves the original
+solutions in an efficiently searchable manner. We show formal connection
+to well known problems such as optimal completion of
+underconstrained  systems  \cite{XX}.  When the required modifications
+are bounded, we obtain new, efficient algorithms for
+realizing both isostatic and underconstrained
 qusecs by leveraging recent results about Cayley parameters in
-\cite{XX,XX}  (Section \ref{recomb}).
+\cite{XX,XX}  (Section \ref{sec:recomb}).
 \item
 We briefly describe applications of the above techniques to modeling,
 analyzing and designing specific properties in 2D material layers.

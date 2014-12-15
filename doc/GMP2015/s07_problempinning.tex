@@ -1,4 +1,5 @@
 \section{Problem Pinning}
+\label{sec:bodypin}
 
 We can use DR plans to help in solving questions in designs for graphene and silica bilayers (\todo{Add Citation}). Specifically, we will look into the problem when you have a monolayer and it is underconstrained. To make this thing isostatic, there are a few methods we can apply.
 
@@ -19,14 +20,14 @@ To answer these questions, we first inroduce the structures we model the problem
 \end{definition}
 
 \begin{remark}
-    A multi-body-pin qusec is a special case of bar-joint qusecs that we have been studying. As such, the DR planning discussed in Sections \ref{dr} and \ref{recomb} will still go through.
+    A multi-body-pin qusec is a special case of bar-joint qusecs that we have been studying. As such, the DR planning discussed in Sections \ref{sec:DRP} and \ref{sec:recomb} will still go through.
 \end{remark}
 
 \begin{proof}
     We can replace each body that has only one pin by a single vertex. A body with 2 pins can be replaced by an edge. A body with 3 pins can be replaced by a triangle. In general, a body with $n$ pins can be replaced by a 2-tree on $n$ vertices. When looking for a DR plan, we treat each body as trivial, so they become the leaves of our plan.
 \end{proof}
 
-In this section we will go over 2 subclasses of multi-body-pin qusecs for modeling Examples 4 and 5 in Section \ref{intro}.
+In this section we will go over 2 subclasses of multi-body-pin qusecs for modeling Examples 4 and 5 in Section \ref{sec:intro}.
 
 \begin{definition}
     A body-pin qusec is a multi-body-pin qusec with the following conditions:
@@ -41,13 +42,13 @@ In this section we will go over 2 subclasses of multi-body-pin qusecs for modeli
     A multi-triangle-pin qusec is a multi-body-pin qusec where each body is a triangle, meaning it is pinned in at most 3 places. This is also represented as a hyper qusec where each pin is a vertex and each triangle represents a tri-hyperedge. For such hyper qusecs, 1 and 2 dofs can be characterized by $(2,4)$ and $(2,5)$ tightness respectively.
 \end{definition}
 
-Body-pin qusecs are of particular interest to us in the context of Example 4 in \ref{intro}. Multi-triangle-pin qusec can be used to reprsent the silica bi-layers described in Example 5 of \ref{intro}, where each triangle is the junction of ``disks''. Typically, these systems are not isostatic, so to relate the work of this paper to the systems, we define a slightly different kind of DR plan:
+Body-pin qusecs are of particular interest to us in the context of Example 4 in \ref{sec:intro}. Multi-triangle-pin qusec can be used to reprsent the silica bi-layers described in Example 5 of \ref{sec:intro}, where each triangle is the junction of ``disks''. Typically, these systems are not isostatic, so to relate the work of this paper to the systems, we define a slightly different kind of DR plan:
 
 \begin{definition}
     A $(k,l)$ tight DR plan is one in which each child node is either a vertex maximal proper $(k,l)$ tight subgraph of the parent node or it is trivial. In our case, the trivial nodes are just the bodies.
 \end{definition}
 
-We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness conditions similar to the way we did in Section \ref{dr}.
+We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness conditions similar to the way we did in Section \ref{sec:DRP}.
 
 \begin{remark}
 \label{rem:1dofcanon}
@@ -66,11 +67,11 @@ We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness c
 \end{proof}
 
 \begin{remark}
-    All $(k,l)$ tight canonical DR plans are optimal. We can find such a DR plan in the same time complexity as the $(2,3)$ tight case for bar and joint qusecs discussed in Section \ref{dr}.
+    All $(k,l)$ tight canonical DR plans are optimal. We can find such a DR plan in the same time complexity as the $(2,3)$ tight case for bar and joint qusecs discussed in Section \ref{sec:DRP}.
 \end{remark}
 
 \begin{theorem}
-    There is a quadratic algorithm for the 1 dof and 2 dof optimal completion problem of Seciton \ref{recomb} for body-pin and multi-triangle-pin qusecs.
+    There is a quadratic algorithm for the 1 dof and 2 dof optimal completion problem of Seciton \ref{sec:recomb} for body-pin and multi-triangle-pin qusecs.
 \end{theorem}
 
 \begin{proof}
