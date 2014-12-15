@@ -119,7 +119,7 @@ and the constant $k = 0$ \cite{xxxx}.
 %In other words, a pinned line incidence graph is well-constrained if $2|V| = |E|$ and $2|V'| \le |E'|$ for all induced non-trivial subgraphs $S=(V',E') \subseteq G$. 
 
 \item 
-\todo{Trivial graphs (must be overconstrained in the original definition) does not exist??? }\
+\todo{Over-constrained trivial subgraphs does not exist??? }\
 \todo{Both a single vertex and a single edge are underconstrained}
 \begin{itemize}
 
@@ -161,13 +161,25 @@ Given a well-constrained 2-dimensional pinned line incidence graph, for node $C$
 \label{cor:pinned}
 \end{corollary}
 
-\todo{All Lemmas before Lemma 8 are proved with respect to general constraint systems,
-and they go through for 2-dimensional pinned line incidence as well (without trivial graph??). }
+%\todo{All Lemmas before Lemma 8 are proved with respect to general constraint systems,
+%and they go through for 2-dimensional pinned line incidence as well (without trivial graph??). }
+Lemmas similar to Lemma 2--5 hold for 2-dimensional pinned line incidence graphs.
 
+\begin{lemma}
+Let $F_j$ and $F_j$ be well-constrained subgraphs of the same well-constrained graph $F$. 
+ $F_i \cup F_j$ can only be well-constrained.
+\end{lemma}
 
+\begin{proof}
+\begin{enumerate}
+\item Obviously $F_i \cup F_j$ cannot be over-constrained since it is a subgraph of well-constrained graph $F$.
+\item $F_i \cup F_j$ cannot be under-constrained, otherwise $F_i \cap F_j$ would be over-constrained while there are no trivial over-constrained graphs. 
+\item The only remaining case is that $F_i \cup F_j$ is well-constrained, which is true if and only if $F_i \cap F_j$ is well-constrained.
+\end{enumerate}
+\end{proof}
 
-
-Now we  show that Lemma 8 also holds for 2-dimensional pinned line incidence graphs. 
+Lemma 6 and 7 straightforwardly holds for 2-dimensional pinned line incidence graphs. 
+Now we  show that Lemma 8 also holds. 
 
 \begin{proof}[Proof of Lemma~\ref{wc-l3} for 2D pinned line incidence graphs]
 We use the same notations as in the proof of Lemma~\ref{wc-c1} in Section~\ref{xxx}.
