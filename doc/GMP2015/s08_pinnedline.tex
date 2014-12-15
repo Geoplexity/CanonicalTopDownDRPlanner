@@ -11,7 +11,7 @@ Both of these substances consist of a large number microfibrils,
 %It is additionally 
 each of which is cross-linked at 2 places with some two other fibrils, 
 where the cross-linking is like an incidence constraint that 
-the two crosslinked fibrils can slide with each other (see Figure~\ref{fig:cross-linking}(a). ).
+the two crosslinked fibrils can slide with each other (see Figure~\ref{fig:cross-linking}(a)).
 
 %Collagen
 %
@@ -49,9 +49,8 @@ The cross-linking of microfibrils can be modeled using 2-dimensional pinned line
 %TODO system? problem?
 \begin{definition} [2-Dimensional Pinned Line Incidence Graph] \label{prob:pinned_subspace}
 A simple graph $G=(V,E)$ is a 2-dimensional pinned line incidence graph, 
-if there is  a  set $X$ of $|E|$ pins with fixed positions in $\mathbb{R}^2$.
-such that 
- every edge $e \in E$ corresponds to a pin $x \in X$ where $e$ is constrained to lie on a line passing through $x$.
+if there is  a  set $X$ of $|E|$ pins with fixed positions in $\mathbb{R}^2$,
+such that  every edge $e \in E$ corresponds to a pin $x \in X$ where $e$ is constrained to lie on a line passing through $x$.
 %There exists a set $X$ of $|E|$ pins fixed in $\mathbb{R}^2$, such that each edge $e_i$
 
 %Let $X$ be a  set of $m$ pins that are fixed in $\mathbb{R}^2$, and $V$ be the index set of a set of vertices. 
@@ -129,7 +128,8 @@ no trivial motion exists since the pins have fixed locations.
 
 
 \item 
-\todo{We just define the trivial graph/DR-plan leaf for 2-dimensional pinned line incidence graphs to be a single vertex.  }
+\todo{We just define the %trivial graph/
+DR-plan leaves for 2-dimensional pinned line incidence graphs to be single vertices...  }
 
 \item \todo{A single edge can be a node of the DR-plan}
 
@@ -162,7 +162,11 @@ Given a well-constrained 2-dimensional pinned line incidence graph, for node $C$
 \end{corollary}
 
 \todo{All Lemmas before Lemma 8 are proved with respect to general constraint systems,
-and they go through for 2-dimensional pinned line incidence as well. }
+and they go through for 2-dimensional pinned line incidence as well (without trivial graph??). }
+
+
+
+
 Now we  show that Lemma 8 also holds for 2-dimensional pinned line incidence graphs. 
 
 \begin{proof}[Proof of Lemma~\ref{wc-l3} for 2D pinned line incidence graphs]
