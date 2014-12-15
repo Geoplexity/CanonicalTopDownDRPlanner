@@ -42,3 +42,28 @@ Since $D_{i,j}\subset C_i, C_j$ it means that $C_k\cup C_i = C_k \cup C_j = C$, 
 
 \todo{Need a figure?}
 \end{proof}
+
+\subsection{Section \ref{sec:pinnedline} -- proof of {\sffamily \textbf{Lemma \ref{lemma:wc_intersection_makes_all_wc}}} for  2-dimensional pinned line incidence graphs }
+\label{sec:appendix_pinned}
+
+\begin{proof} %[Proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for 2D pinned line incidence graphs]
+We use the same notations as in the original proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} in the last section.  
+
+First notice that since $C_i \cup C_j$ is well-constrained, by Lemma~\ref{lem:pinned_union_intersection},
+both $C_i$ and $C_j$ are connected well-constrained vertex-maximal proper subgraphs of  $C$.
+Since $C_j \cup C_j = C$, there are no edges in $C$ that is not contained in a well-constrained subgraph, so $C$ does not have any single-edge child node, and $C_k$ is a connected well-constrained vertex-maximal proper subgraph of  $C$.
+
+Then we analyze all the possible cases for $C_k$.
+\begin{itemize}
+    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D_{i,j})$ is not possible. Since $C_k\cup C_i = Idc(C,R'_i\cup R_j\cup D_{i,j})\neq C$ we have from Lemma \ref{lemma:wc_intersection_is_C} that $C_k\cup C_i$ cannot be well-constrained.
+    By Lemma~\ref{lem:pinned_union_intersection}, it must be under-constrained,
+    so one of $C_i$ and $C_k$ must be an edge, contradicting the assumption that both $C_i$ and $C_k$ are well-constrained.
+
+    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D'_{i,j})$ is not possible. The proof is similar to the previous case.
+
+    \item 2 cases: $C_k=Idc(C,R'_i\cup R_j\cup D'_{i,j})$ and $C_k=Idc(C,R_i\cup R'_j\cup D'_{i,j})$ are not possible.
+    The proof is similar to the previous case.
+\end{itemize}
+
+All remaining cases are similar to the original proof.
+\end{proof}

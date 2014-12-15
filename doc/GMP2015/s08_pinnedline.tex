@@ -61,11 +61,11 @@ the two crosslinked fibrils can slide with each other  \cite{xxx} (see Figure~\r
 The cross-linking  microfibrils can be modeled as a 2-dimensional pinned line incidence constraint system,
 where incidence constraints are used instead of distance constraints.
 
-
-\begin{definition} %[2-Dimensional Pinned Line Incidence Graph] \label{prob:pinned_subspace}
-A  graph $G=(V,E, w_V, w_E)$ is a \textbf{2-dimensional pinned line incidence graph},
-if  $w_V(v) = 2, w_E(e) = 1$ for all $v \in V, e \in E$, and
-there is  a  set $X$ of $|E|$ \textbf{pins} with fixed positions in $\mathbb{R}^2$,
+%[2-Dimensional Pinned Line Incidence Graph] \label{prob:pinned_subspace}
+A \textbf{2-dimensional pinned line incidence graph}  $G=(V,E, w_V, w_E)$ 
+%is a \textbf{2-dimensional pinned line incidence graph},
+ has weight functions $w_V(v) = 2, w_E(e) = 1$ for all $v \in V, e \in E$.
+Additionally, there is  a  set $X$ of $|E|$ \textbf{pins} with fixed positions in $\mathbb{R}^2$,
 such that  %every edge $e \in E$ corresponds to a pin $x \in X$ where
 for each edge $e \in E$, there is a uniquely corresponding pin $x \in X$,
 such that $e$ is constrained to lie on a line passing through $x$.
@@ -83,11 +83,10 @@ such that $e$ is constrained to lie on a line passing through $x$.
 %%no $s$ pins lie on any single subspace defined by one of the above hyperedges.
 %Find any such set D %$P[X]$
 %that satisfies the given subspace incidences. % specified by $\supp[P]{x}$.%$\{S_i\}$. % on $P[X]$ and $X$.
-\end{definition}
 
 \begin{remark}
 For 2-dimensional pinned line incidence graphs,
-the constant $k$ used in the definition of independence and rigidity is $0$  \cite{xxx} (see Definition~\ref{xxx}--\ref{xxx}).
+the constant $k$ used in the definition of independence and rigidity is $0$  \cite{xxx} (see Section~\ref{sec:prelim_defs}).
 \end{remark}
 
 
@@ -97,10 +96,7 @@ attached to some fixed larger organelle/membrane at one spot.
 Consequently, each fibril can be modeled as an edge of the graph,
 with the attachment being the corresponding pin in $X$.
 The two cross-linkings on the fibril are modeled as the two vertices in $V$ defining the edge.
-%so it can be modeled as an edge/line segment incident at a pin in $X$.
-%For cross-linking density 2,
-%i.e.\ each fibril has two cross-linkings with other fibrils,
-%The cross-linkings can be modeled as vertices in $V$.
+
 
 
 Figure~\ref{fig:pinned_line} shows an example of a 2-dimensional pinned line incidence graph,
@@ -112,8 +108,8 @@ The graph is well-constrained, with 12 vertices and 24 edges/pins.
 
 \begin{figure}
   \centering
-  % \includegraphics[width=.9\linewidth]{img/pinned}
-\caption{ A well-constrained pinned line incidence graph.}
+   \includegraphics[width=.9\linewidth]{img/pinned}
+\caption{ A well-constrained 2-dimensional pinned line incidence graph.}
 \label{fig:pinned_line}
 \end{figure}
 
@@ -173,7 +169,7 @@ We make  a few corresponding modifications to the definition of the DR-plan:
 %    The \textbf{decomposition-recombination (DR-) plan} of  a 2-dimensional pinned line incidence graph $G$, $DRP(G)$, is  a tree that has the following properties:
     \begin{enumerate}
         %\item The root of the tree `contains' $G$.
-        \item[2] For any node $C$, each of its children, $C_1,\ldots,C_N$, is either an edge not contained in any well-constrained proper subgraph of $C$, or a {\em connected} well-constrained vertex-maximal proper subgraph of  $C$.
+        \item[2] For any non-leaf node $C$, each of its children, $C_1,\ldots,C_N$, is either an edge not contained in any well-constrained proper subgraph of $C$, or a {\em connected} well-constrained vertex-maximal proper subgraph of  $C$.
         %\item The vertex set of $\bigcup_{i=1}^N{C_i}$ is the vertex set of $C$.
         \item[4] A node containing a single edge is a leaf.
     \end{enumerate}
@@ -208,7 +204,6 @@ There are only two possible cases:
 \item At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is under-constrained, if and only if $F_i \cap F_j$ is a vertex.
 \item Both $F_i$ and $F_j$ are well-constrained, if and only if $F_i \cup F_j$ is well-constrained, if and only if $F_i \cap F_j$ is well-constrained.
 \end{itemize}
-
 %The following table summarizes all bijections:
 %\setlength{\tabcolsep}{3pt}
 %{\small
@@ -224,57 +219,12 @@ There are only two possible cases:
 %\end{center}
 %}
 %\setlength{\tabcolsep}{6pt}
-
 \end{lemma}
 
-%The proof of Lemma~\ref{lem:pinned_union_intersection} is similar to the proofs of Lemma~\ref{t-l1}--\ref{iuc-l1}.
-
-%\begin{lemma}
-%Let $F_j$ and $F_j$ be well-constrained subgraphs of the same well-constrained graph $F$.
-%Both $F_i \cup F_j$ and $F_i \cap F_j$ can only be well-constrained.
-%\end{lemma}
-%
-%\begin{proof}
-%\begin{enumerate}
-%\item Obviously $F_i \cup F_j$ cannot be over-constrained since it is a subgraph of well-constrained graph $F$.
-%\item $F_i \cup F_j$ cannot be under-constrained, otherwise $F_i \cap F_j$ would be over-constrained while there are no trivial over-constrained graphs.
-%\item The only remaining case is that $F_i \cup F_j$ is well-constrained, which is true if and only if $F_i \cap F_j$ is well-constrained.
-%\end{enumerate}
-%\end{proof}
-
-Proofs of Lemma~\ref{lemma:wc_intersection_is_C} and \ref{corollary:no_edges_between_diff} straightforwardly extend to 2-dimensional pinned line incidence graphs
-given Lemma~\ref{lem:pinned_union_intersection} and the modified definition of DR-plan.
-Now we  show that Lemma~\ref{lemma:wc_intersection_makes_all_wc} also holds.
-
-\begin{proof}[Proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for 2D pinned line incidence graphs]
-We use the same notations as in the original proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} in Section~\ref{sec:infer_parent}.
-
-First notice that since $C_i \cup C_j$ is well-constrained, by Lemma~\ref{lem:pinned_union_intersection},
-both $C_i$ and $C_j$ are connected well-constrained vertex-maximal proper subgraphs of  $C$.
-Since $C_j \cup C_j = C$, there are no edges in $C$ that is not contained in a well-constrained subgraph, so $C$ does not have any single-edge child node, and $C_k$ is a connected well-constrained vertex-maximal proper subgraph of  $C$.
-
-Then we analyze all the possible cases for $C_k$.
-\begin{itemize}
-%    \item 4 cases: $C_k$ cannot be $Idc(C,R_i\cup R_j)$, $Idc(C,R'_i\cup R_j)$, $Idc(C,R_i\cup R'_j)$, or $Idc(C,R'_i\cup R'_j)$ because these are all disconnected (Corollary~\ref{wc-c1}) and by our modified requirement of DR-plan nodes.
-    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D_{i,j})$ is not possible. Since $C_k\cup C_i = Idc(C,R'_i\cup R_j\cup D_{i,j})\neq C$ we have from Lemma \ref{lemma:wc_intersection_is_C} that $C_k\cup C_i$ cannot be well-constrained.
-    By Lemma~\ref{lem:pinned_union_intersection}, it must be under-constrained,
-    so one of $C_i$ and $C_k$ must be an edge, contradicting the assumption that both $C_i$ and $C_k$ are well-constrained.
-%    We also know it cannot be trivial because it contains well-constrained subgraphs. This means it must be under-constrained. From Lemma \ref{uc-l1}, we know that $C_k\cap C_i=Idc(C,R'_j\cup D_{i,j})$ must then be trivial. This is impossible because $D_{i,j}$ is well-constrained, thereby contradicting the assumption that $C_k$ is well-constrained.
-
-    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D'_{i,j})$ is not possible. The proof is similar to the previous case.
-%    union with $C_i$ (or $C_j$) is not equal to $C$. Therefore, the union must be under-constrained which means the intersection must be trivial (a single node). However, $C_k\cap C_i=Idc(C,R'_j\cup D'_{i,j})$ and since $R'_j$ and $D'_{i,j}$ are not empty sets, it cannot be trivial making a contradiction.
-
-    \item 2 cases: $C_k=Idc(C,R'_i\cup R_j\cup D'_{i,j})$ and $C_k=Idc(C,R_i\cup R'_j\cup D'_{i,j})$ are not possible.
-    The proof is similar to the previous case.
-    %The proof mirrors the previous case, except you must choose $C_i$ and $C_j$, respectively, here.
-\end{itemize}
-
-All the remaining cases are similar to the original proof.
-
-\end{proof}
-
-%How theorems go through when only considering connected rigidity components
-
+Given Lemma~\ref{lem:pinned_union_intersection} and the modified definition of DR-plan,
+proofs of Lemma~\ref{lemma:wc_intersection_is_C} and \ref{corollary:no_edges_between_diff} straightforwardly extend to 2-dimensional pinned line incidence graphs.
+The proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for 2-dimensional pinned line incidence graphs 
+is given in Appendix~\ref{sec:appendix_pinned}.
 The following lemma serves as Lemma~\ref{lemma:uc_intersection_makes_all_uc} for pinned line incidence and can be proved similarly.
 \begin{lemma}
 \label{lem:vertex_intersection}
