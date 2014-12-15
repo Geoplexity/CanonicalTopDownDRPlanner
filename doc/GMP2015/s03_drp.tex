@@ -576,80 +576,91 @@ No matter which two children you choose in case (A) the recombination steps will
 We now present two examples of non-tree-decomposable graphs that illustrate the two cases found in decomposition -- intersection on a well-constrained subgraph and intersection on a trivial subgraph.
 
 \begin{figure*}\centering
-\begin{tikzpicture}[scale=3]
-    \tikzstyle{v}=[draw, circle, minimum size=0.75cm]
-    \tikzstyle{e}=[]
+\begin{subfigure}{.3\linewidth}
+  \centering
+  \begin{tikzpicture}[scale=2]
+        \tikzstyle{v}=[draw, circle, minimum size=0.1cm, font=\footnotesize]
+        \tikzstyle{e}=[]
 
-    \node[v] (v1) at (0,0.866) {$a_1$};
-    \node[v] (v2) at (-1,-0.866) {$a_2$};
-    \node[v] (v3) at (1,-0.866) {$a_3$};
+        \node[v] (v1) at (0,0.866) {$a_1$};
+        \node[v] (v2) at (-1,-0.866) {$a_2$};
+        \node[v] (v3) at (1,-0.866) {$a_3$};
 
-    \node[v] (v4) at (0,0.577-.1) {$b_1$};
-    \node[v] (v5) at (-0.667,-0.577-.1) {$b_2$};
-    \node[v] (v6) at (0.667,-0.577-.1) {$b_3$};
+        \node[v] (v4) at (0,0.577-.1) {$b_1$};
+        \node[v] (v5) at (-0.667,-0.577-.1) {$b_2$};
+        \node[v] (v6) at (0.667,-0.577-.1) {$b_3$};
 
-    \node[v] (v7) at (0,0.289-.2) {$c_1$};
-    \node[v] (v8) at (-0.333,-0.289-.2) {$c_2$};
-    \node[v] (v9) at (0.333,-0.289-.2) {$c_3$};
+        \node[v] (v7) at (0,0.289-.2) {$c_1$};
+        \node[v] (v8) at (-0.333,-0.289-.2) {$c_2$};
+        \node[v] (v9) at (0.333,-0.289-.2) {$c_3$};
 
-    \tedge{v1}{v2}{solid}{}{};
-    \tedge{v1}{v3}{solid}{}{};
-    \tedge{v2}{v3}{solid}{}{};
+        \tedge{v1}{v2}{solid}{}{};
+        \tedge{v1}{v3}{solid}{}{};
+        \tedge{v2}{v3}{solid}{}{};
 
-    \tedge{v4}{v5}{solid}{}{};
-    \tedge{v4}{v6}{solid}{}{};
-    \tedge{v5}{v6}{solid}{}{};
+        \tedge{v4}{v5}{solid}{}{};
+        \tedge{v4}{v6}{solid}{}{};
+        \tedge{v5}{v6}{solid}{}{};
 
-    \tedge{v7}{v8}{solid}{}{};
-    \tedge{v7}{v9}{solid}{}{};
-    \tedge{v8}{v9}{solid}{}{};
+        \tedge{v7}{v8}{solid}{}{};
+        \tedge{v7}{v9}{solid}{}{};
+        \tedge{v8}{v9}{solid}{}{};
 
 
-    \tedge{v1}{v4}{solid}{}{};
-    \tedge{v2}{v5}{solid}{}{};
-    \tedge{v3}{v6}{solid}{}{};
+        \tedge{v1}{v4}{solid}{}{};
+        \tedge{v2}{v5}{solid}{}{};
+        \tedge{v3}{v6}{solid}{}{};
 
-    \tedge{v4}{v7}{solid}{}{};
-    \tedge{v5}{v8}{solid}{}{};
-    \tedge{v6}{v9}{solid}{}{};
-\end{tikzpicture}
+        \tedge{v4}{v7}{solid}{}{};
+        \tedge{v5}{v8}{solid}{}{};
+        \tedge{v6}{v9}{solid}{}{};
+    \end{tikzpicture}
 
-\begin{tikzpicture}
-    \tikzstyle{v}=[draw, circle, minimum size=0.75cm]
-    \tikzstyle{e}=[]
+    \caption{}
+\end{subfigure}%
+\begin{subfigure}{.7\linewidth}
+    \centering
+    \begin{tikzpicture}[scale=.9, transform shape]
+        \tikzstyle{v}=[draw, circle, minimum size=0.75cm, font=\footnotesize]
+        \tikzstyle{e}=[]
 
-    \node (c0) at (0,0) {$\{a_1,a_2,a_3,b_1,b_2,b_3,c_1,c_2,c_3\}$};
-    \node (c1a) at (-2,-1) {$\{a_1,a_2,a_3,b_1,b_2,b_3\}$};
-    \node (c1b) at (2,-1) {$\{b_1,b_2,b_3,c_1,c_2,c_3\}$};
-    \node (c2a) at (-2,-2) {$\{a_1,a_2,a_3\}$};
-    \node (c2b) at (0,-2) {$\{b_1,b_2,b_3\}$};
-    \node (c2c) at (2,-2) {$\{c_1,c_2,c_3\}$};
-    \node (c2ab1) at (-5.6,-2) {$\{a_1,b_1\}$};
-    \node (c2ab2) at (-4.5,-2) {$\{a_2,b_2\}$};
-    \node (c2ab3) at (-3.4,-2) {$\{a_3,b_3\}$};
-    \node (c2bc1) at (5.6,-2) {$\{b_1,c_1\}$};
-    \node (c2bc2) at (4.5,-2) {$\{b_2,c_2\}$};
-    \node (c2bc3) at (3.4,-2) {$\{b_3,c_3\}$};
+        \node (c0) at (0,0) {$\{a_1,a_2,a_3,b_1,b_2,b_3,c_1,c_2,c_3\}$};
+        \node (c1a) at (-2,-1) {$\{a_1,a_2,a_3,b_1,b_2,b_3\}$};
+        \node (c1b) at (2,-1) {$\{b_1,b_2,b_3,c_1,c_2,c_3\}$};
+        \node (c2a) at (-2,-2) {$\{a_1,a_2,a_3\}$};
+        \node (c2b) at (0,-2) {$\{b_1,b_2,b_3\}$};
+        \node (c2c) at (2,-2) {$\{c_1,c_2,c_3\}$};
+        \node (c2ab1) at (-5.6,-2) {$\{a_1,b_1\}$};
+        \node (c2ab2) at (-4.5,-2) {$\{a_2,b_2\}$};
+        \node (c2ab3) at (-3.4,-2) {$\{a_3,b_3\}$};
+        \node (c2bc1) at (5.6,-2) {$\{b_1,c_1\}$};
+        \node (c2bc2) at (4.5,-2) {$\{b_2,c_2\}$};
+        \node (c2bc3) at (3.4,-2) {$\{b_3,c_3\}$};
 
-    \tedge{c0}{c1a}{solid}{}{};
-    \tedge{c0}{c1b}{solid}{}{};
+        \tedge{c0}{c1a}{solid}{}{};
+        \tedge{c0}{c1b}{solid}{}{};
 
-    \tedge{c1a}{c2ab1}{solid}{}{};
-    \tedge{c1a}{c2ab2}{solid}{}{};
-    \tedge{c1a}{c2ab3}{solid}{}{};
-    \tedge{c1a}{c2a}{solid}{}{};
-    \tedge{c1a}{c2b}{solid}{}{};
+        \tedge{c1a}{c2ab1}{solid}{}{};
+        \tedge{c1a}{c2ab2}{solid}{}{};
+        \tedge{c1a}{c2ab3}{solid}{}{};
+        \tedge{c1a}{c2a}{solid}{}{};
+        \tedge{c1a}{c2b}{solid}{}{};
 
-    \tedge{c1b}{c2bc1}{solid}{}{};
-    \tedge{c1b}{c2bc2}{solid}{}{};
-    \tedge{c1b}{c2bc3}{solid}{}{};
-    \tedge{c1b}{c2b}{solid}{}{};
-    \tedge{c1b}{c2c}{solid}{}{};
-\end{tikzpicture}
+        \tedge{c1b}{c2bc1}{solid}{}{};
+        \tedge{c1b}{c2bc2}{solid}{}{};
+        \tedge{c1b}{c2bc3}{solid}{}{};
+        \tedge{c1b}{c2b}{solid}{}{};
+        \tedge{c1b}{c2c}{solid}{}{};
+    \end{tikzpicture}
 
-\caption{Two doublets ($C2\times C3$), $\{a_1,a_2,a_3,b_1,b_2,b_3\}$ and $\{b_1,b_2,b_3,c_1,c_2,c_3\}$, intersecting on the triangle $\{b_1,b_2,b_3\}$. Also showing the optimal DR-plan of the graph if we consider it to be a 2D graph; omits further decomposition of the three triangles into their edges and of edges into their individual nodes.}
+    \caption{}
+\end{subfigure}
+
+\caption{(a) Two doublets ($C2\times C3$), $\{a_1,a_2,a_3,b_1,b_2,b_3\}$ and $\{b_1,b_2,b_3,c_1,c_2,c_3\}$, intersecting on the triangle $\{b_1,b_2,b_3\}$. (b) The optimal DR-plan of the graph if we consider it to be a 2D graph; omits further decomposition of the three triangles into their edges and of edges into their individual nodes.}
 \label{doublets}
 \end{figure*}
+
+
 
 \begin{example}
     In figure \ref{doublets}, the two well-constrained vertex-maximal proper subgraphs of the graph are the two doublets, shown in the second level of the DR-plan. These intersect on the well-constrained graph $\{b_1,b_2,b_3\}$. This will necessarily be a child $N=2$ levels below the parent of the two doublets, as explained in Theorem \ref{wc-t1}. Also shown is the decomposition of the individual doublets. These have five well-constrained vertex-maximal proper subgraphs, the two triangles and the three edges connecting them. As explained in Theorem \ref{uc-t1}, all of them must be included in the optimal DR-plan. Were any left out, the union of the children would not be the entire parent.
