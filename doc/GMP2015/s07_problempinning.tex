@@ -165,7 +165,7 @@ We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness c
 \end{figure*}
 
 \begin{theorem}
-    There is a quadratic algorithm for the 1 dof and 2 dof optimal completion problem of Seciton \ref{sec:recomb} for body-pin and multi-triangle-pin qusecs.
+    There is a quadratic algorithm for the 1 dof optimal completion problem of Seciton \ref{sec:recomb} for body-pin and multi-triangle-pin qusecs.
 \end{theorem}
 
 \begin{proof}
@@ -178,5 +178,17 @@ We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness c
 
     Then, we can form a valid isostatic DR plan $T_b$ from $T$. In $T_b$, $b$'s children are now all of the leaf nodes of the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $w$'s children will be the node that leads to $b$, denoted $b'$, along with all of the other leaf nodes in the tree rooted at $w$ excluding $b'$. Then, for any node $b$ that we choose, $T_b$ is a valid DR plan. Thus, if we want to minimize the size of our DR plan, we simply need to take the $b$ that has the $T_b$ of smallest size. Running this algorithm in a brute force fashion is quadratic in the number of bodies of our given body-pin system.
 
-    For the 2 dof case, we can do something very similar, except instead of pinning a single body 2 times to a node, we can pin another body 2 times to a node. These can be the same node, and if it is the same node, we can find a wellconstrained DR plan in quadratic time, we would just be doing the same thing as the 1 dof case.
+    For the multi-triangle pin qusecs, we can do the same thing except we need to add a single triangle to one of the nodes to cause it to become isostatic.
+
+    % For the 2 dof case, we can do something very similar, except instead of pinning a single body 2 times to a node, we can pin another body 2 times to a node. These can be the same node, and if it is the same node, we can find a wellconstrained DR plan in quadratic time, we would just be doing the same thing as the 1 dof case.
 \end{proof}
+
+\begin{theorem}
+    There is a \textcolor{red}{$O(?)$} algorithm for the 1 dof optimal completion problem of Seciton \ref{sec:recomb} for body-pin and multi-triangle-pin qusecs.
+\end{theorem}
+
+\begin{proof}
+    We can do a similar algorithm to the 1 dof case, except we constrain a given node 2 times (by adding 2 triangles or 2 bodies and 4 pins). This causes the nodes along the path to the given node to become well-constrained while all others will be underconstrained. Thus, our DR plan will have the same size as the 1 dof case. This is still a quadratic algorithm
+\end{proof}
+
+An open question remains as to the complexity of the optimal completion problem when there are more than 2 dofs. For higher number of dofs, the $(l,k)$ characterization is no longer matroidal.
