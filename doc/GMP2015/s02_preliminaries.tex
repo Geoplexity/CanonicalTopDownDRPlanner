@@ -4,57 +4,164 @@
 \subsection{Basics}
 %TODO!
 
+
+
+In this paper, a {\em geometric constraint system} is a multivariate 
+polynomial (usually bilinear or quadratic) system
+$G(x,\delta)=0$, representing constraints with parameters $\delta$ 
+between geometric primitives  in $\mathbb{R}^2$ represented collectively $x\in \mathbb{R}^n$.   
+%
+When the type of constraint (system) is fixed, 
+the system is simply represented as $(G,\delta)$, where 
+$G$ is the underlying constraint (hyper)graph $G = (V,E)$ 
+with the vertices $V$ representing the geometric primitives in 
+$\mathbb{R}^2$ and (hyper)edges
+$E$ representing the constraints, each with an associated 
+parameter $\delta$.
+
+For example, a {\em bar-joint system or linkage} $(G,\delta)$, is a graph
+$G=(V,E)$  
+with fixed length bars as edges, i.e. $\delta: E \rightarrow \mathbb{R}$;
+this represents the distance constraint system $\| x_u -x_v \|_2 =
+\delta_{u,v}$ for  $(u,v) \in E$, where $x_u \in \mathbb{R}^2$ represents the coordinates of
+$u\in V$. 
+
+In this paper, we will consider 3 types of constraint systems: bar-joint
+as well as {\em pinned line-incidence}, and {\em body-hyperpin}. 
+In all of these cases, a cartesian \emph{realization} or 
+\emph{solution} $G(p)$ of $(G,\delta)$ is 
+an assignment of coordinates or Euclidean transformations (poses), 
+$p: V \rightarrow
+\mathbb{R}^2$ or $\mathbb{R}^3$ to the vertices of $G$ satisfying the 
+constraints with parameters $\delta$, 
+modulo orientation preserving isometries 
+(Euclidean rigid body motions except for pinned line-incidence). 
+
+Although the realization space itself depends on the constraint parameters 
+$\delta$, many  relevant {\em generic} properties of 
+the constraint system $G(x,\delta)$
+are properties of the constraint (hyper)graph $G$ 
+and do not depend on $\delta$ (or they hold for all but a measure 
+zero set of $\delta$
+values). Many of these are properties of the jacobian 
+$\Delta_x G(x,\delta)$, often called the appropriate {\em rigidity matrix of
+$G$} 
+(a matrix of indeterminates).
+For example, the {\em bar-joint rigidity matrix 
+of the graph $G = (V,E)$}
+is a matrix of indeterminates representing the 
+jacobian of the distance map 
+$\| x_u -x_v \|_2$  for $(u,v) \in E$.
+The matrix has one row per edge $(u,v)$ in $E$,  
+with 2 columns for $u$ (resp.
+$v$) containing the 2 coordinate indeterminates 
+for $x_u -x_v$ (resp. $x_v-x_u$), 
+that is 4 non-zero entries per row. 
+
+Some of these generic constraint system or 
+(hyper)graph properties are the following ({\bf Note:} we refer to these as
+properties of the constraint system or as properties of the underlying
+(hyper)graph interchangeably).
+%
+A constraint (hyper)graph $G$ is {\em independent} if its appropriate rigidity matrix of indeterminates  
+has independent rows
+(i.e, the determinant of some square submatrix is not
+identically zero). 
+It is {\em isostatic (minimally rigid, well-constrained)} 
+if the number of generically independent rows or the rank of the appropriate rigidity matrix is maximal.
+For example, the maximal rank of a bar-joint rigidity matrix is $2|V| - 3$, 
+where $3$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^2$.
+The graph $G$ is {\em rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained. 
+It is {\em flexible} if it is not rigid, {\em under-constrained} if it is independent and not rigid, or {\em over-constrained} if it is not independent.
+
+
+In this paper, 
+a {\em qusec} is any {\em independent} geometric 
+constraint system of one of the 3
+types mentioned above.
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+%A subset of edges $E'$, or a subgraph $(V', E')$, of a graph $G = (V, E)$ is said to be {\it independent} in $d$-dimensions, when the set of rows of $R_d(G)$ corresponding to $E'$ is generically independent, or independent for a generic instantiation of the indeterminate entries. 
+%This yields the $d$-dimensional generic {\it rigidity matroid} associated with a graph $G$. 
+
+%The graph is  {\it infinitesimally rigid} if %the rigidity matrix has full rank, that is, 
+%if the number of generically independent rows or the rank of $R_d(G)$ is maximal.
+%In the case of linkage, the maximal rank is $d|V| - {d+1 \choose 2}$, where ${d+1 \choose 2}$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^d$ [?].
+%A vector in the kernel of the rigidity matrix is called an {\it infinitesimal motion vector}.
+
+%A graph $G = (V,E)$ is:
+%\begin{itemize}
+%	\item generically {\it isostatic (minimally rigid, well-constrained)} if $R_d(G)$ has full rank
+%	\item \textbf{rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
+%	\item {\it flexible} if $G$ is not rigid
+%    \item \textbf{under-constrained} if $G$ is independent and not rigid.
+%    \item \textbf{over-constrained} if it is not independent.
+%\end{itemize}
+%In this paper all results are about independent - underconstrained or
+%isostatic
+
+\todo{Where to put these}
+A vector in the kernel of the rigidity matrix is called an {\it infinitesimal motion vector}.
+The left nullspace of the rigidity matrix is called the {\it space of stress}. A vector in the stress space is called a {\it flex vector}. 
+
+
+%--A generalized version of Asimow Roth (implicit fn thm)
+%generic rigidity equivalent to infinitesimal rigidity (easy
+%when the latter def is based on indeterminates)
+
+% A generalized version of Asimow Roth (implicit fn thm) states that
+% generic rigidity, i.e.\ there exist at most finitely many solutions to the system at generic points,  %to the algebraic system 
+%  is equivalent to  our definition  of infinitesimal rigidity based on indeterminates.
+
+
+%\todo{--rigidity matroid\\
+%--Combinatorial characterization of rigidity matroid
+%Example: Laman's theorem for bar-joint (refer to others)
+%Lovasz Yemini
+%Tay white and whiteley
+%(citations)
+%+ pinned line incidence and multi-body-pin (in application
+%section)}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
 %Standard except for generality and ordering and the fact that I want to
 %avoid the use of the word framework if possible. Do everything
 %with constraint systems, linearization and genericity using indeterminates. 
 
 %--general  geometric constraint system --
 
-A $d$-dimensional {\it geometric constraint system} in general consists of
+%A $d$-dimensional {\it geometric constraint system} in general consists of
+%
+%- a underlying {\it constraint graph} $G=(V,E)$, or more generally, a hypergraph, whose  vertices represents geometric primitives in $d$-dimension and whose (hyper)edges specifies the combinatorics of constraints between pairs/tuples of the geometric primitives.
+%- an {\it algebraic system of  constraint functions} from $E$ to the domain of constraint value
+%In this paper we study qusecs, a class of 2D geometric constrain system that is independent (defined below).
 
-- a underlying {\it constraint graph} $G=(V,E)$, or more generally, a hypergraph, whose  vertices represents geometric primitives in $d$-dimension and whose (hyper)edges specifies the combinatorics of constraints between pairs/tuples of the geometric primitives.
-
-- an {\it algebraic system of  constraint functions} from $E$ to the domain of constraint values
-
-
-In this paper we study qusecs, a class of 2D geometric constrain system that is independent (defined below).
-
-
-A familiar example of geometric constraint system is {\it linkage (barjoint system)},
-where the underlying constraint graph is a simple graph and
-the constraints are Euclidean distances on the edges of the graph.
-
-
-%--Give example as
-%linkage(barjoint system) 
-\todo{-- refer to others (citations
-+ pinned line incidence and multi-body-pin (in application
-section)}
 
 %--underlying constraint graph or hypergraph (common treatment)
-\todo{???The (hyper)graph of a is sometimes refered to???}
 
 %--linearization: Jacobian of constraint system,
 %rigidity matrix of indeterminates
-
-The algebraic system can usually be linearized at {\it generic} points
-by taking the Jacobian of the system,
-giving  the $d$-dimensional {\it rigidity matrix } $R_d(G)$ of a the (hyper)graph $G = (V,E)$, 
-whose rows correspond to edges, columns correspond to coordinate positions of vertices,  entries are \emph{indeterminates} representing the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the geometric primitives corresponding to vertices $v \in V$. 
+%
+%The algebraic system can usually be linearized at {\it generic} points
+%by taking the Jacobian of the system,
+%giving  the $d$-dimensional {\it rigidity matrix } $R_d(G)$ of a the (hyper)graph $G = (V,E)$, 
+%whose rows correspond to edges, columns correspond to coordinate positions of vertices,  entries are \emph{indeterminates} representing the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the geometric primitives corresponding to vertices $v \in V$. 
 
 %-- give example for the case of
 %linkages
-
-In the case of linkage, 
-let $p_1(v), p_2(v), \ldots, p_d(v)$ represent the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the joint corresponding to a vertex $v \in V$. 
-The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each vertex $v \in V$.  The row corresponding to $e = \{u,v\} \in E$ represents the bar connecting $p(u)$ and $p(v)$ and has $d$ non-zero indeterminate entries $\mathbf{p}(u)-\mathbf{p}(v)$ (resp.\ $\mathbf{p}(v)-\mathbf{p}(u)$) in the $d$ columns corresponding to $u$ (resp.  $v$) and zero in the other entries.  
+%
+%In the case of linkage, 
+%let $p_1(v), p_2(v), \ldots, p_d(v)$ represent the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the joint corresponding to a vertex $v \in V$. 
+%The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each vertex $v \in V$.  The row corresponding to $e = \{u,v\} \in E$ represents the bar connecting $p(u)$ and $p(v)$ and has $d$ non-zero indeterminate entries $\mathbf{p}(u)-\mathbf{p}(v)$ (resp.\ $\mathbf{p}(v)-\mathbf{p}(u)$) in the $d$ columns corresponding to $u$ (resp.  $v$) and zero in the other entries.  
 
 %%Let $p_1(v), p_2(v), \ldots, p_d(v)$ represent the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the joint corresponding to a vertex $v \in V$. 
 %The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each vertex $v \in V$.  The row corresponding to the hyperedge $e = \{v_1, v_2, \ldots, v_k\} \in E$ represents the constraint between the vertices $ \{v_1, v_2, \ldots, v_k\}$, 
 %has $d$ non-zero indeterminate entries %$\mathbf{p}(u)-\mathbf{p}(v)$ (resp.\ $\mathbf{p}(v)-\mathbf{p}(u)$) 
 %in the $d$ columns corresponding to each vertex $v_i \in e$ and zero in the other entries.  
-
-
 
 
 %generic independence, infinitesimal rigidity
@@ -63,28 +170,10 @@ The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each
 
 
 
-A subset of edges $E'$, or a subgraph $(V', E')$, of a graph $G = (V, E)$ is said to be {\it independent} in $d$-dimensions, when the set of rows of $R_d(G)$ corresponding to $E'$ is generically independent, or independent for a generic instantiation of the indeterminate entries. 
-This yields the $d$-dimensional generic {\it rigidity matroid} associated with a graph $G$. 
-
-The graph is  {\it infinitesimally rigid} if %the rigidity matrix has full rank, that is, 
-if the number of generically independent rows or the rank of $R_d(G)$ is maximal.
-In the case of linkage, the maximal rank is $d|V| - {d+1 \choose 2}$, where ${d+1 \choose 2}$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^d$ [?].
-A vector in the kernel of the rigidity matrix is called an {\it infinitesimal motion vector}.
-
 %--stress vectors and flex vectors
 %(also based on indeterminates)
 
 
-The left nullspace of the rigidity matrix is called the {\it space of stress}, consisting of the {\it flex vectors}. 
-
-
-%--A generalized version of Asimow Roth (implicit fn thm)
-%generic rigidity equivalent to infinitesimal rigidity (easy
-%when the latter def is based on indeterminates)
-
- A generalized version of Asimow Roth (implicit fn thm) states that
- generic rigidity, i.e.\ there exist at most finitely many solutions to the system at generic points,  %to the algebraic system 
-  is equivalent to  our definition  of infinitesimal rigidity based on indeterminates.
 
 
 
@@ -95,26 +184,9 @@ The left nullspace of the rigidity matrix is called the {\it space of stress}, c
 %in this paper; all results are about independent - underconstrained or
 %isostatic)
 
-A graph $G = (V,E)$ is:
-\begin{itemize}
-	\item generically {\it isostatic (minimally rigid, well-constrained)} if $R_d(G)$ has full rank
-	\item \textbf{rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
-	\item {\it flexible} if $G$ is not rigid
-    \item \textbf{under-constrained} if $G$ is independent and not rigid.
-    \item \textbf{over-constrained} if it is not independent.
-\end{itemize}
-In this paper all results are about independent - underconstrained or
-isostatic
 
 
-\todo{--rigidity matroid\\
---Combinatorial characterization of rigidity matroid
-Example: Laman's theorem for bar-joint (refer to others)
-Lovasz Yemini
-Tay white and whiteley
-(citations)
-+ pinned line incidence and multi-body-pin (in application
-section)}
+
 
 
 
