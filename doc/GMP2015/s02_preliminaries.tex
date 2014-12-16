@@ -1,41 +1,168 @@
 \section{Preliminaries}
 \label{sec:prelim}
 
-\subsection{Definitions}
-\label{sec:prelim_defs}
+\subsection{Basics}
+%TODO!
 
-% TODO
+%Standard except for generality and ordering and the fact that I want to
+%avoid the use of the word framework if possible. Do everything
+%with constraint systems, linearization and genericity using indeterminates. 
 
-% A paragraph of preliminaries such as:
-%     - rigidity matrix R,
-%     - stress vectors S one coordinate per edge (w/ SR =E (external stress vector, 2 coordinates  per vertex));
-%     - flex vectors F (2 coordinates per vertex) (right nullspace/kernel of R)
-% Should precede the definition of
-%     + independent,
-%     + overconstrained (not independent),
-%     - rigid (contains an independent set with sufficiently many eedges/constraints)
-%     - isostatic (wellconstrained/minimally rigid), ,
-%     - flexible (not rigid),
-%     + underconstrained (independent and not rigid).
-% After that, define DR plans etc.
+%--general  geometric constraint system --
 
-In Sections \ref{sec:DRP} and \ref{sec:recomb} a \textbf{graph} is a bar and joint system. $G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
+A $d$-dimensional {\it geometric constraint system} in general consists of
 
-Given a constant $k$, a graph $G$ is:
+- a underlying {\it constraint graph} $G=(V,E)$, or more generally, a hypergraph, whose  vertices represents geometric primitives in $d$-dimension and whose (hyper)edges specifies the combinatorics of constraints between pairs/tuples of the geometric primitives.
+
+- an {\it algebraic system of  constraint functions} from $E$ to the domain of constraint values
+
+
+In this paper we study qusecs, a class of 2D geometric constrain system that is independent (defined below).
+
+
+A familiar example of geometric constraint system is {\it linkage (barjoint system)},
+where the underlying constraint graph is a simple graph and
+the constraints are Euclidean distances on the edges of the graph.
+
+
+%--Give example as
+%linkage(barjoint system) 
+\todo{-- refer to others (citations
++ pinned line incidence and multi-body-pin (in application
+section)}
+
+%--underlying constraint graph or hypergraph (common treatment)
+\todo{???The (hyper)graph of a is sometimes refered to???}
+
+%--linearization: Jacobian of constraint system,
+%rigidity matrix of indeterminates
+
+The algebraic system can usually be linearized at {\it generic} points
+by taking the Jacobian of the system,
+giving  the $d$-dimensional {\it rigidity matrix } $R_d(G)$ of a the (hyper)graph $G = (V,E)$, 
+whose rows correspond to edges, columns correspond to coordinate positions of vertices,  entries are \emph{indeterminates} representing the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the geometric primitives corresponding to vertices $v \in V$. 
+
+%-- give example for the case of
+%linkages
+
+In the case of linkage, 
+let $p_1(v), p_2(v), \ldots, p_d(v)$ represent the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the joint corresponding to a vertex $v \in V$. 
+The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each vertex $v \in V$.  The row corresponding to $e = \{u,v\} \in E$ represents the bar connecting $p(u)$ and $p(v)$ and has $d$ non-zero indeterminate entries $\mathbf{p}(u)-\mathbf{p}(v)$ (resp.\ $\mathbf{p}(v)-\mathbf{p}(u)$) in the $d$ columns corresponding to $u$ (resp.  $v$) and zero in the other entries.  
+
+%%Let $p_1(v), p_2(v), \ldots, p_d(v)$ represent the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the joint corresponding to a vertex $v \in V$. 
+%The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each vertex $v \in V$.  The row corresponding to the hyperedge $e = \{v_1, v_2, \ldots, v_k\} \in E$ represents the constraint between the vertices $ \{v_1, v_2, \ldots, v_k\}$, 
+%has $d$ non-zero indeterminate entries %$\mathbf{p}(u)-\mathbf{p}(v)$ (resp.\ $\mathbf{p}(v)-\mathbf{p}(u)$) 
+%in the $d$ columns corresponding to each vertex $v_i \in e$ and zero in the other entries.  
+
+
+
+
+%generic independence, infinitesimal rigidity
+%(based on indeterminates)
+
+
+
+
+A subset of edges $E'$, or a subgraph $(V', E')$, of a graph $G = (V, E)$ is said to be {\it independent} in $d$-dimensions, when the set of rows of $R_d(G)$ corresponding to $E'$ is generically independent, or independent for a generic instantiation of the indeterminate entries. 
+This yields the $d$-dimensional generic {\it rigidity matroid} associated with a graph $G$. 
+
+The graph is  {\it infinitesimally rigid} if %the rigidity matrix has full rank, that is, 
+if the number of generically independent rows or the rank of $R_d(G)$ is maximal.
+In the case of linkage, the maximal rank is $d|V| - {d+1 \choose 2}$, where ${d+1 \choose 2}$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^d$ [?].
+A vector in the kernel of the rigidity matrix is called an {\it infinitesimal motion vector}.
+
+%--stress vectors and flex vectors
+%(also based on indeterminates)
+
+
+The left nullspace of the rigidity matrix is called the {\it space of stress}, consisting of the {\it flex vectors}. 
+
+
+%--A generalized version of Asimow Roth (implicit fn thm)
+%generic rigidity equivalent to infinitesimal rigidity (easy
+%when the latter def is based on indeterminates)
+
+ A generalized version of Asimow Roth (implicit fn thm) states that
+ generic rigidity, i.e.\ there exist at most finitely many solutions to the system at generic points,  %to the algebraic system 
+  is equivalent to  our definition  of infinitesimal rigidity based on indeterminates.
+
+
+
+%--generic isostaticity (minimal rigidity, wellconstrainedness),
+%flexibility (not rigid), underconstrained (independent
+%and not rigid), overconstrained (dependent -- only briefly
+%mentioned
+%in this paper; all results are about independent - underconstrained or
+%isostatic)
+
+A graph $G = (V,E)$ is:
 \begin{itemize}
-    \item \textbf{independent} (or \textbf{sparse}) if, for all non-trivial subgraphs $S\subseteq G$, $d(S) \leq k$.
-
-    \item \textbf{over-constrained} if it is not independent.
-
-    \item \textbf{well-constrained} (or \textbf{tight}) if $G$ is independent and $d(G)=k$.
-
-    \item \textbf{rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
-
+	\item generically {\it isostatic (minimally rigid, well-constrained)} if $R_d(G)$ has full rank
+	\item \textbf{rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
+	\item {\it flexible} if $G$ is not rigid
     \item \textbf{under-constrained} if $G$ is independent and not rigid.
-
-    % \item \textbf{trivial} if (1) it is over-constrained graph and (2) all of its subgraphs are also trivial. Trivial graphs are input.
+    \item \textbf{over-constrained} if it is not independent.
 \end{itemize}
+In this paper all results are about independent - underconstrained or
+isostatic
 
+
+\todo{--rigidity matroid\\
+--Combinatorial characterization of rigidity matroid
+Example: Laman's theorem for bar-joint (refer to others)
+Lovasz Yemini
+Tay white and whiteley
+(citations)
++ pinned line incidence and multi-body-pin (in application
+section)}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+%The problem is equivalent to combinatorially determining the generic rank of the 3-dimensional bar-joint rigidity matrix of a graph.  The $d$-dimensional bar-joint rigidity matrix of a graph $G = (V,E)$, denoted $R_d(G)$, is a matrix of indeterminates. Let $p_1(v), p_2(v), \ldots, p_d(v)$  represent the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$of the joint corresponding to a vertex $v \in V$.  . The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each vertex $v \in V$.  The row corresponding to $e = \{u,v\} \in E$ represents the bar connecting $p(u)$ and $p(v)$ and has $d$ non-zero indeterminate entries $\mathbf{p}(u)-\mathbf{p}(v)$ (resp.\ $\mathbf{p}(v)-\mathbf{p}(u)$) in the $d$ columns corresponding to $u$ (resp.  $v$) and zero in the other entries.  
+%
+%A subset of edges $E'$, or a subgraph $(V', E')$, of a graph $G = (V, E)$ is said to be independent (we drop ``bar-joint'' from now on) in $d$-dimensions, when the set of rows of $R_d(G)$ corresponding to $E'$ is generically independent, or independent for a generic instantiation of the indeterminate entries. This yields the $d$-dimensional generic rigidity matroid associated with a graph $G$. The graph is rigid if the number of generically independent rows or the rank of $R_d(G)$ is maximal, i.e., $d|V| - {d+1 \choose 2}$, where ${d+1 \choose 2}$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^d$ [?].
+
+
+
+
+\subsection{DR-plan}
+%\subsection{Definitions}
+%\label{sec:prelim_defs}
+%
+%% TODO
+%
+%% A paragraph of preliminaries such as:
+%%     - rigidity matrix R,
+%%     - stress vectors S one coordinate per edge (w/ SR =E (external stress vector, 2 coordinates  per vertex));
+%%     - flex vectors F (2 coordinates per vertex) (right nullspace/kernel of R)
+%% Should precede the definition of
+%%     + independent,
+%%     + overconstrained (not independent),
+%%     - rigid (contains an independent set with sufficiently many eedges/constraints)
+%%     - isostatic (wellconstrained/minimally rigid), ,
+%%     - flexible (not rigid),
+%%     + underconstrained (independent and not rigid).
+%% After that, define DR plans etc.
+%
+%In Sections \ref{sec:DRP} and \ref{sec:recomb} a \textbf{graph} is a bar and joint system. $G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
+%
+%Given a constant $k$, a graph $G$ is:
+%\begin{itemize}
+%    \item \textbf{independent} (or \textbf{sparse}) if, for all non-trivial subgraphs $S\subseteq G$, $d(S) \leq k$.
+%
+%    \item \textbf{over-constrained} if it is not independent.
+%
+%    \item \textbf{well-constrained} (or \textbf{tight}) if $G$ is independent and $d(G)=k$.
+%
+%    \item \textbf{rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
+%
+%    \item \textbf{under-constrained} if $G$ is independent and not rigid.
+%
+%    % \item \textbf{trivial} if (1) it is over-constrained graph and (2) all of its subgraphs are also trivial. Trivial graphs are input.
+%\end{itemize}
+%
 \textbf{Trivial} graphs are ill-defined in the general case. The only strict requirements are: (1) it must over-constrained and (2) all of its subgraphs are also trivial.
 
 % \begin{definition}
@@ -57,6 +184,7 @@ Given a constant $k$, a graph $G$ is:
 %     \todo{Maybe leave the following out until it's needed later?}
 %     In the familiar geometric cases of $d$-dimensional space, all vertex weights are $d$, all edge weights are $1$, and constant $k= -{{d+1}\choose{2}}$. Trivial graphs for 2D would be a single vertex. Trivial graphs in 3D would be a vertex and an edge (2 vertices with an edge between). Etc. These trivial graphs capture the notion of the rotational symmetry that exists in geometric spaces.
 % \end{definition}
+
 
 \begin{definition}\label{def:drp}
     The \textbf{decomposition-recombination \mbox{(DR-)} plan} of graph $G$, $DRP(G)$, is defined as a tree that has the following properties:
