@@ -13,12 +13,12 @@
  * 
  * This is free software and may be freely copied, modified, and
  * redistributed as noted below.
- *	The copyright notice must remain intact.
- *	Modifications must include a notice giving the reason
- * 	for the modification and including name and date.
- *	This is provided "as is" and comes with no warranty or
- * 	guarantee of fitness. Comments, bugs, and suggestions may be sent
- * 	to floyd@math.vt.edu.
+ *  The copyright notice must remain intact.
+ *  Modifications must include a notice giving the reason
+ *  for the modification and including name and date.
+ *  This is provided "as is" and comes with no warranty or
+ *  guarantee of fitness. Comments, bugs, and suggestions may be sent
+ *  to floyd@math.vt.edu.
  *
  */
 #include <stdio.h>
