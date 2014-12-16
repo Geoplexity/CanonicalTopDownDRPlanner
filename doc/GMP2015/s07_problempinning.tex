@@ -4,13 +4,14 @@
 We can use DR-plans to help in solving questions in designs for graphene and silica bilayers (\todo{Add Citation}). Specifically, we will look into the problem when you have a monolayer and it is underconstrained. Our goal is to make such a layer isostatic. This can be done in a number of ways.
 
 \begin{figure}\centering
-    \includegraphics[width=0.5\linewidth]{img/Silica}
-    \caption{Example of 1 layer of a Silica Oxygen glassy structure. This can be thought of as a multi-triangle-pin qusec where the Silicon atoms are the triangles and the Oxygen atoms are the pins.}
+    \includegraphics[width=0.4\linewidth]{img/Silica} \hspace{0.5cm}
+    \raisebox{0.5\height}{\includegraphics[width=0.2\linewidth]{img/Silicon_tetrahedron}}
+    \caption{Example of a signle layer of a Silica Oxygen glassy structure. This can be thought of as a multi-triangle-pin qusec where the Silicon atoms are the triangles and the Oxygen atoms are the pins. Not shown here are other layers stacked on this one. Each Silicon atom has the structure seen to the right, and so binds to another Oxygen atom in another layer.}
     \label{fig:silica_glass}
 \end{figure}
 
 \begin{itemize}
-    \item Pin together 2 underconstrained monolayers in such a way that the resulting bilayer becomes isostatic.
+    \item Pin together 2 underconstrained monolayers in such a way that the resulting bilayer becomes isostatic (see Figure \ref{fig:silica_glass}).
     \item Pin the boundary in such a way that the resulting system is isostatic.
     \item Build the structures by repeated subdivision to ensure they are isostatic at each layer (see Figure \ref{fig:subdivision})
 \end{itemize}
@@ -21,9 +22,11 @@ We will discuss item 2 in detail in this section. In each case, we are specifica
     \begin{subfigure}{0.25\linewidth}
         \includegraphics[width=\linewidth]{img/pentl1}
     \end{subfigure}
+    % 
     \begin{subfigure}{0.25\linewidth}
         \includegraphics[width=\linewidth]{img/pentl2}
     \end{subfigure}
+    % 
     \begin{subfigure}{0.4\linewidth}
         \includegraphics[width=\linewidth]{img/pentl3}
     \end{subfigure}
@@ -95,22 +98,22 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$ tightness c
     \includegraphics[width=\linewidth]{img/bodypin}
     \caption{}
 \end{subfigure}
+%
 \begin{subfigure}{0.2\linewidth}\centering
     \input{img/tikz/bodypin_graph.tikz}
     \caption{}
 \end{subfigure}
+%
 \begin{subfigure}{0.3\linewidth}\centering\scriptsize
     \input{img/tikz/bodypin_drp.tikz}
     \caption{}
 \end{subfigure}
+%
 \begin{subfigure}{0.2\linewidth}\centering
     \includegraphics[width=\linewidth]{img/bodypin2}
     \caption{}
 \end{subfigure}
-
-% \begin{subfigure}
-    
-% \end{subfigure}
+%
 \caption{(a) is a 1 dof body-pin qusec. (b) is the corresponding body-bar graph explained in Definition \ref{def:body-pin}. (c) is the 1 dof DR-plan for the graph. In this case, to obtain an isostatic system, we would need to add a body and 2 pins to one of the nodes in the second level. (d) is the result of adding one such body to the bold-faced node.}
 
 \end{figure*}
