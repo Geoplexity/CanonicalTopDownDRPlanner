@@ -1,4 +1,5 @@
 \section{Problem Pinning}
+\label{sec:bodypin}
 
 We can use DR plans to help in solving questions in designs for graphene and silica bilayers (\todo{Add Citation}). Specifically, we will look into the problem when you have a monolayer and it is underconstrained. To make this thing isostatic, there are a few methods we can apply.
 
@@ -32,7 +33,7 @@ To answer these questions, we first inroduce the structures we model the problem
     We can replace each body that has only one pin by a single vertex. A body with 2 pins can be replaced by an edge. In general, a body with $n$ pins can be replaced by a 2-tree on $n$ vertices. When looking for a DR plan, we treat each body as trivial, so they become the leaves of our plan. The optimal completion problem and approach of Section \ref{dr} are unchanged. The optimal paramaterization problem in Section \ref{dr} now has an additional constraint that all edges in the 2-tree representation of the bodies must be removed together, not individually.
 \end{proof}
 
-In this section we will go over 2 subclasses of multi-body-pin qusecs for modeling Examples 4 and 5 in Section \ref{intro}.
+In this section we will go over 2 subclasses of multi-body-pin qusecs for modeling Examples 4 and 5 in Section \ref{sec:intro}.
 
 \begin{definition}
 \label{def:body-pin}
@@ -54,7 +55,7 @@ Body-pin qusecs are of particular interest to us in the context of Example 4 in 
     A $(k,l)$ tight DR plan is one in which each child node is either a vertex maximal proper $(k,l)$ tight subgraph of the parent node or it is trivial. In our case, the trivial nodes are just the bodies.
 \end{definition}
 
-We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness conditions similar to the way we did in Section \ref{dr}.
+We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness conditions similar to the way we did in Section \ref{sec:DRP}.
 
 \begin{remark}
 \label{rem:1dofcanon}
@@ -73,7 +74,7 @@ We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness c
 \end{proof}
 
 \begin{remark}
-    All $(k,l)$ tight canonical DR plans are optimal. We can find such a DR plan in the same time complexity as the $(2,3)$ tight case for bar and joint qusecs discussed in Section \ref{dr}.
+    All $(k,l)$ tight canonical DR plans are optimal. We can find such a DR plan in the same time complexity as the $(2,3)$ tight case for bar and joint qusecs discussed in Section \ref{sec:DRP}.
 \end{remark}
 \begin{figure*}\centering
 \begin{subfigure}{0.2\linewidth}\centering
@@ -164,7 +165,7 @@ We can develop the notion of a canonical DR plan for certain $(k,l)$ tightness c
 \end{figure*}
 
 \begin{theorem}
-    There is a quadratic algorithm for the 1 dof and 2 dof optimal completion problem of Seciton \ref{recomb} for body-pin and multi-triangle-pin qusecs.
+    There is a quadratic algorithm for the 1 dof and 2 dof optimal completion problem of Seciton \ref{sec:recomb} for body-pin and multi-triangle-pin qusecs.
 \end{theorem}
 
 \begin{proof}

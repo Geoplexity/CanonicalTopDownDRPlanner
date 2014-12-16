@@ -1,6 +1,8 @@
-\section{Preliminaries}\label{prelim}
+\section{Preliminaries}
+\label{sec:prelim}
 
 \subsection{Definitions}
+\label{sec:prelim_defs}
 
 % TODO
 
@@ -17,21 +19,24 @@
 %     + underconstrained (independent and not rigid).
 % After that, define DR plans etc.
 
+In Sections \ref{sec:DRP} and \ref{sec:recomb} a \textbf{graph} is a bar and joint system. $G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
 
-\begin{definition}
-   In the context of this paper, a \textbf{graph} $G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$.
-\end{definition}
+Given a constant $k$, a graph $G$ is:
+\begin{itemize}
+    \item \textbf{independent} (or \textbf{sparse}) if, for all non-trivial subgraphs $S\subseteq G$, $d(S) \leq k$.
 
-\begin{definition}
-    The \textbf{density} of graph $G$ is
-    \begin{equation}
-        d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}
-    \end{equation}
-\end{definition}
+    \item \textbf{over-constrained} if it is not independent.
 
-\begin{definition}
-    A graph is \textbf{independent} (or \textbf{sparse}) if, given constant $k$, for all non-trivial subgraphs $S\subseteq G$, $d(S) \leq k$.
-\end{definition}
+    \item \textbf{well-constrained} (or \textbf{tight}) if $G$ is independent and $d(G)=k$.
+
+    \item \textbf{rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
+
+    \item \textbf{under-constrained} if $G$ is independent and not rigid.
+
+    % \item \textbf{trivial} if (1) it is over-constrained graph and (2) all of its subgraphs are also trivial. Trivial graphs are input.
+\end{itemize}
+
+\textbf{Trivial} graphs are ill-defined in the general case. The only strict requirements are: (1) it must over-constrained and (2) all of its subgraphs are also trivial.
 
 % \begin{definition}
 %     A graph is \textbf{over-constrained} if, given constant $k$, there exists some
@@ -39,36 +44,22 @@
 %     subgraph $S\subseteq G$ such that $d(S) > k$.
 % \end{definition}
 
-\begin{definition}
-    A graph is \textbf{over-constrained} if it is not independent.
-\end{definition}
-
 % \begin{definition}
 %     A graph is \textbf{well-constrained} if, given constant $k$, $d(G) = k$ and for all
 %     % induced
 %     subgraphs $S\subseteq G$, (1) $d(S)\leq k$, or (2) given a set of trivial graphs $T$, $S$ is isomorphic to one of the graphs in $T$ (i.e.\ $S$ is trivial).
 % \end{definition}
 
-\begin{definition}
-    A graph is \textbf{well-constrained} (or \textbf{tight}) if, given constant $k$, $G$ is independent and $d(G)=k$.
-\end{definition}
 
-\begin{definition}
-    A graph is \textbf{rigid} if, given constant $k$, there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
-\end{definition}
 
-\begin{definition}
-    A graph is \textbf{under-constrained} if $G$ is independent and not rigid.
-\end{definition}
+% \begin{definition}
+%     A \textbf{trivial} graph is ill-defined in the general case. The only strict requirements are: (1) it must be an over-constrained graph and (2) all of its subgraphs are also trivial.
+%     \todo{Maybe leave the following out until it's needed later?}
+%     In the familiar geometric cases of $d$-dimensional space, all vertex weights are $d$, all edge weights are $1$, and constant $k= -{{d+1}\choose{2}}$. Trivial graphs for 2D would be a single vertex. Trivial graphs in 3D would be a vertex and an edge (2 vertices with an edge between). Etc. These trivial graphs capture the notion of the rotational symmetry that exists in geometric spaces.
+% \end{definition}
 
-\begin{definition}
-    A \textbf{trivial} graph is ill-defined in the general case. The only strict requirements are: (1) it must be an over-constrained graph and (2) all of its subgraphs are also trivial.
-    \todo{Maybe leave the following out until it's needed later?}
-    In the familiar geometric cases of $d$-dimensional space, all vertex weights are $d$, all edge weights are $1$, and constant $k= -{{d+1}\choose{2}}$. Trivial graphs for 2D would be a single vertex. Trivial graphs in 3D would be a vertex and an edge (2 vertices with an edge between). Etc. These trivial graphs capture the notion of the rotational symmetry that exists in geometric spaces.
-\end{definition}
-
-\begin{definition}
-    The \textbf{decomposition-recombination (DR-) plan} of graph $G$, $DRP(G)$, is defined as a tree that has the following properties:
+\begin{definition}\label{def:drp}
+    The \textbf{decomposition-recombination \mbox{(DR-)} plan} of graph $G$, $DRP(G)$, is defined as a tree that has the following properties:
     \begin{enumerate}
         \item The root of the tree `contains' $G$.
         \item For all nodes, $C$, that `contain' non-trivial graphs, its $N$ children, $C_1, \ldots, C_N$, are trivial or well-constrained vertex-maximal proper subgraphs of that node $C$.
@@ -81,23 +72,27 @@
     An equivalent DAG can be constructed from this tree such that all nodes containing the same subgraphs are combined into one, with all edges preserved.
 
     Note that nodes will be referred to interchangeably as ``the node that contains the (sub)graph $C$'' and as simply ``$C$''.
+
+    A DR-plan is \textbf{complete} if it satisfies the modified rule number 2: the children are \emph{all} of the trivial or well-constrained vertex-maximal proper subgraphs of that node $C$. This makes rule 3 implicit. The complete DR-plan is unique.
+
+    A DR-plan is \textbf{optimal} if it minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
 \end{definition}
 
-\begin{definition}
-    The \textbf{complete DR-plan} of graph $G$, $CompleteDRP(G)$, is the unique DR-plan but with a modified rule number 2: the children are \emph{all} of the trivial or well-constrained vertex-maximal proper subgraphs of that node $C$. By this, rule 3 is implicit for a complete DR-plan.
-\end{definition}
+% \begin{definition}
+%     The \textbf{complete DR-plan} of graph $G$, $CompleteDRP(G)$, is the unique DR-plan but with a modified rule number 2: the children are \emph{all} of the trivial or well-constrained vertex-maximal proper subgraphs of that node $C$. By this, rule 3 is implicit for a complete DR-plan.
+% \end{definition}
 
-\begin{definition}
-    The \textbf{optimal DR-plan} of graph $G$, $OptimalDRP(G)$, is the DR-plan that minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
-\end{definition}
+% \begin{definition}
+%     The \textbf{optimal DR-plan} of graph $G$, $OptimalDRP(G)$, is the DR-plan that minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
+% \end{definition}
 
 
 \subsection{Notation}
 
-$G$ is taken to be a graph with values $(V,E,w_V,w_E)$. The most important limitation of this paper is that we take $G$ to be well-constrained.
-\todo{I don't think the following is actually necessary to mention...} To keep problems meaningful we assume that $G$ is connected, as the methods discussed are used to solve systems of equations to establish linkages. It is not useful to solve for two bodies simultaneously if there are no constraints between them.
+In Sections \ref{sec:DRP} and \ref{sec:recomb}, $G$ is taken to be a \emph{well-constrained} bar and joint graph with values $(V,E,w_V,w_E)$.
+% \todo{I don't think the following is actually necessary to mention...} To keep problems meaningful we assume that $G$ is connected, as the methods discussed are used to solve systems of equations to establish linkages. It is not useful to solve for two bodies simultaneously if there are no constraints between them.
 % THIS MEANS NO EDGES MAY BE LEFT OUT, ALSO.
 
 $Idc(G,X)$ is the graph induced on $G$ with the vertex set $X\subseteq V$. This can also be overloaded such that, using graph $H=(W,F)$, $Idc(G,H)=Idc(G,W)$.
 
-$C$ is an arbitrary graph in a node in $CompleteDRP(G)$. $C_i$ is the $i^{\text{th}}$ child of $C$. By definition of a DR-plan, it is implied that $C_i$ is a well-constrained vertex-maximal proper subgraph.
+$C$ is the graph in an arbitrary node in $CompleteDRP(G)$. $C_i$ is the $i^{\text{th}}$ child of $C$. By definition of a DR-plan, it is implied that $C_i$ is a well-constrained vertex-maximal proper subgraph.

@@ -1,0 +1,97 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <polyline>84.0279,34.7719 106.696,83.0266 133.009,36.5071 84.3253,34.8436 107.451,45.2935 132.599,36.2509 111.689,55.125 106.583,82.842 101.539,56.7693 111.505,55.2379 106.784,45.4476 101.426,56.5848 84.6227,34.9152</polyline>
+%  <polygon>144.595,81.8685 158.87,60.2388 142.432,65.8625</polygon>
+%  <line x1="106.526" y1="83.1663" x2="144.595" y2="81.4359"/>
+%  <line x1="111.718" y1="55.4802" x2="142.432" y2="65.6462"/>
+%  <line x1="132.482" y1="36.4461" x2="158.438" y2="60.4551"/>
+%  <polygon>60.6105,55.4374 69.0874,79.9278 74.6281,63.461</polygon>
+%  <line x1="69.107" y1="79.7055" x2="106.743" y2="82.95"/>
+%  <line x1="75.1633" y1="63.9158" x2="101.552" y2="56.9943"/>
+%  <line x1="60.4551" y1="55.6965" x2="83.8152" y2="34.932"/>
+%  <ellipse x="105.973" y="56.0374" dx="2.21441" dy="1.27072" fill="lightgray"/>
+%  <ellipse x="110.272" y="35.6347" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="92.8806" y="53.5869" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="123.736" y="52.8856" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="116.022" y="42.3668" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="122.333" y="45.5926" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="108.869" y="69.0145" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="102.838" y="63.9655" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="95.2649" y="48.5378" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="95.2649" y="39.702" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="109.074" y="50.248" dx="2.18637" dy="1.39555" fill="lightgray"/>
+%  <ellipse x="103.843" y="51.42" dx="2.36006" dy="1.29577" fill="lightgray"/>
+%  <ellipse x="64.9706" y="67.3315" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="69.1782" y="60.4592" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="72.2637" y="71.5391" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="73.6662" y="43.4888" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="87.4108" y="60.5995" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="85.0266" y="80.9359" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="150.243" y="62.9837" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="143.371" y="73.7831" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="150.243" y="73.3623" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="143.371" y="46.2938" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="127.663" y="61.0202" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <ellipse x="130.047" y="82.0579" dx="2.59557" dy="1.73041" fill="lightgray"/>
+%  <circle x="106.65" y="82.4817" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="105.316" y="81.3142" t="a1" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="84.4676" y="35.114" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="83.1333" y="33.9464" t="a2" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="132.247" y="36.6573" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="130.912" y="35.4898" t="a3" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="106.715" y="44.7987" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="105.38" y="43.6312" t="b1" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="111.733" y="55.1773" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="110.399" y="54.0098" t="b2" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="101.251" y="56.6563" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="99.917" y="55.4888" t="b3" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="74.6358" y="63.6686" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="73.3015" y="62.5011" t="c1" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="68.8999" y="79.8121" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="67.5656" y="78.6446" t="c2" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="60.6443" y="55.8709" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="59.31" y="54.7033" t="c3" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="144.274" y="81.5098" d="4.92521" lw="1.10" fill="white"/>
+%  <text x="142.94" y="80.3423" t="d2" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="142.219" y="65.6119" d="4.92521" lw="1.10" fill="white"/>
+%  <text x="140.885" y="64.4444" t="d1" h="3.5" lw="1.10" fill="white"/>
+%  <circle x="158.117" y="60.4208" d="4.9252" lw="1.10" fill="white"/>
+%  <text x="156.783" y="59.2532" t="d3" h="3.5" lw="1.10" fill="white"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(301.60, 159.57)(0,0)
+  \put(0,0){\includegraphics{pinned.pdf}}
+  \put(139.28,143.61){\fontsize{9.96}{11.95}\selectfont a1}
+  \put(76.40,9.34){\fontsize{9.96}{11.95}\selectfont a2}
+  \put(211.83,13.72){\fontsize{9.96}{11.95}\selectfont a3}
+  \put(139.46,36.79){\fontsize{9.96}{11.95}\selectfont b1}
+  \put(153.69,66.21){\fontsize{9.96}{11.95}\selectfont b2}
+  \put(123.97,70.41){\fontsize{9.96}{11.95}\selectfont b3}
+  \put(48.53,90.28){\fontsize{9.96}{11.95}\selectfont c1}
+  \put(32.27,136.04){\fontsize{9.96}{11.95}\selectfont c2}
+  \put(8.87,68.18){\fontsize{9.96}{11.95}\selectfont c3}
+  \put(245.93,140.86){\fontsize{9.96}{11.95}\selectfont d2}
+  \put(240.10,95.79){\fontsize{9.96}{11.95}\selectfont d1}
+  \put(285.17,81.08){\fontsize{9.96}{11.95}\selectfont d3}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(301.60, 159.57)(0,0)
+  \put(0,0){\includegraphics{pinned}}
+  \put(139.28,143.61){\fontsize{9.96}{11.95}\selectfont a1}
+  \put(76.40,9.34){\fontsize{9.96}{11.95}\selectfont a2}
+  \put(211.83,13.72){\fontsize{9.96}{11.95}\selectfont a3}
+  \put(139.46,36.79){\fontsize{9.96}{11.95}\selectfont b1}
+  \put(153.69,66.21){\fontsize{9.96}{11.95}\selectfont b2}
+  \put(123.97,70.41){\fontsize{9.96}{11.95}\selectfont b3}
+  \put(48.53,90.28){\fontsize{9.96}{11.95}\selectfont c1}
+  \put(32.27,136.04){\fontsize{9.96}{11.95}\selectfont c2}
+  \put(8.87,68.18){\fontsize{9.96}{11.95}\selectfont c3}
+  \put(245.93,140.86){\fontsize{9.96}{11.95}\selectfont d2}
+  \put(240.10,95.79){\fontsize{9.96}{11.95}\selectfont d1}
+  \put(285.17,81.08){\fontsize{9.96}{11.95}\selectfont d3}
+  \end{picture}%
+\fi
+\end{figure}

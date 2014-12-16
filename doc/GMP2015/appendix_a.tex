@@ -1,0 +1,69 @@
+\section{Appendix}
+\label{sec:appendix}
+
+\subsection{Section \ref{sec:DRP} -- {\sffamily \textbf{Lemma \ref{lemma:wc_intersection_makes_all_wc}}}}
+
+% \textbf{Section \ref{sec:DRP}}
+
+% {\sffamily \textbf{Lemma \ref{lemma:main_trivial}}
+
+
+\begin{proof}
+The alternative phrasing is due to Lemma \ref{lemma:wc_intersection_is_C}.
+
+Let us say $R_i=C\setminus C_i$, $R_j=C\setminus C_j$, and $D_{i,j}=C_i\cap C_j=(C\setminus R_i)\setminus R_j$ (note that $R_j\subset C_i$, $R_i\subset C_j$ and $D_{i,j}\subset C_i,C_j$). Furthermore, we have the proper subgraphs $R'_i\subset R_i$, $R'_j\subset R_j$, and $D'_{i,j}\subset D_{i,j}$ which are not empty sets.
+
+Then we assume that there is some third well-constrained vertex-maximal proper subgraph $C_k$ (with $C'_k=C\setminus C_k$). There are $3\times 3\times 3 = 27$ possible cases for what this subgraph could be.
+
+For convenience, it is implied that all graphs are the induced graph on $C$.
+\newcommand{\inducedOnC}[1]{#1}
+
+% \newcommand{\inducedOnC}[1]{Idc\left(C,#1\right)}
+
+\begin{itemize}
+    \item 3 cases: $C_k$ cannot be $C=\inducedOnC{R_i\cup R_j\cup D_{i,j}}$, $C_i=\inducedOnC{R_j\cup D_{i,j}}$, or $C_j=\inducedOnC{R_i\cup D_{i,j}}$. This is by definition.
+
+    \item 13 cases: $C_k$ cannot be a proper subgraph of $C_i$ and $C_j$ or else $C_k$ would not be vertex-maximal. These are the graphs $\inducedOnC{R'_i\cup D_{i,j}}$, $\inducedOnC{R'_j\cup D_{i,j}}$, $\inducedOnC{ D_{i,j}}$, $\inducedOnC{R_i\cup D'_{i,j}}$, $\inducedOnC{R_j\cup D'_{i,j}}$, $\inducedOnC{R'_i\cup D'_{i,j}}$, $\inducedOnC{R'_j\cup D'_{i,j}}$, $\inducedOnC{ D'_{i,j}}$, $\inducedOnC{R_i}$, $\inducedOnC{R_j}$, $\inducedOnC{R'_i}$, $\inducedOnC{R'_j}$, and $\inducedOnC{\emptyset}$.
+
+    \item 2 cases: $C_k$ cannot contain $C_i$ or $C_j$ as proper subgraphs, or else they were not vertex-maximal. These are the graphs $\inducedOnC{R'_i\cup R_j\cup D_{i,j}}$ and $\inducedOnC{R_i\cup R'_j\cup D_{i,j}}$ respectively.
+
+    \item 4 cases: \todo{Uses 2D requirement:} $C_k$ cannot be $\inducedOnC{R_i\cup R_j}$, $\inducedOnC{R'_i\cup R_j}$, $\inducedOnC{R_i\cup R'_j}$, or $\inducedOnC{R'_i\cup R'_j}$ because these are all disconnected (Corollary \ref{corollary:no_edges_between_diff}) and cannot be well-constrained.
+
+    \item 1 case: $C_k=\inducedOnC{R'_i\cup R'_j\cup D_{i,j}}$ is not possible. Since $C_i\cup C_k = \inducedOnC{R'_i\cup R_j\cup D_{i,j}}\neq C$ we have from Lemma \ref{lemma:wc_intersection_is_C} that $C_i\cup C_k$ cannot be well-constrained. We also know it cannot be trivial because it contains well-constrained subgraphs. This means it must be under-constrained. From Lemma \ref{lemma:union_intersection}, we know that $C_i\cap C_k=\inducedOnC{R'_j\cup D_{i,j}}$ must then be trivial. This is impossible because $D_{i,j}$ is well-constrained, thereby contradicting the assumption that $C_k$ is well-constrained.
+
+    \item 1 case: \todo{Uses 2D requirement:} $C_k=\inducedOnC{R'_i\cup R'_j\cup D'_{i,j}}$ is not possible. Since $C_i\cup C_k\neq C$ (and $C_j\cup C_k\neq C$), we know by the same logic as the previous case that the $C_i\cap C_k$ must be trivial (a single node). However, $C_i\cap C_k=\inducedOnC{R'_j\cup D'_{i,j}}$. This causes a contradiction, the intersection cannot be trivial because $R'_j$ and $D'_{i,j}$ are not empty sets and are disjoint.
+
+    \item 2 cases: \todo{Uses 2D requirement:} $C_k=\inducedOnC{R'_i\cup R_j\cup D'_{i,j}}$ and $C_k=\inducedOnC{R_i\cup R'_j\cup D'_{i,j}}$ are not possible. The proof mirrors the previous case, except here you must choose $C_i$ and $C_j$ respectively.
+
+    \item 1 case: $C_k=\inducedOnC{R_i\cup R_j\cup D'_{i,j}}$ is all that remains.
+\end{itemize}
+
+Since $D_{i,j}\subset C_i, C_j$ it means that $C_k\cup C_i = C_k \cup C_j = C$, thus proving the Lemma.
+
+\todo{Need a figure?}
+\end{proof}
+
+\subsection{Section \ref{sec:pinnedline} -- proof of {\sffamily \textbf{Lemma \ref{lemma:wc_intersection_makes_all_wc}}} for  2-dimensional pinned line incidence graphs }
+\label{sec:appendix_pinned}
+
+\begin{proof} %[Proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for 2D pinned line incidence graphs]
+We use the same notations as in the original proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} in the last section.  
+
+First notice that since $C_i \cup C_j$ is well-constrained, by Lemma~\ref{lem:pinned_union_intersection},
+both $C_i$ and $C_j$ are connected well-constrained vertex-maximal proper subgraphs of  $C$.
+Since $C_j \cup C_j = C$, there are no edges in $C$ that is not contained in a well-constrained subgraph, so $C$ does not have any single-edge child node, and $C_k$ is a connected well-constrained vertex-maximal proper subgraph of  $C$.
+
+Then we analyze all the possible cases for $C_k$.
+\begin{itemize}
+    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D_{i,j})$ is not possible. Since $C_k\cup C_i = Idc(C,R'_i\cup R_j\cup D_{i,j})\neq C$ we have from Lemma \ref{lemma:wc_intersection_is_C} that $C_k\cup C_i$ cannot be well-constrained.
+    By Lemma~\ref{lem:pinned_union_intersection}, it must be under-constrained,
+    so one of $C_i$ and $C_k$ must be an edge, contradicting the assumption that both $C_i$ and $C_k$ are well-constrained.
+
+    \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D'_{i,j})$ is not possible. The proof is similar to the previous case.
+
+    \item 2 cases: $C_k=Idc(C,R'_i\cup R_j\cup D'_{i,j})$ and $C_k=Idc(C,R_i\cup R'_j\cup D'_{i,j})$ are not possible.
+    The proof is similar to the previous case.
+\end{itemize}
+
+All remaining cases are similar to the original proof.
+\end{proof}
