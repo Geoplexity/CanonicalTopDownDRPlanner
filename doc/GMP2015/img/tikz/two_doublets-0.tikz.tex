@@ -1,0 +1,41 @@
+% \newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
+
+\begin{tikzpicture}[scale=2]
+    \tikzstyle{v}=[draw, circle, minimum size=0.1cm, font=\footnotesize]
+    \tikzstyle{c}=[draw, circle, inner sep=1.5, fill=black]
+    \tikzstyle{e}=[]
+
+    \node[c] (v1) at (0,0.866) [label={left,inner sep=.555}:$a_1$]{};
+    \node[c] (v2) at (-1,-0.866) [label={below,inner sep=.555}:$a_2$]{};
+    \node[c] (v3) at (1,-0.866) [label={above,inner sep=.555}:$a_3$]{};
+
+    \node[c] (v4) at (0,0.577-.1) [label={left,inner sep=.555}:$b_1$]{};
+    \node[c] (v5) at (-0.667,-0.577-.1) [label={below,inner sep=.555}:$b_2$]{};
+    \node[c] (v6) at (0.667,-0.577-.1) [label={above,inner sep=.555}:$b_3$]{};
+
+    \node[c] (v7) at (0,0.289-.2) [label={left,inner sep=.555}:$c_1$]{};
+    \node[c] (v8) at (-0.333,-0.289-.2) [label={below,inner sep=.555}:$c_2$]{};
+    \node[c] (v9) at (0.333,-0.289-.2) [label={above,inner sep=.555}:$c_3$]{};
+
+
+    \tedge{v1}{v2}{solid}{}{};
+    \tedge{v1}{v3}{solid}{}{};
+    \tedge{v2}{v3}{solid}{}{};
+
+    \tedge{v4}{v5}{solid}{}{};
+    \tedge{v4}{v6}{solid}{}{};
+    \tedge{v5}{v6}{solid}{}{};
+
+    \tedge{v7}{v8}{solid}{}{};
+    \tedge{v7}{v9}{solid}{}{};
+    \tedge{v8}{v9}{solid}{}{};
+
+
+    \tedge{v1}{v4}{solid}{}{};
+    \tedge{v2}{v5}{solid}{}{};
+    \tedge{v3}{v6}{solid}{}{};
+
+    \tedge{v4}{v7}{solid}{}{};
+    \tedge{v5}{v8}{solid}{}{};
+    \tedge{v6}{v9}{solid}{}{};
+\end{tikzpicture}
