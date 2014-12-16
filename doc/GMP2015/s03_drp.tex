@@ -511,23 +511,24 @@ No matter which two children you choose in case (A) all children must always be 
 We now present two examples of non-tree-decomposable graphs that illustrate the two cases found in decomposition -- intersection on a well-constrained subgraph and intersection on a trivial subgraph.
 
 \begin{figure*}\centering
-\begin{subfigure}{.3\linewidth}
-  \centering
+\begin{subfigure}{.3\linewidth}\centering
   \begin{tikzpicture}[scale=2]
         \tikzstyle{v}=[draw, circle, minimum size=0.1cm, font=\footnotesize]
+        \tikzstyle{c}=[draw, circle, inner sep=1.5, fill=black]
         \tikzstyle{e}=[]
 
-        \node[v] (v1) at (0,0.866) {$a_1$};
-        \node[v] (v2) at (-1,-0.866) {$a_2$};
-        \node[v] (v3) at (1,-0.866) {$a_3$};
+        \node[c] (v1) at (0,0.866) [label={left,inner sep=.555}:$a_1$]{};
+        \node[c] (v2) at (-1,-0.866) [label={below,inner sep=.555}:$a_2$]{};
+        \node[c] (v3) at (1,-0.866) [label={above,inner sep=.555}:$a_3$]{};
 
-        \node[v] (v4) at (0,0.577-.1) {$b_1$};
-        \node[v] (v5) at (-0.667,-0.577-.1) {$b_2$};
-        \node[v] (v6) at (0.667,-0.577-.1) {$b_3$};
+        \node[c] (v4) at (0,0.577-.1) [label={left,inner sep=.555}:$b_1$]{};
+        \node[c] (v5) at (-0.667,-0.577-.1) [label={below,inner sep=.555}:$b_2$]{};
+        \node[c] (v6) at (0.667,-0.577-.1) [label={above,inner sep=.555}:$b_3$]{};
 
-        \node[v] (v7) at (0,0.289-.2) {$c_1$};
-        \node[v] (v8) at (-0.333,-0.289-.2) {$c_2$};
-        \node[v] (v9) at (0.333,-0.289-.2) {$c_3$};
+        \node[c] (v7) at (0,0.289-.2) [label={left,inner sep=.555}:$c_1$]{};
+        \node[c] (v8) at (-0.333,-0.289-.2) [label={below,inner sep=.555}:$c_2$]{};
+        \node[c] (v9) at (0.333,-0.289-.2) [label={above,inner sep=.555}:$c_3$]{};
+
 
         \tedge{v1}{v2}{solid}{}{};
         \tedge{v1}{v3}{solid}{}{};
@@ -553,24 +554,25 @@ We now present two examples of non-tree-decomposable graphs that illustrate the 
 
     \caption{}
 \end{subfigure}%
-\begin{subfigure}{.7\linewidth}
-    \centering
+\begin{subfigure}{.7\linewidth}\centering
     \begin{tikzpicture}[scale=.9, transform shape]
         \tikzstyle{v}=[draw, circle, minimum size=0.75cm, font=\footnotesize]
+        % \tikzstyle{b}=[draw, font=\footnotesize]
+        \tikzstyle{b}=[]
         \tikzstyle{e}=[]
 
-        \node (c0) at (0,0) {$\{a_1,a_2,a_3,b_1,b_2,b_3,c_1,c_2,c_3\}$};
-        \node (c1a) at (-2,-1) {$\{a_1,a_2,a_3,b_1,b_2,b_3\}$};
-        \node (c1b) at (2,-1) {$\{b_1,b_2,b_3,c_1,c_2,c_3\}$};
-        \node (c2a) at (-2,-2) {$\{a_1,a_2,a_3\}$};
-        \node (c2b) at (0,-2) {$\{b_1,b_2,b_3\}$};
-        \node (c2c) at (2,-2) {$\{c_1,c_2,c_3\}$};
-        \node (c2ab1) at (-5.6,-2) {$\{a_1,b_1\}$};
-        \node (c2ab2) at (-4.5,-2) {$\{a_2,b_2\}$};
-        \node (c2ab3) at (-3.4,-2) {$\{a_3,b_3\}$};
-        \node (c2bc1) at (5.6,-2) {$\{b_1,c_1\}$};
-        \node (c2bc2) at (4.5,-2) {$\{b_2,c_2\}$};
-        \node (c2bc3) at (3.4,-2) {$\{b_3,c_3\}$};
+        \node[b] (c0) at (0,0) {$\{a_1,a_2,a_3,b_1,b_2,b_3,c_1,c_2,c_3\}$};
+        \node[b] (c1a) at (-2,-1) {$\{a_1,a_2,a_3,b_1,b_2,b_3\}$};
+        \node[b] (c1b) at (2,-1) {$\{b_1,b_2,b_3,c_1,c_2,c_3\}$};
+        \node[b] (c2a) at (-2,-2) {$\{a_1,a_2,a_3\}$};
+        \node[b] (c2b) at (0,-2) {$\{b_1,b_2,b_3\}$};
+        \node[b] (c2c) at (2,-2) {$\{c_1,c_2,c_3\}$};
+        \node[b] (c2ab1) at (-5.6,-2) {$\{a_1,b_1\}$};
+        \node[b] (c2ab2) at (-4.5,-2) {$\{a_2,b_2\}$};
+        \node[b] (c2ab3) at (-3.4,-2) {$\{a_3,b_3\}$};
+        \node[b] (c2bc1) at (5.6,-2) {$\{b_1,c_1\}$};
+        \node[b] (c2bc2) at (4.5,-2) {$\{b_2,c_2\}$};
+        \node[b] (c2bc3) at (3.4,-2) {$\{b_3,c_3\}$};
 
         \tedge{c0}{c1a}{solid}{}{};
         \tedge{c0}{c1b}{solid}{}{};
@@ -606,15 +608,18 @@ We now present two examples of non-tree-decomposable graphs that illustrate the 
 \begin{figure*}\centering
 \begin{tikzpicture}[scale=3]
     \tikzstyle{v}=[draw, circle, minimum size=0.75cm]
+    \tikzstyle{c}=[draw, circle, inner sep=1.5, fill=black]
     \tikzstyle{e}=[]
 
-    \node[v] (v1) at (0,0.866) {$a_1$};
-    \node[v] (v2) at (-1,-0.866) {$a_2$};
-    \node[v] (v3) at (1,-0.866) {$a_3$};
+    \node[circle,fill=white,inner sep=7] (center) at (0,0-.125-.1) {};
 
-    \node[v] (v4) at (0,0.433-.125) {$b_1$};
-    \node[v] (v5) at (-0.5,-0.433-.125) {$b_2$};
-    \node[v] (v6) at (0.5,-0.433-.125) {$b_3$};
+    \node[c] (v1) at (0,0.866) [label={left,inner sep=.555}:$a_1$]{};
+    \node[c] (v2) at (-1,-0.866) [label={below,inner sep=.555}:$a_2$]{};
+    \node[c] (v3) at (1,-0.866) [label={above,inner sep=.555}:$a_3$]{};
+
+    \node[c] (v4) at (0,0.433-.125) [label={left,inner sep=.555}:$b_1$]{};
+    \node[c] (v5) at (-0.5,-0.433-.125) [label={below,inner sep=.555}:$b_2$]{};
+    \node[c] (v6) at (0.5,-0.433-.125) [label={above,inner sep=.555}:$b_3$]{};
 
     \tedge{v1}{v2}{solid}{}{};
     \tedge{v1}{v3}{solid}{}{};
@@ -628,6 +633,12 @@ We now present two examples of non-tree-decomposable graphs that illustrate the 
     \tedge{v1}{v4}{solid}{}{};
     \tedge{v2}{v5}{solid}{}{};
     \tedge{v3}{v6}{solid}{}{};
+
+
+    \tedge{v4}{center}{dashed}{}{};
+    \tedge{v5}{center}{dashed}{}{};
+    \tedge{v6}{center}{dashed}{}{};
+
 
     % sin(30deg) = 0.5
     % cos(30deg) = 0.866
@@ -644,21 +655,37 @@ We now present two examples of non-tree-decomposable graphs that illustrate the 
     \draw (ob0) -- (ob3);
     \draw (ob2) -- (ob1);
 
-    \coordinate (ib0) at (-0.167,-0.433-.125-0.1);
-    \coordinate (ib1) at (0.167,-0.433-.125-0.1);
-    \coordinate (ib2) at (-0.167,-0.433-.125+0.1);
-    \coordinate (ib3) at (0.167,-0.433-.125+0.1);
+    \draw[rotate around={60:(-1,-0.866)}] (v2) -- (-0.333,-0.766) -- (0.333,-0.766) -- (v1);
+    \draw[rotate around={60:(-1,-0.866)}]  (v2) -- (-0.333,-0.966) -- (0.333,-0.966) -- (v1);
+    \draw[rotate around={60:(-1,-0.866)}]  (-0.333,-0.766) -- (0.333,-0.966);
+    \draw[rotate around={60:(-1,-0.866)}]  (-0.333,-0.966) -- (0.333,-0.766);
+
+    \draw[rotate around={-60:(1,-0.866)}] (v3) -- (0.333,-0.766) -- (-0.333,-0.766) -- (v1);
+    \draw[rotate around={-60:(1,-0.866)}]  (v3) -- (0.333,-0.966) -- (-0.333,-0.966) -- (v1);
+    \draw[rotate around={-60:(1,-0.866)}]  (-0.333,-0.766) -- (0.333,-0.966);
+    \draw[rotate around={-60:(1,-0.866)}]  (-0.333,-0.966) -- (0.333,-0.766);
+
+
+
+
+    \coordinate (ib0) at (-0.167,-0.433-.125-0.1); %(-.167,-.658)
+    \coordinate (ib1) at (0.167,-0.433-.125-0.1); %(.167,-.658)
+    \coordinate (ib2) at (-0.167,-0.433-.125+0.1);%(-.167,-.458)
+    \coordinate (ib3) at (0.167,-0.433-.125+0.1);%(.167,-.458)
     \draw (v5) -- (ib0) -- (ib1) -- (v6);
     \draw (v5) -- (ib2) -- (ib3) -- (v6);
     \draw (ib0) -- (ib3);
     \draw (ib2) -- (ib1);
 
+    \draw[rotate around={60:(-0.5,-0.558)}] (v5) -- (-.167,-.658) -- (.167,-.658) -- (v4);
+    \draw[rotate around={60:(-0.5,-0.558)}]  (v5) -- (-.167,-.458) -- (.167,-.458) -- (v4);
+    \draw[rotate around={60:(-0.5,-0.558)}]  (-.167,-.658) -- (.167,-.458);
+    \draw[rotate around={60:(-0.5,-0.558)}]  (-.167,-.458) -- (.167,-.658);
 
-
-    % \draw[rotate around={60:(-1,-0.866)}] (v2) -- (-0.333,-0.766) -- (0.333,-0.766) -- (v1);
-    % \draw (v2) -- (ob2) -- (ob3) -- (v1);
-    % \draw (ob0) -- (ob3);
-    % \draw (ob2) -- (ob1);
+    \draw[rotate around={-60:(0.5,-0.558)}] (v6) -- (.167,-.658) -- (-.167,-.658) -- (v4);
+    \draw[rotate around={-60:(0.5,-0.558)}]  (v6) -- (.167,-.458) -- (-.167,-.458) -- (v4);
+    \draw[rotate around={-60:(0.5,-0.558)}]  (-.167,-.658) -- (.167,-.458);
+    \draw[rotate around={-60:(0.5,-0.558)}]  (-.167,-.458) -- (.167,-.658);
 % \newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
 
     % \draw (-1,-0.866) -- (-0.333,-0.966);

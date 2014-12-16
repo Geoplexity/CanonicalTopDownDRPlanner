@@ -1,5 +1,100 @@
 \section{Using the canonical, optimal DR-plan for Realizing (Solving) Qusecs}
 \label{sec:recomb}
+
+
+
+\begin{figure*}\centering
+\begin{subfigure}{.3\linewidth}\centering
+  \begin{tikzpicture}[scale=2]
+        \tikzstyle{v}=[draw, circle, minimum size=0.1cm, font=\footnotesize]
+        \tikzstyle{c}=[draw, circle, inner sep=2, fill=black]
+        \tikzstyle{e}=[]
+
+        \node[c] (v0) at (  -1,  0)     [label=left:$v_0$]{};
+        \node[c] (v1) at (-0.5,  0.866) [label=above left:$v_1$]{};
+        \node[c] (v2) at ( 0.5,  0.866) [label=above right:$v_2$]{};
+        \node[c] (v3) at (   1,  0)     [label=right:$v_3$]{};
+        \node[c] (v4) at ( 0.5, -0.866) [label=below right:$v_4$]{};
+        \node[c] (v5) at (-0.5, -0.866) [label=below left:$v_5$]{};
+
+        \tedge{v3}{v2}{solid}{}{};
+        \tedge{v2}{v1}{solid}{}{};
+        \tedge{v1}{v0}{solid}{}{};
+        \tedge{v0}{v5}{solid}{}{};
+        \tedge{v5}{v4}{solid}{}{};
+        \tedge{v4}{v3}{solid}{}{};
+
+        \tedge{v3}{v0}{solid}{}{};
+        \tedge{v2}{v5}{solid}{$e$}{left, pos=0.15};
+        \tedge{v1}{v4}{solid}{}{};
+    \end{tikzpicture}
+
+    \caption{}
+\end{subfigure}
+%
+\begin{subfigure}{.3\linewidth}\centering
+  \begin{tikzpicture}[scale=2]
+        \tikzstyle{v}=[draw, circle, minimum size=0.1cm, font=\footnotesize]
+        \tikzstyle{c}=[draw, circle, inner sep=2, fill=black]
+        \tikzstyle{e}=[]
+
+        \node[c] (v0) at (0,  1) [label=above:$v_0$]{};
+        \node[c] (v1) at (0,  0)     [label=below:$v_1$]{};
+        \node[c] (v2) at (-0.5, 1.5) [label=above:$v_2$]{};
+        \node[c] (v3) at (1, 1)     [label=above:$v_3$]{};
+        \node[c] (v4) at (1, 0) [label=below:$v_4$]{};
+        \node[c] (v5) at (1.5,  1.5) [label=above:$v_5$]{};
+
+        \tedge{v3}{v2}{solid}{}{};
+        \tedge{v2}{v1}{solid}{}{};
+        \tedge{v1}{v0}{solid}{}{};
+        \tedge{v0}{v5}{solid}{}{};
+        \tedge{v5}{v4}{solid}{}{};
+        \tedge{v4}{v3}{solid}{}{};
+
+        \tedge{v3}{v0}{solid}{}{};
+        \tedge{v2}{v5}{dashed}{$e$}{above};
+        \tedge{v1}{v4}{solid}{}{};
+    \end{tikzpicture}
+
+    \caption{}
+\end{subfigure}
+%
+\begin{subfigure}{.3\linewidth}\centering
+  \begin{tikzpicture}[scale=2]
+        \tikzstyle{v}=[draw, circle, minimum size=0.1cm, font=\footnotesize]
+        \tikzstyle{c}=[draw, circle, inner sep=2, fill=black]
+        \tikzstyle{e}=[]
+
+        \node[c] (v0) at (0,  1) [label=above:$v_0$]{};
+        \node[c] (v1) at (0,  0)     [label=below:$v_1$]{};
+        \node[c] (v2) at (-0.5, 1.5) [label=above:$v_2$]{};
+        \node[c] (v3) at (1, 1)     [label=above:$v_3$]{};
+        \node[c] (v4) at (1, 0) [label=below:$v_4$]{};
+        \node[c] (v5) at (1.5,  1.5) [label=above:$v_5$]{};
+
+        \tedge{v3}{v2}{solid}{}{};
+        \tedge{v2}{v1}{solid}{}{};
+        \tedge{v1}{v0}{solid}{}{};
+        \tedge{v0}{v5}{solid}{}{};
+        \tedge{v5}{v4}{solid}{}{};
+        \tedge{v4}{v3}{solid}{}{};
+
+        \tedge{v3}{v0}{solid}{}{};
+        \tedge{v2}{v5}{dashed}{$e$}{above};
+        \tedge{v1}{v4}{solid}{}{};
+
+        \tedge{v1}{v3}{solid, ultra thick}{$f$}{left, pos=0.4};
+    \end{tikzpicture}
+
+    \caption{}
+\end{subfigure}
+
+\caption{(a) The $K3,3$ with one labeled edge $e$. (b) The $K3,3$ with $e$ removed (dashed line) and rearranged to illustrate that it is now a partial 2-tree. (c) The $K3,3$ with $e$ removed and $f$ (bold line) added to make a 2-tree. Note that the non-edge $(v_0,v_4)$ would also be a valid choice.}
+\label{fig:omd_k33_example}
+\end{figure*}
+
+
 In this section, we consider the {\em optimal recombination}
 problem of combining specific solutions of
 subsystems in a DR-plan into a solution of their parent system $I$, (without
@@ -187,7 +282,7 @@ corresponding to the root of
 this DR-plan involves solving a quadratic system with 8 equations and variables,
 Instead of simultaneously solving this system, we could instead use the fact
 that $G=K_{3,3}$ is in OMD$_1$: remove the
-edge $e$ in Figure \ref{omdexample} to give a partial 2-tree $G'$.
+edge $e$ in Figure \ref{fig:omd_k33_example} to give a partial 2-tree $G'$.
 Now add the nonedge $f$ to give a 2-tree $H$ with a DR-plan of size 2.
 The Cayley configuration space $\Phi_f(G', \delta_{E\setminus e})$
 is a single interval of attainable length values $\lambda_F$ for
