@@ -1,0 +1,87 @@
+% \newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
+
+\begin{tikzpicture}[scale=3]
+    \tikzstyle{v}=[draw, circle, minimum size=0.75cm]
+    \tikzstyle{c}=[draw, circle, inner sep=1.5, fill=black]
+    \tikzstyle{e}=[]
+
+    \node[circle,fill=white,inner sep=7] (center) at (0,0-.125-.1) {};
+
+    \node[c] (v1) at (0,0.866) [label={left,inner sep=.555}:$a_1$]{};
+    \node[c] (v2) at (-1,-0.866) [label={below,inner sep=.555}:$a_2$]{};
+    \node[c] (v3) at (1,-0.866) [label={above,inner sep=.555}:$a_3$]{};
+
+    \node[c] (v4) at (0,0.433-.125) [label={left,inner sep=.555}:$b_1$]{};
+    \node[c] (v5) at (-0.5,-0.433-.125) [label={below,inner sep=.555}:$b_2$]{};
+    \node[c] (v6) at (0.5,-0.433-.125) [label={above,inner sep=.555}:$b_3$]{};
+
+    \tedge{v1}{v2}{solid}{}{};
+    \tedge{v1}{v3}{solid}{}{};
+    \tedge{v2}{v3}{solid}{}{};
+
+    \tedge{v4}{v5}{solid}{}{};
+    \tedge{v4}{v6}{solid}{}{};
+    \tedge{v5}{v6}{solid}{}{};
+
+
+    \tedge{v1}{v4}{solid}{}{};
+    \tedge{v2}{v5}{solid}{}{};
+    \tedge{v3}{v6}{solid}{}{};
+
+
+    \tedge{v4}{center}{dashed}{}{};
+    \tedge{v5}{center}{dashed}{}{};
+    \tedge{v6}{center}{dashed}{}{};
+
+
+    % sin(30deg) = 0.5
+    % cos(30deg) = 0.866
+
+    % o/i -> outside/inside triangle
+    % b/l/r -> bottom/left/right edge of triangle
+
+    \coordinate (ob0) at (-0.333,-0.866-0.1);
+    \coordinate (ob1) at (0.333,-0.866-0.1);
+    \coordinate (ob2) at (-0.333,-0.866+0.1);
+    \coordinate (ob3) at (0.333,-0.866+0.1);
+    \draw (v2) -- (ob0) -- (ob1) -- (v3);
+    \draw (v2) -- (ob2) -- (ob3) -- (v3);
+    \draw (ob0) -- (ob3);
+    \draw (ob2) -- (ob1);
+
+    \draw[rotate around={60:(-1,-0.866)}] (v2) -- (-0.333,-0.766) -- (0.333,-0.766) -- (v1);
+    \draw[rotate around={60:(-1,-0.866)}]  (v2) -- (-0.333,-0.966) -- (0.333,-0.966) -- (v1);
+    \draw[rotate around={60:(-1,-0.866)}]  (-0.333,-0.766) -- (0.333,-0.966);
+    \draw[rotate around={60:(-1,-0.866)}]  (-0.333,-0.966) -- (0.333,-0.766);
+
+    \draw[rotate around={-60:(1,-0.866)}] (v3) -- (0.333,-0.766) -- (-0.333,-0.766) -- (v1);
+    \draw[rotate around={-60:(1,-0.866)}]  (v3) -- (0.333,-0.966) -- (-0.333,-0.966) -- (v1);
+    \draw[rotate around={-60:(1,-0.866)}]  (-0.333,-0.766) -- (0.333,-0.966);
+    \draw[rotate around={-60:(1,-0.866)}]  (-0.333,-0.966) -- (0.333,-0.766);
+
+
+
+
+    \coordinate (ib0) at (-0.167,-0.433-.125-0.1); %(-.167,-.658)
+    \coordinate (ib1) at (0.167,-0.433-.125-0.1); %(.167,-.658)
+    \coordinate (ib2) at (-0.167,-0.433-.125+0.1);%(-.167,-.458)
+    \coordinate (ib3) at (0.167,-0.433-.125+0.1);%(.167,-.458)
+    \draw (v5) -- (ib0) -- (ib1) -- (v6);
+    \draw (v5) -- (ib2) -- (ib3) -- (v6);
+    \draw (ib0) -- (ib3);
+    \draw (ib2) -- (ib1);
+
+    \draw[rotate around={60:(-0.5,-0.558)}] (v5) -- (-.167,-.658) -- (.167,-.658) -- (v4);
+    \draw[rotate around={60:(-0.5,-0.558)}]  (v5) -- (-.167,-.458) -- (.167,-.458) -- (v4);
+    \draw[rotate around={60:(-0.5,-0.558)}]  (-.167,-.658) -- (.167,-.458);
+    \draw[rotate around={60:(-0.5,-0.558)}]  (-.167,-.458) -- (.167,-.658);
+
+    \draw[rotate around={-60:(0.5,-0.558)}] (v6) -- (.167,-.658) -- (-.167,-.658) -- (v4);
+    \draw[rotate around={-60:(0.5,-0.558)}]  (v6) -- (.167,-.458) -- (-.167,-.458) -- (v4);
+    \draw[rotate around={-60:(0.5,-0.558)}]  (-.167,-.658) -- (.167,-.458);
+    \draw[rotate around={-60:(0.5,-0.558)}]  (-.167,-.458) -- (.167,-.658);
+% \newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
+
+    % \draw (-1,-0.866) -- (-0.333,-0.966);
+
+\end{tikzpicture}

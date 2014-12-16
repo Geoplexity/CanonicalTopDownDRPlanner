@@ -1,0 +1,28 @@
+% \newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
+
+\begin{tikzpicture}[scale=1]
+    \tikzstyle{v}=[draw, circle, minimum size=0.1cm, font=\footnotesize]
+    \tikzstyle{c}=[draw, circle, inner sep=2, fill=black]
+    \tikzstyle{e}=[]
+
+    \node[c] (v0) at (0, 0) [label=left:$v_0$]{};
+    \node[c] (v1) at (1, 2) [label=right:$v_1$]{};
+    \node[c] (v2) at (0, 2) [label=left:$v_2$]{};
+    \node[c] (v3) at (0, 1) [label=left:$v_3$]{};
+    \node[c] (v4) at (1, 1) [label=right:$v_4$]{};
+    \node[c] (v5) at (1, 0) [label=right:$v_5$]{};
+
+    \tedge{v3}{v2}{solid}{}{};
+    \tedge{v2}{v1}{solid}{}{};
+    \tedge{v1}{v0}{dashed}{}{left, pos=0.15};
+    \tedge{v0}{v5}{solid}{}{};
+    \tedge{v5}{v4}{solid}{}{};
+    \tedge{v4}{v3}{solid}{}{};
+
+    \tedge{v3}{v0}{solid}{}{};
+    \tedge{v2}{v5}{dashed}{}{left, pos=0.85};
+    \tedge{v1}{v4}{solid}{}{};
+
+    \tedge{v0}{v4}{solid, thick}{$f_1$}{below, pos=0.5};
+    \tedge{v2}{v4}{solid, thick}{$f_2$}{above, pos=0.5};
+\end{tikzpicture}
