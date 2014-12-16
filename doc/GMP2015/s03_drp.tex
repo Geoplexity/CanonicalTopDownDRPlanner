@@ -112,7 +112,7 @@ $C_i\cup C_j$ is well-constrained if and only if $C_i\cup C_j = C$.
 \end{lemma}
 
 \begin{proof}
-%I wouldn't do the forward and backward direction italics, or say proof by contradiction. Just start the first paragraph with Suppose C_i union C_j is well constained maximal proper and assume it is not C. 
+%I wouldn't do the forward and backward direction italics, or say proof by contradiction. Just start the first paragraph with Suppose C_i union C_j is well constained maximal proper and assume it is not C.
 \textit{Forward direction:} Proof by contradiction. If the $C_i\cup C_j$ was well-constrained but $C_i\cup C_j \neq C$, we would have found a larger well-constrained proper subgraph containing them; namely, $C_i\cup C_j$ or something containing it. The two original subgraphs could not have been vertex-maximal proper.
 
 \textit{Reverse direction:} $C$ is either some non-leaf node (well-constrained by definition of a DR-plan) or $G$ itself (well-constrained by definition of the problem). Thus, $C_i\cup C_j$ is well-constrained.
@@ -237,40 +237,47 @@ By Lemma \ref{lemma:union_intersection}, if some $C_i\cap C_k$ is not trivial, t
 
 \subsection{Examples}
 
-We now present two examples of non-tree-decomposable graphs that illustrate the two cases found in decomposition -- intersection on a well-constrained subgraph and intersection on a trivial subgraph.
+We now present two examples of non-tree-decomposable graphs that illustrate the the strength and flexibility of the canonical DR-plan.
 
 \begin{figure*}\centering
 \begin{subfigure}{.3\linewidth}\centering
     \input{img/tikz/two_doublets-0.tikz}
-    \caption{}
+    \caption{}\label{fig:doublets:a}
 \end{subfigure}%
 \begin{subfigure}{.7\linewidth}\centering
     \input{img/tikz/two_doublets-1.tikz}
-    \caption{}
+    \caption{}\label{fig:doublets:b}
 \end{subfigure}
 
-\caption{(a) Two doublets ($C2\times C3$), $\{a_1,a_2,a_3,b_1,b_2,b_3\}$ and $\{b_1,b_2,b_3,c_1,c_2,c_3\}$, intersecting on the triangle $\{b_1,b_2,b_3\}$. (b) The optimal DR-plan of the graph if we consider it to be a 2D graph; omits further decomposition of the three triangles into their edges and of edges into their individual nodes.}
-\label{doublets}
+\caption{(\ref{fig:doublets:a}) Two doublets ($C2\times C3$), $\{a_1,a_2,a_3,b_1,b_2,b_3\}$ and $\{b_1,b_2,b_3,c_1,c_2,c_3\}$, intersecting on the triangle $\{b_1,b_2,b_3\}$. (\ref{fig:doublets:b}) The optimal DR-plan of the graph if we consider it to be a 2D graph; omits further decomposition of the three triangles into their edges and of edges into their individual nodes.}
+\label{fig:doublets}
 \end{figure*}
 
 
 
 \begin{example}
-    In figure \ref{doublets}, the two well-constrained vertex-maximal proper subgraphs of the graph are the two doublets, shown in the second level of the DR-plan. These intersect on the well-constrained graph $\{b_1,b_2,b_3\}$. This will necessarily be a child $N=2$ levels below the parent of the two doublets, as explained in Theorem \ref{theorem:main_wellconstrained}. Also shown is the decomposition of the individual doublets. These have five well-constrained vertex-maximal proper subgraphs, the two triangles and the three edges connecting them. As explained in Theorem \ref{theorem:main_trivial}, all of them must be included in the optimal DR-plan. Were any left out, the union of the children would not be the entire parent.
+    In figure \ref{fig:doublets}, the two well-constrained vertex-maximal proper subgraphs of the graph are the two doublets, shown in the second level of the DR-plan. These intersect on the well-constrained graph $\{b_1,b_2,b_3\}$. This will necessarily be a child $N=2$ levels below the parent of the two doublets, as explained in Theorem \ref{theorem:main}, point 2. Also shown is the decomposition of the individual doublets. These have five well-constrained vertex-maximal proper subgraphs, the two triangles and the three edges connecting them. As explained in Theorem \ref{theorem:main}, point 1, all of them must be included in the optimal DR-plan. Were any left out, the union of the children would not be the entire parent.
 \end{example}
 
 
 
 \begin{figure*}\centering
-\input{img/tikz/c2c3_of_k33s-0.tikz}
-\caption{A doublet with each edge replaced by a $K3,3$. \todo{Drawing incomplete.}}
-\label{c2c3ofk33s}
+\begin{subfigure}{.3\linewidth}\centering
+    \input{img/tikz/c2c3_of_k33s-0.tikz}
+    \caption{}\label{fig:c2c3ofk33s:a}
+\end{subfigure}%
+\begin{subfigure}{.7\linewidth}\centering
+    \input{img/tikz/c2c3_of_k33s-1.tikz}
+    \caption{}\label{fig:c2c3ofk33s:b}
+\end{subfigure}
+
+\caption{(\ref{fig:c2c3ofk33s:a}) A doublet with each edge of the triangles replaced by a $K3,3$. This pattern continues for a total of $N$ triangles. (\ref{fig:c2c3ofk33s:b}) The DR-plan of this graph, omitting further decomposition of $K3,3$ subgraphs into the separate 9 edges and of edges into the component nodes. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K3,3$ subgraphs. The dashed lines indicated that this exact structure is repeated until only $\{a_{(N+1)/2},b_{(N+1)/2},c_{(N+1)/2}\}$ remains in the case that $N$ is odd, or until only $\{a_{N/2},b_{N/2},c_{N/2},a_{(N/2)+1},b_{(N/2)+1},c_{(N/2)+1}\}$ remains if $N$ is even.}
+\label{fig:c2c3ofk33s}
 \end{figure*}
 
-\begin{example}
-    In figure \ref{c2c3ofk33s}... \todo{Is it worth working through this? The first example has trivial and non-trivial.}
-\end{example}
-
+% \begin{example}
+%     In
+% \end{example}
 
 
 

@@ -1,68 +1,6 @@
 \section{Using the canonical, optimal DR-plan for Realizing (Solving) Qusecs}
 \label{sec:recomb}
 
-\begin{figure*}\centering
-\begin{subfigure}{.2\linewidth}\centering
-    \input{img/tikz/omd_k33_example_new-0.tikz}
-    \caption{}
-\end{subfigure}
-\begin{subfigure}{.15\linewidth}\centering
-    \input{img/tikz/omd_k33_example_new-1.tikz}
-    \caption{}
-\end{subfigure}
-\begin{subfigure}{.15\linewidth}\centering
-    \input{img/tikz/omd_k33_example_new-2.tikz}
-    \caption{}
-\end{subfigure}
-
-\caption{(a) The $K3,3$ with one labeled edge $e$. (b) The $K3,3$ with $e$ removed (dashed line) and rearranged to illustrate that it is now a partial 2-tree. (c) The $K3,3$ with $e$ removed and $f$ (bold line) added to make a 2-tree. Note that the non-edge $(v_0,v_4)$ would also be a valid choice.}
-\label{fig:omd_k33_example}
-\end{figure*}
-
-
-
-
-
-% \begin{figure*}
-% \begin{minipage}[c]{0.67\linewidth}
-%     \begin{subfigure}{.3\linewidth}\centering
-%         \input{img/tikz/omd_k33_example_new-0.tikz}
-%         \caption{}
-%     \end{subfigure}
-%     \begin{subfigure}{.3\linewidth}\centering
-%         \input{img/tikz/omd_k33_example_new-1.tikz}
-%         \caption{}
-%     \end{subfigure}
-%     \begin{subfigure}{.3\linewidth}\centering
-%         \input{img/tikz/omd_k33_example_new-2.tikz}
-%         \caption{}
-%     \end{subfigure}%
-% \end{minipage}%
-% \begin{minipage}[c]{0.3\linewidth}
-%     \caption{(a) The $K3,3$ with one labeled edge $e$. (b) The $K3,3$ with $e$ removed (dashed line) and rearranged to illustrate that it is now a partial 2-tree. (c) The $K3,3$ with $e$ removed and $f$ (bold line) added to make a 2-tree. Note that the non-edge $(v_0,v_4)$ would also be a valid choice.}
-%     \label{fig:omd_k33_example}
-% \end{minipage}
-% \end{figure*}
-
-\begin{figure*}\centering
-\begin{subfigure}{.3\linewidth}\centering
-    \input{img/tikz/omd_k33_example-0.tikz}
-    \caption{}
-\end{subfigure}
-\begin{subfigure}{.3\linewidth}\centering
-    \input{img/tikz/omd_k33_example-1.tikz}
-    \caption{}
-\end{subfigure}
-\begin{subfigure}{.3\linewidth}\centering
-    \input{img/tikz/omd_k33_example-2.tikz}
-    \caption{}
-\end{subfigure}
-
-\caption{(a) The $K3,3$ with one labeled edge $e$. (b) The $K3,3$ with $e$ removed (dashed line) and rearranged to illustrate that it is now a partial 2-tree. (c) The $K3,3$ with $e$ removed and $f$ (bold line) added to make a 2-tree. Note that the non-edge $(v_0,v_4)$ would also be a valid choice.}
-\label{fig:omd_k33_example}
-\end{figure*}
-
-
 In this section, we consider the {\em optimal recombination}
 problem of combining specific solutions of
 subsystems in a DR-plan into a solution of their parent system $I$, (without
@@ -239,6 +177,34 @@ parameters $F$.
     $\delta_D$.
 \end{proof}
 
+
+\begin{figure*}\centering
+\begin{subfigure}{.2\linewidth}\centering
+    \input{img/tikz/omd_k33_example_new-0.tikz}
+    \caption{}\label{fig:omd_k33_example:a}
+\end{subfigure}\hfill
+\begin{subfigure}{.15\linewidth}\centering
+    \input{img/tikz/omd_k33_example_new-1.tikz}
+    \caption{}\label{fig:omd_k33_example:b}
+\end{subfigure}
+\begin{subfigure}{.15\linewidth}\centering
+    \input{img/tikz/omd_k33_example_new-2.tikz}
+    \caption{}\label{fig:omd_k33_example:c}
+\end{subfigure}\hfill
+\begin{subfigure}{.15\linewidth}\centering
+    \input{img/tikz/omd_k33_example-1.tikz}
+    \caption{}\label{fig:omd_k33_example:d}
+\end{subfigure}
+\begin{subfigure}{.15\linewidth}\centering
+    \input{img/tikz/omd_k33_example-2.tikz}
+    \caption{}\label{fig:omd_k33_example:e}
+\end{subfigure}
+
+\caption{
+(\ref{fig:omd_k33_example:a}) The $K3,3$ with two labeled edges, $e_1$ and $e_2$. (\ref{fig:omd_k33_example:b}) The $K3,3$ with $e_1$ and $e_2$ removed (dashed lines) and rearranged to illustrate that it is now a partial 2-tree. (\ref{fig:omd_k33_example:c}) The $K3,3$ with $\{e_1,e_2\}$ removed and $\{f_1,f_2\}$ (bold lines) added to make a 2-tree, showing that the $K3,3$ is at least $OMD_2$. (\ref{fig:omd_k33_example:d}) The $K3,3$ with only $e_2$ removed (dashed line). (\ref{fig:omd_k33_example:e}) The $K3,3$ with $e_2$ removed and $f_3$ (bold line) added to make a low Cayley complexity graph, showing that the $K3,3$ is $OMD_1$.
+}
+\label{fig:omd_k33_example}
+\end{figure*}
 
 
 \medskip\noindent{\bf Example}.

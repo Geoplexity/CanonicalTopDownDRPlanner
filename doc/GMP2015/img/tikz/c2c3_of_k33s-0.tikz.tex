@@ -1,19 +1,20 @@
 % \newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
 
-\begin{tikzpicture}[scale=3]
+\begin{tikzpicture}[scale=2]
     \tikzstyle{v}=[draw, circle, minimum size=0.75cm]
     \tikzstyle{c}=[draw, circle, inner sep=1.5, fill=black]
     \tikzstyle{e}=[]
 
-    \node[circle,fill=white,inner sep=7] (center) at (0,0-.125-.1) {};
+
+    \node[regular polygon, regular polygon sides=3, fill=white, inner sep=4, dashed] (center) at (0,0-.125-.125) {};
 
     \node[c] (v1) at (0,0.866) [label={left,inner sep=.555}:$a_1$]{};
-    \node[c] (v2) at (-1,-0.866) [label={below,inner sep=.555}:$a_2$]{};
-    \node[c] (v3) at (1,-0.866) [label={above,inner sep=.555}:$a_3$]{};
+    \node[c] (v2) at (-1,-0.866) [label={below,inner sep=.555}:$b_1$]{};
+    \node[c] (v3) at (1,-0.866) [label={right,inner sep=.555}:$c_1$]{};
 
-    \node[c] (v4) at (0,0.433-.125) [label={left,inner sep=.555}:$b_1$]{};
+    \node[c] (v4) at (0,0.433-.125) [label={left,inner sep=.555}:$a_2$]{};
     \node[c] (v5) at (-0.5,-0.433-.125) [label={below,inner sep=.555}:$b_2$]{};
-    \node[c] (v6) at (0.5,-0.433-.125) [label={above,inner sep=.555}:$b_3$]{};
+    \node[c] (v6) at (0.5,-0.433-.125) [label={right,inner sep=.555}:$c_2$]{};
 
     \tedge{v1}{v2}{solid}{}{};
     \tedge{v1}{v3}{solid}{}{};
