@@ -32,24 +32,24 @@
 %  <ellipse x="143.371" y="46.2938" dx="2.59558" dy="1.73041" fill="lightgray"/>
 %  <ellipse x="127.663" y="61.0202" dx="2.59557" dy="1.73041" fill="lightgray"/>
 %  <ellipse x="130.047" y="82.0579" dx="2.59558" dy="1.73041" fill="lightgray"/>
-%  <text x="107.688" y="84.4408" t="a1" h="3.5" lw="1.10" fill="white"/>
-%  <text x="78.6051" y="32.6526" t="a2" h="3.5" lw="1.10" fill="white"/>
-%  <text x="134.47" y="34.196" t="a3" h="3.5" lw="1.10" fill="white"/>
-%  <text x="73.4093" y="58.8354" t="c1" h="3.5" lw="1.10" fill="white"/>
-%  <text x="69.5063" y="81.2322" t="c2" h="3.5" lw="1.10" fill="white"/>
-%  <text x="59.2022" y="50.7141" t="c3" h="3.5" lw="1.10" fill="white"/>
-%  <text x="146.821" y="81.9595" t="b2" h="3.5" lw="1.10" fill="white"/>
-%  <text x="140.562" y="61.3178" t="b1" h="3.5" lw="1.10" fill="white"/>
-%  <text x="157.861" y="63.0267" t="b3" h="3.5" lw="1.10" fill="white"/>
+%  <text x="107.688" y="84.4408" t="a1" h="5" lw="1.10" fill="white"/>
+%  <text x="76.688" y="32.1733" t="a2" h="5" lw="1.10" fill="white"/>
+%  <text x="134.47" y="34.196" t="a3" h="5" lw="1.10" fill="white"/>
+%  <text x="73.4093" y="58.8354" t="c1" h="5" lw="1.10" fill="white"/>
+%  <text x="69.5063" y="81.2322" t="c2" h="5" lw="1.10" fill="white"/>
+%  <text x="59.2022" y="50.7141" t="c3" h="5" lw="1.10" fill="white"/>
+%  <text x="146.821" y="81.9595" t="b2" h="5" lw="1.10" fill="white"/>
+%  <text x="139.763" y="60.3593" t="b1" h="5" lw="1.10" fill="white"/>
+%  <text x="157.861" y="63.0267" t="b3" h="5" lw="1.10" fill="white"/>
 %  <star x="106.484" y="83.1101" d="1.5"/>
 %  <star x="84.0586" y="34.7012" d="1.5"/>
 %  <star x="132.468" y="36.6419" d="1.5"/>
 %  <star x="101.417" y="56.6955" d="1.5"/>
 %  <star x="111.336" y="55.0782" d="1.5"/>
 %  <star x="107.131" y="45.1592" d="1.5"/>
-%  <text x="105.99" y="40.4153" t="a4" h="3.5" lw="1.10" fill="white"/>
-%  <text x="112.028" y="57.6657" t="a5" h="3.5" lw="1.10" fill="white"/>
-%  <text x="98.2274" y="58.5282" t="a6" h="3.5" lw="1.10" fill="white"/>
+%  <text x="105.99" y="40.4153" t="a4" h="5" lw="1.10" fill="white"/>
+%  <text x="112.028" y="57.6657" t="a5" h="5" lw="1.10" fill="white"/>
+%  <text x="97.1091" y="59.0075" t="a6" h="5" lw="1.10" fill="white"/>
 %  <star x="144.543" y="81.6007" d="1.5"/>
 %  <star x="142.494" y="65.8597" d="1.5"/>
 %  <star x="158.451" y="60.2533" d="1.5"/>
@@ -61,37 +61,37 @@
 \centering
 \ifpdf
   \setlength{\unitlength}{1bp}%
-  \begin{picture}(301.34, 168.06)(0,0)
+  \begin{picture}(305.59, 173.67)(0,0)
   \put(0,0){\includegraphics{pinned.pdf}}
-  \put(143.53,154.61){\fontsize{9.96}{11.95}\selectfont a1}
-  \put(61.09,7.81){\fontsize{9.96}{11.95}\selectfont a2}
-  \put(219.44,12.19){\fontsize{9.96}{11.95}\selectfont a3}
-  \put(46.36,82.03){\fontsize{9.96}{11.95}\selectfont c1}
-  \put(35.30,145.52){\fontsize{9.96}{11.95}\selectfont c2}
-  \put(6.09,59.01){\fontsize{9.96}{11.95}\selectfont c3}
-  \put(254.46,147.58){\fontsize{9.96}{11.95}\selectfont b2}
-  \put(236.71,89.07){\fontsize{9.96}{11.95}\selectfont b1}
-  \put(285.75,93.91){\fontsize{9.96}{11.95}\selectfont b3}
-  \put(138.71,29.82){\fontsize{9.96}{11.95}\selectfont a4}
-  \put(155.83,78.72){\fontsize{9.96}{11.95}\selectfont a5}
-  \put(116.71,81.16){\fontsize{9.96}{11.95}\selectfont a6}
+  \put(143.53,156.89){\fontsize{14.23}{17.07}\selectfont a1}
+  \put(55.65,8.73){\fontsize{14.23}{17.07}\selectfont a2}
+  \put(219.44,14.46){\fontsize{14.23}{17.07}\selectfont a3}
+  \put(46.36,84.31){\fontsize{14.23}{17.07}\selectfont c1}
+  \put(35.30,147.80){\fontsize{14.23}{17.07}\selectfont c2}
+  \put(6.09,61.29){\fontsize{14.23}{17.07}\selectfont c3}
+  \put(254.46,149.86){\fontsize{14.23}{17.07}\selectfont b2}
+  \put(234.45,88.63){\fontsize{14.23}{17.07}\selectfont b1}
+  \put(285.75,96.19){\fontsize{14.23}{17.07}\selectfont b3}
+  \put(138.71,32.09){\fontsize{14.23}{17.07}\selectfont a4}
+  \put(155.83,80.99){\fontsize{14.23}{17.07}\selectfont a5}
+  \put(113.54,84.80){\fontsize{14.23}{17.07}\selectfont a6}
   \end{picture}%
 \else
   \setlength{\unitlength}{1bp}%
-  \begin{picture}(301.34, 168.06)(0,0)
+  \begin{picture}(305.59, 173.67)(0,0)
   \put(0,0){\includegraphics{pinned}}
-  \put(143.53,154.61){\fontsize{9.96}{11.95}\selectfont a1}
-  \put(61.09,7.81){\fontsize{9.96}{11.95}\selectfont a2}
-  \put(219.44,12.19){\fontsize{9.96}{11.95}\selectfont a3}
-  \put(46.36,82.03){\fontsize{9.96}{11.95}\selectfont c1}
-  \put(35.30,145.52){\fontsize{9.96}{11.95}\selectfont c2}
-  \put(6.09,59.01){\fontsize{9.96}{11.95}\selectfont c3}
-  \put(254.46,147.58){\fontsize{9.96}{11.95}\selectfont b2}
-  \put(236.71,89.07){\fontsize{9.96}{11.95}\selectfont b1}
-  \put(285.75,93.91){\fontsize{9.96}{11.95}\selectfont b3}
-  \put(138.71,29.82){\fontsize{9.96}{11.95}\selectfont a4}
-  \put(155.83,78.72){\fontsize{9.96}{11.95}\selectfont a5}
-  \put(116.71,81.16){\fontsize{9.96}{11.95}\selectfont a6}
+  \put(143.53,156.89){\fontsize{14.23}{17.07}\selectfont a1}
+  \put(55.65,8.73){\fontsize{14.23}{17.07}\selectfont a2}
+  \put(219.44,14.46){\fontsize{14.23}{17.07}\selectfont a3}
+  \put(46.36,84.31){\fontsize{14.23}{17.07}\selectfont c1}
+  \put(35.30,147.80){\fontsize{14.23}{17.07}\selectfont c2}
+  \put(6.09,61.29){\fontsize{14.23}{17.07}\selectfont c3}
+  \put(254.46,149.86){\fontsize{14.23}{17.07}\selectfont b2}
+  \put(234.45,88.63){\fontsize{14.23}{17.07}\selectfont b1}
+  \put(285.75,96.19){\fontsize{14.23}{17.07}\selectfont b3}
+  \put(138.71,32.09){\fontsize{14.23}{17.07}\selectfont a4}
+  \put(155.83,80.99){\fontsize{14.23}{17.07}\selectfont a5}
+  \put(113.54,84.80){\fontsize{14.23}{17.07}\selectfont a6}
   \end{picture}%
 \fi
 \end{figure}

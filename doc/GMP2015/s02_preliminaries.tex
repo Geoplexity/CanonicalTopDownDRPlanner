@@ -92,7 +92,7 @@ The 2-dimensional {\em rigidity matroid} of a constraint (hyper)graph $G = (V,E)
 where a subset of edges $E' \subseteq E$ is {\em independent} in the matroid, 
 if the set of corresponding rows in the appropriate rigidity matrix of indeterminates are linearly independent. 
 
-There exist various results on combinatorial characterization of independence and rigidity
+There are various results on combinatorial characterization of independence and rigidity
 for different types of  rigidity matroid. 
 For bar-joint rigidity matroid, 
 the famous Laman's theorem~\cite{???} states that the underlying graph
@@ -103,8 +103,11 @@ Tay~\cite{???} proved that
 the underlying multigraph is minimally rigid if and only if it can be decomposed as $3$ edge disjoint spanning trees. 
 White and Whiteley~\cite{???} gave the same characterization using a different technique to study the algebraic - geomtric conditions called pure condition.
 More generally, 
-Lee, Streinu and Theran~\cite{???} defined the $(k,l)$-sparsity matroid,
-where a hypergraph is called $(k,l)$-sparse if $|E'| \le k|V| - l$ for any induced subgraph with at lease 2 vertices.  
+Lee, Streinu and Theran~\cite{???} defined the {\em $(k,l)$-sparsity matroid}.
+A hypergraph $G$ is called {\em $(k,l)$-sparse} if $|E'| \le k|V'| - l$ for any induced subgraph $(V',E')$ with at least 2 vertices, 
+and {\em $(k,l)$-tight} if is $(k,l)$-sparse and $|E| = k|V| - l$. 
+In general, if you have a $d$-uniform hypergraph, a $(k,l)$-sparsity
+condition is matroidal as long as $l \le dk-1$. 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
