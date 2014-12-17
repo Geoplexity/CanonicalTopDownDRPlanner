@@ -83,13 +83,19 @@ If $F_i$ and $F_j$ are well-constrained subgraphs of the same well-constrained g
 \begin{proof}
 Note that, by definition, $d(F_i)=k$ and $d(F_j)=k$. Also, $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
 \begin{enumerate}
-    \item By definition of trivial graph; if $F_i\cup F_j$ were trivial, then $F_i$ and $F_j$ must be trivial.
+    \item If $F_i\cup F_j$ were trivial, then $F_i$ and $F_j$ must be trivial, by definition.
 
-    \item \textit{Forward direction:} Since $F_i\cup F_j$ is under-constrained and a subgraph of well-constrained $F$, it must be that $d(F_i\cup F_j)=l<k$. Therefore $d(F_i\cap F_j)=2k-l>k$. This means $F_i\cap F_j$ is trivial. \textit{Reverse direction:} We know that $d(F_i\cap F_j)>k$ because it is trivial. By the same math, we find that $d(F_i\cup F_j)<k$, showing it is under-constrained.
+    \item Observe that under-constrained subgraphs of well-constrained graphs must have density less than $k$. Then it is straightforward application of the equation above.
 
-    \item \textit{Forward direction:} We have that $d(F_i\cup F_j)=k$, therefore $d(F_i\cap F_j)=k$. Being a subgraph of well-constrained $F$, $F_i\cap F_j$ is also well-constrained. \textit{Reverse direction:} By the same math, we find that $d(F_i\cup F_j)=k$ and, since it is also a subgraph of $F$, it is well-constrained.
+    % \item Observe that, given a well-constrained graph, an under-constrained subgraph must have density less than $k$. Then it is straightforward application of the equation above.
 
-    \item Subgraphs of well-constrained graph $F$ can only be trivial, under-constrained, or well-constrained. So it follows from the above that an under-constrained intersection is not possible.
+    \item Observe that, given a well-constrained graph, a subgraph with density $k$ must also be well-constrained. Then it is straightforward application of the equation above.
+
+    % \item \textit{Forward direction:} Since $F_i\cup F_j$ is under-constrained and a subgraph of well-constrained $F$, it must be that $d(F_i\cup F_j)=l<k$. Therefore $d(F_i\cap F_j)=2k-l>k$. This means $F_i\cap F_j$ is trivial. \textit{Reverse direction:} We know that $d(F_i\cap F_j)>k$ because it is trivial. By the same math, we find that $d(F_i\cup F_j)<k$, showing it is under-constrained.
+
+    % \item \textit{Forward direction:} We have that $d(F_i\cup F_j)=k$, therefore $d(F_i\cap F_j)=k$. Being a subgraph of well-constrained $F$, $F_i\cap F_j$ is also well-constrained. \textit{Reverse direction:} By the same math, we find that $d(F_i\cup F_j)=k$ and, since it is also a subgraph of $F$, it is well-constrained.
+
+    \item Subgraphs of a well-constrained graph can only be trivial, under-, or well-constrained. All cases are already exhausted.
 \end{enumerate}
 \end{proof}
 
@@ -111,9 +117,9 @@ $C_i\cup C_j$ is well-constrained if and only if $C_i\cup C_j = C$.
 
 \begin{proof}
 %I wouldn't do the forward and backward direction italics, or say proof by contradiction. Just start the first paragraph with Suppose C_i union C_j is well constained maximal proper and assume it is not C.
-Assume $C_i\cup C_j \neq C$, then we just found a larger proper subgraph and the children were not vertex-maximal to begin with.
+Assume $C_i\cup C_j \neq C$, then we just found a larger proper subgraph and $C_i,C_j$ were not vertex-maximal to begin with.
 
-In the reverse direction, we know $C$ is either some non-leaf node (well-constrained by definition of a DR-plan) or $G$ itself (well-constrained by definition of the problem). Thus, $C_i\cup C_j$ is well-constrained.
+In the reverse direction, we know $C$ is either some non-leaf node (well-constrained by definition of a DR-plan) or $G$ itself (well-constrained by definition of the problem). Thus, $C_i\cup C_j=C$ is well-constrained.
 \end{proof}
 
 
@@ -278,6 +284,6 @@ We now present two examples of non-tree-decomposable graphs that illustrate the 
 % With more effort, it can be shown that pinned line-incidence systems can also use this framework. This is done in section \ref{XXX}.
 
 
-
 \subsection{Algorithm}
+\todo{Cut this section out?}
 The algorithm to find the optimal DR-plan is a straightforward application of the theory. It begins by finding the well-constrained vertex-maximal proper subgraphs of the input well-constrained graph. If the intersection of any two of the subgraphs is well-constrained, then take those two to be children of the graph. Otherwise, all the subgraphs are the children. Apply recursively to the children. This naturally terminates when you reach trivial subgraphs.
