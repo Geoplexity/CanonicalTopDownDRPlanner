@@ -80,14 +80,6 @@ constraint system of one of the 3
 types mentioned above.
 
 
-
-%Define rigidity matroid and combinatorial characterization of independence/rigidity next
-%Laman's theorem (for bar-joint rigidity matroid), 
-%cite also Lovasz Yemini
-%Cite other combinatorial characterizations for other types of constraint systems/hyper graphs:
-%Tay and Whiteey, White and Whitelely,  
-%Streinu Theran (k,l)-sparsity matroid
-
 The 2-dimensional {\em rigidity matroid} of a constraint (hyper)graph $G = (V,E)$ is a linear matroid  on $E$, 
 where a subset of edges $E' \subseteq E$ is {\em independent} in the matroid, 
 if the set of corresponding rows in the appropriate rigidity matrix of indeterminates are linearly independent. 
@@ -109,28 +101,6 @@ and {\em $(k,l)$-tight} if is $(k,l)$-sparse and $|E| = k|V| - l$.
 In general, if you have a $d$-uniform hypergraph, a $(k,l)$-sparsity
 condition is matroidal as long as $l \le dk-1$. 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % %
-
-%A subset of edges $E'$, or a subgraph $(V', E')$, of a graph $G = (V, E)$ is said to be {\it independent} in $d$-dimensions, when the set of rows of $R_d(G)$ corresponding to $E'$ is generically independent, or independent for a generic instantiation of the indeterminate entries. 
-%This yields the $d$-dimensional generic {\it rigidity matroid} associated with a graph $G$. 
-
-%The graph is  {\it infinitesimally rigid} if %the rigidity matrix has full rank, that is, 
-%if the number of generically independent rows or the rank of $R_d(G)$ is maximal.
-%In the case of linkage, the maximal rank is $d|V| - {d+1 \choose 2}$, where ${d+1 \choose 2}$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^d$ [?].
-%A vector in the kernel of the rigidity matrix is called an {\it infinitesimal motion vector}.
-
-%A graph $G = (V,E)$ is:
-%\begin{itemize}
-%	\item generically {\it isostatic (minimally rigid, well-constrained)} if $R_d(G)$ has full rank
-%	\item \textbf{rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
-%	\item {\it flexible} if $G$ is not rigid
-%    \item \textbf{under-constrained} if $G$ is independent and not rigid.
-%    \item \textbf{over-constrained} if it is not independent.
-%\end{itemize}
-%In this paper all results are about independent - underconstrained or
-%isostatic
-
-
 For bar-joint graphs,  
 a vector  in the right null space of its rigidity matrix
 is called a {\em flex vector}. 
@@ -147,79 +117,55 @@ For independent graphs, all stress vectors are identically zero.
 %generic rigidity equivalent to infinitesimal rigidity (easy
 %when the latter def is based on indeterminates)
 
-% A generalized version of Asimow Roth (implicit fn thm) states that
-% generic rigidity, i.e.\ there exist at most finitely many solutions to the system at generic points,  %to the algebraic system 
-%  is equivalent to  our definition  of infinitesimal rigidity based on indeterminates.
-
-
-%\todo{--rigidity matroid\\
-%--Combinatorial characterization of rigidity matroid
-%Example: Laman's theorem for bar-joint (refer to others)
-%Lovasz Yemini
-%Tay white and whiteley
-%(citations)
-%+ pinned line incidence and multi-body-pin (in application
-%section)}
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+%XXXXXXXXXXXXXXX BASICS until combinatorial characterization of 
+%independence and rigidity XXXXXXXXXXX
 
-%Standard except for generality and ordering and the fact that I want to
-%avoid the use of the word framework if possible. Do everything
-%with constraint systems, linearization and genericity using indeterminates. 
+NOTE: geometric constraint systems can have inequalities (the parameters
+in $\delta$ being inexact, small intervals of values).
 
-%--general  geometric constraint system --
+XXXXXXXXXsomething has to be said 
+along with asimow roth (infinitesimal rigidity 
+implies rigidity)
+when the rigidity matrix has appropriate rank
+the realizations or solutions of the 
+of the corresponding constraint system 
+are generically isolated and zero-dimensional 
+(if the constraint system has equalities and exact 
+values for the parameters $\delta$.
+If the constraint system has inequalities, i.e, 
+if the $\delta$ lie in an interval,
+this claim is approximate: 
+the solutions are isolated small, full-dimensional  connected components.
 
-%A $d$-dimensional {\it geometric constraint system} in general consists of
-%
-%- a underlying {\it constraint graph} $G=(V,E)$, or more generally, a hypergraph, whose  vertices represents geometric primitives in $d$-dimension and whose (hyper)edges specifies the combinatorics of constraints between pairs/tuples of the geometric primitives.
-%- an {\it algebraic system of  constraint functions} from $E$ to the domain of constraint value
-%In this paper we study qusecs, a class of 2D geometric constrain system that is independent (defined below).
+%XXXXXXXX Also in the recombination section, it should be noted
+%that the HUGE advantage of the convex Cayley method
+%is that it is completely unaffected by having the $\delta$ be intervals
+%cite my paper with Heping!!!
 
-
-%--underlying constraint graph or hypergraph (common treatment)
-
-%--linearization: Jacobian of constraint system,
-%rigidity matrix of indeterminates
-%
-%The algebraic system can usually be linearized at {\it generic} points
-%by taking the Jacobian of the system,
-%giving  the $d$-dimensional {\it rigidity matrix } $R_d(G)$ of a the (hyper)graph $G = (V,E)$, 
-%whose rows correspond to edges, columns correspond to coordinate positions of vertices,  entries are \emph{indeterminates} representing the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the geometric primitives corresponding to vertices $v \in V$. 
-
-%-- give example for the case of
-%linkages
-%
-%In the case of linkage, 
-%let $p_1(v), p_2(v), \ldots, p_d(v)$ represent the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the joint corresponding to a vertex $v \in V$. 
-%The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each vertex $v \in V$.  The row corresponding to $e = \{u,v\} \in E$ represents the bar connecting $p(u)$ and $p(v)$ and has $d$ non-zero indeterminate entries $\mathbf{p}(u)-\mathbf{p}(v)$ (resp.\ $\mathbf{p}(v)-\mathbf{p}(u)$) in the $d$ columns corresponding to $u$ (resp.  $v$) and zero in the other entries.  
-
-%%Let $p_1(v), p_2(v), \ldots, p_d(v)$ represent the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$ of the joint corresponding to a vertex $v \in V$. 
-%The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each vertex $v \in V$.  The row corresponding to the hyperedge $e = \{v_1, v_2, \ldots, v_k\} \in E$ represents the constraint between the vertices $ \{v_1, v_2, \ldots, v_k\}$, 
-%has $d$ non-zero indeterminate entries %$\mathbf{p}(u)-\mathbf{p}(v)$ (resp.\ $\mathbf{p}(v)-\mathbf{p}(u)$) 
-%in the $d$ columns corresponding to each vertex $v_i \in e$ and zero in the other entries.  
+%XXXXXXXXXX CUrrently there are open problems strewn throughout the paper. 
+%Should they be collected to the conclusion?
+%Or at least clearly labeled as open problems?
+%XXXXXXXXX
 
 
-%generic independence, infinitesimal rigidity
-%(based on indeterminates)
+\noindent{\bf Note:}
+In the remainder of this section and the next two sections 
+\ref{sec:DRP} and \ref{sec:recomb} 
+we only consider bar-joint qusecs and graphs
+Relevant formal analogies  for the other 2 types of qusecs and (hyper)graphs 
+are given in the subsequent 2 sections on Applications.
 
+XXXNow comes the definition of stress vector and flex vector. 
+NOTE: something has to be said about what flexes and stresses mean
 
-
-
-%--stress vectors and flex vectors
-%(also based on indeterminates)
-
-
-
-
-
-%--generic isostaticity (minimal rigidity, wellconstrainedness),
-%flexibility (not rigid), underconstrained (independent
-%and not rigid), overconstrained (dependent -- only briefly
-%mentioned
-%in this paper; all results are about independent - underconstrained or
-%isostatic)
+An {\em external stress} $t$ is a $1\times 2|V|$ vector  (of indeterminates)
+which specifies a 2D vector acting at each vertex
+such that the stress balance equation $sR = t$ holds, where $s$ is a vector
+of internal stresses, one for each bar, and $R$ is the rigidity matrix.
 
 
 
@@ -227,36 +173,10 @@ For independent graphs, all stress vectors are identically zero.
 
 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\subsection*{Decomposition-Recombination (DR) Plans}
 
-%The problem is equivalent to combinatorially determining the generic rank of the 3-dimensional bar-joint rigidity matrix of a graph.  The $d$-dimensional bar-joint rigidity matrix of a graph $G = (V,E)$, denoted $R_d(G)$, is a matrix of indeterminates. Let $p_1(v), p_2(v), \ldots, p_d(v)$  represent the coordinate position $\mathbf{p}(v) \in \mathbb{R}^d$of the joint corresponding to a vertex $v \in V$.  . The matrix $R_d(G)$ has one row for each edge $e \in E$ and $d$ columns for each vertex $v \in V$.  The row corresponding to $e = \{u,v\} \in E$ represents the bar connecting $p(u)$ and $p(v)$ and has $d$ non-zero indeterminate entries $\mathbf{p}(u)-\mathbf{p}(v)$ (resp.\ $\mathbf{p}(v)-\mathbf{p}(u)$) in the $d$ columns corresponding to $u$ (resp.  $v$) and zero in the other entries.  
-%
-%A subset of edges $E'$, or a subgraph $(V', E')$, of a graph $G = (V, E)$ is said to be independent (we drop ``bar-joint'' from now on) in $d$-dimensions, when the set of rows of $R_d(G)$ corresponding to $E'$ is generically independent, or independent for a generic instantiation of the indeterminate entries. This yields the $d$-dimensional generic rigidity matroid associated with a graph $G$. The graph is rigid if the number of generically independent rows or the rank of $R_d(G)$ is maximal, i.e., $d|V| - {d+1 \choose 2}$, where ${d+1 \choose 2}$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^d$ [?].
+%$G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
 
-
-
-
-\subsection{DR-plan}
-%\subsection{Definitions}
-%\label{sec:prelim_defs}
-%
-%% TODO
-%
-%% A paragraph of preliminaries such as:
-%%     - rigidity matrix R,
-%%     - stress vectors S one coordinate per edge (w/ SR =E (external stress vector, 2 coordinates  per vertex));
-%%     - flex vectors F (2 coordinates per vertex) (right nullspace/kernel of R)
-%% Should precede the definition of
-%%     + independent,
-%%     + overconstrained (not independent),
-%%     - rigid (contains an independent set with sufficiently many eedges/constraints)
-%%     - isostatic (wellconstrained/minimally rigid), ,
-%%     - flexible (not rigid),
-%%     + underconstrained (independent and not rigid).
-%% After that, define DR plans etc.
-%
-%In Sections \ref{sec:DRP} and \ref{sec:recomb} a \textbf{graph} is a bar and joint system. $G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
-%
 %Given a constant $k$, a graph $G$ is:
 %\begin{itemize}
 %    \item \textbf{independent} (or \textbf{sparse}) if, for all non-trivial subgraphs $S\subseteq G$, $d(S) \leq k$.
@@ -272,8 +192,6 @@ For independent graphs, all stress vectors are identically zero.
 %    % \item \textbf{trivial} if (1) it is over-constrained graph and (2) all of its subgraphs are also trivial. Trivial graphs are input.
 %\end{itemize}
 %
-\textbf{Trivial} graphs are ill-defined in the general case. The only strict requirements are: (1) it must over-constrained and (2) all of its subgraphs are also trivial.
-
 % \begin{definition}
 %     A graph is \textbf{over-constrained} if, given constant $k$, there exists some
 %     % induced
@@ -294,23 +212,37 @@ For independent graphs, all stress vectors are identically zero.
 %     In the familiar geometric cases of $d$-dimensional space, all vertex weights are $d$, all edge weights are $1$, and constant $k= -{{d+1}\choose{2}}$. Trivial graphs for 2D would be a single vertex. Trivial graphs in 3D would be a vertex and an edge (2 vertices with an edge between). Etc. These trivial graphs capture the notion of the rotational symmetry that exists in geometric spaces.
 % \end{definition}
 
-
+A \textbf{trivial} graph is   a single vertex.
 \begin{definition}\label{def:drp}
-    The \textbf{decomposition-recombination \mbox{(DR-)} plan} of graph $G$, $DRP(G)$, is defined as a tree that has the following properties:
+    The \textbf{decomposition-recombination \mbox{(DR-)} plan} of graph $G$,
+    \cite{XX}
+    $DRP(G)$, is defined as a forest that has the following properties:
     \begin{enumerate}
-        \item The root of the tree `contains' $G$.
-        \item For all nodes, $C$, that `contain' non-trivial graphs, its $N$ children, $C_1, \ldots, C_N$, are trivial or well-constrained vertex-maximal proper subgraphs of that node $C$.
-        \item The vertex set of $\bigcup_{i=1}^N{C_i}$ is the vertex set of $C$.
-        \item A node with a trivial subgraph is a leaf.
+        \item Each  node represents/contains/is  a rigid vertex-induced subgraph of $G$
+        %\item For a node, $C$, that is  a non-trivial graph, its $N$
+        %    children, $C_1, \ldots, C_N$, are rigid vertex-maximal proper subgraphs of $C$.
+        \item The vertex set of $\bigcup_{i=1}^N{C_i}$ is the 
+            vertex set of $C$.
+        \item A leaf node is a trivial subgraph.
+       \item A root node is a maximal rigid subgraph of $G$
     \end{enumerate}
 
     % It can also be described recursively as: the root is $G$, its children are the trivial subgraphs and the DR-plans of its well-constrained vertex-maximal proper subgraphs whose union is $G$ itself.
 
-    An equivalent DAG can be constructed from this tree such that all nodes containing the same subgraphs are combined into one, with all edges preserved.
+    An equivalent DAG can be constructed from the above forest such that all nodes
+    containing the same subgraphs are identified into a single node.
+    In this manuscript, however, we retain a forest as defined above.
+    When a graph is isostatic, its DR plan is a tree.
 
-    Note that nodes will be referred to interchangeably as ``the node that contains the (sub)graph $C$'' and as simply ``$C$''.
+    %Note that nodes will be referred to interchangeably as ``the node that
+    %represents or contains the (sub)graph $C$'' and as simply ``$C$''.
 
-    A DR-plan is \textbf{complete} if it satisfies the modified rule number 2: the children are \emph{all} of the trivial or well-constrained vertex-maximal proper subgraphs of that node $C$. This makes rule 3 implicit. The complete DR-plan is unique.
+    A DR-plan is \textbf{complete} if it satisfies an additional rule: 
+        \item For a node, $C$, that is  a non-trivial graph, its $N$
+            children, $C_1, \ldots, C_N$, are all of the 
+            rigid vertex-maximal proper subgraphs of $C$.
+    This makes Rule 2 implicit, and in fact, $C$ contains all the edges in
+    the union of its children as well. The complete DR-plan is unique.
 
     A DR-plan is \textbf{optimal} if it minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
 \end{definition}
@@ -324,12 +256,152 @@ For independent graphs, all stress vectors are identically zero.
 % \end{definition}
 
 
-\subsection{Notation}
 
-In Sections \ref{sec:DRP} and \ref{sec:recomb}, $G$ is taken to be a \emph{well-constrained} bar and joint graph with values $(V,E,w_V,w_E)$.
+
+%\emph{well-constrained} bar and joint graph with values $(V,E,w_V,w_E)$.
 % \todo{I don't think the following is actually necessary to mention...} To keep problems meaningful we assume that $G$ is connected, as the methods discussed are used to solve systems of equations to establish linkages. It is not useful to solve for two bodies simultaneously if there are no constraints between them.
 % THIS MEANS NO EDGES MAY BE LEFT OUT, ALSO.
 
-$Idc(G,X)$ is the graph induced on $G$ with the vertex set $X\subseteq V$. This can also be overloaded such that, using graph $H=(W,F)$, $Idc(G,H)=Idc(G,W)$.
+\noindent{\bf Note:}
+In Section \ref{sec:DRP} $G$ is assumed to be isostatic.
+$Idc(G,X)$ is the subgraph of $G$ induced by the vertex set $X\subseteq V$. 
+For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
+In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$. $C_i$
+is the $i^{\text{th}}$ child of $C$. It is implied that 
+$C_i$ is an isostatic vertex-maximal proper subgraph.
 
-$C$ is the graph in an arbitrary node in $CompleteDRP(G)$. $C_i$ is the $i^{\text{th}}$ child of $C$. By definition of a DR-plan, it is implied that $C_i$ is a well-constrained vertex-maximal proper subgraph.
+\subsection*{Importance of an Optimal DR-plan}
+The use of a DR-plan in designing especially self-similar qusecs is
+immediately clear, as shown in Figures \ref{XX} and \ref{XX}.
+In fact, knowing an optimal DR-plan is crucial for design and analysis of 
+even non-self-similar qusecs 
+and their realizations with various desirable properties. 
+
+First, note that the basic task of \underbar{{\sl realizing given qusecs}} would require finding real
+ solutions 
+ a large multivariate polynomial system (of inequalities and equalities
+ representing the constraints). Without DR-planning, this requires double
+ exponential time in the number of variables
+ (even if orientation type is specified).
+With DR-planning, the complexity is dominated by the size of the largest 
+subsystem that is
+solved, or recombined from the solutions of its child subsystems i.e.,the maximum fan-in occuring in a DR-plan.
+Thus finding an optimal DR-plan is important for realization.
+
+Next, using the DR-plan we obtain a \underbar{{\sl recursive block
+decomposition of the rigidity matrix}}   
+with each block being the rigidity matrix of 
+an isostatic subgraph.
+The blocks intersect on isostatic or trival subgraphs.
+This recursive block decomposition of the rigidity matrix $R$ 
+correspondingly \underbar{{\sl recursively decomposes the stress vectors}}
+$s$ that balance a given
+external stress $t$ since $sR = t$, and moreover, the external stress vector
+$t$ now \underbar{{\sl recursively "distributes" as external stresses}} 
+for each isostatic subgraph of the DR-plan.
+When the rigidity matrix and stress vectors are indeterminates, it can be
+used to design  qusecs underlying graph and parameters $\delta$ to obtain an  
+optimal distribution of stresses on the geometric primitives. 
+When the realization of the qusec is given, this can be used to 
+analyze the distribution of a  given external load.
+
+
+
+
+%\subsection{DR-plan}
+%%\subsection{Definitions}
+%%\label{sec:prelim_defs}
+%%
+%%% TODO
+%%
+%%% A paragraph of preliminaries such as:
+%%%     - rigidity matrix R,
+%%%     - stress vectors S one coordinate per edge (w/ SR =E (external stress vector, 2 coordinates  per vertex));
+%%%     - flex vectors F (2 coordinates per vertex) (right nullspace/kernel of R)
+%%% Should precede the definition of
+%%%     + independent,
+%%%     + overconstrained (not independent),
+%%%     - rigid (contains an independent set with sufficiently many eedges/constraints)
+%%%     - isostatic (wellconstrained/minimally rigid), ,
+%%%     - flexible (not rigid),
+%%%     + underconstrained (independent and not rigid).
+%%% After that, define DR plans etc.
+%%
+%%In Sections \ref{sec:DRP} and \ref{sec:recomb} a \textbf{graph} is a bar and joint system. $G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
+%%
+%%Given a constant $k$, a graph $G$ is:
+%%\begin{itemize}
+%%    \item \textbf{independent} (or \textbf{sparse}) if, for all non-trivial subgraphs $S\subseteq G$, $d(S) \leq k$.
+%%
+%%    \item \textbf{over-constrained} if it is not independent.
+%%
+%%    \item \textbf{well-constrained} (or \textbf{tight}) if $G$ is independent and $d(G)=k$.
+%%
+%%    \item \textbf{rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
+%%
+%%    \item \textbf{under-constrained} if $G$ is independent and not rigid.
+%%
+%%    % \item \textbf{trivial} if (1) it is over-constrained graph and (2) all of its subgraphs are also trivial. Trivial graphs are input.
+%%\end{itemize}
+%%
+%\textbf{Trivial} graphs are ill-defined in the general case. The only strict requirements are: (1) it must over-constrained and (2) all of its subgraphs are also trivial.
+%
+%% \begin{definition}
+%%     A graph is \textbf{over-constrained} if, given constant $k$, there exists some
+%%     % induced
+%%     subgraph $S\subseteq G$ such that $d(S) > k$.
+%% \end{definition}
+%
+%% \begin{definition}
+%%     A graph is \textbf{well-constrained} if, given constant $k$, $d(G) = k$ and for all
+%%     % induced
+%%     subgraphs $S\subseteq G$, (1) $d(S)\leq k$, or (2) given a set of trivial graphs $T$, $S$ is isomorphic to one of the graphs in $T$ (i.e.\ $S$ is trivial).
+%% \end{definition}
+%
+%
+%
+%% \begin{definition}
+%%     A \textbf{trivial} graph is ill-defined in the general case. The only strict requirements are: (1) it must be an over-constrained graph and (2) all of its subgraphs are also trivial.
+%%     \todo{Maybe leave the following out until it's needed later?}
+%%     In the familiar geometric cases of $d$-dimensional space, all vertex weights are $d$, all edge weights are $1$, and constant $k= -{{d+1}\choose{2}}$. Trivial graphs for 2D would be a single vertex. Trivial graphs in 3D would be a vertex and an edge (2 vertices with an edge between). Etc. These trivial graphs capture the notion of the rotational symmetry that exists in geometric spaces.
+%% \end{definition}
+%
+%
+%\begin{definition}\label{def:drp}
+%    The \textbf{decomposition-recombination \mbox{(DR-)} plan} of graph $G$, $DRP(G)$, is defined as a tree that has the following properties:
+%    \begin{enumerate}
+%        \item The root of the tree `contains' $G$.
+%        \item For all nodes, $C$, that `contain' non-trivial graphs, its $N$ children, $C_1, \ldots, C_N$, are trivial or well-constrained vertex-maximal proper subgraphs of that node $C$.
+%        \item The vertex set of $\bigcup_{i=1}^N{C_i}$ is the vertex set of $C$.
+%        \item A node with a trivial subgraph is a leaf.
+%    \end{enumerate}
+%
+%    % It can also be described recursively as: the root is $G$, its children are the trivial subgraphs and the DR-plans of its well-constrained vertex-maximal proper subgraphs whose union is $G$ itself.
+%
+%    An equivalent DAG can be constructed from this tree such that all nodes containing the same subgraphs are combined into one, with all edges preserved.
+%
+%    Note that nodes will be referred to interchangeably as ``the node that contains the (sub)graph $C$'' and as simply ``$C$''.
+%
+%    A DR-plan is \textbf{complete} if it satisfies the modified rule number 2: the children are \emph{all} of the trivial or well-constrained vertex-maximal proper subgraphs of that node $C$. This makes rule 3 implicit. The complete DR-plan is unique.
+%
+%    A DR-plan is \textbf{optimal} if it minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
+%\end{definition}
+%
+%% \begin{definition}
+%%     The \textbf{complete DR-plan} of graph $G$, $CompleteDRP(G)$, is the unique DR-plan but with a modified rule number 2: the children are \emph{all} of the trivial or well-constrained vertex-maximal proper subgraphs of that node $C$. By this, rule 3 is implicit for a complete DR-plan.
+%% \end{definition}
+%
+%% \begin{definition}
+%%     The \textbf{optimal DR-plan} of graph $G$, $OptimalDRP(G)$, is the DR-plan that minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
+%% \end{definition}
+%
+%
+%\subsection{Notation}
+%
+%In Sections \ref{sec:DRP} and \ref{sec:recomb}, $G$ is taken to be a \emph{well-constrained} bar and joint graph with values $(V,E,w_V,w_E)$.
+%% \todo{I don't think the following is actually necessary to mention...} To keep problems meaningful we assume that $G$ is connected, as the methods discussed are used to solve systems of equations to establish linkages. It is not useful to solve for two bodies simultaneously if there are no constraints between them.
+%% THIS MEANS NO EDGES MAY BE LEFT OUT, ALSO.
+%
+%$Idc(G,X)$ is the graph induced on $G$ with the vertex set $X\subseteq V$. This can also be overloaded such that, using graph $H=(W,F)$, $Idc(G,H)=Idc(G,W)$.
+%
+%$C$ is the graph in an arbitrary node in $CompleteDRP(G)$. $C_i$ is the $i^{\text{th}}$ child of $C$. By definition of a DR-plan, it is implied that $C_i$ is a well-constrained vertex-maximal proper subgraph.
