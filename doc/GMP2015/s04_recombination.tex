@@ -30,7 +30,7 @@ algebraic complexity).
 Leveraging recent results on {\em Cayley
 configuration spaces}, our approach to the optimal modification problem
 achieves the following: {\em (a) Small DR-plan.} We obtain a  parameterized family of systems
-$I_{\lambda_F}$ -  one for each value $\lambda_F$ for the parameters $F$ ,  all of which have
+$I_{\lambda_F}$ -  one for each value $\lambda_F$ for the parameters $F$,  all of which have
 small DR-plans. Thus, given a value $v$ for $\lambda_F$, the system $I_v$ can
 potentially be solved or realized easily once the orientation type of the solution
 is known  (when the DR-plan size is small enough).
@@ -201,10 +201,15 @@ parameters $F$.
 \end{subfigure}
 
 \caption{
-(\ref{fig:omd_k33_example:a}) The $K3,3$ with two labeled edges, $e_1$ and $e_2$. (\ref{fig:omd_k33_example:b}) The $K3,3$ with $e_1$ and $e_2$ removed (dashed lines) and rearranged to illustrate that it is now a partial 2-tree. (\ref{fig:omd_k33_example:c}) The $K3,3$ with $\{e_1,e_2\}$ removed and $\{f_1,f_2\}$ (bold lines) added to make a 2-tree, showing that the $K3,3$ is at least $OMD_2$. (\ref{fig:omd_k33_example:d}) The $K3,3$ with only $e_2$ removed (dashed line). (\ref{fig:omd_k33_example:e}) The $K3,3$ with $e_2$ removed and $f_3$ (bold line) added to make a low Cayley complexity graph, showing that the $K3,3$ is $OMD_1$.
+(\ref{fig:omd_k33_example:a}) The $K_{3,3}$ with two labeled edges, $e_1$ and $e_2$. (\ref{fig:omd_k33_example:b}) The $K_{3,3}$ with $e_1$ and $e_2$ removed (dashed lines) and rearranged to illustrate that it is now a partial 2-tree. (\ref{fig:omd_k33_example:c}) The $K_{3,3}$ with $\{e_1,e_2\}$ removed and $\{f_1,f_2\}$ (bold lines) added to make a 2-tree, showing that the $K_{3,3}$ is at least $OMD_2$. (\ref{fig:omd_k33_example:d}) The $K_{3,3}$ with only $e_2$ removed (dashed line). (\ref{fig:omd_k33_example:e}) The $K_{3,3}$ with $e_2$ removed and $f_3$ (bold line) added to make a low Cayley complexity graph, showing that the $K_{3,3}$ is $OMD_1$.
 }
 \label{fig:omd_k33_example}
 \end{figure*}
+
+\noindent{\bf Note:} A huge advantage of the convex Cayley method
+is that it is completely unaffected when $\delta$ are intervals rather than exact values~\cite{GaoSitharam}.
+%cite my paper with Heping!!!
+
 
 
 \medskip\noindent{\bf Example}.
@@ -213,7 +218,7 @@ graphs, i.e, its DR-plan has a root and 9
 children corresponding to the 9 edges. Solving or recombining the system
 $(G,\delta)$
 corresponding to the root of
-this DR-plan involves solving a quadratic system with 8 equations and variables,
+this DR-plan involves solving a quadratic system with 8 equations and variables.
 Instead of simultaneously solving this system, we could instead use the fact
 that $G=K_{3,3}$ is in OMD$_1$: remove the
 edge $e$ in Figure \ref{fig:omd_k33_example} to give a partial 2-tree $G'$.
@@ -224,8 +229,8 @@ the edge $f$.
 When $\delta$ is generic, i.e, does not admit collinearities or coincidences
 in the realizations of $(G,\delta)$,
 the realization space of $(H, <\delta_{E\setminus e}, \lambda_f>)$ has 16
-solutions $q_p^{\lambda_f}$ (modulo orientation preserving isometries),
-with distinct orientation types $\sigma_p$,
+solutions $q^p_{\lambda_f}$ (modulo orientation preserving isometries),
+with distinct orientation types $\sigma_p$ 
 (two orientation choices for each of the 4 triangles)
 that can be obtained by solving a sequence of 4 single quadratics in 1
 variable (DR-plan of size 2).

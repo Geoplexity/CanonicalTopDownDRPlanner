@@ -2,13 +2,12 @@
 \label{sec:prelim}
 
 \subsection{Basics}
-%TODO!
 
 
 
 In this paper, a {\em geometric constraint system} is a multivariate polynomial 
 (usually bilinear or quadratic) system $G(x,\delta)=0$, representing constraints with parameters $\delta$ 
-between geometric primitives  in $\mathbb{R}^2$ represented collectively $x\in \mathbb{R}^n$.   
+between geometric primitives  in $\mathbb{R}^2$ represented collectively as $x\in \mathbb{R}^n$.   
 %
 When the type of constraint (system) is fixed, the system is simply represented as $(G,\delta)$, where 
 $G$ is the underlying constraint (hyper)graph $G = (V,E)$ 
@@ -23,6 +22,9 @@ with fixed length bars as edges, i.e. $\delta: E \rightarrow \mathbb{R}$;
 this represents the distance constraint system $\| x_u -x_v \|_2 =
 \delta_{u,v}$ for  $(u,v) \in E$, where $x_u \in \mathbb{R}^2$ represents the coordinates of
 $u\in V$. 
+
+\noindent {\bf Note:} Geometric constraint systems can also have inequalities, 
+where the parameters in $\delta$ are small intervals of values rather than exact values.
 
 In this paper, we will consider 3 types of constraint systems: bar-joint
 as well as {\em pinned line-incidence}, and {\em body-hyperpin}. 
@@ -39,10 +41,8 @@ $\delta$, many  relevant {\em generic} properties of
 the constraint system $G(x,\delta)$
 are properties of the constraint (hyper)graph $G$ 
 and do not depend on $\delta$ (or they hold for all but a measure 
-zero set of $\delta$
-values). Many of these are properties of the jacobian 
-$\Delta_x G(x,\delta)$, often called the appropriate {\em rigidity matrix of
-$G$} 
+zero set of $\delta$ values). Many of these are properties of the jacobian 
+$\Delta_x G(x,\delta)$, often called the appropriate {\em rigidity matrix of $G$} 
 (a matrix of indeterminates).
 For example, the {\em bar-joint rigidity matrix 
 of the graph $G = (V,E)$}
@@ -54,18 +54,42 @@ where the row corresponding to edge $(u,v)$ contains the 2 coordinate indetermin
 for $x_u -x_v$ (resp. $x_v-x_u$) in the 2 columns for $u$ (resp.\ $v$), 
 that is 4 non-zero entries per row. 
 
-Some of these generic constraint system or 
-(hyper)graph properties are the following ({\bf Note:} we refer to these as
+
+%XXXXXXXXXsomething has to be said 
+%along with asimow roth (infinitesimal rigidity 
+%implies rigidity)
+%When the rigidity matrix has appropriate rank, the realizations or solutions 
+%of the corresponding constraint system are generically isolated and zero-dimensional 
+%if the constraint system has equalities and exact values for the parameters $\delta$.
+%If the constraint system has inequalities, i.e, if the $\delta$ lie in an interval,
+%this claim is approximate: the solutions are isolated small, full-dimensional  connected components.
+
+One important property of generic constraint system or 
+(hyper)graph %that depends on the appropriate rigidity matrix of indeterminates
+is \emph{rigidity} ({\bf Note:} we refer to these as
 properties of the constraint system or as properties of the underlying
-(hyper)graph interchangeably).
+(hyper)graph interchangeably),
+i.e., the realizations or solutions of the corresponding constraint system being generically isolated and zero-dimensional. %(if the constraint system has equalities and exact values for the parameters $\delta$). 
+The result by Asimow and Roth~\cite{???} shows a constraint (hyper)graph is rigid
+if it is generically {\em infinitesimally rigid}, i.e.\ the number of independent rows of its appropriate rigidity matrix is at least the number of columns less the number of rigid body motions, which is 3 for bar-joint systems. 
+%This condition is called generic {\em infinitesimal rigidity}.
+
+\noindent {\bf Note:} If the constraint system has inequalities, i.e, if the $\delta$ lie in an interval,
+the definition of rigidity is approximate: the solutions are isolated small, full-dimensional  connected components.
+% generic rigidity, i.e.\ there exist at most finitely many solutions to the system at generic points,  %to the algebraic system 
+
+
+Other generic constraint system or (hyper)graph properties are the following: %({\bf Note:} we refer to these as
+%properties of the constraint system or as properties of the underlying
+%(hyper)graph interchangeably).
 %
 A constraint (hyper)graph $G$ is {\em independent} if its appropriate rigidity matrix of indeterminates  
 has independent rows
 (i.e, the determinant of some square submatrix is not
 identically zero). 
-It is {\em rigid} if the number of independent rows of the rigidity matrix is
-at least the number of columns less the number of rigid body motions, 
-which is 3 for distance constraint systems. 
+%It is {\em rigid} if the number of independent rows of the rigidity matrix is
+%at least the number of columns less the number of rigid body motions, 
+%which is 3 for distance constraint systems. 
 It is {\em isostatic (minimally rigid, well-constrained)} 
 if it is both rigid and independent. 
 %if the number of generically independent rows or the rank of the appropriate rigidity matrix is maximal.
@@ -75,15 +99,12 @@ if it is both rigid and independent.
 It is {\em flexible} if it is not rigid, {\em under-constrained} if it is independent and not rigid, or {\em over-constrained} if it is not independent.
 
 
-In this paper, a {\em qusec} is any {\em independent} geometric 
-constraint system of one of the 3
-types mentioned above.
-
-
-The 2-dimensional {\em rigidity matroid} of a constraint (hyper)graph $G = (V,E)$ is a linear matroid  on $E$, 
-where a subset of edges $E' \subseteq E$ is {\em independent} in the matroid, 
-if the set of corresponding rows in the appropriate rigidity matrix of indeterminates are linearly independent. 
-
+Defining the independence of a subset of edges $E' \subseteq E$ 
+to be the independence of corresponding rows in the appropriate rigidity matrix of indeterminates,
+we obtain the {\em rigidity matroid} of a constraint (hyper)graph $G = (V,E)$. 
+%The 2-dimensional {\em rigidity matroid} of a constraint (hyper)graph $G = (V,E)$ is a linear matroid  on $E$, 
+%where a subset of edges $E' \subseteq E$ is {\em independent} in the matroid, 
+%if the set of corresponding rows in the appropriate rigidity matrix of indeterminates are linearly independent. 
 There are various results on combinatorial characterization of independence and rigidity
 for different types of  rigidity matroid. 
 For bar-joint rigidity matroid, 
@@ -94,74 +115,39 @@ For bar-body rigidity matroid,
 Tay~\cite{???} proved that
 the underlying multigraph is minimally rigid if and only if it can be decomposed as $3$ edge disjoint spanning trees. 
 White and Whiteley~\cite{???} gave the same characterization using a different technique to study the algebraic - geomtric conditions called pure condition.
-More generally, 
-Lee, Streinu and Theran~\cite{???} defined the {\em $(k,l)$-sparsity matroid}.
-A hypergraph $G$ is called {\em $(k,l)$-sparse} if $|E'| \le k|V'| - l$ for any induced subgraph $(V',E')$ with at least 2 vertices, 
+Lee, Streinu and Theran~\cite{???} defined the {\em $(k,l)$-sparsity matroid},
+where a hypergraph $G$ is called {\em $(k,l)$-sparse} if $|E'| \le k|V'| - l$ for any induced subgraph $(V',E')$ with at least 2 vertices, 
 and {\em $(k,l)$-tight} if is $(k,l)$-sparse and $|E| = k|V| - l$. 
-In general, if you have a $d$-uniform hypergraph, a $(k,l)$-sparsity
+In general, given a $d$-uniform hypergraph, a $(k,l)$-sparsity
 condition is matroidal as long as $l \le dk-1$. 
 
-For bar-joint graphs,  
-a vector  in the right null space of its rigidity matrix
-is called a {\em flex vector}. 
-It has 2 entries of indeterminates per vertex and represents the internal motions of the system
-(i.e.\ modulo rigid body motions).
-For rigid graphs, all flex vectors are  identically zero. 
-A vector in the left null space of the rigidity matrix
-is called a {\em stress vector}, with one entry of indeterminate per edge.
-For independent graphs, all stress vectors are identically zero. 
 
 
-
-%--A generalized version of Asimow Roth (implicit fn thm)
-%generic rigidity equivalent to infinitesimal rigidity (easy
-%when the latter def is based on indeterminates)
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-
-
-
-%XXXXXXXXXXXXXXX BASICS until combinatorial characterization of 
-%independence and rigidity XXXXXXXXXXX
-
-NOTE: geometric constraint systems can have inequalities (the parameters
-in $\delta$ being inexact, small intervals of values).
-
-XXXXXXXXXsomething has to be said 
-along with asimow roth (infinitesimal rigidity 
-implies rigidity)
-when the rigidity matrix has appropriate rank
-the realizations or solutions of the 
-of the corresponding constraint system 
-are generically isolated and zero-dimensional 
-(if the constraint system has equalities and exact 
-values for the parameters $\delta$.
-If the constraint system has inequalities, i.e, 
-if the $\delta$ lie in an interval,
-this claim is approximate: 
-the solutions are isolated small, full-dimensional  connected components.
-
-%XXXXXXXX Also in the recombination section, it should be noted
-%that the HUGE advantage of the convex Cayley method
-%is that it is completely unaffected by having the $\delta$ be intervals
-%cite my paper with Heping!!!
-
-%XXXXXXXXXX CUrrently there are open problems strewn throughout the paper. 
-%Should they be collected to the conclusion?
-%Or at least clearly labeled as open problems?
-%XXXXXXXXX
-
-
-\noindent{\bf Note:}
-In the remainder of this section and the next two sections 
-\ref{sec:DRP} and \ref{sec:recomb} 
-we only consider bar-joint qusecs and graphs
+In this paper, a {\em qusec} is any {\em independent} geometric 
+constraint system of one of the 3 types mentioned above.
+In the remainder of this section and the next two sections~\ref{sec:DRP} and \ref{sec:recomb} 
+we only consider bar-joint qusecs and graphs. 
 Relevant formal analogies  for the other 2 types of qusecs and (hyper)graphs 
 are given in the subsequent 2 sections on Applications.
 
-XXXNow comes the definition of stress vector and flex vector. 
-NOTE: something has to be said about what flexes and stresses mean
 
+
+%XXXNow comes the definition of stress vector and flex vector. 
+%NOTE: something has to be said about what flexes and stresses mean
+
+
+%TODO
+Given a bar-joint graph, a vector (of indeterminates) in the right null space of its rigidity matrix
+is called a {\em flex vector}. 
+It has 2 entries per vertex and represents the internal motions of the system
+(i.e.\ modulo rigid body motions).
+For rigid graphs, all flex vectors are identically zero. 
+%
+A vector (of indeterminates) in the left null space of the rigidity matrix
+is called a {\em stress vector}.
+It has one entry per edge and represents a {\em self stress} of the system.
+For independent graphs, all stress vectors are identically zero. 
+%
 An {\em external stress} $t$ is a $1\times 2|V|$ vector  (of indeterminates)
 which specifies a 2D vector acting at each vertex
 such that the stress balance equation $sR = t$ holds, where $s$ is a vector
@@ -173,7 +159,12 @@ of internal stresses, one for each bar, and $R$ is the rigidity matrix.
 
 
 
-\subsection*{Decomposition-Recombination (DR) Plans}
+
+
+
+
+
+\subsection{Decomposition-Recombination (DR) Plans}
 
 %$G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
 
@@ -212,9 +203,9 @@ of internal stresses, one for each bar, and $R$ is the rigidity matrix.
 %     In the familiar geometric cases of $d$-dimensional space, all vertex weights are $d$, all edge weights are $1$, and constant $k= -{{d+1}\choose{2}}$. Trivial graphs for 2D would be a single vertex. Trivial graphs in 3D would be a vertex and an edge (2 vertices with an edge between). Etc. These trivial graphs capture the notion of the rotational symmetry that exists in geometric spaces.
 % \end{definition}
 
-A \textbf{trivial} graph is   a single vertex.
+A {\em trivial} graph is   a single vertex.
 \begin{definition}\label{def:drp}
-    The \textbf{decomposition-recombination \mbox{(DR-)} plan} of graph $G$,
+    The  {\em decomposition-recombination \mbox{(DR-)} plan} of graph $G$,
     \cite{XX}
     $DRP(G)$, is defined as a forest that has the following properties:
     \begin{enumerate}
@@ -237,14 +228,14 @@ A \textbf{trivial} graph is   a single vertex.
     %Note that nodes will be referred to interchangeably as ``the node that
     %represents or contains the (sub)graph $C$'' and as simply ``$C$''.
 
-    A DR-plan is \textbf{complete} if it satisfies an additional rule: 
+    A DR-plan is {\em complete} if it satisfies an additional rule: 
         \item For a node, $C$, that is  a non-trivial graph, its $N$
             children, $C_1, \ldots, C_N$, are all of the 
             rigid vertex-maximal proper subgraphs of $C$.
     This makes Rule 2 implicit, and in fact, $C$ contains all the edges in
     the union of its children as well. The complete DR-plan is unique.
 
-    A DR-plan is \textbf{optimal} if it minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
+    A DR-plan is {\em optimal} if it minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
 \end{definition}
 
 % \begin{definition}
@@ -270,7 +261,7 @@ In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$. $C_i$
 is the $i^{\text{th}}$ child of $C$. It is implied that 
 $C_i$ is an isostatic vertex-maximal proper subgraph.
 
-\subsection*{Importance of an Optimal DR-plan}
+\subsection{Importance of an Optimal DR-plan}
 The use of a DR-plan in designing especially self-similar qusecs is
 immediately clear, as shown in Figures \ref{XX} and \ref{XX}.
 In fact, knowing an optimal DR-plan is crucial for design and analysis of 
