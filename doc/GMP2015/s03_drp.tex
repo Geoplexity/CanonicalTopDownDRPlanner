@@ -28,36 +28,34 @@ This covers all potential cases.
 \begin{proof}
 Remark \ref{lemma:union_intersection} shows that the intersection of any two well-constrained subgraphs (such as $C_i$ and $C_j$) can only result in trivial or well-constrained subgraphs. Therefore, these are the only possibilities to consider.
 
-
 \begin{enumerate}
 \item
-% In a valid DR-plan, all children must be proper subgraphs. Therefore, for the union to be the parent (and satisfy the conditions of a DR-plan) there must be at least two children.
-It follows directly from Lemma \ref{lemma:wc_intersection_makes_all_wc} that if there exists $C_i, C_j$ such that $C_i \cup C_j$ is well-constrained, then the smallest fan-in at this node can be made by selecting any two $C_i, C_j$.
-% you found a tree with only 2 children.
-% Clearly, this is the optimal choice at this level.
-However, for it to be a solution to $OptimalDRP(G)$, it must not affect the maximum fan-in for any descendant.
+We show that no subset of the children can union to form $C$, thereby requiring all of them be included in an optimal plan.
 
-Take $D=\bigcap_{k\in N}{C_k}$ and $R_k=C\setminus C_k$. Suppose we select $i$ and $j$, where $i\neq j$, as the children. Since
-% \[C_i=Idc\left(C,D\cup\bigcup_{k\in N\setminus\{i\}}{R_k}\right)\]
-% the children of this node will be
-% \[Idc\left(C,D\cup\bigcup_{k\in N\setminus\{i,m\}}{R_k}\right)\]
-% and
-% \[Idc\left(C,D\cup\bigcup_{k\in N\setminus\{i,n\}}{R_k}\right)\]
-$C_i=Idc\left(C,D\cup\bigcup_{k\in N\setminus\{i\}}{R_k}\right)$
-the children of this node will be
-$Idc\left(C,D\cup\bigcup_{k\in N\setminus\{i,m\}}{R_k}\right)$
-and
-$Idc\left(C,D\cup\bigcup_{k\in N\setminus\{i,n\}}{R_k}\right)$
-for arbitrary $m$ and $n$, where $m\neq n$. This continues for $N-1$ levels total, always with fan-in of two (the minimum possible), at which point every descendant of $C$ is some $Idc(C,D\cup R_k)$.
+Take the strict subset $S\subsetneq \{1,\ldots,N\}$ such that $U=\bigcup_{i\in S}{C_i}$ which we \emph{assume} is well-constrained. If $U\neq C$, then we just found a larger proper subgraph and the children were not vertex-maximal to begin with. So, it must be that $U=C$.
+\usestwod
+However, since $C_i \cap C_j$ is trivial then for $k\notin S$ we know, by Lemma \ref{lemma:uc_intersection_makes_all_uc}, $U\cap C_k$ must be one or more trivial subgraphs. By definition of a DR-plan $C_k=C\cap C_k$ and we know that $U=C$ so $C_k=U\cap C_k$. Thus, $C_k$ is both one or more trivial subgraphs and a well-constrained subgraph of $C$. Thus, the assumption is wrong and $U$ cannot be well-constrained. As $C$ is well-constrained, this means no proper subset of the children in $CompleteDRP(C)$ can union to form $C$.
 
 %%%%%%%%%%%%%%%
 
 \item
-Take $X\subset \{1,\ldots,N\}$ and $D=\bigcup_{i\in X}{C_i}$. If $D\neq C$ but it was well-constrained, then we just found a larger proper subgraph and the graphs in the set were not vertex-maximal to begin with.
+If $C_i \cap C_j$ is well-constrained, then, by Remark \ref{lemma:union_intersection}, $C_i \cup C_j$ is also well-constrained. This means that, by Lemma \ref{lemma:wc_intersection_makes_all_wc}, any two children of $C$ will union to $C$ itself. Thus, any two children are potential choices for the optimal DR-plan as they all create equal fan-in (exactly two) at this level.
 
-\usestwod
-By Lemma \ref{lemma:uc_intersection_makes_all_uc}, if $C_i \cap C_j$ is trivial then for $k\notin X$, $D\cap C_k$ must be one or more trivial subgraphs. Since $C_k=C\cap C_k=D\cap C_k$, by definition of a DR-plan, the assumption that $C_k$ is well-constrained has been contradicted. Thus, $X$ must be all of $\{1,\ldots,N\}$.
+However, to guarantee that any two are \emph{solutions} to $OptimalDRP(G)$, it must ensure minimum fan-in for any descendant. Take the set $S_N=\{1,\dots,N\}$, then we call $I=\bigcap_{k\in S_N}{C_k}$ and $R_k=C\setminus C_k$. Suppose we select $i$ and $j$, where $i\neq j$, as the children. Since
+% \[C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)\]
+% the children of this node will be
+% \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)\]
+% and
+% \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)\]
+$C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)$
+the children of this node will be
+$Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)$
+and
+$Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)$
+for arbitrary $m$ and $n$, where $i,j,m,n$ do not equal each other. \todo{Prove these are valid children? Or is this obvious?} This continues for $N-1$ levels total, always with fan-in of two (the minimum possible), at which point every descendant of $C$ is some $Idc(C,I\cup R_k)$ for $k\in S_N$, with every $k$ appearing at least once. Thus, regardless of the choice of $i,j$ and then $m,n$ etc., the DR-plan has fan-in of two for every node for the next $N$ levels, at which point the nodes contain the same subgraphs.
 \end{enumerate}
+
+This proof then applies to itself recursively to show that the fan-in of the children will also be minimum, thereby making this the optimal DR-plan.
 \end{proof}
 
 The following subsections provide the supporting proofs.
@@ -113,17 +111,9 @@ $C_i\cup C_j$ is well-constrained if and only if $C_i\cup C_j = C$.
 
 \begin{proof}
 %I wouldn't do the forward and backward direction italics, or say proof by contradiction. Just start the first paragraph with Suppose C_i union C_j is well constained maximal proper and assume it is not C.
-\textit{Forward direction:} Proof by contradiction. If the $C_i\cup C_j$ was well-constrained but $C_i\cup C_j \neq C$, we would have found a larger well-constrained proper subgraph containing them; namely, $C_i\cup C_j$ or something containing it. The two original subgraphs could not have been vertex-maximal proper.
+Assume $C_i\cup C_j \neq C$, then we just found a larger proper subgraph and the children were not vertex-maximal to begin with.
 
-\textit{Reverse direction:} $C$ is either some non-leaf node (well-constrained by definition of a DR-plan) or $G$ itself (well-constrained by definition of the problem). Thus, $C_i\cup C_j$ is well-constrained.
-\end{proof}
-
-\begin{corollary}\label{corollary:no_edges_between_diff}
-Let us say $R_i=C\setminus C_i$ and $R_j=C\setminus C_j$. If $C_i\cup C_j$ is well-constrained, then there can be no edges in $C$ between the vertices of $R_i$ and $R_j$.
-\end{corollary}
-
-\begin{proof}
-Lemma \ref{lemma:wc_intersection_is_C} shows that $C_i\cup C_j$ must equal the entire parent $C$.
+In the reverse direction, we know $C$ is either some non-leaf node (well-constrained by definition of a DR-plan) or $G$ itself (well-constrained by definition of the problem). Thus, $C_i\cup C_j$ is well-constrained.
 \end{proof}
 
 
@@ -144,7 +134,7 @@ If $C_i\cap C_j$ is trivial, then $\forall k: C_i\cap C_k$ is trivial.
 \end{lemma}
 
 \begin{proof}
-By Lemma \ref{lemma:union_intersection}, if some $C_i\cap C_k$ is not trivial, then it must be well-constrained. Then, by Lemma \ref{lemma:wc_intersection_makes_all_wc}, all of the intersections are well-constrained. This contradicts the statement that $C_i\cap C_j$ is trivial.
+Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Remark \ref{lemma:union_intersection}, $C_i\cap C_k$ must be well-constrained. Then, by Lemma \ref{lemma:wc_intersection_makes_all_wc}, the intersection between any two children must be well-constrained. This means that $C_i\cap C_j$ is well-constrained. Therefore, such a $k$ cannot exist and all intersections are trivial.
 \end{proof}
 
 

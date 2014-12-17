@@ -6,9 +6,17 @@
 % \textbf{Section \ref{sec:DRP}}
 
 % {\sffamily \textbf{Lemma \ref{lemma:main_trivial}}
-
+\begin{corollary}\label{corollary:no_edges_between_diff}
+Let us say $R_i=C\setminus C_i$ and $R_j=C\setminus C_j$. If $C_i\cup C_j$ is well-constrained, then there can be no edges in $C$ between the vertices of $R_i$ and $R_j$.
+\end{corollary}
 
 \begin{proof}
+Lemma \ref{lemma:wc_intersection_is_C} shows that $C_i\cup C_j$ must equal the entire parent $C$.
+\end{proof}
+
+
+\begin{proof} (Of Lemma \ref{lemma:wc_intersection_makes_all_wc})
+
 The alternative phrasing is due to Lemma \ref{lemma:wc_intersection_is_C}.
 
 Let us say $R_i=C\setminus C_i$, $R_j=C\setminus C_j$, and $D_{i,j}=C_i\cap C_j=(C\setminus R_i)\setminus R_j$ (note that $R_j\subset C_i$, $R_i\subset C_j$ and $D_{i,j}\subset C_i,C_j$). Furthermore, we have the proper subgraphs $R'_i\subset R_i$, $R'_j\subset R_j$, and $D'_{i,j}\subset D_{i,j}$ which are not empty sets.
@@ -47,7 +55,7 @@ Since $D_{i,j}\subset C_i, C_j$ it means that $C_k\cup C_i = C_k \cup C_j = C$, 
 \label{sec:appendix_pinned}
 
 \begin{proof} %[Proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for 2D pinned line incidence graphs]
-We use the same notations as in the original proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} in the last section.  
+We use the same notations as in the original proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} in the last section.
 
 First notice that since $C_i \cup C_j$ is well-constrained, by Lemma~\ref{lem:pinned_union_intersection},
 both $C_i$ and $C_j$ are connected well-constrained vertex-maximal proper subgraphs of  $C$.
