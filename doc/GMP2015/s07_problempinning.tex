@@ -1,12 +1,12 @@
 \section{Application: Finding completions of under-constrained glassy structures to isostatic}
 \label{sec:bodypin}
 
-We can use DR-plans to help in solving questions in designs for graphene and silica bi-layers (\todo{Add Citation}). Specifically, we will look into the problem when you have a mono-layer and it is under-constrained. Our goal is to make such a layer isostatic. This can be done in a number of ways.
+We can use DR-plans to help in solving questions in designs for graphene and silica bi-layers \uncited. Specifically, we will look into the problem when you have a mono-layer and it is under-constrained. Our goal is to make such a layer isostatic. This can be done in a number of ways.
 
 \begin{figure}\centering
     \includegraphics[width=0.4\linewidth]{img/Silica} \hspace{0.5cm}
     \raisebox{0.5\height}{\includegraphics[width=0.2\linewidth]{img/Silicon_tetrahedron}}
-    \caption{Example of a single mono-layer of a Silica Oxygen glassy structure. This can be thought of as a multi-triangle-pin qusec where the Silicon atoms are the triangles and the Oxygen atoms are the pins. Not shown here are other layers stacked on this one. Each Silicon atom has the structure seen to the right, and so binds to another Oxygen atom in an adjacent mono-layer.}
+    \caption{Example of a single mono-layer of a Silica Oxygen glassy structure. This can be thought of as a multi-triangle-pin qusecs where the Silicon atoms are the triangles and the Oxygen atoms are the pins. Not shown here are other layers stacked on this one. Each Silicon atom has the structure seen to the right, and so binds to another Oxygen atom in an adjacent mono-layer.}
     \label{fig:silica_glass}
 \end{figure}
 
@@ -23,12 +23,12 @@ We will discuss item 2 in detail in this section. In each case, we are specifica
     \begin{subfigure}{0.2\linewidth}
         \includegraphics[width=\linewidth]{img/pentl1}
     \end{subfigure}
-    % 
+    %
     $\rightarrow$
     \begin{subfigure}{0.2\linewidth}
         \includegraphics[width=\linewidth]{img/pentl2}
     \end{subfigure}
-    % 
+    %
 
     (b)
     \begin{subfigure}{0.8\linewidth}
@@ -42,43 +42,43 @@ We will discuss item 2 in detail in this section. In each case, we are specifica
 
 
 \begin{definition}
-    A \emph{body-hyper-pin qusec} is a qusec where the object are rigid bodies that are pinned together by some number of pins.
+    A \dfn{body-hyperpin qusecs} is a qusecs where the object are rigid bodies that are pinned together by some number of pins.
 \end{definition}
 
 \begin{remark}
-    A body-hyper-pin qusec is a special case of bar-joint qusecs that we have been studying. As such, the DR-planning discussed in Section \ref{sec:DRP} is unchanged and the work in Section \ref{sec:recomb} will still go through with slight modifications.
+    A body-hyperpin qusecs is a special case of bar-joint qusecs that we have been studying. As such, the DR-planning discussed in Section \ref{sec:DRP} is unchanged and the work in Section \ref{sec:recomb} will still go through with slight modifications.
 \end{remark}
 
 \begin{proof}
     We can replace each body that has only one pin by a single vertex. A body with 2 pins can be replaced by an edge. In general, a body with $n$ pins can be replaced by a 2-tree on $n$ vertices. When looking for a DR-plan, we treat each body as trivial, so they become the leaves of our plan. The optimal completion problem and approach of Section \ref{sec:DRP} are unchanged. The optimal parameterization problem in Section \ref{sec:DRP} now has an additional constraint that all edges in the 2-tree representation of the bodies must be removed together, not individually.
 \end{proof}
 
-For the rest of this section, we will only be dealing with the DR-plan  of such qusecs. As such, we will refer only to the underlying graph of the qusecs. We now go over 2 sub-classes of body-hyper-pin graphs for modeling Examples 4 and 5 in Section \ref{sec:intro}.
+For the rest of this section, we will only be dealing with the DR-plan  of such qusecs. As such, we will refer only to the underlying graph of the qusecs. We now go over 2 sub-classes of body-hyperpin graphs for modeling Examples 4 and 5 in Section \ref{sec:intro}.
 
 \begin{definition}
 \label{def:body-pin}
-    A body-pin graph is a body-hyper-pin graph with the following conditions:
+    A body-pin graph is a body-hyperpin graph with the following conditions:
     \begin{itemize}
         \item Each pin is shared by at most 2 bodies
         \item No 2 bodies share more than one pin
     \end{itemize}
-    Such a body-pin graph can also be seen as a \emph{body-bar graph} where the bodies are the original bodies and each pin represents 2 bars from one body to another. Such body-bar graphs with 1 and 2-dof can be characterized by being $(3,4)$ and $(3,5)$-tight respectively.
+    Such a body-pin graph can also be seen as a \dfn{body-bar graph} where the bodies are the original bodies and each pin represents 2 bars from one body to another. Such body-bar graphs with 1 and 2-dof can be characterized by being $(3,4)$ and $(3,5)$-tight respectively.
 \end{definition}
 
 \begin{definition}
-    A \emph{multi-triangle-pin graph} is a body-hyper-pin graph where each body is a triangle, meaning it is pinned in at most 3 places. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hyper-graphs, 1 and 2-dof can be characterized by $(2,4)$ and $(2,5)$ tightness respectively.
+    A \dfn{multi-triangle-pin graph} is a body-hyperpin graph where each body is a triangle, meaning it is pinned in at most 3 places. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hyper-graphs, 1 and 2-dof can be characterized by $(2,4)$ and $(2,5)$ tightness respectively.
 \end{definition}
 
 Body-pin graphs are of particular interest to us in the context of Example 4 in Section \ref{sec:intro}. Multi-triangle-pin graphs can be used to represent the silica bi-layers and glassy structures described in Example 5 of Section \ref{sec:intro}, where each triangle is the junction of ``disks'' in the plane (see Figure \ref{fig:silica_glass}). Typically, these systems are not isostatic, so to relate the work of this paper to the systems, we define a slightly different kind of DR-plan:
 
 \begin{definition}
-    A \emph{$(k,l)$-tight DR-plan} is one in which each child node is either a vertex maximal proper $(k,l)$-tight sub-graph of the parent node or it is trivial. In our case, the trivial nodes are just the bodies.
+    A \dfn{$(k,l)$-tight DR-plan} is one in which each child node is either a vertex maximal proper $(k,l)$-tight sub-graph of the parent node or it is trivial. In our case, the trivial nodes are just the bodies.
 \end{definition}
 
 We can develop the notion of a canonical DR-plan for certain $(k,l)$ tightness conditions similar to the way we did in Section \ref{sec:DRP}.
 
 \begin{observation}
-    For the 1-dof body-hyper-pin graphs described above, a DR-plan node will follow one of the following:
+    For the 1-dof body-hyperpin graphs described above, a DR-plan node will follow one of the following:
 
     \begin{itemize}
         \item Its children will be 2 proper vertex maximal 1-dof graphs that intersect on another 1-dof graph
@@ -125,21 +125,21 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$ tightness c
 
 \begin{theorem}
 \label{thm:1dofcase}
-    Given a 1-dof body-pin or multi-triangle graph $G$ and corresponding 1-dof DR plan $T$, there is a quadratic algorithm for the 1-dof optimal completion problem of Section \ref{sec:recomb} for body-pin and multi-triangle-pin graphs.
+    Given a 1-dof body-pin or multi-triangle graph $G$ and corresponding 1-dof DR-plan $T$, there is a quadratic algorithm for the 1-dof optimal completion problem of Section \ref{sec:recomb} for body-pin and multi-triangle-pin graphs.
 \end{theorem}
 
 \begin{proof}
-    Suppose we are given a body-pin graph and its corresponding body-bar graph $G$ and have obtained the 1-dof DR-plan $T$. Each node of $T$ will then be a vertex maximal proper 1-dof sub-graph of $G$. 
+    Suppose we are given a body-pin graph and its corresponding body-bar graph $G$ and have obtained the 1-dof DR-plan $T$. Each node of $T$ will then be a vertex maximal proper 1-dof sub-graph of $G$.
 
-    To make the graph isostatic, we need only add one body and pin it to 2 other bodies. Doing so will cause $G$ to become $(3,3)$-tight. We choose the 2 bodies to pin to by choosing a node $b$ in $T$ and looking at its children. From Observation \ref{rem:1dofcanon}, we know that the children can only be joined by a single pin or a sub-graph. We pin the new body to bodies in two separate children. Doing so will ensure that all children of $b$ will have 1-dof and all ancestors of $b$ (including $b$) will now be isostatic. 
+    To make the graph isostatic, we need only add one body and pin it to 2 other bodies. Doing so will cause $G$ to become $(3,3)$-tight. We choose the 2 bodies to pin to by choosing a node $b$ in $T$ and looking at its children. From Observation \ref{rem:1dofcanon}, we know that the children can only be joined by a single pin or a sub-graph. We pin the new body to bodies in two separate children. Doing so will ensure that all children of $b$ will have 1-dof and all ancestors of $b$ (including $b$) will now be isostatic.
 
-    % Then, we can form a valid isostatic DR-plan $T_b$ from $T$. In $T_b$, $fanin(b)$is the number of leaves in the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $fanin(w)$ is the the number leaf nodes in the tree rooted at $w$, excluding the subtree constaining $b$, plus 1 (for the node leading to $b$).  Then, for any node $b$ that we choose, $T_b$ is a valid DR-plan. The size of $T_b$ will just be the maximum fanin of all nodes in $T_b$. Thus, if we want to minimize the size of our DR-plan, we simply need to take the $b$ that has the $T_b$ of smallest size. 
-    
-    Such a pinning covers all possible ways of adding a new body. Assume we add a new body $b$ to our graph and pin it to $b_i$ and $b_j$ to make it isostatic. Then, there will be some lowest 1-dof node $v$ in $T$ such that $b_i$ and $b_j$ appear in $v$. Thus, pinning $v$ in the manner described yields an equivalent isostatic DR-plan to pinning $b$ to $b_i$ and $b_j$. 
+    % Then, we can form a valid isostatic DR-plan $T_b$ from $T$. In $T_b$, $fanin(b)$is the number of leaves in the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $fanin(w)$ is the the number leaf nodes in the tree rooted at $w$, excluding the subtree constaining $b$, plus 1 (for the node leading to $b$).  Then, for any node $b$ that we choose, $T_b$ is a valid DR-plan. The size of $T_b$ will just be the maximum fanin of all nodes in $T_b$. Thus, if we want to minimize the size of our DR-plan, we simply need to take the $b$ that has the $T_b$ of smallest size.
+
+    Such a pinning covers all possible ways of adding a new body. Assume we add a new body $b$ to our graph and pin it to $b_i$ and $b_j$ to make it isostatic. Then, there will be some lowest 1-dof node $v$ in $T$ such that $b_i$ and $b_j$ appear in $v$. Thus, pinning $v$ in the manner described yields an equivalent isostatic DR-plan to pinning $b$ to $b_i$ and $b_j$.
 
     For each node $b$, we assign a size of the $T_b$ denoted $|T_b|$. $|T_b| = \displaystyle\max_{v \in T_b} fanin(v)$. We are looking for $b$ that minimizes $|T_b|$. Denote the sub-tree of $T$ rooted at $v$ by $T^v$ and the number of leaves in a tree $T$ by $nl(T)$. Note that $fanin(b)= nl(T^b)$ because no descendant of $b$ is isostatic. Similarly, for any ancestor $w$ of $b$, $fanin(w) = nl(T^w)-nl(T^{b'})+1$, where $b'$ is the child leading to $b$. All other nodes are not isostatic and so have no fanin.
 
-    % Then, we can form a valid isostatic DR-plan $T_b$ from $T$. In $T_b$, $b$'s children are now all of the leaf nodes of the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $w$'s children will be the node that leads to $b$, denoted $b'$, along with all of the other leaf nodes in the tree rooted at $w$, excluding $b'$. Then, for any node $b$ that we choose, $T_b$ is a valid DR-plan. The size of $T_b$ will just be the maximum fanin of all nodes in $T_b$. Thus, if we want to minimize the size of our DR-plan, we simply need to take the $b$ that has the $T_b$ of smallest size. 
+    % Then, we can form a valid isostatic DR-plan $T_b$ from $T$. In $T_b$, $b$'s children are now all of the leaf nodes of the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $w$'s children will be the node that leads to $b$, denoted $b'$, along with all of the other leaf nodes in the tree rooted at $w$, excluding $b'$. Then, for any node $b$ that we choose, $T_b$ is a valid DR-plan. The size of $T_b$ will just be the maximum fanin of all nodes in $T_b$. Thus, if we want to minimize the size of our DR-plan, we simply need to take the $b$ that has the $T_b$ of smallest size.
 
     The node we need to pin will always be the deepest nontrivial node of some path in $T$. Suppose we chose to pin a node $b$ that has a nontrivial child $v$. Then, $fanin_b(b) = nl(T^b) = nl(T^v) + n$, where $n$ is essentially the number of leaves between $b$ and $v$. If we had instead chosen to pin $v$, then $fanin_v(b) = nl(T^b) - nl(T^{b'}) + 1 \leq fanin_b(v)$. And for each ancestor $w$ of $b$, $fanin(w)$ is unchanged, meaning $|T_v| \leq |T_b|$. Thus we only have to check the deepest non-trivial nodes.
 
@@ -157,7 +157,7 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$ tightness c
 \end{observation}
 
 \begin{proof}
-    The only difference from the 1-dof case is that now we need to remove 2-dof from our graph. We build a 2-dof DR-plan $T$. Like above, we need to add a body and 2 pins to 2 nodes now to get to isostatic. 
+    The only difference from the 1-dof case is that now we need to remove 2-dof from our graph. We build a 2-dof DR-plan $T$. Like above, we need to add a body and 2 pins to 2 nodes now to get to isostatic.
 
     Suppose we pin 2 distinct nodes $v_i$ and $v_j$. Then, there will be some common ancestor $a$ of $v_i$ and $v_j$. Then, in $T_{v_i,v_j}$, $fanin_{v_i,v_j}(a) = nl(T^a)$. However, if we chose to pin one of $v_i$ and $v_j$ twice, then $fanin_v(a) = nl(T^a) - nl(T^{a'}) +1$ . Thus $fanin_v(a)' \leq fanin_{v_i,v_j}(a)$. All ancestors of $a$ are unchanged. So $|T_v| \leq |T_{v_i,v_j}|$.
 
@@ -172,5 +172,6 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$ tightness c
 %     We can do a similar algorithm to the 1-dof case, except we constrain a given node 2 times (by adding 2 triangles or 2 bodies and 4 pins). This causes the nodes along the path to the given node to become well-constrained while all others will be underconstrained. Thus, our DR-plan will have the same size as the 1-dof case. This is still a quadratic algorithm.
 % \end{proof}
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX QUESTION XXXXXXXXXXXXXXXXXXXXXXXXX
-An open question remains as to the complexity of the optimal completion problem when there are more than 2-dof. For higher number of dofs, the $(l,k)$ characterization is no longer matroidal.
+\begin{openproblem}
+    What is the complexity of the optimal completion problem when there are more than 2-dof. For higher number of dofs, the $(k,l)$ characterization is no longer matroidal.
+\end{openproblem}

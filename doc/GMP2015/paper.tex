@@ -6,21 +6,27 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{tikz}
-\usetikzlibrary{shapes,snakes}
-\newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
-
+\usetikzlibrary{shapes}
 \usepackage{ulem}
-
-\newcommand{\todo}[1]{\textsc{{\color{red}#1}}}
-
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage{floatrow}
-% \usepackage{minipage}
+% \usepackage{floatrow}
 
 
 \newtheorem{observation}[theorem]{\sffamily Observation}
+\newtheorem{openproblem}[theorem]{\sffamily Open Problem}
 
+\newcommand{\dfn}[1]{\emph{#1}} % definition of a word
+\newcommand{\vemph}[1]{\textit{#1}} % verbal emphasis
+\newcommand{\header}[1]{\underbar{{\sl #1}}}
+\newcommand{\problemstatement}[1]{\medskip\noindent\textbf{#1}}
+
+\newcommand{\note}{\textbf{Note: }}
+
+\newcommand{\todo}[1]{\textsc{{\color{red}#1}}}
+\newcommand{\uncited}{\textsc{{\bf\color{red}[??]}}}
+
+\newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
