@@ -1,8 +1,8 @@
 \section{Preliminaries}
 \label{sec:prelim}
-
+%
 \subsection{Basics}
-
+%
 In this paper, a \dfn{geometric constraint system} is a multivariate
 polynomial (usually bilinear or quadratic) system $G(x,\delta)=0$,
 representing constraints with parameters $\delta$ between geometric
@@ -21,10 +21,10 @@ graph $G=(V,E)$ with fixed length bars as edges, i.e. $\delta: E
 \rightarrow \mathbb{R}$; this represents the distance constraint
 system $\| x_u -x_v \|_2 = \delta_{u,v}$ for  $(u,v) \in E$, where
 $x_u \in \mathbb{R}^2$ represents the coordinates of $u\in V$.
-
+%
 \noindent
 \note Geometric constraint systems can also have
-inequalities, where the parameters in $\delta$ are small intervals of
+inequalities in addition to equations, where the parameters in $\delta$ are small intervals of
 values rather than exact values.
 
 In this paper, we will consider 3 types of constraint systems: bar-
@@ -93,49 +93,51 @@ determinant of some square submatrix is not identically zero).
 %It is {\em rigid} if the number of independent rows of the rigidity matrix is
 %at least the number of columns less the number of rigid body motions,
 %which is 3 for distance constraint systems.
-It is \dfn{isostatic (minimally rigid, well-constrained)} if it is
+It is \dfn{isostatic (minimally rigid, wellconstrained)} if it is
 both rigid and independent.
 %if the number of generically independent rows or the rank of the appropriate rigidity matrix is maximal.
 %For example, the maximal rank of a bar-joint rigidity matrix is $2|V| - 3$,
 %where $3$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^2$.
 %The graph $G$ is {\em rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
-It is \dfn{flexible} if it is not rigid, \dfn{under-constrained} if it is independent and not rigid, or \dfn{over-constrained} if it is not independent.
+It is \dfn{flexible} if it is not rigid, \dfn{underconstrained} if it
+is independent and not rigid, or \dfn{overconstrained} if it is not
+independent.
 
-
-Defining the independence of a subset of edges $E' \subseteq E$ to be
-the independence of corresponding rows in the appropriate rigidity
-matrix of indeterminates, we obtain the \dfn{rigidity matroid} of a
-constraint (hyper)graph $G = (V,E)$.
-%The 2-dimensional {\em rigidity matroid} of a constraint (hyper)graph $G = (V,E)$ is a linear matroid  on $E$,
+Defining the combinatorial independence of a subset of edges $E'
+\subseteq E$ to be the generic independence of corresponding rows in
+the appropriate rigidity matrix of indeterminates, we obtain the
+\dfn{rigidity matroid} of a constraint (hyper)graph $G = (V,E)$.%The 2-dimensional {\em rigidity matroid} of a constraint (hyper)graph $G = (V,E)$ is a linear matroid  on $E$,
 %where a subset of edges $E' \subseteq E$ is {\em independent} in the matroid,
 %if the set of corresponding rows in the appropriate rigidity matrix of indeterminates are linearly independent.
 There are various results on combinatorial characterization of
-independence and rigidity for different types of  rigidity matroid.
-For bar-joint rigidity matroid, the famous Laman's theorem \uncited
-states that the underlying graph is minimally rigid if and only if
+independence and rigidity  and rigidity matroids for different types
+of graphs. For bar-joint rigidity matroid, the famous Laman's theorem
+\uncited states that the underlying graph is isostatic if and only if
 $|E| = 2|V|-3$ and $|E'| \le 2|V'|-3$ for every induced subgraph with
-at least 2 vertices. The result by Lovasz and Yemini \uncited shows
+at least 2 vertices. The result by Lovasz and Yemini \uncited  shows
 that all 6-vertex-connected graphs are rigid in the plane. For bar-
 body rigidity matroid, Tay \uncited proved that the underlying
-multigraph is minimally rigid if and only if it can be decomposed as
-$3$ edge disjoint spanning trees. White and Whiteley \uncited gave
-the same characterization using a different technique to study the
-algebraic - geomtric conditions called pure condition. Lee, Streinu
-and Theran \uncited defined the \dfn{$(k,l)$-sparsity matroid},
-where a hypergraph $G$ is called \dfn{$(k,l)$-sparse} if $|E'| \le
-k|V'| - l$ for any induced subgraph $(V',E')$ with at least 2
-vertices, and \dfn{$(k,l)$-tight} if is $(k,l)$-sparse and $|E| = k|V|
-- l$. In general, given a $d$-uniform hypergraph, a $(k,l)$-sparsity
-condition is matroidal as long as $l \le dk-1$.
+multigraph is isostatic if and only if it can be decomposed as $3$
+edge disjoint spanning trees. White and Whiteley \uncited gave the
+same characterization using a different technique to study the
+algebraic-geometric conditions of genericity, called pure condition.
+Lee, Streinu and Theran \uncited defined the \dfn{$(k,l)$-sparsity
+matroid}, where a hypergraph $G$ is called \dfn{$(k,l)$-sparse} if
+$|E'| \le k|V'| - l$ for any induced subgraph $(V',E')$ with at least
+2 vertices, and \dfn{$(k,l)$-tight} if is $(k,l)$-sparse and $|E| =
+k|V| - l$. In general, given a $d$-uniform hypergraph, a
+$(k,l)$-sparsity condition is matroidal as long as $l \le dk-1$.
 
 
 
 In this paper, a \dfn{qusec} is any \dfn{independent} geometric
-constraint system of one of the 3 types mentioned above. In the
-remainder of this section and the next two sections~\ref{sec:DRP} and
-\ref{sec:recomb} we only consider bar-joint qusecs and graphs.
-Relevant formal analogies for the other 2 types of qusecs and
-(hyper)graphs are given in the subsequent 2 sections on Applications.
+constraint system of one of the 3 types mentioned above.
+\medskip\noindent
+\note In the remainder of this section and the next three
+sections~\ref{sec:DRP} and \ref{sec:recomb} we only consider bar-joint
+qusecs and graphs. Relevant formal analogies for the other 2 types of
+qusecs and (hyper)graphs are given in the subsequent 2 sections on
+Applications.
 
 
 
@@ -160,6 +162,9 @@ indeterminates) which specifies a 2D vector acting at each vertex such
 that the stress balance equation $sR = t$ holds, where $s$ is a vector
 of internal stresses, one for each bar, and $R$ is the rigidity
 matrix.
+
+The notation $Idc(G,X)$ is the subgraph of $G$ induced by the vertex set
+$X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
 
 
 
@@ -210,12 +215,10 @@ matrix.
 %     \todo{Maybe leave the following out until it's needed later?}
 %     In the familiar geometric cases of $d$-dimensional space, all vertex weights are $d$, all edge weights are $1$, and constant $k= -{{d+1}\choose{2}}$. Trivial graphs for 2D would be a single vertex. Trivial graphs in 3D would be a vertex and an edge (2 vertices with an edge between). Etc. These trivial graphs capture the notion of the rotational symmetry that exists in geometric spaces.
 % \end{definition}
-
-A \dfn{trivial} graph is a single vertex.
 %
 \begin{definition}\label{def:drp}
     The \dfn{decomposition-recombination \mbox{(DR-)} plan} of graph
-    $G$, \uncited $DRP(G)$, is defined as a forest that has the
+    $G$, \uncited {\sl DRP}$(G)$ (see Figure \ref{fig:c2c3ofk33s}, is defined as a forest that has the
     following properties:
     \begin{enumerate}
         \item Each node represents/contains/is a rigid vertex-induced
@@ -225,28 +228,38 @@ A \dfn{trivial} graph is a single vertex.
         % subgraphs of $C$.
         \item The vertex set of $\bigcup_{i=1}^N{C_i}$ is the vertex
         set of $C$.
-        \item A leaf node is a trivial subgraph.
+        \item A leaf node is a single vertex.
+A \dfn{trivial} graph is empty or a single vertex.
         \item A root node is a maximal rigid subgraph of $G$.
     \end{enumerate}
-
+%
     % It can also be described recursively as: the root is $G$, its children are the trivial subgraphs and the DR-plans of its well-constrained vertex-maximal proper subgraphs whose union is $G$ itself.
 
-    An equivalent DAG can be constructed from the above forest such
-    that all nodes containing the same subgraphs are identified into a
-    single node. In this manuscript, however, we retain a forest as
-    defined above. When a graph is isostatic, its DR-plan is a tree.
-
-    %Note that nodes will be referred to interchangeably as ``the node that
-    %represents or contains the (sub)graph $C$'' and as simply ``$C$''.
-
     A DR-plan is \dfn{complete} if it satisfies an additional rule:
-        \item For a node, $C$, that is  a non-trivial graph, its $N$
+        \item For a node $C$ that is  a non-trivial graph, its $N$
         children, $C_1, \ldots, C_N$, are all of the rigid vertex-
         maximal proper subgraphs of $C$. This makes Rule 2 implicit,
         and in fact, $C$ contains all the edges in the union of its
-        children as well. The complete DR-plan is unique.
-    A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
+        children as well.
+    A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the tree.
+    The maximum  fan-in is called the \dfn{size} of the DR-plan
+
+%In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$.
+%$C_i$ is the $i^{\text{th}}$ child of $C$. It is implied that $C_i$ is
+%an isostatic vertex-maximal proper subgraph.
+    %Note that nodes will be referred to interchangeably as ``the node that
+    %represents or contains the (sub)graph $C$'' and as simply ``$C$''.
 \end{definition}
+%
+% \todo{This was labeled as both begin(remark) and end(observation), what was your intent?}
+\begin{remark}
+    For a given graph, there could be exponentially many  DR-plans and
+    even optimal DR-plans in the size of the graph . A complete DR-
+    plan is unique but may not be (is usually not) optimal. DR-plans
+    of self-similar graphs are self-similar. More than one node (leaf)
+    in a DR-plan forest may represent the same subgraph (vertex) of
+    $G$.
+\end{remark}
 
 % \begin{definition}
 %     The \textbf{complete DR-plan} of graph $G$, $CompleteDRP(G)$, is the unique DR-plan but with a modified rule number 2: the children are \emph{all} of the trivial or well-constrained vertex-maximal proper subgraphs of that node $C$. By this, rule 3 is implicit for a complete DR-plan.
@@ -265,20 +278,19 @@ A \dfn{trivial} graph is a single vertex.
 
 \noindent
 \note In Section \ref{sec:DRP} $G$ is assumed to be isostatic.
-$Idc(G,X)$ is the subgraph of $G$ induced by the vertex set
-$X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
-In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$.
-$C_i$ is the $i^{\text{th}}$ child of $C$. It is implied that $C_i$ is
-an isostatic vertex-maximal proper subgraph.
+
 
 \subsection{Importance of an Optimal DR-plan}
 The use of a DR-plan in designing especially self-similar qusecs is
-immediately clear, as shown in Figures \ref{XX} and \ref{XX}
-\todo{Reference?}. In fact, knowing an optimal DR-plan is crucial for
+immediately evident, as shown in Figures \ref{fig:c2c3ofk33s} and
+\ref{fig:subdivision}.
+
+In fact, knowing an optimal DR-plan is crucial for
 design and analysis of even non-self-similar qusecs and their
 realizations with various desirable properties.
 
-First, note that the basic task of \header{realizing given qusecs}
+\header{Realizing given qusecs.}
+Note that this basic task
 would require finding real solutions a large multivariate polynomial
 system (of inequalities and equalities representing the constraints).
 Without DR-planning, this requires double exponential time in the
@@ -288,19 +300,22 @@ subsystem that is solved, or recombined from the solutions of its
 child subsystems i.e.,the maximum fan-in occuring in a DR-plan. Thus
 finding an optimal DR-plan is important for realization.
 
-Next, using the DR-plan we obtain a \header{recursive block
-decomposition of the rigidity matrix} with each block being the
+\header{Recursive block
+decomposition of the rigidity matrix, stress space and external stresses.}
+This can be obtained using the DR-plan we obtain a
+with each block being the
 rigidity matrix of an isostatic subgraph. The blocks intersect on
 isostatic or trival subgraphs. This recursive block decomposition of
-the rigidity matrix $R$ correspondingly \header{recursively decomposes
-the stress vectors} $s$ that balance a given external stress $t$ since
-$sR = t$, and moreover, the external stress vector $t$ now
-\header{recursively ``distributes'' as external stresses} for each
-isostatic subgraph of the DR-plan. When the rigidity matrix and stress
-vectors are indeterminates, it can be used to design  qusecs
+the rigidity matrix $R$ correspondingly recursively decomposes
+the stress vectors $s$ that balance a given external stress $t$ since
+$sR = t$. Moreover, the external stress vector $t$ is
+recursively ``distributed'' into external stresses for each
+node of the DR-plan.
+When the rigidity matrix and stress
+vectors contain indeterminates, this  can be used to design
 underlying graph and parameters $\delta$ to obtain an optimal
 distribution of stresses on the geometric primitives. When the
-realization of the qusec is given, this can be used to analyze the
+realization of qusecs is given, this can be used to analyze the
 distribution of a given external load.
 
 
