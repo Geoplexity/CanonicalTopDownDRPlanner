@@ -21,7 +21,7 @@ graph $G=(V,E)$ with fixed length bars as edges, i.e. $\delta: E
 \rightarrow \mathbb{R}$; this represents the distance constraint
 system $\| x_u -x_v \|_2 = \delta_{u,v}$ for  $(u,v) \in E$, where
 $x_u \in \mathbb{R}^2$ represents the coordinates of $u\in V$.
-%
+
 \noindent
 \note Geometric constraint systems can also have
 inequalities in addition to equations, where the parameters in $\delta$ are small intervals of
@@ -69,7 +69,7 @@ the constraint system or as properties of the underlying (hyper)graph
 interchangeably), i.e., the realizations or solutions of the
 corresponding constraint system being generically isolated and zero-
 dimensional.%(if the constraint system has equalities and exact values for the parameters $\delta$).
-The result by Asimow and Roth \uncited shows a constraint
+The result by Asimow and Roth \cite{asimow1978rigidity}  shows a constraint
 (hyper)graph is rigid if it is generically \dfn{infinitesimally
 rigid}, i.e.\ the number of independent rows of its appropriate
 rigidity matrix is at least the number of columns less the number of
@@ -112,16 +112,16 @@ the appropriate rigidity matrix of indeterminates, we obtain the
 There are various results on combinatorial characterization of
 independence and rigidity  and rigidity matroids for different types
 of graphs. For bar-joint rigidity matroid, the famous Laman's theorem
-\uncited states that the underlying graph is isostatic if and only if
+\cite{laman1970graphs} states that the underlying graph is isostatic if and only if
 $|E| = 2|V|-3$ and $|E'| \le 2|V'|-3$ for every induced subgraph with
-at least 2 vertices. The result by Lovasz and Yemini \uncited  shows
+at least 2 vertices. The result by Lovasz and Yemini \cite{lovasz1982generic}  shows
 that all 6-vertex-connected graphs are rigid in the plane. For bar-
-body rigidity matroid, Tay \uncited proved that the underlying
+body rigidity matroid, Tay \cite{tay1976rigidity} proved that the underlying
 multigraph is isostatic if and only if it can be decomposed as $3$
-edge disjoint spanning trees. White and Whiteley \uncited gave the
+edge disjoint spanning trees. White and Whiteley \cite{white1987algebraic} gave the
 same characterization using a different technique to study the
 algebraic-geometric conditions of genericity, called pure condition.
-Lee, Streinu and Theran \uncited defined the \dfn{$(k,l)$-sparsity
+Lee, Streinu and Theran \cite{lee2007graded} defined the \dfn{$(k,l)$-sparsity
 matroid}, where a hypergraph $G$ is called \dfn{$(k,l)$-sparse} if
 $|E'| \le k|V'| - l$ for any induced subgraph $(V',E')$ with at least
 2 vertices, and \dfn{$(k,l)$-tight} if is $(k,l)$-sparse and $|E| =
@@ -132,6 +132,7 @@ $(k,l)$-sparsity condition is matroidal as long as $l \le dk-1$.
 
 In this paper, a \dfn{qusec} is any \dfn{independent} geometric
 constraint system of one of the 3 types mentioned above.
+
 \medskip\noindent
 \note In the remainder of this section and the next three
 sections~\ref{sec:DRP} and \ref{sec:recomb} we only consider bar-joint
@@ -178,9 +179,9 @@ $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
 
 
 \subsection{Decomposition-Recombination (DR) Plans}
-
+%
 %$G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
-
+%
 %Given a constant $k$, a graph $G$ is:
 %\begin{itemize}
 %    \item \textbf{independent} (or \textbf{sparse}) if, for all non-trivial subgraphs $S\subseteq G$, $d(S) \leq k$.
@@ -201,15 +202,15 @@ $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
 %     % induced
 %     subgraph $S\subseteq G$ such that $d(S) > k$.
 % \end{definition}
-
+%
 % \begin{definition}
 %     A graph is \textbf{well-constrained} if, given constant $k$, $d(G) = k$ and for all
 %     % induced
 %     subgraphs $S\subseteq G$, (1) $d(S)\leq k$, or (2) given a set of trivial graphs $T$, $S$ is isomorphic to one of the graphs in $T$ (i.e.\ $S$ is trivial).
 % \end{definition}
-
-
-
+%
+%
+%
 % \begin{definition}
 %     A \textbf{trivial} graph is ill-defined in the general case. The only strict requirements are: (1) it must be an over-constrained graph and (2) all of its subgraphs are also trivial.
 %     \todo{Maybe leave the following out until it's needed later?}
@@ -218,7 +219,7 @@ $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
 %
 \begin{definition}\label{def:drp}
     The \dfn{decomposition-recombination \mbox{(DR-)} plan} of graph
-    $G$, \uncited {\sl DRP}$(G)$ (see Figure \ref{fig:c2c3ofk33s}, is defined as a forest that has the
+    $G$, \cite{hoffman2001decompositionI} {\sl DRP}$(G)$ (see Figure \ref{fig:c2c3ofk33s}, is defined as a forest that has the
     following properties:
     \begin{enumerate}
         \item Each node represents/contains/is a rigid vertex-induced
@@ -234,7 +235,7 @@ A \dfn{trivial} graph is empty or a single vertex.
     \end{enumerate}
 %
     % It can also be described recursively as: the root is $G$, its children are the trivial subgraphs and the DR-plans of its well-constrained vertex-maximal proper subgraphs whose union is $G$ itself.
-
+%
     A DR-plan is \dfn{complete} if it satisfies an additional rule:
         \item For a node $C$ that is  a non-trivial graph, its $N$
         children, $C_1, \ldots, C_N$, are all of the rigid vertex-
@@ -242,8 +243,8 @@ A \dfn{trivial} graph is empty or a single vertex.
         and in fact, $C$ contains all the edges in the union of its
         children as well.
     A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the tree.
-    The maximum  fan-in is called the \dfn{size} of the DR-plan
-
+    The maximum  fan-in is called the \dfn{size} of the DR-plan.
+%
 %In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$.
 %$C_i$ is the $i^{\text{th}}$ child of $C$. It is implied that $C_i$ is
 %an isostatic vertex-maximal proper subgraph.

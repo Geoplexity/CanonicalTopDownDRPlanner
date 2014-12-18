@@ -1,8 +1,6 @@
 \section{Introduction}
 \label{sec:intro}
 
-% \newcommand{\meeraheader}[2]{\medskip\noindent\underbar{{\sl (#1) #2}}}
-
 Some properties of natural and engineered materials can be analyzed by
 treating them as two dimensional (2D) layers. As illustrated by the
 examples below, the structure within each layer is often self-
@@ -17,6 +15,11 @@ properties are consistent with a self-assembled 2D structure that
 minimizes mass, optimally distributes external stresses and itself
 participates in the assembly of diverse and multifunctional, larger 2D
 structures.
+
+\noindent
+\textbf{Note on Scope:} In this manuscript we only study finite 2D structures.
+\dfn{Self-similarity} refers to the result of finitely many levels of hierarchy
+or subdivision in an iterated scheme to generate self-similar structures.
 
 \begin{figure*}\centering
 % \begin{subfigure}{.31\linewidth}\centering
@@ -82,7 +85,7 @@ primitives, under metric or algebraic constraints. Such 2D
 formally in Section \ref{sec:prelim}) can be
 used to understand or design material layers (their solutions) with
 desired properties.
-
+%
 \subsection{Previous Work on Relevant 2D Geometric Constraint Systems}
 We now briefly survey existing techniques for studying 2D
 qusecs,  many of which are \dfn{bar-joint} systems
@@ -94,10 +97,9 @@ techniques directly motivate the contributions of this paper.
 
 \medskip\noindent
 \header{(i) Finding (vertex)-maximal generically rigid subsystems}
-Fast, graph-based algorithms exist (pebble-
-game~\cite{Jacobs:1997:PG}), for locating all maximal,
+Fast, graph-based algorithms exist (pebble-game \cite{Jacobs:1997:PG,lee2005finding}), for locating all maximal,
 \dfn{generically rigid} subsystems (defined formally in Section
-\ref{sec:prelim}) \uncited. When the input itself is rigid, these
+\ref{sec:prelim}). When the input itself is rigid, these
 algorithms do nothing, i.e., compute the identity function.
 
 However, both for self-similar or just aperiodic 2D qusecs, it is
@@ -111,8 +113,8 @@ distribution of \dfn{external stresses}, boundary conditions for
 \medskip\noindent
 \header{(ii) Optimal Recursive Decomposition (DR-planning).}
 Recursive decomposition of geometric constraint systems has been
-formalized \uncited and well-studied \uncited as the \dfn
-{Decomposition-Recombination (DR)-planning} problem, defined formally in
+formalized \cite{hoffman2001decompositionI,hoffman2001decompositionII} and well-studied \cite{jermann2006decomposition,sitharam2005combinatorial} as the 
+\dfn {Decomposition-Recombination (DR)-planning} problem, defined formally in
 Section \ref{sec:prelim}. For the above-
 mentioned classes of 2D qusecs, generic rigidity is a combinatorial
 property and hence each level of the decomposition should, in
@@ -120,7 +122,7 @@ principle, be achievable by a graph-based algorithm as in (1), without
 involving geometric information in the constraint system. Since many
 such decompositions can exist for a given constraint system, criteria
 defining desirable or optimal DR-plans and DR-planning algorithms were
-given in \uncited. An \dfn{optimal DR-plan} is one that minimizes
+given in \cite{hoffman2001decompositionI}. An \dfn{optimal DR-plan} is one that minimizes
 the \dfn{size} (defined formally in Section \ref{sec:prelim}, i.e.,
 the maximum number of child subsystems of any parent system.
 Being exponential the size, the complexity of solving the parent
@@ -129,13 +131,13 @@ dominated by it.
 
 However, for general 2D qusecs that could be overconstrained, even
 when restricted to bar-joint systems, the optimal DR-planning problem
-was shown to be NP-hard \uncited.
+was shown to be NP-hard \cite{lomonosov2004graph}.
 
 \medskip\noindent
 \header{(iii) DR-plans for special classes and with other
 criteria.}
 For a special class of 2D qusecs, namely \dfn{tree-decomposable}
-systems \uncited common in computer aided mechanical design, (which
+systems  \cite{fudos1997graph,owen1991algebraic,joan-arinyo2004revisiting}  common in computer aided mechanical design, (which
 includes ruler-and-compass and Henneberg-I constructible systems), all
 DR-plans turn out to be optimal. This satisfies the so-called \dfn
 {Church-Rosser} criterion, leading to highly efficient DR-planning
@@ -146,7 +148,7 @@ no proper subset forms a rigid system); and \dfn{proper maximality},
 requiring child subsystems to be maximal rigid proper subsystems of
 the parent system. See Section \ref{sec:prelim} for formal definitions.
 
-While polynomial time algorithms were given \uncited to generate DR-
+While polynomial time algorithms were given \cite{hoffman2001decompositionI} to generate DR-
 plans meeting the cluster minimality criterion, no such algorithm is
 known for the latter criterion.
 
@@ -158,8 +160,8 @@ tractable even if recombination of solved subsystems is easy for each
 indecomposable parent system in the DR-plan. This is because even for
 the simplest, highly decomposable systems with small DR-plans, the
 problem of finding even a single solution to the input system at the
-root of the DR-plan is NP-hard \uncited and there is a combinatorial
-explosion of solutions \uncited. Typically, however, the desired
+root of the DR-plan is NP-hard  \cite{saxe1979embeddability} 
+and there is a combinatorial explosion of solutions \cite{borcea2004number}. Typically, however, the desired
 solution has a given orientation type, in which case, the crux of the
 difficulty is concentrated in the algebraic complexity of
 (re)combining child system solutions, to give a solution to the parent
@@ -168,7 +170,7 @@ constraint systems, there are algorithms with formal guarantees that
 uncover underlying matroids to combinatorially obtain an optimal
 parameterization to minimize the algebraic complexity of the
 indecomposable parent (sub)systems that occur in the DR-plan
-\uncited\uncited\uncited, provided the DR-plan meets some of the
+\cite{sitharam2010optimized,sitharam2006well,sitharam2010reconciling}, provided the DR-plan meets some of the
 abovementioned criteria.
 
 However, the generality of these algorithms trades-off against
@@ -179,30 +181,31 @@ guarantee all solutions of a given orientation type, even for a single
 (sub)system in a DR-plan. They are prohibitively slow in practice. We
 note that, utilizing the DR-plan and optimal recombination as a
 principled basis, high performance heuristics and software exists
-\uncited\uncited to tame combinatorial explosion via user intervention.
+\cite{sitharam2006solution} to tame combinatorial explosion via user intervention.
 
 
 \medskip\noindent
 \header{(v) Configuration Spaces of Under-constrained Systems.}
 For under-constrained 2D bar-joint and body-hyperpin qusecs obtained
 from various subclasses of tree-decomposable systems, algorithms have
-been developed \uncited\uncited to complete them into isostatic systems
-\uncited\uncited and to find paths within the connected components
-\uncited\uncited of standard Cartesian configuration spaces. Most of the
+been developed to complete them into isostatic systems
+\cite{joan-arinyo2003transforming,sitharam2005combinatorial,gao2006ctree,sitharam2010convex} and to find paths within the connected components
+\cite{sitharam2011cayleyI,hidalgo2011reachability} of standard Cartesian configuration spaces. 
+Most of the
 algorithms with formal guarantees leverage Cayley configuration space
-theory \uncited\uncited to characterize subclasses of graphs and
+theory \cite{sitharam2010convex,sitharam2011cayleyI,sitharam2011cayleyII} to characterize subclasses of graphs and
 additional constraints that control combinatorial explosion, and
 provide faithful bijective representation of connected components and
 paths. These algorithms have decreasing efficiency as the subclass of
 systems gets bigger, with highest efficiency for underlying partial
-2-tree graphs (alternately, tree-width 2, series- parallel, $K_4$
+2-tree graphs (alternately called, tree-width 2, series-parallel, $K_4$
 minor avoiding), moderate efficiency for 1 degree- of-freedom (dof)
 graphs with low Cayley complexity (which include common linkages such
 as the Strandbeest, Limacon and Cardioid), and decreased efficiency
 for general 1-dof tree-decomposable graphs. While software suites
-exist \uncited\uncited, no such formal algorithms and guarantees are known
+exist  \cite{keycurriculum1995geometer,porta2014open,siemens1999d,todd2007geometry}, no such formal algorithms and guarantees are known
 for non-tree-decomposable systems.
-
+%
 \subsection{Contributions and Organization}
 \label{sec:cont}
 
