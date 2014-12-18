@@ -5,8 +5,8 @@ We can use DR-plans to help in solving questions in designs for graphene and sil
 
 \begin{figure}\centering
     \includegraphics[width=0.4\linewidth]{img/Silica} \hspace{0.5cm}
-    \raisebox{0.5\height}{\includegraphics[width=0.2\linewidth]{img/Silicon_tetrahedron}}
-    \caption{Example of a single mono-layer of a Silica Oxygen glassy structure. This can be thought of as a multi-triangle-pin qusecs where the Silicon atoms are the triangles and the Oxygen atoms are the pins. Not shown here are other layers stacked on this one. Each Silicon atom has the structure seen to the right, and so binds to another Oxygen atom in an adjacent mono-layer.}
+    \raisebox{0.3\height}{\includegraphics[width=0.2\linewidth]{img/Silicon_tetrahedron}}
+    \caption{Example of a single mono-layer of a Silica Oxygen glassy structure. This can be thought of as a multi-triangle-pin qusec where the Silicon atoms are the triangles and the Oxygen atoms are the pins. Not shown here are other layers stacked on this one. Each Silicon atom has the structure seen to the right, and so binds to another Oxygen atom in an adjacent mono-layer.}
     \label{fig:silica_glass}
 \end{figure}
 
@@ -150,8 +150,6 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$-tightness c
     % For the 2-dof case, we can do something very similar, except instead of pinning a single body 2 times to a node, we can pin another body 2 times to a node. These can be the same node, and if it is the same node, we can find a wellconstrained DR-plan in quadratic time, we would just be doing the same thing as the 1-dof case.
 \end{proof}
 
-% THIS NEEDS SOME MORE THINKING. THERE ARE DIFFERENT TYPES OF CHILDREN NODES FOR THIS PART. NOT JUST THE TWO LISTED ABOVE
-
 \begin{observation}
     For the 2-dof case, if a similar statement to Remark \ref{rem:1dofcanon} can be made, then Theorem \ref{thm:1dofcase} is true for 2-dof as well.
 \end{observation}
@@ -164,13 +162,21 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$-tightness c
     So, we will always end up pinning a single node twice. Hence, we can run the same algorithm as the 1-dof case and just pin twice instead of once.
 \end{proof}
 
-% \begin{theorem}
-%     There is a \todo{$O(?)$} algorithm for the 2-dof optimal completion problem of Seciton \ref{sec:recomb} for body-pin and multi-triangle-pin graphs.
-% \end{theorem}
+\begin{observation}
+    While the proof for Theorem \ref{thm:1dofcase} gives us a DR-plan with minimum fanin, we did not consider the algebraic complexity of realizing the DR-plan. If that is preferred, we can no longer only consider the deepest nodes. 
+\end{observation}
 
-% \begin{proof}
-%     We can do a similar algorithm to the 1-dof case, except we constrain a given node 2 times (by adding 2 triangles or 2 bodies and 4 pins). This causes the nodes along the path to the given node to become well-constrained while all others will be underconstrained. Thus, our DR-plan will have the same size as the 1-dof case. This is still a quadratic algorithm.
-% \end{proof}
+\begin{proof}
+    An isostatic graph has 3 parameters that define it (in terms of coming up with a realizaiton). These are the Euclidean motions. A 1-dof graph can be seen as essentially having 4 parameters: the 3 Euclidean motions and whatever degree of freedom it has. A 2-dof has 5 parameters, and so on. These paramters denote the algebraic complexity of giving a realization for the graphs. 
+
+    Thus, say we have a $T$ as described in the proof for Theorem \ref{thm:1dofcase}. When we pin a node $b$, we will have the same structure as before. Suppose we are looking at an isostatic node $v$ after pinning $b$. Then, the children of $v$ (except one if $v \neq b$) will be 1-dof. The complexity for that node is then just that of solving each of its children. In general then, the number of parameters for that node will be $np(v) = 4nc_1(v)+3$, if $v \neq b$ and $np(b) = 4nc_1(b)$, where $nc_k(v)$ is the number of $k$-dof children of $v$. 
+
+    Now if we want to minimize the algebraic complexity, we need to minimize the maximum $np(v)$ for any node $v$. In this case, we cannot always just choose the node furthest down the tree to pin because it could have many children. SO we will have to try pinning all nodes to see which gives the lowest algebraic complexity. This is still quadratic for the 1-dof case.
+
+    For the 2-dof case, there are more cases to consider. If we pin the same node twice as above, we have $np(v) = 5nc_2(v)+3$ for any ancestor $v \neq b$ and $np(b) = 5nc_2(b)$. If we pin a node $v$ and one of its ancestors $v'$, then any nodes between $v'$ and $v$ will be 1-dof, any nodes above $v'$ will be isostatic, and nodes below $v$ will be 2-dof. Note that solving $v'$ will result in solving $v$. Then, we need to consider nodes above and includiing $v'$ in our complexity. $np(v') = 5nc_2(v') + 4$ and $np(a) = 3 + 5nc_2(a)$ for $a$ an ancestor of $v'$. The only remaining case will be if we pin two nodes that are not descendent/ancestor. the only change from the previous case will be that for the lowest common ancestor of the nodes $v'$, $np(v') = 2*4+5nc_2(v')$. For any ancestor $a$ of $v'$, we still have $np(a) = 3 + 5nc_2(a)$.
+
+    Like the 1-dof case, we again cannot just choose the nodes deepest in the tree to pin. However, we cannot also assume pinning one node twice will give us the best algebraic complexity. Hence, we will need to check each pair of node to pin. This makes our brute-force algorithm $O(b^3)$, where $b$ is the number of bodies. 
+\end{proof}
 
 \begin{openproblem}
     What is the complexity of the optimal completion problem when there are more than 2-dof. For higher number of dofs, the $(k,l)$ characterization is no longer matroidal.
