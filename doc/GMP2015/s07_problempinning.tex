@@ -1,6 +1,6 @@
 \section{Application: Finding completions of under-constrained glassy structures to isostatic}
 \label{sec:bodypin}
-% \bibliography{paper}
+\bibliography{paper}
 
 We can use DR-plans to help in solving questions in designs for graphene and silica bi-layers \cite{silica_bilayers} \cite{sructure_of_2d_glass}. Specifically, we will look into the problem when you have a mono-layer and it is under-constrained. Our goal is to make such a layer isostatic. This can be done in a number of ways.
 
@@ -54,7 +54,7 @@ We will discuss item 2 in detail in this section. In each case, we are specifica
     We can replace each body that has only one pin by a single vertex. A body with 2 pins can be replaced by an edge. In general, a body with $n$ pins can be replaced by a 2-tree on $n$ vertices. When looking for a DR-plan, we treat each body as trivial, so they become the leaves of our plan. The optimal completion problem and approach of Section \ref{sec:DRP} are unchanged. The optimal parameterization problem in Section \ref{sec:DRP} now has an additional constraint that all edges in the 2-tree representation of the bodies must be removed together, not individually.
 \end{proof}
 
-For the rest of this section, we will only be dealing with the DR-plan  of such qusecs. As such, we will refer only to the underlying graph of the qusecs. We now go over 2 sub-classes of body-hyperpin graphs for modeling Examples 4 and 5 in Section \ref{sec:intro}.
+For the rest of this section, we will only be dealing with the DR-plan of such qusecs. As such, we will refer only to the underlying graph of the qusecs. We now go over 2 sub-classes of body-hyperpin graphs for modeling Examples 4 and 5 in Section \ref{sec:intro}.
 
 \begin{definition}
 \label{def:body-pin}
@@ -63,11 +63,11 @@ For the rest of this section, we will only be dealing with the DR-plan  of such 
         \item Each pin is shared by at most 2 bodies
         \item No 2 bodies share more than one pin
     \end{itemize}
-    Such a body-pin graph can also be seen as a \dfn{body-bar graph} where the bodies are the original bodies and each pin represents 2 bars from one body to another. Such body-bar graphs with 1 and 2-dof can be characterized by being $(3,4)$ and $(3,5)$-tight respectively.
+    Such a body-pin graph can also be seen as a \dfn{body-bar graph} where the bodies are the original bodies and each pin represents 2 bars from one body to another. Such body-bar graphs with 1 and 2-dof can be characterized by being $(3,4)$ and $(3,5)$-tight respectively \cite{Lee:2007:PGA} \cite{streinu2009sparse}.
 \end{definition}
 
 \begin{definition}
-    A \dfn{multi-triangle-pin graph} is a body-hyperpin graph where each body is a triangle, meaning it is pinned in at most 3 places. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hyper-graphs, 1 and 2-dof can be characterized by $(2,4)$ and $(2,5)$-tightness respectively.
+    A \dfn{multi-triangle-pin graph} is a body-hyperpin graph where each body is a triangle, meaning it is pinned in at most 3 places. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hyper-graphs, 1 and 2-dof can be characterized by $(2,4)$ and $(2,5)$-tightness respectively \cite{Lee:2007:PGA} \cite{streinu2009sparse}.
 \end{definition}
 
 Body-pin graphs are of particular interest to us in the context of Example 4 in Section \ref{sec:intro}. Multi-triangle-pin graphs can be used to represent the silica bi-layers and glassy structures described in Example 5 of Section \ref{sec:intro}, where each triangle is the junction of ``disks'' in the plane (see Figure \ref{fig:silica_glass}). Typically, these systems are not isostatic, so to relate the work of this paper to the systems, we define a slightly different kind of DR-plan:
@@ -94,7 +94,7 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$-tightness c
 \end{proof}
 
 \begin{remark}\label{rem:1dofcanon}
-    All $(k,l)$-tight canonical DR-plans are optimal. We can find such a DR-plan in the same time complexity as the $(2,3)$-tight case for bar and joint graphs discussed in Section \ref{sec:DRP}. This is due tot he fact that such $(k,l)$-tight graphs are matroidal and have a pebble game.
+    All $(k,l)$-tight canonical DR-plans are optimal. We can find such a DR-plan in the same time complexity as the $(2,3)$-tight case for bar and joint graphs discussed in Section \ref{sec:DRP}. This is due to the fact that such $(k,l)$-tight graphs are matroidal and have a pebble game, shown in \cite{Lee:2007:PGA}.
 \end{remark}
 
 \begin{figure*}\centering
@@ -170,7 +170,7 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$-tightness c
 
     Thus, say we have a $T$ as described in the proof for Theorem \ref{thm:1dofcase}. When we pin a node $b$, we will have the same structure as before. Suppose we are looking at an isostatic node $v$ after pinning $b$. Then, the children of $v$ (except one if $v \neq b$) will be 1-dof. The complexity for that node is then just that of solving each of its children. In general then, the number of parameters for that node will be $np(v) = 4nc_1(v)+3$, if $v \neq b$ and $np(b) = 4nc_1(b)$, where $nc_k(v)$ is the number of $k$-dof children of $v$.
 
-    Now if we want to minimize the algebraic complexity, we need to minimize the maximum $np(v)$ for any node $v$. In this case, we cannot always just choose the node furthest down the tree to pin because it could have many children. SO we will have to try pinning all nodes to see which gives the lowest algebraic complexity. This is still quadratic for the 1-dof case.
+    Now if we want to minimize the algebraic complexity, we need to minimize the maximum $np(v)$ for any node $v$. In this case, we cannot always just choose the node furthest down the tree to pin because it could have many children. So we will have to try pinning all nodes to see which gives the lowest algebraic complexity. This is still quadratic for the 1-dof case.
 
     For the 2-dof case, there are more cases to consider. If we pin the same node twice as above, we have $np(v) = 5nc_2(v)+3$ for any ancestor $v \neq b$ and $np(b) = 5nc_2(b)$. If we pin a node $v$ and one of its ancestors $v'$, then any nodes between $v'$ and $v$ will be 1-dof, any nodes above $v'$ will be isostatic, and nodes below $v$ will be 2-dof. Note that solving $v'$ will result in solving $v$. Then, we need to consider nodes above and includiing $v'$ in our complexity. $np(v') = 5nc_2(v') + 4$ and $np(a) = 3 + 5nc_2(a)$ for $a$ an ancestor of $v'$. The only remaining case will be if we pin two nodes that are not descendent/ancestor. the only change from the previous case will be that for the lowest common ancestor of the nodes $v'$, $np(v') = 2*4+5nc_2(v')$. For any ancestor $a$ of $v'$, we still have $np(a) = 3 + 5nc_2(a)$.
 
@@ -178,5 +178,5 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$-tightness c
 \end{proof}
 
 \begin{openproblem}
-    What is the complexity of the optimal completion problem when there are more than 2-dof. For higher number of dofs, the $(k,l)$ characterization is no longer matroidal.
+    What is the complexity of the optimal completion problem when there are more than 2-dof. For higher number of dofs, the $(k,l)$ characterization is no longer matroidal \cite{Lee:2007:PGA}.
 \end{openproblem}
