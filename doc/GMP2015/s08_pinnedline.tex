@@ -76,8 +76,8 @@ the corresponding pin, i.e.\ $\delta: E \rightarrow \mathbb{R}^2$.
 %%There exists a set $X$ of $|E|$ pins fixed in $\mathbb{R}^2$, such that each edge $e_i$
 %
 A pinned line-incidence graph $G$ is rigid if $|E| = 2|V|$ and $|E'| \le 2|V'|$ for every induced subgraph $(V',E')$  \cite{xxx}. Note that no trivial motion exists since the pins have fixed positions on the plane.
-In particular, both a single vertex and a single edge are under-constrained graphs, 
-and the smallest over-constrained graph has $6$ vertices. 
+In particular, both a single vertex and a single edge are under-constrained graphs.
+%and the smallest over-constrained graph has $6$ vertices. 
 
 
 
@@ -141,7 +141,7 @@ This is because the pins have fixed positions on the plane.
 %
 %\end{itemize}
 %
-We make the following corresponding modification to the definition of the DR-plan:
+We define a {\em trivial} graph to be a single vertex and make the following modification to the definition of the DR-plan:
 
 %\begin{itemize}
 %\item For any $C$, its $N$ children, $C_1, \ldots, C_N$, are {\em edges} or {\em connected} well-constrained vertex-maximal proper subgraphs of that node $C$.
@@ -156,7 +156,8 @@ We make the following corresponding modification to the definition of the DR-pla
 \begin{definition}
 
  The {\em DR-plan} of  a well-constrained pinned line-incidence graph $G$ is one in which 
- each child node of a non-leaf node $C$ is either an edge not contained in any well-constrained proper subgraph of $C$, or a {\em connected} well-constrained vertex-maximal proper subgraph of  $C$.
+(1) each child node of a non-leaf node $C$ is either an edge not contained in any well-constrained proper subgraph of $C$, or a {\em connected} well-constrained vertex-maximal proper subgraph of  $C$, and
+(2) a leaf node is a single edge.
  % Definition~\ref{def:drp} with  modified rules number 2 and 4:
 %    The \textbf{decomposition-recombination (DR-) plan} of  a 2-dimensional pinned line-incidence graph $G$, $DRP(G)$, is  a tree that has the following properties:
 %    \begin{enumerate}
