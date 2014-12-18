@@ -2,18 +2,20 @@
 \label{sec:pinnedline}
 
 The optimal qusecs DR-plan can also be applied to analyze and solve
-the structure of  cross-linking microfibrils in collagen and cellulose in biology,
-by modeling these structures as {\em pinned line-incidence systems}.
+the structure of  cross-linking microfibrils in collagen and cellulose
+in biology, by modeling these structures as \dfn{pinned line-incidence
+systems}.
 
-{\em Collagen} is an important protein material in biological tissues with highly elastic mechanical property.
-{\em Cellulose} is the most important constituent of the cell wall of plants (see Figure~\ref{fig:cellulose}).
-Both of these substances consist of a large number {\em microfibrils},
+\dfn{Collagen} is an important protein material in biological tissues with highly elastic mechanical property.
+\dfn{Cellulose} is the most important constituent of the cell wall of plants (see Figure~\ref{fig:cellulose}).
+Both of these substances consist of a large number \dfn{microfibrils},
 %fibril itself straight?
 %Each fibril is attached to some fixed larger organelle/membrane at one spot (typically on the boundary).
 %It is additionally
 each of which is cross-linked at 2 places with some two other fibrils,
-where the {\em  cross-linking} is like an incidence constraint that
-the two crosslinked fibrils can slide with each other  \cite{xxx} (see Figure~\ref{fig:crosslink}).
+where the \dfn{cross-linking} is like an incidence constraint that the
+two crosslinked fibrils can slide with each other  \uncited (see
+Figure~\ref{fig:crosslink}).
 
 %Collagen
 %
@@ -46,7 +48,7 @@ the two crosslinked fibrils can slide with each other  \cite{xxx} (see Figure~\r
   \caption{}
   \label{fig:crosslink}
 \end{subfigure}%
-\caption{(a) Microfibrils of carboxymethylated nanocellulose adsorbed on a silica surface~\cite{xxx}. (b) Cross-linking of cellulose microfibrils~\cite{xxx}.}
+\caption{(a) Microfibrils of carboxymethylated nanocellulose adsorbed on a silica surface \uncited. (b) Cross-linking of cellulose microfibrils \uncited.}
 \end{figure}
 
 
@@ -58,15 +60,17 @@ the two crosslinked fibrils can slide with each other  \cite{xxx} (see Figure~\r
 
 
 
-The cross-linking  microfibrils can be modeled as a pinned line-incidence constraint system in $\mathbb{R}^2$,
-where incidence constraints are used instead of distance constraints.
+The cross-linking microfibrils can be modeled as a pinned line-
+incidence constraint system in $\mathbb{R}^2$, where incidence
+constraints are used instead of distance constraints.
 
-A {\em pinned line-incidence system} $(G,\delta)$  
-is a graph $G=(V,E)$ together with parameters $\delta$ specifying $|E|$ \textbf{pins} with fixed positions in $\mathbb{R}^2$, 
-such that each edge is constrained to lie on a line passing through 
-the corresponding pin, i.e.\ $\delta: E \rightarrow \mathbb{R}^2$.
+A \dfn{pinned line-incidence system} $(G,\delta)$ is a graph $G=(V,E)$
+together with parameters $\delta$ specifying $|E|$ \textbf{pins} with
+fixed positions in $\mathbb{R}^2$, such that each edge is constrained
+to lie on a line passing through the corresponding pin, i.e.\ $\delta:
+E \rightarrow \mathbb{R}^2$.
 %
-% $G=(V,E, w_V, w_E)$  
+% $G=(V,E, w_V, w_E)$
 %%is a \textbf{2-dimensional pinned line-incidence graph},
 % has weight functions $w_V(v) = 2, w_E(e) = 1$ for all $v \in V, e \in E$.
 %Additionally, there is  a  set $X$ of $|E|$ \textbf{pins} with fixed positions in $\mathbb{R}^2$,
@@ -75,9 +79,9 @@ the corresponding pin, i.e.\ $\delta: E \rightarrow \mathbb{R}^2$.
 %such that $e$ is constrained to lie on a line passing through $x$.
 %%There exists a set $X$ of $|E|$ pins fixed in $\mathbb{R}^2$, such that each edge $e_i$
 %
-A pinned line-incidence graph $G$ is rigid if $|E| = 2|V|$ and $|E'| \le 2|V'|$ for every induced subgraph $(V',E')$  \cite{xxx}. Note that no trivial motion exists since the pins have fixed positions on the plane.
+A pinned line-incidence graph $G$ is rigid if $|E| = 2|V|$ and $|E'| \le 2|V'|$ for every induced subgraph $(V',E')$ \uncited. Note that no trivial motion exists since the pins have fixed positions on the plane.
 In particular, both a single vertex and a single edge are under-constrained graphs.
-%and the smallest over-constrained graph has $6$ vertices. 
+%and the smallest over-constrained graph has $6$ vertices.
 
 
 
@@ -90,7 +94,7 @@ The two cross-linkings on the fibril are modeled as the two vertices in $V$ defi
 
 
 
-Figure~\ref{fig:pinned_line} shows an example of a  pinned line-incidence graph,
+Figure~\ref{fig:pinned_line} shows an example of a pinned line-incidence graph,
 where the grey ovals stand for pins representing attachments of fibrils,
 and the vertices $a_1,a_2,\ldots, c_3$ represent cross-linkings.
 % and the black dots stand for vertices/cross-linkings.
@@ -111,9 +115,9 @@ The graph is well-constrained, with 12 vertices and 24 edges/pins.
 
 In this section, we will adapt the results in Section~\ref{sec:DRP}
 to give the Optimal DR-plan for pinned line-incidence graphs.
-First, we note that %unlike bar-joint graphs, 
-{\em a well-constrained pinned line-incidence graph can be disconnected},
-being the disjoint union of two or more well-constrained subgraphs. 
+First, we note that %unlike bar-joint graphs,
+\vemph{a well-constrained pinned line-incidence graph can be disconnected},
+being the disjoint union of two or more well-constrained subgraphs.
 This is because the pins have fixed positions on the plane.
 %
 %the following difference of pinned line-incidence graphs from the bar-joint graphs.
@@ -121,7 +125,7 @@ This is because the pins have fixed positions on the plane.
 %For pinned line-incidence graphs,
 %since the pins have fixed positions on the plane,
 %{\em a well-constrained vertex-maximal proper subgraph can be disconnected},
-%being the disjoint union of two or more well-constrained subgraphs. 
+%being the disjoint union of two or more well-constrained subgraphs.
 %
 %\begin{itemize}
 %
@@ -141,7 +145,7 @@ This is because the pins have fixed positions on the plane.
 %
 %\end{itemize}
 %
-We define a {\em trivial} graph to be a single vertex and make the following modification to the definition of the DR-plan:
+We define a \dfn{trivial} graph to be a single vertex and make the following modification to the definition of the DR-plan:
 
 %\begin{itemize}
 %\item For any $C$, its $N$ children, $C_1, \ldots, C_N$, are {\em edges} or {\em connected} well-constrained vertex-maximal proper subgraphs of that node $C$.
@@ -154,9 +158,8 @@ We define a {\em trivial} graph to be a single vertex and make the following mod
 %\end{itemize}
 
 \begin{definition}
-
- The {\em DR-plan} of  a well-constrained pinned line-incidence graph $G$ is one in which 
-(1) each child node of a non-leaf node $C$ is either an edge not contained in any well-constrained proper subgraph of $C$, or a {\em connected} well-constrained vertex-maximal proper subgraph of  $C$, and
+The \dfn{DR-plan} of a well-constrained pinned line-incidence graph $G$ is one in which
+(1) each child node of a non-leaf node $C$ is either an edge not contained in any well-constrained proper subgraph of $C$, or a \dfn{connected} well-constrained vertex-maximal proper subgraph of $C$, and
 (2) a leaf node is a single edge.
  % Definition~\ref{def:drp} with  modified rules number 2 and 4:
 %    The \textbf{decomposition-recombination (DR-) plan} of  a 2-dimensional pinned line-incidence graph $G$, $DRP(G)$, is  a tree that has the following properties:
@@ -169,34 +172,28 @@ We define a {\em trivial} graph to be a single vertex and make the following mod
 \end{definition}
 
 
-With the above modification,
-we now adapt Theorem~\ref{theorem:main} 
-for the optimal DR-plan for  pinned line-incidence graphs.
+With the above modification, we now adapt Theorem~\ref{theorem:main}
+for the optimal DR-plan for pinned line-incidence graphs.
 
 
-\begin{corollary}
-Given a well-constrained  pinned line-incidence graph, for node $C$ in $OptimalDRP(G)$ and the children of $C$ in $CompleteDRP(C)$ labeled as $C_1,\ldots,C_N$
+\begin{corollary}\label{cor:pinned}
+Given a well-constrained pinned line-incidence graph, for node $C$ in $OptimalDRP(G)$ and the children of $C$ in $CompleteDRP(C)$ labeled as $C_1,\ldots,C_N$
 \begin{enumerate}
     \item if $C_i \cap C_j$ is trivial then all $C_1,\ldots,C_N$ are children of $C$ in $OptimalDRP(G)$.
     \item if $C_i \cap C_j$ is well-constrained then any two out of $C_1,\ldots,C_N$ will be the only children of $C$ in $OptimalDRP(G)$.
 \end{enumerate}
-\label{cor:pinned}
 \end{corollary}
 
-The following lemma serves a similar function to Lemma~\ref{lemma:union_intersection} in Section~\ref{sec:union_intersection}
+The following lemma serves a similar function to Remark~\ref{lemma:union_intersection} in Section~\ref{sec:union_intersection}
 %Using similar counting-based argument, %  to Lemma~\ref{t-l1}--\ref{iuc-l1} in Section~\ref{sec:union_intersection},
 and can be proved using a similar counting based argument.
 
 
-\begin{lemma}
-\label{lem:pinned_union_intersection}
+\begin{remark}\label{lem:pinned_union_intersection}
 Let $F_i$ and $F_j$ to be subgraphs of the same well-constrained graph $F$,
-where each of them can be either  a single edge or a connected well-constrained subgraph.
+where each of them can be either a single edge or a connected well-constrained subgraph.
 There are only two possible cases:
-\begin{itemize}
-\item At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is under-constrained, if and only if $F_i \cap F_j$ is trivial.
-\item Both $F_i$ and $F_j$ are well-constrained, if and only if $F_i \cup F_j$ is well-constrained, if and only if $F_i \cap F_j$ is well-constrained.
-\end{itemize}
+(1) At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is under-constrained, if and only if $F_i \cap F_j$ is trivial; and (2) both $F_i$ and $F_j$ are well-constrained, if and only if $F_i \cup F_j$ is well-constrained, if and only if $F_i \cap F_j$ is well-constrained.
 %The following table summarizes all bijections:
 %\setlength{\tabcolsep}{3pt}
 %{\small
@@ -212,12 +209,12 @@ There are only two possible cases:
 %\end{center}
 %}
 %\setlength{\tabcolsep}{6pt}
-\end{lemma}
+\end{remark}
 
-Given Lemma~\ref{lem:pinned_union_intersection}, % and the modified definition of DR-plan,
+Given Remark~\ref{lem:pinned_union_intersection}, % and the modified definition of DR-plan,
 proofs of Lemma~\ref{lemma:wc_intersection_is_C} and \ref{lemma:uc_intersection_makes_all_uc} straightforwardly extend to  pinned line-incidence graphs.
-The proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for pinned line-incidence graphs 
-is given in Appendix~\ref{sec:appendix_pinned}.
+The proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for pinned
+line-incidence graphs is given in Appendix~\ref{sec:appendix_pinned}.
 %The following lemma serves as Lemma~ for pinned line-incidence and can be proved similarly.
 %\begin{lemma}
 %\label{lem:vertex_intersection}
@@ -230,8 +227,9 @@ to  pinned line-incidence graphs,
 thus proving Corollary~\ref{cor:pinned}.
 Consequently, we can efficiently find the optimal DR-plan for  pinned line-incidence graphs using basically the same algorithm as for  bar-joint graphs.
 
-\noindent {\bf Note:} The recombination problem for  pinned line-incidence systems is trivial.
+\noindent
+\note The recombination problem for  pinned line-incidence systems is trivial.
 Since the pins are given fixed positions in the plane,
- the solutions of a well-constrained sub-system will automatically be consistent with solutions of the remaining of the system.
+the solutions of a well-constrained sub-system will automatically be consistent with solutions of the remaining of the system.
 
 

@@ -1,7 +1,7 @@
 \section{Introduction}
 \label{sec:intro}
 
-\newcommand{\meeraheader}[2]{\medskip\noindent\underbar{{\sl (#1) #2}}}
+% \newcommand{\meeraheader}[2]{\medskip\noindent\underbar{{\sl (#1) #2}}}
 
 Some properties of natural and engineered materials can be analyzed by
 treating them as stacked two dimensional (2D) layers. The structure
@@ -10,7 +10,7 @@ multiple scales, generally aperiodic and quasi-uniform within any one
 scale, and consisting of a few repeated motifs appearing in disordered
 arrangements. Each layer is not necessarily planar, i.e., it consists
 of multiple, inter-constraining planar (genus 0) monolayers.
-Furthermore, a layer is often  either {\sl isostatic or
+Furthermore, a layer is often  either \vemph{isostatic or
 under-constrained, not self-stressed} (See Section \ref{sec:prelim} for
 definitions). These properties are consistent with a self-assembled 2D
 structure that minimizes mass, optimally distributes external stresses
@@ -58,7 +58,7 @@ include:
 \begin{enumerate}
     \item Cross-sections of microtubule structures (Figure \ref{fig:material_examples:microtubule}) \cite{Necklace1} e.g., in ciliary membranes and transitions \cite{Necklace2}
 
-    \item Cross-sections of organic tissue with hierarchical structure, e.g. compact bone and tendon (Figure \ref{fig:material_examples:tendon}) \cite{XX}
+    \item Cross-sections of organic tissue with hierarchical structure, e.g. compact bone and tendon (Figure \ref{fig:material_examples:tendon}) \uncited
 
     \item Crosslinked cellulose or collagen microfibril monolayers e.g., in cell-walls \cite{CellWalls1} \cite{CellWalls1}, as well as crosslinked actin filaments in the cytoskeleton matrix.
 
@@ -71,23 +71,24 @@ In order to study structural and mechanical properties such as
 rigidity, flexes and distribution of external stresses within the
 material layer, it is natural to model a material layer as a solution
 of a geometric constraint system of appropriate types of geometric
-primitives, under metric or algebraic constraints. Such 2D {\bf{\em
-qusecs}} (quasi-uniform or self-similar constraint systems) can be
+primitives, under metric or algebraic constraints. Such 2D
+\dfn{qusecs} (quasi-uniform or self-similar constraint systems) can be
 used to understand or design material layers (their solutions) with
 desired properties.
 
 \subsection{Previous Work on Relevant 2D Geometric Constraint Systems}
 We now briefly survey existing techniques for studying 2D
-\textit{qusecs},  many of which are \textit{bar-joint} systems
+\dfn{qusecs},  many of which are \dfn{bar-joint} systems
 (Examples 1, 2 above, see Sections \ref{sec:DRP}, \ref{sec:recomb}),
-\textit{body-hyperpin} systems (Example 4,5, see Section
-\ref{sec:bodypin}) or \textit{pinned-line incidence} systems (Example
+\dfn{body-hyperpin} systems (Example 4,5, see Section
+\ref{sec:bodypin}) or \dfn{pinned-line incidence} systems (Example
 3, see Section \ref{sec:pinnedline}). The limitations of these
 techniques directly motivate the contributions of this paper.
 
-\meeraheader{i}{Finding (vertex)-maximal generically rigid subsystems}
+\medskip\noindent
+\header{(i) Finding (vertex)-maximal generically rigid subsystems}
 Fast, graph-based algorithms exist (pebble-game \cite{Jacobs:1997:PG}), for
-locating all maximal, generically rigid subsystems \cite{XX}. When the
+locating all maximal, generically rigid subsystems \uncited. When the
 input is rigid, these algorithms compute the identity and output the
 input.
 
@@ -98,52 +99,55 @@ understand or design properties at all scales, such as: rigidity,
 flexes, distribution of external stresses, boundary conditions for
 isostaticity, as well as behavior under constraint variations.
 
-\meeraheader{ii}{Optimal Recursive Decomposition (DR-planning)}
+\medskip\noindent
+\header{(ii) Optimal Recursive Decomposition (DR-planning)}
 Recursive decomposition of geometric constraint systems has been
-formalized \cite{XX} and well-studied \cite{XX} as the {\sl
-Decomposition-Recombination (DR)-planning} problem. For the above-
+formalized \uncited and well-studied \uncited as the \dfn
+{Decomposition-Recombination (DR)-planning} problem. For the above-
 mentioned classes of 2D qusecs, generic rigidity is a combinatorial
 property and hence each level of the decomposition should, in
 principle, be achievable by a graph-based algorithm as in (1), without
 involving geometric information in the constraint system. Since many
 such decompositions can exist for a given constraint system, criteria
 defining desirable or optimal DR-plans and DR-planning algorithms were
-given in \cite{XX}. An \emph{optimal DR-plan} is one that minimizes
+given in \uncited. An \dfn{optimal DR-plan} is one that minimizes
 the maximum number of child subsystems of any parent system, a
 property that is crucial for obtaining a solution to the parent
 constraint system from the solutions of the child systems.
 
 However, for general 2D qusecs, even when restricted to bar-joint
 systems, the optimal DR-planning problem was shown to be NP-hard
-\cite{XX}.
+\uncited.
 
-\meeraheader{iii}{DR-plans for special classes and with other
+\medskip\noindent
+\header{(iii) DR-plans for special classes and with other
 criteria}
-For a special class of 2D qusecs, namely \emph{tree- decomposable}
-systems \cite{XX} common in computer aided mechanical design, (which
+For a special class of 2D qusecs, namely \dfn{tree-decomposable}
+systems \uncited common in computer aided mechanical design, (which
 includes ruler-and-compass and Henneberg-I constructible systems), all
-DR-plans turn out to be optimal. This satisfies the so-called \emph
+DR-plans turn out to be optimal. This satisfies the so-called \dfn
 {Church-Rosser} criterion, leading to highly efficient DR-planning
 algorithms. For general 2D qusecs, alternate criteria were suggested
-such as \emph{cluster minimality} requiring parent systems to be
+such as \dfn{cluster minimality} requiring parent systems to be
 composed of a minimal set of at least 2 rigid proper subsystems (i.e.,
-no proper subset forms a rigid system); and \emph{proper maximality},
+no proper subset forms a rigid system); and \dfn{proper maximality},
 requiring child subsystems to be maximal rigid proper subsystems of
 the parent system.
 
-While polynomial time algorithms were given \cite{XX} to generate DR-
+While polynomial time algorithms were given \uncited to generate DR-
 plans meeting the cluster minimality criterion, no such algorithm is
 known for the latter criterion.
 
 
-\meeraheader{iv}{Optimal Recombination and Solution Space Navigation}
+\medskip\noindent
+\header{(iv) Optimal Recombination and Solution Space Navigation}
 For the entire DR-plan, finding all desired solutions is barely
 tractable even if recombination of solved subsystems is easy for each
 indecomposable parent system in the DR-plan. This is because even for
 the simplest, highly decomposable systems with small DR-plans, the
 problem of finding even a single solution to the input system at the
-root of the DR-plan is NP-hard \cite{XX} and there is a combinatorial
-explosion of solutions \cite{XX}. Typically, however, the desired
+root of the DR-plan is NP-hard \uncited and there is a combinatorial
+explosion of solutions \uncited. Typically, however, the desired
 solution has a given orientation type, in which case, the crux of the
 difficulty is concentrated in the algebraic complexity of
 (re)combining child system solutions, to give a solution to the parent
@@ -151,8 +155,7 @@ system at any given level of the DR-plan. For fairly general 3D
 constraint systems, there are algorithms with formal guarantees that
 uncover underlying matroids to combinatorially obtain an optimal
 parameterization to minimize the algebraic complexity of the
-indecomposable parent (sub)systems that occur in the DR-plan \cite{XX,
-XX,XX}, provided the DR-plan meets some of the abovementioned
+indecomposable parent (sub)systems that occur in the DR-plan \uncited\uncited\uncited, provided the DR-plan meets some of the abovementioned
 criteria.
 
 However, the generality of these algorithms trades-off against
@@ -163,17 +166,18 @@ guarantee all solutions of a given orientation type, even for a single
 (sub)system in a DR-plan. They are prohibitively slow in practice. We
 note that, utilizing the DR-plan and optimal recombination as a
 principled basis, high performance heuristics and software exists
-\cite{XX,XX} to tame combinatorial explosion via user intervention.
+\uncited\uncited to tame combinatorial explosion via user intervention.
 
 
-\meeraheader{v}{Configuration Spaces of Under-constrained Systems}
+\medskip\noindent
+\header{(v) Configuration Spaces of Under-constrained Systems}
 For under-constrained 2D bar-joint and body-hyperpin qusecs obtained
 from various subclasses of tree-decomposable systems, algorithms have
-been developed \cite{XX, XX} to complete them into isostatic systems
-\cite{XX, XX} and to find paths within the connected components
-\cite{XX,XX} of standard Cartesian configuration spaces. Most of the
+been developed \uncited\uncited to complete them into isostatic systems
+\uncited\uncited and to find paths within the connected components
+\uncited\uncited of standard Cartesian configuration spaces. Most of the
 algorithms with formal guarantees leverage Cayley configuration space
-theory \cite{XX,XX} to characterize subclasses of graphs and
+theory \uncited\uncited to characterize subclasses of graphs and
 additional constraints that control combinatorial explosion, and
 provide faithful bijective representation of connected components and
 paths. These algorithms have decreasing efficiency as the subclass of
@@ -183,7 +187,7 @@ minor avoiding), moderate efficiency for 1 degree- of-freedom (dof)
 graphs with low Cayley complexity (which include common linkages such
 as the Strandbeest, Limacon and Cardioid), and decreased efficiency
 for general 1-dof tree-decomposable graphs. While software suites
-exist \cite{XX,XX}, no such formal algorithms and guarantees are known
+exist \uncited\uncited, no such formal algorithms and guarantees are known
 for non-tree-decomposable systems.
 
 \subsection{Contributions and Organization}
@@ -192,8 +196,8 @@ for non-tree-decomposable systems.
 The contributions of this paper are the following.
 \begin{itemize}
   \item We navigate the NP-hardness barrier mentioned in (2) above,
-  for finding optimal DR-plans by defining a so-called \textit{canonical}
-  DR-plan and showing a strong Church-Rosser property: \textit{all
+  for finding optimal DR-plans by defining a so-called \dfn{canonical}
+  DR-plan and showing a strong Church-Rosser property: \vemph{all
   canonical DR-plans for isostatic or under-constrained 2D qusecs are
   optimal} (Section \ref{sec:DRP}).
 
@@ -211,17 +215,17 @@ The contributions of this paper are the following.
   that it becomes decomposable via a small DR-plan and yet preserves
   the original solutions in an efficiently searchable manner. We show
   formal connection to well known problems such as optimal completion
-  of under-constrained systems \cite{XX}. When the required
+  of under-constrained systems \uncited. When the required
   modifications are bounded, we obtain new, efficient algorithms for
   realizing both isostatic and under-constrained qusecs by leveraging
-  recent results about Cayley parameters in \cite{XX,XX} (Section
+  recent results about Cayley parameters in \uncited\uncited (Section
   \ref{sec:recomb}).
 
   \item We briefly describe applications of the above techniques to
   modeling, analyzing, and designing specific properties in 2D material
   layers. For Examples 1,2 (achieving isostaticity, distribution of
   stresses in self-similar, bar-joint systems); Example 3 (canonical
-  and optimal DR-plans for pinned line incidence systems \cite{XX})
+  and optimal DR-plans for pinned line incidence systems \uncited)
   and Examples 4,5 (boundary-conditions for achieving various desired
   properties of body-hyperpin systems).
 
