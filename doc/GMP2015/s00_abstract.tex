@@ -1,7 +1,30 @@
 \begin{abstract}
-A variety of quasi-uniform (aperiodic) and possibly self-similar, layered material structures are a natural consequence of the design objectives of rigidity and flexibility, minimizing mass, optimally distributing external stresses and participating in the assembly of diverse and multifunctional, larger  structures.
+A variety of quasi-uniform (aperiodic) and possibly self-similar,
+layered material structures are a natural consequence of design
+objectives such as rigidity or flexibility, minimizing mass, optimally
+distributing external stresses and participating in the assembly of
+diverse and multifunctional, larger  structures.
 
-Crucial for the design and analysis of the abovementioned properties is the recursive decomposition of diverse types of underlying 2D geometric constraint systems that are isostatic or underconstrained (which we call collectively as {\it qusecs}). While the optimal recursive decomposition ({\it DR-planning}) problem is NP-hard even for 2D bar-joint constraint systems, we describe an $O(n^2)$ algorithm  for qusecs. Besides elucidating the source of NP-hardness, the algorithm outputs {\it canonical} DR-plans that meet various desirable, previously studied criteria. By leveraging recent results on Cayley configuration spaces, we show how to decompose the indecomposable algebraic systems that recombine the solutions to child subsystems at a node of an optimal DR-plan: we minimally modify the system to have a small DR-plan, leading to efficient realization algorithms. We show formal connections to well-known problems such as completion of underconstrained systems. We briefly discuss the modeling and analysis of two specific 2D layered materials as applications of the above algorithms, whose software implementation is available.
+Crucial for the design and analysis of the abovementioned properties
+is the recursive decomposition of diverse types of underlying 2D
+geometric constraint systems that are \vemph{isostatic or
+underconstrained (which we call collectively as \dfn{qusecs})}. While
+the optimal recursive decomposition (\dfn{DR-planning}) problem is NP-
+hard even for (possibly overconstrained) 2D bar-joint constraint
+systems we describe an $O(n^2)$ algorithm  for qusecs. Besides
+elucidating NP-hardness, the algorithm outputs \dfn{canonical} DR-
+plans that meet various desirable, previously studied criteria. We
+leverage recent results on Cayley configuration spaces to show that
+the indecomposable systems -  that are solved at node of the optimal
+DR-plan by recombining solutions to child systems - can be minimally
+modified to become decomposable and have a small DR-plan, leading to
+efficient realization algorithms. We show formal connections to well-
+known problems such as completion of underconstrained systems. We
+briefly discuss the modeling and analysis of two specific 2D layered
+materials as applications of the above theory and algorithms. We
+intend to make a software implementation and videos available upon
+request and publicly available for the final version.
+
 
 % =====================CUT HERE ==============
 

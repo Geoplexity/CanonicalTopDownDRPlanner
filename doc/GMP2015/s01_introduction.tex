@@ -4,18 +4,19 @@
 % \newcommand{\meeraheader}[2]{\medskip\noindent\underbar{{\sl (#1) #2}}}
 
 Some properties of natural and engineered materials can be analyzed by
-treating them as stacked two dimensional (2D) layers. The structure
-within each layer could be self-similar \cite{Intro1} spanning
-multiple scales, generally aperiodic and quasi-uniform within any one
-scale, and consisting of a few repeated motifs appearing in disordered
-arrangements. Each layer is not necessarily planar, i.e., it consists
-of multiple, inter-constraining planar (genus 0) monolayers.
-Furthermore, a layer is often  either \vemph{isostatic or
-under-constrained, not self-stressed} (See Section \ref{sec:prelim} for
-definitions). These properties are consistent with a self-assembled 2D
-structure that minimizes mass, optimally distributes external stresses
-and itself participates in the assembly of diverse and
-multifunctional, larger 2D structures.
+treating them as two dimensional (2D) layers. As illustrated by the
+examples below, the structure within each layer is often self-
+similar~\cite{2012arXiv1204.6389G} spanning multiple scales; generally
+aperiodic and quasi-uniform within any one scale; and consists of a
+few repeated motifs appearing in disordered arrangements. Each layer
+is not necessarily planar, i.e., it consists of multiple, inter-
+constraining planar (genus 0) monolayers. Furthermore, a layer is
+often  either \vemph{isostatic or under-constrained, not self-
+stressed} (See Section \ref{sec:prelim} for definitions). These
+properties are consistent with a self-assembled 2D structure that
+minimizes mass, optimally distributes external stresses and itself
+participates in the assembly of diverse and multifunctional, larger 2D
+structures.
 
 \begin{figure*}\centering
 % \begin{subfigure}{.31\linewidth}\centering
@@ -56,30 +57,36 @@ Examples of such materials (See Figure \ref{fig:material_examples})
 include:
 
 \begin{enumerate}
-    \item Cross-sections of microtubule structures (Figure \ref{fig:material_examples:microtubule}) \cite{Necklace1} e.g., in ciliary membranes and transitions \cite{Necklace2}
+    \item Cross-sections of microtubule structures~\cite{microtubule_necklace} (Figure \ref{fig:material_examples:microtubule}) e.g., in ciliary membranes and transitions~\cite{microtubule_cilia}
 
     \item Cross-sections of organic tissue with hierarchical structure, e.g. compact bone and tendon (Figure \ref{fig:material_examples:tendon}) \uncited
 
-    \item Crosslinked cellulose or collagen microfibril monolayers e.g., in cell-walls \cite{CellWalls1} \cite{CellWalls1}, as well as crosslinked actin filaments in the cytoskeleton matrix.
+    \item Crosslinked cellulose or collagen microfibril monolayers e.g., in cell-walls~\cite{CellWalls1}~\cite{CellWalls1}, as well as crosslinked actin filaments in the cytoskeleton matrix.
 
-    \item More recent, engineered examples, including disordered graphene layers \cite{Graphene1} \cite{Graphene2} sometimes reinforced by  microfibrils; and DNA assemblies \cite{Microfibrils1} including a recent Sierpinski carpet, bringing other self-similar structures \cite{Microfibrils2} within reach.
+    \item More recent, engineered examples, including disordered
+    graphene layers~\cite{Graphene1}~\cite{Graphene2} sometimes
+    reinforced by microfibrils; and DNA assemblies including a recent
+    Sierpinski gasket~\cite{self_assembly_sierpinski}, bringing other
+    self-similar structures~\cite{Microfibrils2} within reach.
 
-    \item Silica bi-layers, glass \cite{SilicaGlass1} \cite{SilicaGlass2}, and materials that behave like assemblies of 2D particles under non-overlap constraints, e.g, jammed disks on the plane \cite{JammedDisk1}
+    \item Silica bi-layers~\cite{silica_bilayers}, glass~\cite{sructure_of_2d_glass}, and
+    materials that behave like assemblies of 2D particles under
+    non-overlap constraints, i.e, like jammed disks on the plane~\cite{jammed_disks}
 \end{enumerate}
 %
-In order to study structural and mechanical properties such as
-rigidity, flexes and distribution of external stresses within the
-material layer, it is natural to model a material layer as a solution
-of a geometric constraint system of appropriate types of geometric
+In order to study structural and mechanical properties
+of a material layer, it is natural to model a material layer as a solution or
+realization of a geometric constraint system of appropriate types of geometric
 primitives, under metric or algebraic constraints. Such 2D
-\dfn{qusecs} (quasi-uniform or self-similar constraint systems) can be
+\dfn{qusecs} (quasi-uniform or self-similar constraint systems, defined
+formally in Section \ref{sec:prelim}) can be
 used to understand or design material layers (their solutions) with
 desired properties.
 
 \subsection{Previous Work on Relevant 2D Geometric Constraint Systems}
 We now briefly survey existing techniques for studying 2D
-\dfn{qusecs},  many of which are \dfn{bar-joint} systems
-(Examples 1, 2 above, see Sections \ref{sec:DRP}, \ref{sec:recomb}),
+qusecs,  many of which are \dfn{bar-joint} systems
+(Examples 1, 2 above, see Sections \ref{sec:prelim}, \ref{sec:DRP}, \ref{sec:recomb}),
 \dfn{body-hyperpin} systems (Example 4,5, see Section
 \ref{sec:bodypin}) or \dfn{pinned-line incidence} systems (Example
 3, see Section \ref{sec:pinnedline}). The limitations of these
@@ -87,23 +94,26 @@ techniques directly motivate the contributions of this paper.
 
 \medskip\noindent
 \header{(i) Finding (vertex)-maximal generically rigid subsystems}
-Fast, graph-based algorithms exist (pebble-game \cite{Jacobs:1997:PG}), for
-locating all maximal, generically rigid subsystems \uncited. When the
-input is rigid, these algorithms compute the identity and output the
-input.
+Fast, graph-based algorithms exist (pebble-
+game~\cite{Jacobs:1997:PG}), for locating all maximal,
+\dfn{generically rigid} subsystems (defined formally in Section
+\ref{sec:prelim}) \uncited. When the input itself is rigid, these
+algorithms do nothing, i.e., compute the identity function.
 
 However, both for self-similar or just aperiodic 2D qusecs, it is
 imperative to recursively decompose rigid systems into their rigid
 subsystems, down to the level of geometric primitives, in order to
-understand or design properties at all scales, such as: rigidity,
-flexes, distribution of external stresses, boundary conditions for
-isostaticity, as well as behavior under constraint variations.
+understand or design properties at all scales, such as (formally
+defined in Section \ref{sec:prelim}) \dfn{rigidity}, \dfn{flexes},
+distribution of \dfn{external stresses}, boundary conditions for
+\dfn{isostaticity}, as well as behavior under constraint variations.
 
 \medskip\noindent
-\header{(ii) Optimal Recursive Decomposition (DR-planning)}
+\header{(ii) Optimal Recursive Decomposition (DR-planning).}
 Recursive decomposition of geometric constraint systems has been
 formalized \uncited and well-studied \uncited as the \dfn
-{Decomposition-Recombination (DR)-planning} problem. For the above-
+{Decomposition-Recombination (DR)-planning} problem, defined formally in
+Section \ref{sec:prelim}. For the above-
 mentioned classes of 2D qusecs, generic rigidity is a combinatorial
 property and hence each level of the decomposition should, in
 principle, be achievable by a graph-based algorithm as in (1), without
@@ -111,17 +121,19 @@ involving geometric information in the constraint system. Since many
 such decompositions can exist for a given constraint system, criteria
 defining desirable or optimal DR-plans and DR-planning algorithms were
 given in \uncited. An \dfn{optimal DR-plan} is one that minimizes
-the maximum number of child subsystems of any parent system, a
-property that is crucial for obtaining a solution to the parent
-constraint system from the solutions of the child systems.
+the \dfn{size} (defined formally in Section \ref{sec:prelim}, i.e.,
+the maximum number of child subsystems of any parent system.
+Being exponential the size, the complexity of solving the parent
+constraint system from the solutions of the child systems, is overwhelmingly
+dominated by it.
 
-However, for general 2D qusecs, even when restricted to bar-joint
-systems, the optimal DR-planning problem was shown to be NP-hard
-\uncited.
+However, for general 2D qusecs that could be overconstrained, even
+when restricted to bar-joint systems, the optimal DR-planning problem
+was shown to be NP-hard \uncited.
 
 \medskip\noindent
 \header{(iii) DR-plans for special classes and with other
-criteria}
+criteria.}
 For a special class of 2D qusecs, namely \dfn{tree-decomposable}
 systems \uncited common in computer aided mechanical design, (which
 includes ruler-and-compass and Henneberg-I constructible systems), all
@@ -132,7 +144,7 @@ such as \dfn{cluster minimality} requiring parent systems to be
 composed of a minimal set of at least 2 rigid proper subsystems (i.e.,
 no proper subset forms a rigid system); and \dfn{proper maximality},
 requiring child subsystems to be maximal rigid proper subsystems of
-the parent system.
+the parent system. See Section \ref{sec:prelim} for formal definitions.
 
 While polynomial time algorithms were given \uncited to generate DR-
 plans meeting the cluster minimality criterion, no such algorithm is
@@ -140,7 +152,7 @@ known for the latter criterion.
 
 
 \medskip\noindent
-\header{(iv) Optimal Recombination and Solution Space Navigation}
+\header{(iv) Optimal Recombination and Solution Space Navigation.}
 For the entire DR-plan, finding all desired solutions is barely
 tractable even if recombination of solved subsystems is easy for each
 indecomposable parent system in the DR-plan. This is because even for
@@ -155,8 +167,9 @@ system at any given level of the DR-plan. For fairly general 3D
 constraint systems, there are algorithms with formal guarantees that
 uncover underlying matroids to combinatorially obtain an optimal
 parameterization to minimize the algebraic complexity of the
-indecomposable parent (sub)systems that occur in the DR-plan \uncited\uncited\uncited, provided the DR-plan meets some of the abovementioned
-criteria.
+indecomposable parent (sub)systems that occur in the DR-plan
+\uncited\uncited\uncited, provided the DR-plan meets some of the
+abovementioned criteria.
 
 However, the generality of these algorithms trades-off against
 efficiency, and despite the optimization, the best algorithms can
@@ -170,7 +183,7 @@ principled basis, high performance heuristics and software exists
 
 
 \medskip\noindent
-\header{(v) Configuration Spaces of Under-constrained Systems}
+\header{(v) Configuration Spaces of Under-constrained Systems.}
 For under-constrained 2D bar-joint and body-hyperpin qusecs obtained
 from various subclasses of tree-decomposable systems, algorithms have
 been developed \uncited\uncited to complete them into isostatic systems
@@ -204,7 +217,7 @@ The contributions of this paper are the following.
   \item We give an efficient ($O(n^2)$) algorithm to find a canonical
   (and hence optimal) DR-plan for all 3 types of 2D qusecs mentioned
   above (Sections \ref{sec:DRP}, \ref{sec:bodypin}, and
-  \ref{sec:pinnedline}). The canonical DR-plan illuminates the essence
+  \ref{sec:pinnedline}). The canonical DR-plan elucidates the essence
   of the NP-hardness of finding optimal DR-plans for over-constrained
   systems.
 
@@ -229,6 +242,8 @@ The contributions of this paper are the following.
   and Examples 4,5 (boundary-conditions for achieving various desired
   properties of body-hyperpin systems).
 
-  \item Software implementation and videos can be found at:
+  \item We intend to make software implementation and videos available
+  upon request and publicly available for the final version of the
+  paper.
   \todo{Provide Link}.
 \end{itemize}
