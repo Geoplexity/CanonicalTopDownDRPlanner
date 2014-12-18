@@ -232,7 +232,7 @@ Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Remark \ref{
 
 
 
-\subsection{Examples}
+\subsection{Example}
 
 \todo{Explain just second figure now.}
 % We now present two examples of non-tree-decomposable graphs that illustrate the the strength and flexibility of the canonical DR-plan.
@@ -269,9 +269,14 @@ Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Remark \ref{
     \caption{}\label{fig:c2c3ofk33s:b}
 \end{subfigure}
 
-\caption{(\ref{fig:c2c3ofk33s:a}) A doublet with each edge of the triangles replaced by a $K_{3,3}$. This pattern continues for a total of $N$ triangles. (\ref{fig:c2c3ofk33s:b}) The DR-plan of this graph, omitting further decomposition of $K_{3,3}$ subgraphs into the separate 9 edges and of edges into the component nodes. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K_{3,3}$ subgraphs. The dashed lines indicated that this exact structure is repeated until only $\{a_{(N+1)/2},b_{(N+1)/2},c_{(N+1)/2}\}$ remains in the case that $N$ is odd, or until only $\{a_{N/2},b_{N/2},c_{N/2},a_{(N/2)+1},b_{(N/2)+1},c_{(N/2)+1}\}$ remains if $N$ is even.}
+\caption{(\ref{fig:c2c3ofk33s:a}) A doublet ($C_2 \times C_3$) with each edge of the triangles replaced by a $K_{3,3}$. This pattern continues inwards for a total of $N$ triangles, indicated by the dashed lines. (\ref{fig:c2c3ofk33s:b}) Most of the DR-plan of this graph, omitting further decomposition of $K_{3,3}$ subgraphs into the separate 9 edges and of edges into the component nodes. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K_{3,3}$ subgraphs. The dashed lines indicated that this exact structure is repeated.}
 \label{fig:c2c3ofk33s}
 \end{figure*}
+
+This section details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly well-constrained. As explained in the proof of Theorem \ref{theorem:main}, part 2, since there are only 2 possible children, their intersection must occur 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
+
+Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and $N$ has the same structure, and thus the same pattern is repeated until only triangle $(N+1)/2$ remains in the case that $N$ is odd, or until only triangles $N/2$ and $N/2+1$ remain if $N$ is even.
+
 
 % \begin{example}
 %     In
@@ -288,6 +293,4 @@ Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Remark \ref{
 
 \subsection{Algorithm}
 
-\todo{Update, explain pebble game and frontier, complexity}
-
-The algorithm to find the optimal DR-plan is a straightforward application of the theory. It begins by finding the well-constrained vertex-maximal proper subgraphs of the input well-constrained graph. If the intersection of any two of the subgraphs is well-constrained, then take those two to be children of the graph. Otherwise, all the subgraphs are the children. Apply recursively to the children. This naturally terminates when you reach trivial subgraphs.
+The first step of the algorithm to find an optimal DR-plan is the most difficult --- to find the well-constrained vertex-maximal proper subgraphs of the input well-constrained graph. There are two approaches: (1) the bottom-up approach, using the Frontier algorithm \uncited to grow these components from single vertices; and (2) the top-down approach, using the pebble game algorithm \uncited on each node and taking the largest components that are not subgraphs of any larger ones. After the subgraphs have been found, it is a straightforward application of the theory. If the intersection of any two of the subgraphs is well-constrained, then take those two to be children of the graph. Otherwise, all the subgraphs are the children. Apply recursively to the children. This naturally terminates when you reach trivial subgraphs. The complexity of this depends on the algorithm for finding children (both are polynomial) and the depth of the plan (the deeper the plan, i.e.\ the smaller the max fan-in, the longer the running time). \todo{Think more about complexity.}

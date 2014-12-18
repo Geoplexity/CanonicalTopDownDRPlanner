@@ -145,20 +145,20 @@ the complexity on the number and ranges  of Cayley parameters $F$.
 \end{theorem}
 
 \begin{proof}
-    The Cartesian realization space of $(H,<\delta_E', \lambda_F>)$ is
-    computed easily with a DR-plan of size 2, and is the union of
-    $2^t$ solutions (modulo orientation preserving isometries) each
-    with a distinct orientation type, where $t$ is the number of
-    triangles in the 2-tree $H$; here $\delta_{S}$ is the restriction
-    of the length vector $\delta$ to the edges in $S$. A desired
-    solution $p$ (or connected component of a solution space) of
-    $(G,\delta)$ of an orientation type $\sigma_p$ can be found by a
-    subdivided binary search   of the cartesian realization space of
-    $(H, <\delta_{E'},\lambda_F>)$ of orientation type $\sigma_p$ - as
-    $\lambda_F$ ranges over the discretized convex polytope
-    $\Phi_F(G',\delta_E')$ with bounding hyperplanes described in
-    Theorem \ref{theorem:convexcayley}. A solution $p$  is found  when
-    the lengths for nonedges in $D$ match $\delta_D$.
+    The Cartesian realization space of $(H,\left<\delta_{E'},
+    \lambda_F\right>)$ is computed easily with a DR-plan of size 2,
+    and is the union of $2^t$ solutions (modulo orientation preserving
+    isometries) each with a distinct orientation type, where $t$ is
+    the number of triangles in the 2-tree $H$; here $\delta_{S}$ is
+    the restriction of the length vector $\delta$ to the edges in $S$.
+    A desired solution $p$ (or connected component of a solution
+    space) of $(G,\delta)$ of an orientation type $\sigma_p$ can be
+    found by a subdivided binary search   of the cartesian realization
+    space of $(H, \left<\delta_{E'}, \lambda_F\right>)$ of orientation
+    type $\sigma_p$ - as $\lambda_F$ ranges over the discretized
+    convex polytope $\Phi_F(G',\delta_E')$ with bounding hyperplanes
+    described in Theorem \ref{theorem:convexcayley}. A solution $p$
+    is found  when the lengths for nonedges in $D$ match $\delta_D$.
 \end{proof}
 
 
@@ -213,15 +213,15 @@ configuration space $\Phi_f(G', \delta_{E\setminus e})$ is a single
 interval of attainable length values $\lambda_F$ for the edge $f$.
 When $\delta$ is generic, i.e, does not admit collinearities or
 coincidences in the realizations of $(G,\delta)$, the realization
-space of $(H, <\delta_{E\setminus e}, \lambda_f>)$ has 16 solutions
-$q^p_{\lambda_f}$ (modulo orientation preserving isometries), with
-distinct orientation types $\sigma_p$ (two orientation choices for
-each of the 4 triangles) that can be obtained by solving a sequence of
-4 single quadratics in 1 variable (DR-plan of size 2). By subdivided
-binary search in the interval $\lambda_f \in \Phi_f(G',
-\delta_{E\setminus e})$, the desired solution $p$  of $(G,\delta)$ is
-found when the length of the nonedge $e$ in  the realization
-$q^p_{\lambda_f}$ is $\delta_e$.
+space of $(H, \left<\delta_{E\setminus e}, \lambda_f\right>)$ has 16
+solutions $q^p_{\lambda_f}$ (modulo orientation preserving
+isometries), with distinct orientation types $\sigma_p$ (two
+orientation choices for each of the 4 triangles) that can be obtained
+by solving a sequence of 4 single quadratics in 1 variable (DR-plan of
+size 2). By subdivided binary search in the interval $\lambda_f \in
+\Phi_f(G', \delta_{E\setminus e})$, the desired solution $p$  of
+$(G,\delta)$ is found when the length of the nonedge $e$ in  the
+realization $q^p_{\lambda_f}$ is $\delta_e$.
 %
 \subsection{Optimized Modification by Enlarging the class of Reduced
 Graphs}
