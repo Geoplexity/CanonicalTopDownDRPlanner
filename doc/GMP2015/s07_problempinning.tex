@@ -162,6 +162,7 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$-tightness c
 \end{proof}
 
 \begin{observation}
+\label{obs:algebraic_completion}
     While the proof for Theorem \ref{thm:1dofcase} gives us a DR-plan with minimum fanin, we did not consider the algebraic complexity of realizing the DR-plan. If that is preferred, we can no longer only consider the deepest nodes.
 \end{observation}
 
@@ -176,7 +177,3 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$-tightness c
 
     Like the 1-dof case, we again cannot just choose the nodes deepest in the tree to pin. However, we cannot also assume pinning one node twice will give us the best algebraic complexity. Hence, we will need to check each pair of node to pin. This makes our brute-force algorithm $O(b^3)$, where $b$ is the number of bodies.
 \end{proof}
-
-\begin{openproblem}
-    What is the complexity of the optimal completion problem when there are more than 2-dof. For higher number of dofs, the $(k,l)$ characterization is no longer matroidal \cite{Lee:2007:PGA}.
-\end{openproblem}

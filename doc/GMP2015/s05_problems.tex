@@ -22,23 +22,13 @@ completion $H$ to be 2-trees as in Section \ref{sec:2-tree-reduction}
 or to be a low Cayley complexity tree-decomposable graph as in Section
 \ref{sec:tdecomp}. Clearly these problems have deterministic
 polynomial time algorithms, the algorithms run in time exponential in
-$k$. As a result, when $k$ is part of the input, the \dfn{restricted
-OMD problem} has the potential to be difficult. For example, when the
-isostatic completion $H$ is required to be a 2-tree the restricted OMD
-problem is reducible to the maximum spanning series-parallel subgraph
-problem shown by \uncited\uncited to be NP-complete even if the input
-graph is planar of maximum degree at most 6. However, since the OMD
-problem has other input restrictions such as not having any proper
-isostatic subgraphs, it is not clear if the reverse reduction exists
-and hence it is unclear whether the OMD problem is NP-complete. The
-same holds for the restricted OMD problem where the isostatic
-completion $H$ is required to be a tree-decomposable graph of low
-Cayley complexity (i.e, have special, small DR-plans). One potential
-obstacle to an indecomposable graph $G$'s membership in the restricted
-OMD$_k$ for small $k$ is if $G$ is tri-connected and has large girth.
-In fact, 6-connected (hence rigid) graphs with arbitrarily large girth
-have been constructed in \uncited.
-%
+$k$. 
+
+We discuss the complexity of the restricted 
+OMD problem (when $k$ is part of the input) 
+in Section \ref{sec:conclusion}.
+
+
 \subsection{Optimal Modification, Completion and Recombination: formal
 connections}
 %
@@ -46,12 +36,14 @@ The OMD problem is closely related to a well-studied problem of
 completion of an under-constrained system to an isostatic one with a
 small DR-plan.
 \begin{observation}
+\label{obs:OC_to_OMB}
     The (decision version of) the {\bf optimal completion problem
     (OC)} from \cite{bib:survey, j-a, fang} is OMD$_0$.
 \end{observation}
 In fact, a \dfn{restricted OC} problem was studied by \cite{j-a}
-requiring the completion to be tree-decomposable. It is not clear if
-the reverse reduction holds, i.e, is OMD reducible to OC?
+requiring the completion to be tree-decomposable. 
+%It is not clear if
+%the reverse reduction holds, i.e, is OMD reducible to OC?
 
 We now connect the OMD problem to the informal \dfn{optimal
 recombination (OR)} problem mentioned as motivation at the beginning
@@ -74,13 +66,14 @@ the entire solved subgraph must be removed  and all of its edges must
 be counted in $k$.
 
 This reduction is used also for transferring  algorithms for optimal
-DR-planning, recombination, completion, OMD, and other problems and to
-so-called \dfn{multi-body pin} from so-called \dfn{bar-joint-systems},
+DR-planning, recombination, completion, OMD, and other problems 
+from bar-joint systems to 
+so-called \dfn{multi-body pin} define in Section \ref{sec:bodypin}
 by showing that the corresponding problems for the latter are reduced
 to the corresponding problems on bar-joint systems.
 
-\note This section deals only with bar-joint systems, however,
-extensions of several of these problems, approaches and solutions to
-other qusecs beyond  bar-joint - specifically pinned line incidence
-systems and multi-body-pin systems will be expanded in Sections
-\ref{sec:pinnedline} and \ref{sec:bodypin}.
+%\note This section deals only with bar-joint systems, however,
+%extensions of several of these problems, approaches and solutions to
+%other qusecs beyond  bar-joint - specifically pinned line incidence
+%systems and multi-body-pin systems will be expanded in Sections
+% \ref{sec:pinnedline} and \ref{sec:bodypin}.
