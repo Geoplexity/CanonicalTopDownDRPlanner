@@ -21,7 +21,7 @@ graph $G=(V,E)$ with fixed length bars as edges, i.e. $\delta: E
 \rightarrow \mathbb{R}$; this represents the distance constraint
 system $\| x_u -x_v \|_2 = \delta_{u,v}$ for  $(u,v) \in E$, where
 $x_u \in \mathbb{R}^2$ represents the coordinates of $u\in V$.
-%
+
 \noindent
 \note Geometric constraint systems can also have
 inequalities in addition to equations, where the parameters in $\delta$ are small intervals of
@@ -132,6 +132,7 @@ $(k,l)$-sparsity condition is matroidal as long as $l \le dk-1$.
 
 In this paper, a \dfn{qusec} is any \dfn{independent} geometric
 constraint system of one of the 3 types mentioned above.
+
 \medskip\noindent
 \note In the remainder of this section and the next three
 sections~\ref{sec:DRP} and \ref{sec:recomb} we only consider bar-joint
@@ -178,9 +179,9 @@ $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
 
 
 \subsection{Decomposition-Recombination (DR) Plans}
-
+%
 %$G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
-
+%
 %Given a constant $k$, a graph $G$ is:
 %\begin{itemize}
 %    \item \textbf{independent} (or \textbf{sparse}) if, for all non-trivial subgraphs $S\subseteq G$, $d(S) \leq k$.
@@ -201,15 +202,15 @@ $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
 %     % induced
 %     subgraph $S\subseteq G$ such that $d(S) > k$.
 % \end{definition}
-
+%
 % \begin{definition}
 %     A graph is \textbf{well-constrained} if, given constant $k$, $d(G) = k$ and for all
 %     % induced
 %     subgraphs $S\subseteq G$, (1) $d(S)\leq k$, or (2) given a set of trivial graphs $T$, $S$ is isomorphic to one of the graphs in $T$ (i.e.\ $S$ is trivial).
 % \end{definition}
-
-
-
+%
+%
+%
 % \begin{definition}
 %     A \textbf{trivial} graph is ill-defined in the general case. The only strict requirements are: (1) it must be an over-constrained graph and (2) all of its subgraphs are also trivial.
 %     \todo{Maybe leave the following out until it's needed later?}
@@ -234,7 +235,7 @@ A \dfn{trivial} graph is empty or a single vertex.
     \end{enumerate}
 %
     % It can also be described recursively as: the root is $G$, its children are the trivial subgraphs and the DR-plans of its well-constrained vertex-maximal proper subgraphs whose union is $G$ itself.
-
+%
     A DR-plan is \dfn{complete} if it satisfies an additional rule:
         \item For a node $C$ that is  a non-trivial graph, its $N$
         children, $C_1, \ldots, C_N$, are all of the rigid vertex-
@@ -242,8 +243,8 @@ A \dfn{trivial} graph is empty or a single vertex.
         and in fact, $C$ contains all the edges in the union of its
         children as well.
     A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the tree.
-    The maximum  fan-in is called the \dfn{size} of the DR-plan
-
+    The maximum  fan-in is called the \dfn{size} of the DR-plan.
+%
 %In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$.
 %$C_i$ is the $i^{\text{th}}$ child of $C$. It is implied that $C_i$ is
 %an isostatic vertex-maximal proper subgraph.
