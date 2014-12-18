@@ -54,7 +54,7 @@ and
 $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)$
 for arbitrary $m$ and $n$, where $i,j,m,n$ do not equal each other. \todo{Prove these are valid children? Or is this obvious?} This continues for $N-1$ levels total, always with fan-in of two (the minimum possible), at which point every descendant of $C$ is some $Idc(C,I\cup R_k)$ for $k\in S_N$, with every $k$ appearing at least once. Thus, regardless of the choice of $i,j$ and then $m,n$ etc., the DR-plan has fan-in of two for every node for the next $N$ levels, at which point the nodes contain the same subgraphs.
 \end{enumerate}
-
+%
 This proof then applies to itself recursively to show that the fan-in of the children will also be minimum, thereby making this the optimal DR-plan.
 \end{proof}
 
@@ -80,6 +80,10 @@ For (1), simply note that if $F_i\cup F_j$ were trivial, then, by definition, $F
 For (2), observe that under-constrained subgraphs of well-constrained graphs must have density less than $k$. For (3), observe that, given a well-constrained graph, a subgraph with density $k$ must also be well-constrained. Then, use the fact that, by definition, $d(F_i)=k$ and $d(F_j)=k$. Then it is straightforward application of the equation $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
 
 For (4), because subgraphs of a well-constrained graph can only be trivial, under-, or well-constrained, all cases have already been exhausted.
+\end{proof}
+
+% \begin{proof}
+% Use the fact that, by definition, $d(F_i)=k$ and $d(F_j)=k$. Also, the equation $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
 % \begin{enumerate}
 %     \item If $F_i\cup F_j$ were trivial, then, by definition, $F_i$ and $F_j$ must be trivial.
 
@@ -95,7 +99,7 @@ For (4), because subgraphs of a well-constrained graph can only be trivial, unde
 
 %     \item Subgraphs of a well-constrained graph can only be trivial, under-, or well-constrained. All cases are already exhausted.
 % \end{enumerate}
-\end{proof}
+% \end{proof}
 
 
 
@@ -114,9 +118,8 @@ $C_i\cup C_j$ is well-constrained if and only if $C_i\cup C_j = C$.
 \end{lemma}
 
 \begin{proof}
-%I wouldn't do the forward and backward direction italics, or say proof by contradiction. Just start the first paragraph with Suppose C_i union C_j is well constained maximal proper and assume it is not C.
 Assume $C_i\cup C_j \neq C$, then we just found a larger proper subgraph and $C_i,C_j$ were not vertex-maximal to begin with.
-
+%
 In the reverse direction, we know $C$ is either some non-leaf node (well-constrained by definition of a DR-plan) or $G$ itself (well-constrained by definition of the problem). Thus, $C_i\cup C_j=C$ is well-constrained.
 \end{proof}
 

@@ -66,7 +66,7 @@ For the rest of this section, we will only be dealing with the DR-plan  of such 
 \end{definition}
 
 \begin{definition}
-    A \dfn{multi-triangle-pin graph} is a body-hyperpin graph where each body is a triangle, meaning it is pinned in at most 3 places. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hyper-graphs, 1 and 2-dof can be characterized by $(2,4)$ and $(2,5)$ tightness respectively.
+    A \dfn{multi-triangle-pin graph} is a body-hyperpin graph where each body is a triangle, meaning it is pinned in at most 3 places. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hyper-graphs, 1 and 2-dof can be characterized by $(2,4)$ and $(2,5)$-tightness respectively.
 \end{definition}
 
 Body-pin graphs are of particular interest to us in the context of Example 4 in Section \ref{sec:intro}. Multi-triangle-pin graphs can be used to represent the silica bi-layers and glassy structures described in Example 5 of Section \ref{sec:intro}, where each triangle is the junction of ``disks'' in the plane (see Figure \ref{fig:silica_glass}). Typically, these systems are not isostatic, so to relate the work of this paper to the systems, we define a slightly different kind of DR-plan:
@@ -75,7 +75,7 @@ Body-pin graphs are of particular interest to us in the context of Example 4 in 
     A \dfn{$(k,l)$-tight DR-plan} is one in which each child node is either a vertex maximal proper $(k,l)$-tight sub-graph of the parent node or it is trivial. In our case, the trivial nodes are just the bodies.
 \end{definition}
 
-We can develop the notion of a canonical DR-plan for certain $(k,l)$ tightness conditions similar to the way we did in Section \ref{sec:DRP}.
+We can develop the notion of a canonical DR-plan for certain $(k,l)$-tightness conditions similar to the way we did in Section \ref{sec:DRP}.
 
 \begin{observation}
     For the 1-dof body-hyperpin graphs described above, a DR-plan node will follow one of the following:
@@ -95,7 +95,7 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$ tightness c
 \begin{remark}
 \label{rem:1dofcanon}
 
-    All $(k,l)$-tight canonical DR-plans are optimal. We can find such a DR-plan in the same time complexity as the $(2,3)$ tight case for bar and joint graphs discussed in Section \ref{sec:DRP}. This is due tot he fact that such $(k,l)$-tight graphs are matroidal and have a pebble game.
+    All $(k,l)$-tight canonical DR-plans are optimal. We can find such a DR-plan in the same time complexity as the $(2,3)$-tight case for bar and joint graphs discussed in Section \ref{sec:DRP}. This is due tot he fact that such $(k,l)$-tight graphs are matroidal and have a pebble game.
 \end{remark}
 
 \begin{figure*}\centering
@@ -146,7 +146,7 @@ We can develop the notion of a canonical DR-plan for certain $(k,l)$ tightness c
     Running this algorithm in a brute force fashion is quadratic in the number of bodies of our given body-pin system.
 
     For the multi-triangle pin graphs, we can do the same thing except we need to add a single triangle to one of the nodes to cause it to become isostatic.
-
+    % Don't leave a blank line between last paragraph and end!
     % For the 2-dof case, we can do something very similar, except instead of pinning a single body 2 times to a node, we can pin another body 2 times to a node. These can be the same node, and if it is the same node, we can find a wellconstrained DR-plan in quadratic time, we would just be doing the same thing as the 1-dof case.
 \end{proof}
 

@@ -7,7 +7,9 @@
 
 \usepackage{tikz}
 \usetikzlibrary{shapes}
-\usepackage{ulem}
+% \usepackage{ulem} % This was breaking emph!
+% \usepackage[normalem]{ulem}
+\usepackage{soul}
 \usepackage{caption}
 \usepackage{subcaption}
 % \usepackage{floatrow}
@@ -18,7 +20,8 @@
 
 \newcommand{\dfn}[1]{\emph{#1}} % definition of a word
 \newcommand{\vemph}[1]{\textit{#1}} % verbal emphasis
-\newcommand{\header}[1]{\underbar{{\sl #1}}}
+% \newcommand{\header}[1]{\underbar{\textsl{#1}}}
+\newcommand{\header}[1]{\ul{\textsl{#1}}}
 \newcommand{\problemstatement}[1]{\medskip\noindent\textbf{#1}}
 
 \newcommand{\note}{\textbf{Note: }}
@@ -80,13 +83,13 @@ Systems}
 
 \input{s04_recombination}
 
-\input{s09_problems}
+\input{s05_problems}
 
 \input{s07_problempinning}
 
 \input{s08_pinnedline}
 
-\input{s06_conclusion}
+\input{s09_conclusion}
 
 
 % \begin{figure}\centering
