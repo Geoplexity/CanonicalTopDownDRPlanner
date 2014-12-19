@@ -27,9 +27,9 @@ $x_u \in \mathbb{R}^2$ represents the coordinates of $u\in V$.
 inequalities in addition to equations, where the parameters in $\delta$ are small intervals of
 values rather than exact values.
 
-In this paper, we will consider 3 types of constraint systems: bar-
-joint as well as \dfn{pinned line-incidence}, and \dfn{body-hyperpin}.
-In all of these cases, a cartesian \dfn{realization} or \dfn{solution}
+In this paper, we will consider 3 types of constraint systems:
+bar-joint as well as \dfn{pinned line-incidence} and \dfn{body-hyperpin}.
+In all of these cases, a Cartesian \dfn{realization} or \dfn{solution}
 $G(p)$ of $(G,\delta)$ is an assignment of coordinates or Euclidean
 transformations (poses), $p: V \rightarrow \mathbb{R}^2$ or
 $\mathbb{R}^3$, to the vertices of $G$ satisfying the constraints with
@@ -41,10 +41,10 @@ parameters $\delta$, many relevant \dfn{generic} properties of the
 constraint system $G(x,\delta)$ are properties of the constraint
 (hyper)graph $G$ and do not depend on $\delta$ (or they hold for all
 but a measure zero set of $\delta$ values). Many of these are
-properties of the jacobian $\Delta_x G(x,\delta)$, often called the
+properties of the Jacobian $\Delta_x G(x,\delta)$, often called the
 appropriate \dfn{rigidity matrix of $G$} (a matrix of indeterminates).
 For example, the \dfn{bar-joint rigidity matrix of the graph $G =
-(V,E)$} is a matrix of indeterminates representing the jacobian of the
+(V,E)$} is a matrix of indeterminates representing the Jacobian of the
 distance map $\| x_u -x_v \|_2$  for $(u,v) \in E$. The matrix has $2$
 columns per vertex in $V$ and one row per edge in $E$, where the row
 corresponding to edge $(u,v)$ contains the 2 coordinate indeterminates
@@ -93,14 +93,14 @@ determinant of some square submatrix is not identically zero).
 %It is {\em rigid} if the number of independent rows of the rigidity matrix is
 %at least the number of columns less the number of rigid body motions,
 %which is 3 for distance constraint systems.
-It is \dfn{isostatic (minimally rigid, wellconstrained)} if it is
+It is \dfn{isostatic (minimally rigid, well-constrained)} if it is
 both rigid and independent.
 %if the number of generically independent rows or the rank of the appropriate rigidity matrix is maximal.
 %For example, the maximal rank of a bar-joint rigidity matrix is $2|V| - 3$,
 %where $3$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^2$.
 %The graph $G$ is {\em rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is well-constrained.
-It is \dfn{flexible} if it is not rigid, \dfn{underconstrained} if it
-is independent and not rigid, or \dfn{overconstrained} if it is not
+It is \dfn{flexible} if it is not rigid, \dfn{under-constrained} if it
+is independent and not rigid, or \dfn{over-constrained} if it is not
 independent.
 
 Defining the combinatorial independence of a subset of edges $E'
@@ -130,7 +130,7 @@ $(k,l)$-sparsity condition is matroidal as long as $l \le dk-1$.
 
 
 
-In this paper, a \dfn{qusec} is any \dfn{independent} geometric
+In this paper, a \dfn{qusecs} is any \dfn{independent} geometric
 constraint system of one of the 3 types mentioned above.
 
 \medskip\noindent
@@ -242,11 +242,10 @@ A \dfn{trivial} graph is empty or a single vertex.
         maximal proper subgraphs of $C$. This makes Rule 2 implicit,
         and in fact, $C$ contains all the edges in the union of its
         children as well.
-        We denote a complete DR-plan of $G$ as {\it
-        ComDRP}$(G)$
+        We denote a complete DR-plan of $G$ as $\comdrp{G}$
     A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the tree.
     The maximum  fan-in is called the \dfn{size} of the DR-plan.
-    We denote an optimal DR-plan of $G$ as {\it OptDRP}$(G)$.
+    We denote an optimal DR-plan of $G$ as $\optdrp{G}$.
 
 %
 %In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$.
@@ -282,12 +281,12 @@ A \dfn{trivial} graph is empty or a single vertex.
 % THIS MEANS NO EDGES MAY BE LEFT OUT, ALSO.
 
 \noindent
-\note In Section \ref{sec:DRP} $G$ is assumed to be isostatic.
+\note In Section \ref{sec:DRP}, $G$ is assumed to be isostatic.
 
 
 \subsection{Importance of an Optimal DR-plan}
 The use of a DR-plan in designing especially self-similar qusecs is
-immediately evident, as shown in Figures \ref{fig:c2c3ofk33s} and
+immediately evident, shown in Figures \ref{fig:c2c3ofk33s} and
 \ref{fig:subdivision}.
 
 In fact, knowing an optimal DR-plan is crucial for
@@ -302,7 +301,7 @@ Without DR-planning, this requires double exponential time in the
 number of variables (even if orientation type is specified). With
 DR-planning, the complexity is dominated by the size of the largest
 subsystem that is solved, or recombined from the solutions of its
-child subsystems i.e.,the maximum fan-in occuring in a DR-plan. Thus
+child subsystems i.e.,the maximum fan-in occurring in a DR-plan. Thus
 finding an optimal DR-plan is important for realization.
 
 \header{Recursive block
@@ -310,7 +309,7 @@ decomposition of the rigidity matrix, stress space and external stresses.}
 This can be obtained using the DR-plan we obtain a
 with each block being the
 rigidity matrix of an isostatic subgraph. The blocks intersect on
-isostatic or trival subgraphs. This recursive block decomposition of
+isostatic or trivial subgraphs. This recursive block decomposition of
 the rigidity matrix $R$ correspondingly recursively decomposes
 the stress vectors $s$ that balance a given external stress $t$ since
 $sR = t$. Moreover, the external stress vector $t$ is

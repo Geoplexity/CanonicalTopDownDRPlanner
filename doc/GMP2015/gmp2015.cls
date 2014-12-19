@@ -1,11 +1,11 @@
 % -----------------------------------------------------------------------------
 % LaTeX class for submissions to GMP 2015
-% 
+%
 % Kai Hormann <kai.hormann@usi.ch>
 % -----------------------------------------------------------------------------
 %%
 %% This file is 'gmp2015.cls'
-%% 
+%%
 %% It may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3c
 %% of this license or (at your option) any later version.
@@ -27,7 +27,7 @@
 %%
 %% include main features from the standard article class
 %%
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}} 
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 \LoadClass[twocolumn]{article}
 
@@ -125,7 +125,7 @@
 \newcommand{\@SubNumber}{\@latex@error{No \noexpand\SubNumber given}\@ehc}
 
 %%
-%% abstract 
+%% abstract
 %%
 \renewenvironment{abstract}{
   \hrule\vskip.7em%
@@ -141,7 +141,8 @@
 %% bibliography settings
 %%
 \renewenvironment{thebibliography}[1]
-  {\subsection*{\refname}\small%
+  {\subsection*{\refname}\footnotesize%
+  %{\subsection*{\refname}\small%
   \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}%
   \list{\@biblabel{\@arabic\c@enumiv}}%
        {\itemsep 2pt plus 1pt minus 1pt%

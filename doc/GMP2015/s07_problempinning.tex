@@ -2,14 +2,6 @@
 \label{sec:bodypin}
 % \bibliography{paper}
 
-We can use qusecs DR-plans to design materials such as disordered
-graphene and silica bi-layers \cite{silica_bilayers}
-\cite{sructure_of_2d_glass}. We will investigate a more specific problem in
-a somewhat more general setting:
-the problem of finding boundary conditions (additional constraints) to
-add to an underconstrained monolayer to make it
-isostatic.
-This can be done in a number of ways.
 
 \begin{figure}\centering
     \includegraphics[width=0.4\linewidth]{img/Silica} \hspace{0.5cm}
@@ -23,14 +15,18 @@ an adjacent monolayer. Pictures taken from \cite{silica_figure} and \cite{tetra_
     \label{fig:silica_glass}
 \end{figure}
 
-\begin{enumerate}
-    \item Pin together 2 under-constrained monolayers in such a way that the resulting bi-layer becomes isostatic (see Figure \ref{fig:silica_glass}).
-    \item Pin the boundary of (or in general, add constraints to) a layer
-        (possibly a genus 0 monolayer) so that it becomes isostatic
-    \item Design a broader class of structures to ensure they are isostatic,
-        self-similar (via some subdivision rule) and in addition isostatic at each
-        level of the subdivision (see Figure \ref{fig:subdivision})
-\end{enumerate}
+
+We can use qusecs DR-plans to design materials such as disordered
+graphene and silica bi-layers \cite{silica_bilayers}
+\cite{sructure_of_2d_glass}. We will investigate a more specific problem in
+a somewhat more general setting:
+the problem of finding boundary conditions (additional constraints) to
+add to an underconstrained monolayer to make it
+isostatic.
+This can be done in a number of ways:
+(1) pin together 2 under-constrained monolayers in such a way that the resulting bi-layer becomes isostatic (see Figure \ref{fig:silica_glass});
+(2) pin the boundary of (or in general, add constraints to) a layer (possibly a genus 0 monolayer) so that it becomes isostatic; or
+(3) design a broader class of structures to ensure they are isostatic, self-similar (via some subdivision rule) and in addition isostatic at each level of the subdivision (see Figure \ref{fig:subdivision}).
 
 In all cases,
 we are specifically interested in how to add additional constraints
@@ -67,8 +63,7 @@ but not  tree-decomposable. Credit to \cite{subdivision_paper} for (a).}
 
 
 \begin{definition}
-    A \dfn{body-hyperpin qusecs} is a constraint system where the objects are rigid bodies
-    some subsets of which are pinned together by pins.
+    A \dfn{body-hyperpin qusecs} is a constraint system where the objects are rigid bodies some subsets of which are pinned together by pins.
 \end{definition}
 
 \begin{remark}
@@ -97,10 +92,9 @@ significantly easier.
 \begin{definition}
 \label{def:body-pin}
     A body-pin graph is a body-hyperpin graph with the following conditions:
-    \begin{itemize}
-        \item Each pin is shared by at most 2 bodies
-        \item No 2 bodies share more than one pin
-    \end{itemize}
+    (1) each pin is shared by at most two bodies; and
+    (2) no two bodies share more than one pin
+
     Such a body-pin graph can also be seen as a \dfn{body-bar graph} where
     the bodies are the original bodies and each pin represents 2 bars from
     one body to another. Such body-bar graphs with 1 and 2-dof can be
@@ -111,7 +105,7 @@ defined in Section  \ref{sec:prelim}.
 
 \begin{definition}
     A \dfn{triangle-hyperpin graph} is a body-hyperpin graph where each body
-    is a triangle, i.e., it shares at most 3pins with other bodies. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hypergraphs, 1 and 2-dof can be characterized by $(2,4)$ and $(2,5)$-tightness respectively \cite{Lee:2007:PGA} \cite{streinu2009sparse}.
+    is a triangle, i.e., it shares at most 3 pins with other bodies. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hypergraphs, 1 and 2-dof can be characterized by $(2,4)$ and $(2,5)$-tightness respectively \cite{Lee:2007:PGA} \cite{streinu2009sparse}.
 \end{definition}
 
 Body-pin graphs are of particular interest to us in the context of Example 4
@@ -134,21 +128,14 @@ $(k,l)$-tightness conditions similar to the way we did in Section
 \ref{sec:DRP}, provided
     such $(k,l)$-sparse graphs are matroidal -- conditions given in \cite{Lee:2007:PGA}.
     In particular, we can define canonical DR-plans with similar properties
-    for the 1 and 2 dof body-pin and triangle-hyperpin systems defined
+    for the 1 and 2-dof body-pin and triangle-hyperpin systems defined
     above.
 
 \begin{observation}
 \label{obs:bodypin_drp}
-    For the 1-dof body-pin graphs described above, a $(3,4)$-sparsity
-    corresponds to canonical DR-plan node
-    satisfies one of the following:
-
-    \begin{itemize}
-        \item Its children  are 2 proper vertex maximal 1-dof graphs that intersect on
-            another 1-dof graph
-        \item Its children are a number of proper maximal 1-dof sub-graphs,
-            sharing at most one body
-    \end{itemize}
+    For the 1-dof body-pin graphs described above, a $(3,4)$-sparsity corresponds to a canonical DR-plan whose nodes satisfy one of the following, either
+    (a) the children are 2 proper vertex maximal 1-dof graphs that intersect on another 1-dof graph, or
+    (b) the children are a number of proper maximal 1-dof sub-graphs, sharing at most one body.
 \end{observation}
 
 % \begin{proof}
@@ -239,7 +226,7 @@ The above discussion leads to the main theorem:
 \begin{observation}
 \label{obs:algebraic_completion}
     While the proof for Theorem \ref{thm:1dofcase} gives us a DR-plan for
-    the isostatic completion with minimum fanin, (a reasonable
+    the isostatic completion with minimum fan-in, (a reasonable
     measure of algebraic complexity), a more nuanced
     measure that treats solutions of 1-dof and 2-dof systems as
     1- or 2- parameter families would no longer permit the algorithm given

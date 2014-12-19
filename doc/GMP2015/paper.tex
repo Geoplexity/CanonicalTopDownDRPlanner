@@ -14,6 +14,8 @@
 \usepackage{subcaption}
 % \usepackage{floatrow}
 
+% \usepackage{atbeginend}
+
 
 \newtheorem{observation}[theorem]{\sffamily Observation}
 \newtheorem{openproblem}[theorem]{\sffamily Open Problem}
@@ -70,14 +72,38 @@ Systems}
 %
 \affiliation{1}{Department of Computer and Information Science and Engineering, University of Florida, USA}
 
+\linespread{0.9}
+% \columnsep{0.95}
+
+% \renewenvironment{itemize}{\begin{itemize}
+% \addtolength{\topsep}{-\baselineskip}
+% \addtolength{\itemsep}{-\baselineskip}
+% \end{itemize}}
+\let\tempone\itemize
+\let\temptwo\enditemize
+\renewenvironment{itemize}{
+\tempone
+    \addtolength{\topsep}{-\baselineskip}
+    \addtolength{\partopsep}{-\baselineskip}
+    \addtolength{\itemsep}{-0.25\baselineskip}
+}{\temptwo}
+\let\tempone\enumerate
+\let\temptwo\endenumerate
+\renewenvironment{enumerate}{
+\tempone
+    \addtolength{\topsep}{-\baselineskip}
+    \addtolength{\partopsep}{-\baselineskip}
+    \addtolength{\itemsep}{-0.25\baselineskip}
+}{\temptwo}
+
+% \setlist[itemize]{noitemsep, topsep=0pt}
+
 %
 % the rest is as usual
 %
 
 \maketitle
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \input{s00_abstract}
 
@@ -114,8 +140,12 @@ Systems}
 
 \bibliographystyle{abbrv}
 \bibliography{paper}
+% {\scriptsize \bibliography{paper}}
 
 \clearpage
+
+\linespread{1}
 \input{appendix_a}
+\input{appendix_b}
 
 \end{document}
