@@ -1,253 +1,70 @@
-\section{The Canonical Decomposition-Recombination Plan}
+\section{The canonical DR-plan}
 \label{sec:DRP}
-
-\newcommand{\usestwod}{\todo{Uses 2D requirement:}}
-\renewcommand{\usestwod}{}
 
 \subsection{Theory}
 
-In the problem of the optimal DR-Plan there is generally not a unique plan.
-% Indeed, we will prove a union of $N$ well-constrained subgraphs will result in $N$ unique plans, but that at the $N^{\text{th}}$ level of the tree it will always be the same. Therefore, all choices of decomposition are in some sense equivalent. The theorem we seek to prove is thus:
-However, we will show that regardless of which children are chosen for the plan, so long as they satisfy the definition of an optimal DR-plan, the recombination will require solving of the same systems. Being the smallest such structure that offers this, the definition of an optimal DR-plan could be considered the canonical DR-plan.
-% To assist in showing this, we prove this core theorem throughout this section:
+% In the problem of the optimal DR-Plan there is generally not a unique plan.
+% % Indeed, we will prove a union of $N$ well-constrained subgraphs will result in $N$ unique plans, but that at the $N^{\text{th}}$ level of the tree it will always be the same. Therefore, all choices of decomposition are in some sense equivalent. The theorem we seek to prove is thus:
+% However, we will show that regardless of which children are chosen for the plan, so long as they satisfy the definition of an optimal DR-plan, the recombination will require solving of the same systems. Being the smallest such structure that offers this, the definition of an optimal DR-plan could be considered the canonical DR-plan.
+% % To assist in showing this, we prove this core theorem throughout this section:
 
-In this section, we discuss 2D bar-joint graphs. All vertex weights are $2$, all edge weights are $1$, and constant $k= -{{3}\choose{2}}=-3$. Trivial graphs are a single vertex and empty set. Furthermore, 2D well-constrained graphs must be connected.
-% The greatest density of a 2D well-constrained graph is $-2$ (the vertex). The other disconnected part of the graph would need to have a density of $-1$, which is over-constrained and not possible in a well-constrained graph (because there is no trivial graph with that density).
+% In this section, we discuss 2D bar-joint graphs. All vertex weights are $2$, all edge weights are $1$, and constant $k= -{{3}\choose{2}}=-3$. Trivial graphs are a single vertex and empty set. Furthermore, 2D well-constrained graphs must be connected.
+% % The greatest density of a 2D well-constrained graph is $-2$ (the vertex). The other disconnected part of the graph would need to have a density of $-1$, which is over-constrained and not possible in a well-constrained graph (because there is no trivial graph with that density).
+
+In the problem of the optimal DR-Plan there is generally not a unique plan. Furthermore, there is no obvious way to find the optimal plan. In this section we present a particular way to construct a plan that guarantees optimality. We call this the \dfn{canonical} plan.
+
+\begin{definition}
+    The \dfn{canonical DR-plan} is a DR-plan that satisfies the following two properties:
+    \begin{enumerate}
+        \item Children are isostatic vertex-maximal subgraphs of the parent.
+        \item All of the isostatic vertex-maximal subgraphs are children if any two of them intersect trivially, otherwise exactly two are children.
+    \end{enumerate}
+\end{definition}
 
 
+The importance of this formulation is stated succinctly in the following theorem.
 
-\begin{theorem}\label{theorem:main}
-Given a well-constrained 2-dimensional bar-joint graph $G$, for node $C$ in $OptimalDRP(G)$ and the children of $C$ in $CompleteDRP(C)$ labeled as $C_1,\ldots,C_N$
-\begin{enumerate}
-    \item if $C_i \cap C_j$ is trivial then all $C_1,\ldots,C_N$ are children of $C$ in $OptimalDRP(G)$
-    \item if $C_i \cap C_j$ is well-constrained then any two out of $C_1,\ldots,C_N$ will be the only children of $C$ in $OptimalDRP(G)$.
-\end{enumerate}
-This covers all potential cases.
+\begin{theorem}\label{theorem:canonical_is_optimal}
+    A canonical DR-plan is an optimal DR-plan.
 \end{theorem}
 
-\begin{proof}
-Remark \ref{lemma:union_intersection} shows that the intersection of any two well-constrained subgraphs (such as $C_i$ and $C_j$) can only result in trivial or well-constrained subgraphs. Therefore, these are the only possibilities to consider.
+The proof of this theorem is a direct result of this more general theorem.
 
-\medskip\noindent
-\vemph{Part 1:} We show that no subset of the children can union to form $C$, thereby requiring all of them be included in an optimal plan.
+\begin{theorem}\label{theorem:main}
+Given an isostatic 2D bar-joint graph $G$ and ComDRP$(G)$, for all nodes $C$ with children $C_1,\ldots,C_N$ keep children according to the following rules.
+\begin{enumerate}
+    \item If $C_i \cap C_j$ is trivial then keep all $C_1,\ldots,C_N$ as children.
+    \item If $C_i \cap C_j$ is isostatic then select any two out of $C_1,\ldots,C_N$ as children.
+\end{enumerate}
+This covers all cases and the resulting plan is an optimal DR-plan.
+\end{theorem}
 
-Take the strict subset $S\subsetneq \{1,\ldots,N\}$ such that $U=\bigcup_{i\in S}{C_i}$ which we \vemph{assume} is well-constrained. If $U\neq C$, then we just found a larger proper subgraph and the children were not vertex-maximal to begin with. So, it must be that $U=C$.
-\usestwod
-However, since $C_i \cap C_j$ is trivial then for $k\notin S$ we know, by Lemma \ref{lemma:uc_intersection_makes_all_uc}, $U\cap C_k$ must be one or more trivial subgraphs. By definition of a DR-plan $C_k=C\cap C_k$ and we know that $U=C$ so $C_k=U\cap C_k$. Thus, $C_k$ is both one or more trivial subgraphs and a well-constrained subgraph of $C$. Thus, the assumption is wrong and $U$ cannot be well-constrained. As $C$ is well-constrained, this means no proper subset of the children in $CompleteDRP(C)$ can union to form $C$.
-
-\medskip\noindent
-\vemph{Part 2:} If $C_i \cap C_j$ is well-constrained, then, by Remark \ref{lemma:union_intersection}, $C_i \cup C_j$ is also well-constrained. This means that, by Lemma \ref{lemma:wc_intersection_makes_all_wc}, any two children of $C$ will union to $C$ itself. Thus, any two children are potential choices for the optimal DR-plan as they all create equal fan-in (exactly two) at this level.
-
-However, to guarantee that any two are \vemph{solutions} to $OptimalDRP(G)$, it must ensure minimum fan-in for any descendant. Take the set $S_N=\{1,\dots,N\}$, then we call $I=\bigcap_{k\in S_N}{C_k}$ and $R_k=C\setminus C_k$. Suppose we select $i$ and $j$, where $i\neq j$, as the children. Since
-% \[C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)\]
-% the children of this node will be
-% \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)\]
-% and
-% \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)\]
-$C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)$
-the children of this node will be
-$Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)$
-and
-$Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)$
-for arbitrary $m$ and $n$, where $i,j,m,n$ do not equal each other. \todo{Prove these are valid children? Or is this obvious?} This continues for $N-1$ levels total, always with fan-in of two (the minimum possible), at which point every descendant of $C$ is some $Idc(C,I\cup R_k)$ for $k\in S_N$, with every $k$ appearing at least once. Thus, regardless of the choice of $i,j$ and then $m,n$ etc., the DR-plan has fan-in of two for every node for the next $N$ levels, at which point the nodes contain the same subgraphs.
-
-This proof then applies to itself recursively to show that the fan-in of the children will also be minimum, thereby making this the optimal DR-plan.
-\end{proof}
-
-% The following subsections provide the supporting proofs.
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \subsubsection{Relationships for the Union and Intersection of Well-Constrained Subgraphs}
-% \label{sec:union_intersection}
-
-% This is general, not for 2d
-\begin{remark}\label{lemma:union_intersection}
-If $F_i$ and $F_j$ are well-constrained subgraphs of the same well-constrained graph $F$, then it must be that: (1) $F_i\cup F_j$ is not trivial; (2) $F_i\cup F_j$ is under-constrained if and only if $F_i\cap F_j$ is trivial; (3) $F_i\cup F_j$ is well-constrained if and only if $F_i\cap F_j$ is well-constrained; and (4) $F_i\cap F_j$ is not under-constrained.
+\begin{remark}
+    \todo{this captures cluster minimality}
 \end{remark}
 
-\begin{proof}
-For (1), simply note that if $F_i\cup F_j$ were trivial, then, by definition, $F_i$ and $F_j$ must be trivial.
+This theorem (proven in the Appendix) relies on the following crucial observations and lemmas.
 
-For (2), observe that under-constrained subgraphs of well-constrained graphs must have density less than $k$. For (3), observe that, given a well-constrained graph, a subgraph with density $k$ must also be well-constrained. Then, use the fact that, by definition, $d(F_i)=k$ and $d(F_j)=k$. Then it is straightforward application of the equation $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
-
-For (4), because subgraphs of a well-constrained graph can only be trivial, under-, or well-constrained, all cases have already been exhausted.
-\end{proof}
-
-% \begin{proof}
-% Use the fact that, by definition, $d(F_i)=k$ and $d(F_j)=k$. Also, the equation $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
-% \begin{enumerate}
-%     \item If $F_i\cup F_j$ were trivial, then, by definition, $F_i$ and $F_j$ must be trivial.
-
-%     \item Observe that  Then it is straightforward application of the equation above.
-
-%     % \item Observe that, given a well-constrained graph, an under-constrained subgraph must have density less than $k$. Then it is straightforward application of the equation above.
-
-%     \item Observe that, given a well-constrained graph, a subgraph with density $k$ must also be well-constrained. Then it is straightforward application of the equation above.
-
-%     % \item \textit{Forward direction:} Since $F_i\cup F_j$ is under-constrained and a subgraph of well-constrained $F$, it must be that $d(F_i\cup F_j)=l<k$. Therefore $d(F_i\cap F_j)=2k-l>k$. This means $F_i\cap F_j$ is trivial. \textit{Reverse direction:} We know that $d(F_i\cap F_j)>k$ because it is trivial. By the same math, we find that $d(F_i\cup F_j)<k$, showing it is under-constrained.
-
-%     % \item \textit{Forward direction:} We have that $d(F_i\cup F_j)=k$, therefore $d(F_i\cap F_j)=k$. Being a subgraph of well-constrained $F$, $F_i\cap F_j$ is also well-constrained. \textit{Reverse direction:} By the same math, we find that $d(F_i\cup F_j)=k$ and, since it is also a subgraph of $F$, it is well-constrained.
-
-%     \item Subgraphs of a well-constrained graph can only be trivial, under-, or well-constrained. All cases are already exhausted.
-% \end{enumerate}
-% \end{proof}
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \subsubsection{Inferring Parent Structure from Union and Intersection of Children}
-% \label{sec:infer_parent}
-
+\begin{observation}\label{lemma:union_intersection}
+If $F_i$ and $F_j$ are well-constrained subgraphs of the same well-constrained graph $F$, then it must be that: (1) $F_i\cup F_j$ is not trivial; (2) $F_i\cup F_j$ is under-constrained if and only if $F_i\cap F_j$ is trivial; (3) $F_i\cup F_j$ is well-constrained if and only if $F_i\cap F_j$ is well-constrained; and (4) $F_i\cap F_j$ is not under-constrained.
+\end{observation}
 
 \begin{lemma}\label{lemma:wc_intersection_is_C}
 $C_i\cup C_j$ is well-constrained if and only if $C_i\cup C_j = C$.
 \end{lemma}
-%
-\begin{proof}
-Assume $C_i\cup C_j \neq C$, then we just found a larger proper subgraph and $C_i,C_j$ were not vertex-maximal to begin with.
-%
-In the reverse direction, we know $C$ is either some non-leaf node (well-constrained by definition of a DR-plan) or $G$ itself (well-constrained by definition of the problem). Thus, $C_i\cup C_j=C$ is well-constrained.
-\end{proof}
-%
-%
-%
+
 \begin{lemma}\label{lemma:wc_intersection_makes_all_wc}
 If $C_i\cup C_j$ is well-constrained, then $\forall k: C_i\cup C_k$ is well-constrained.
 Alternatively, if $C_i\cup C_j=C$, then $\forall k: C_i\cup C_k=C$.
 \end{lemma}
-%
-\begin{proof}
-In appendix (\ref{sec:appendix}).
-\end{proof}
-%
-%
-%
+
 \begin{lemma}\label{lemma:uc_intersection_makes_all_uc}
 If $C_i\cap C_j$ is trivial, then $\forall k: C_i\cap C_k$ is trivial.
 \end{lemma}
-%
-\begin{proof}
-Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Remark \ref{lemma:union_intersection}, $C_i\cap C_k$ must be well-constrained. Then, by Lemma \ref{lemma:wc_intersection_makes_all_wc}, the intersection between any two children must be well-constrained. This means that $C_i\cap C_j$ is well-constrained. Therefore, such a $k$ cannot exist and all intersections are trivial.
-\end{proof}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \subsubsection{Further Results}
-
-
-% \begin{corollary}
-% Take $\bigcap_{k=1}^N{C_k}$ to be the graph $D$. If $D$ is well-constrained, then $D$ will be a descendant of every $C_k$.
-% \end{corollary}
-
-% \begin{proof}
-% Explained in Theorem \ref{theorem:main_wellconstrained}.
-% \end{proof}
-
-
-% \begin{corollary}
-% $\forall i,j\in [1,\ldots,N]$ if $i\neq j$ there are no edges in $C$ between the vertices in subgraphs $C\setminus C_i$ and $C\setminus C_j$.
-% \end{corollary}
-
-% \begin{proof}
-% Further constraints between them would imply $C_i \cup C_j$ is a subgraph of $C$, but lemma \ref{lemma:wc_intersection_is_C} proves is the entire graph.
-% \end{proof}
-
-% \begin{proof}
-% It follows from Theorem \ref{theorem:main_trivial} that if the intersection of any two well-constrained vertex-maximal proper subgraphs of $C$ are well-constrained then all of them are well-constrained or $\emptyset$.
-% \end{proof}
-
-% Figure idea: Large node in the middle with weight $k$. Several other graphs with weight $a, b, c, d\ldots$ attached radially by single edges with weights $a, b, c, d\ldots$ respectively. Circle each vertex-maximal subset.
-
-% $\forall k\in [1,\ldots,N]$ the subgraphs $C\setminus C_k$ will be edge disjoint. Therefore the solving of one is exclusive of the solving of the other.
-
-% Furthermore, the union of all of these subgraphs will be $C\setminus D$. So each subgraph will need to be ``tacked'' onto $D$ for recombination and since they are edge-disjoint the order is unimportant.
 
 
 
 
-
-% \pnplaceholder
-% \begin{lemma}
-% If $C_1$ and $C_2$ are well-constrained vertex-maximal proper subgraphs of $C$ and $C_1 \cap C_2$ is well-constrained, then $C_1 \cap C_2$ is a well-constrained vertex-maximal proper subgraph of every child of $C$.
-% \end{lemma}
-
-% \begin{proof}
-% First, it must be a vertex-maximal proper subgraph of $C_1$ and $C_2$. Say that there was some larger proper subgraph in $C_1$ that was well constrained. If this were true, then $C_2$ was not vertex-maximal because it could have included that entire subgraph and remained well-constrained. The same is true vice versa.
-
-% Second, the discussion in the proof of the theorem holds true for any two subgraphs. Therefore, the same intersection is present in all of them.
-% \end{proof}
-% \pnplaceholder
-
-
-
-% \begin{corollary}
-% There are no edges between $V_1 \setminus (V_1\cap V_2)$ and $V_2 \setminus (V_1\cap V_2)$.
-% \end{corollary}
-
-% \begin{proof}
-% As a result of the discussion of the second part, it is clear that there cannot be any further constraints between $V_1 \setminus (V_1\cap V_2)$ and $V_2 \setminus (V_1\cap V_2)$. That would imply $C_1 \cup C_2$ is a subgraph, but we know it to be the entire graph.
-% \end{proof}
-
-
-
-% \begin{corollary}
-% There is no rigid subgraph induced by a proper, nonempty subset of vertices of $V_i \setminus (V_1\cap V_2)$ and a subset of $V_1\cap V_2$ of size at least 2.
-% \end{corollary}
-
-% \begin{proof}
-% Since $C_1\cup C_2$ is the entire graph
-% \todo{Prove this!!!!}
-% \end{proof}
-
-
-
-
-% \begin{corollary}
-% If $C_1$ and $C_2$ are well-constrained vertex-maximal proper subgraphs of $C$ and $C_1 \cap C_2$ is well-constrained, then $C_1 \cap C_2$ is a well-constrained vertex-maximal proper subgraph of every child of $C$.
-% \end{corollary}
-
-% \begin{proof}
-% First, it must be a vertex-maximal proper subgraph of $C_1$ and $C_2$. Say that there was some larger proper subgraph in $C_1$ that was well constrained. If this were true, then $C_2$ was not vertex-maximal because it could have included that entire subgraph and remained well-constrained. The same is true vice versa.
-
-% Second, the discussion in the proof of the theorem holds true for any two subgraphs. Therefore, the same intersection is present in all of them.
-% \end{proof}
-
-
-
-
-
-% We now present two examples of non-tree-decomposable graphs that illustrate the the strength and flexibility of the canonical DR-plan.
-
-% \begin{figure*}\centering
-% \begin{subfigure}{.3\linewidth}\centering
-%     \input{img/tikz/two_doublets-0.tikz}
-%     \caption{}\label{fig:doublets:a}
-% \end{subfigure}%
-% \begin{subfigure}{.7\linewidth}\centering
-%     \input{img/tikz/two_doublets-1.tikz}
-%     \caption{}\label{fig:doublets:b}
-% \end{subfigure}
-
-% \caption{(\ref{fig:doublets:a}) Two doublets ($C_2\times C_3$), $\{a_1,a_2,a_3,b_1,b_2,b_3\}$ and $\{b_1,b_2,b_3,c_1,c_2,c_3\}$, intersecting on the triangle $\{b_1,b_2,b_3\}$. (\ref{fig:doublets:b}) The optimal DR-plan of the graph if we consider it to be a 2D graph; omits further decomposition of the three triangles into their edges and of edges into their individual nodes.}
-% \label{fig:doublets}
-% \end{figure*}
-
-
-% \myexample
-% In figure \ref{fig:doublets}, the two well-constrained vertex-maximal proper subgraphs of the graph are the two doublets, shown in the second level of the DR-plan. These intersect on the well-constrained graph $\{b_1,b_2,b_3\}$. This will necessarily be a child $N=2$ levels below the parent of the two doublets, as explained in Theorem \ref{theorem:main}, point 1. Also shown is the decomposition of the individual doublets. These have five well-constrained vertex-maximal proper subgraphs, the two triangles and the three edges connecting them. As explained in Theorem \ref{theorem:main}, point 2, all of them must be included in the optimal DR-plan. Were any left out, the union of the children would not be the entire parent.
 
 
 
