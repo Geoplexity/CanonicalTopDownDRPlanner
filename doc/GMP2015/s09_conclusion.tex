@@ -1,19 +1,50 @@
 \section{Conclusion}
 \bibliography{paper}
 
-We have worked to navigate the complexity barriers faced by the general DR-plan and recombination problem. To this end we have defined a new canonical DR-plan and given an effiecient ($O(n^2)$) algorithm to find the DR-plan for specific types of 2D qusecs.
+We have elucidated the complexity barriers, for example overconstraints, 
+faced by the general optial DR-plan and recombination problem. 
+When there are no overconstraints, which is the case for 2D qusecs whose
+realizations are many common types of layered
+materials, we defined a canonical DR-plan and showed that such canonical
+DR-plans are guaranteed to be optimal, a strong Church-Rosser property given
+an effiecient ($O(n^2)$) algorithm to find a DR-plan that satisfies other
+desirable characteristics.
 
-We have also described methods of recombining the DR-plan to get a realization different from the normal solving of a system of equations. These results rely on the results obtained in the Cayley Configuration space of certain graphs. 
+We have also described novel methods of efficiently realizing a 2D qusec 
+from the optimal DR-plan by modifying the otherwise nondecomposable 
+system that recombines the solved child systems at a node of a DR-plan
+These results rely on a recent theory of Convex Cayley Configuration spaces. 
 
-We then related these theoretical results to real-world situations in which they can be applied including Examples 1-5 in Section \ref{sec:intro}. 
+We then modeled specific layered materials
+using extensions of the above theoretical results
+including the motivating Examples 1-5 in the introduction.
 
 \subsection{Furture Work}
-Throughout the process, we have also raised a few open questions. The first 2 come from Section \ref{sec:recomb}. The first has to do with an actual algorithm for finding an OMD that follows the theory we laid out:
+A few natural  open questions are the following. 
+The first 2 are from Section \ref{sec:recomb}. 
+
+\begin{openproblem}
+    Combinatorial rigidity for 
+    periodic structures is an active area of research. This paper motivates
+    a study of the rigidity of self-similar structures, 
+    with self-similar groups replacing periodic groups.
+\end{openproblem}
+
+\begin{openproblem}
+    The pinned line incidence structures of Section \ref{sec:pinnedline}, 
+    for example in the case of collagen microfibrils, whose function is
+    elastic contraction, should be considered
+    congruent under projective transformations. I.e, the projective group
+    should be factored out as a trivial motion in a new project for 
+    extending the combinatorial rigidity characterization of such systems.
+    (Currently we permit no trivial motions at all).
+\end{openproblem}
 
 \begin{openproblem}    
-What is the complexity of the restricted OMD problem?
+What is the complexity of the restricted OMD (optimal modification for
+decomposition) problem?
 This has the potential to be difficult. For example, when the
-isostatic completion $H$ is required to be a 2-tree the restricted OMD
+isostatic completion is required to be a 2-tree the restricted OMD
 problem is reducible to the maximum spanning series-parallel subgraph
 problem shown by \cite{cai1993spanning} to be NP-complete even if the input
 graph is planar of maximum degree at most 6. However, since the OMD
@@ -22,7 +53,7 @@ isostatic subgraphs, it is not clear if the reverse reduction exists
 and hence it is unclear whether the OMD problem is NP-complete. 
 
 The same holds for the restricted OMD problem where the isostatic
-completion $H$ is required to be a tree-decomposable graph of low
+completion is required to be a tree-decomposable graph of low
 Cayley complexity (i.e, have special, small DR-plans). One potential
 obstacle to an indecomposable graph $G$'s membership in the restricted
 OMD$_k$ for small $k$ is if $G$ is tri-connected and has large girth.
@@ -37,12 +68,28 @@ The next is the reverse direction of Observation \ref{obs:OC_to_OMD} in Section 
     reducible to the OC (Optimal completion) problem?
 \end{openproblem}
 
-The final one comes about due to our limitations of the proof techniquies in Section \ref{sec:bodypin}.
+The last problem is from 
+Section \ref{sec:bodypin}.
 
 \begin{openproblem}
-    What is the complexity of the optimal completion problem when the given graph has more than 2-dof? Our proof for the 1 and 2-dof cases relied heavily on the matroidal properties of their corresponding tightness. For higher number of dofs, the $(k,l)$ characterization is no longer matroidal \cite{Lee:2007:PGA}. Even so, if higher dofs had the same characteristics, Observation \ref{obs:algebraic_completion} raises some problems of finding a completion with small algebraic complexity. Unless some restrictions can be found and taken advantage of, the $k$-dof optimal completion problem would still be $O(n^{k+1})$. 
+    What is the complexity of the optimal completion problem when the given
+    graph has more than 2-dofs? 
+    Our proof for the 1 and 2-dof cases relied heavily on the matroidal 
+    properties of their corresponding $(k,l)$-tightness. 
+    For higher number of dofs, the $(k,l)$ characterization is 
+    no longer matroidal \cite{Lee:2007:PGA}. 
+    As a result, the major obstacle is that 
+    there is no easy way of obtaining an optimal or canonical 
+    $k$-dof DR-plan in general. 
+    Even assuming such  a DR-plan is available,
+    if higher dofs had the same characteristics, 
+    Observation \ref{obs:algebraic_completion} 
+    raises questions about the correct measure of DR-plan size that 
+    captures algebraic complexity for recombining graphs with many dofs
+    (this is not an issue in the isostatic case). Unless some restrictions 
+    can be found and taken advantage of, the $k$-dof optimal 
+    completion problem would  have complexity exponential in $k$.
 
-    The major barrier facing the porblem though is that there is no easy way of obtaining a $k$-dof DR-plan in general. 
 \end{openproblem}
 
 
