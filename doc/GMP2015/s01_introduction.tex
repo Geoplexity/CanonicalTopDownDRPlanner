@@ -36,20 +36,17 @@ or subdivision in an iterated scheme to generate self-similar structures.
 % \end{subfigure}\hfill
 \begin{subfigure}{.28\linewidth}\centering
   \includegraphics[width=\linewidth]{img/Chlamydomonas_TEM_17}
-  \caption{Cross section of the Chlamydomonas algae axoneme, a cilia composed of microtubules.}
-  % https://en.wikipedia.org/wiki/Axoneme#mediaviewer/File:Chlamydomonas_TEM_17.jpg
+  \caption{Cross section of the Chlamydomonas algae axoneme, a cilia composed of microtubules~\cite{wikimediacommons2007cilia}.}
   \label{fig:material_examples:microtubule}
 \end{subfigure}\hfill
 \begin{subfigure}{.40\linewidth}\centering
   \includegraphics[width=\linewidth]{img/ligten2}
-  \caption{Cross section of a tendon displaying the hierarchical structure.}
-  % http://www.umich.edu/~bme332/ch10ligten/ligten2.jpg
+  \caption{Cross section of a tendon displaying the hierarchical structure~\cite{lecture_biosolid_mechanics}.}
   \label{fig:material_examples:tendon}
 \end{subfigure}\hfill
 \begin{subfigure}{.30\linewidth}\centering
   \includegraphics[width=\linewidth]{img/Rothemund-DNA-SierpinskiGasket}
-  \caption{A DNA array exhibiting the Sierpinski triangle.}
-  % https://en.wikipedia.org/wiki/DNA_nanotechnology#mediaviewer/File:Rothemund-DNA-SierpinskiGasket.jpg
+  \caption{A DNA array exhibiting the Sierpinski triangle~\cite{wikimediacommons2007dna}.}
   \label{fig:material_examples:sierpinski}
 \end{subfigure}
 \caption{}\label{fig:material_examples}
@@ -64,7 +61,7 @@ include:
 
     \item Cross-sections of organic tissue with hierarchical structure, e.g. compact bone and tendon (Figure \ref{fig:material_examples:tendon}) \uncited
 
-    \item Crosslinked cellulose or collagen microfibril monolayers e.g., in cell-walls~\cite{CellWalls1}~\cite{CellWalls1}, as well as crosslinked actin filaments in the cytoskeleton matrix.
+    \item Crosslinked cellulose or collagen microfibril monolayers e.g., in cell-walls~\cite{wikimediacommons2010afm}~\cite{wikimediacommons2007plant}, as well as crosslinked actin filaments in the cytoskeleton matrix. See Section \ref{sec:pinnedline}.
 
     \item More recent, engineered examples, including disordered
     graphene layers~\cite{Graphene1}~\cite{Graphene2} sometimes
@@ -74,7 +71,7 @@ include:
 
     \item Silica bi-layers~\cite{silica_bilayers}, glass~\cite{sructure_of_2d_glass}, and
     materials that behave like assemblies of 2D particles under
-    non-overlap constraints, i.e, like jammed disks on the plane~\cite{jammed_disks}
+    non-overlap constraints, i.e, like jammed disks on the plane~\cite{jammed_disks}. See Section \ref{sec:bodypin}.
 \end{enumerate}
 %
 In order to study structural and mechanical properties
@@ -113,7 +110,7 @@ distribution of \dfn{external stresses}, boundary conditions for
 \medskip\noindent
 \header{(ii) Optimal Recursive Decomposition (DR-planning).}
 Recursive decomposition of geometric constraint systems has been
-formalized \cite{hoffman2001decompositionI,hoffman2001decompositionII} and well-studied \cite{jermann2006decomposition,sitharam2005combinatorial} as the 
+formalized \cite{hoffman2001decompositionI,hoffman2001decompositionII} and well-studied \cite{jermann2006decomposition,sitharam2005combinatorial} as the
 \dfn {Decomposition-Recombination (DR)-planning} problem, defined formally in
 Section \ref{sec:prelim}. For the above-
 mentioned classes of 2D qusecs, generic rigidity is a combinatorial
@@ -160,7 +157,7 @@ tractable even if recombination of solved subsystems is easy for each
 indecomposable parent system in the DR-plan. This is because even for
 the simplest, highly decomposable systems with small DR-plans, the
 problem of finding even a single solution to the input system at the
-root of the DR-plan is NP-hard  \cite{saxe1979embeddability} 
+root of the DR-plan is NP-hard  \cite{saxe1979embeddability}
 and there is a combinatorial explosion of solutions \cite{borcea2004number}. Typically, however, the desired
 solution has a given orientation type, in which case, the crux of the
 difficulty is concentrated in the algebraic complexity of
@@ -190,7 +187,7 @@ For under-constrained 2D bar-joint and body-hyperpin qusecs obtained
 from various subclasses of tree-decomposable systems, algorithms have
 been developed to complete them into isostatic systems
 \cite{joan-arinyo2003transforming,sitharam2005combinatorial,gao2006ctree,sitharam2010convex} and to find paths within the connected components
-\cite{sitharam2011cayleyI,hidalgo2011reachability} of standard Cartesian configuration spaces. 
+\cite{sitharam2011cayleyI,hidalgo2011reachability} of standard Cartesian configuration spaces.
 Most of the
 algorithms with formal guarantees leverage Cayley configuration space
 theory \cite{sitharam2010convex,sitharam2011cayleyI,sitharam2011cayleyII} to characterize subclasses of graphs and

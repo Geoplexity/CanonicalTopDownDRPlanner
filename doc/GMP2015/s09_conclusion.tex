@@ -1,16 +1,16 @@
 \section{Conclusion}
-\bibliography{paper}
+% \bibliography{paper}
 
 We have worked to navigate the complexity barriers faced by the general DR-plan and recombination problem. To this end we have defined a new canonical DR-plan and given an effiecient ($O(n^2)$) algorithm to find the DR-plan for specific types of 2D qusecs.
 
-We have also described methods of recombining the DR-plan to get a realization different from the normal solving of a system of equations. These results rely on the results obtained in the Cayley Configuration space of certain graphs. 
+We have also described methods of recombining the DR-plan to get a realization different from the normal solving of a system of equations. These results rely on the results obtained in the Cayley Configuration space of certain graphs.
 
-We then related these theoretical results to real-world situations in which they can be applied including Examples 1-5 in Section \ref{sec:intro}. 
+We then related these theoretical results to real-world situations in which they can be applied including Examples 1-5 in Section \ref{sec:intro}.
 
 \subsection{Furture Work}
 Throughout the process, we have also raised a few open questions. The first 2 come from Section \ref{sec:recomb}. The first has to do with an actual algorithm for finding an OMD that follows the theory we laid out:
 
-\begin{openproblem}    
+\begin{openproblem}
 What is the complexity of the restricted OMD problem?
 This has the potential to be difficult. For example, when the
 isostatic completion $H$ is required to be a 2-tree the restricted OMD
@@ -19,7 +19,7 @@ problem shown by \cite{cai1993spanning} to be NP-complete even if the input
 graph is planar of maximum degree at most 6. However, since the OMD
 problem has other input restrictions such as not having any proper
 isostatic subgraphs, it is not clear if the reverse reduction exists
-and hence it is unclear whether the OMD problem is NP-complete. 
+and hence it is unclear whether the OMD problem is NP-complete.
 
 The same holds for the restricted OMD problem where the isostatic
 completion $H$ is required to be a tree-decomposable graph of low
@@ -33,16 +33,16 @@ have been constructed in \cite{servatius2000rigidity}.
 The next is the reverse direction of Observation \ref{obs:OC_to_OMD} in Section \ref{sec:table}.
 
 \begin{openproblem}
-    Is the OMD (optimal modification for decomposition) problem  
+    Is the OMD (optimal modification for decomposition) problem
     reducible to the OC (Optimal completion) problem?
 \end{openproblem}
 
 The final one comes about due to our limitations of the proof techniquies in Section \ref{sec:bodypin}.
 
 \begin{openproblem}
-    What is the complexity of the optimal completion problem when the given graph has more than 2-dof? Our proof for the 1 and 2-dof cases relied heavily on the matroidal properties of their corresponding tightness. For higher number of dofs, the $(k,l)$ characterization is no longer matroidal \cite{Lee:2007:PGA}. Even so, if higher dofs had the same characteristics, Observation \ref{obs:algebraic_completion} raises some problems of finding a completion with small algebraic complexity. Unless some restrictions can be found and taken advantage of, the $k$-dof optimal completion problem would still be $O(n^{k+1})$. 
+    What is the complexity of the optimal completion problem when the given graph has more than 2-dof? Our proof for the 1 and 2-dof cases relied heavily on the matroidal properties of their corresponding tightness. For higher number of dofs, the $(k,l)$ characterization is no longer matroidal \cite{Lee:2007:PGA}. Even so, if higher dofs had the same characteristics, Observation \ref{obs:algebraic_completion} raises some problems of finding a completion with small algebraic complexity. Unless some restrictions can be found and taken advantage of, the $k$-dof optimal completion problem would still be $O(n^{k+1})$.
 
-    The major barrier facing the porblem though is that there is no easy way of obtaining a $k$-dof DR-plan in general. 
+    The major barrier facing the porblem though is that there is no easy way of obtaining a $k$-dof DR-plan in general.
 \end{openproblem}
 
 
