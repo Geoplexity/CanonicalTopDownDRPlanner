@@ -31,7 +31,7 @@ The importance of this formulation is stated succinctly in the following theorem
 The proof of this theorem is a direct result of this more general theorem.
 
 \begin{theorem}\label{theorem:main}
-Given an isostatic 2D bar-joint graph $G$ and ComDRP$(G)$, for all nodes $C$ with children $C_1,\ldots,C_N$ keep children according to the following rules.
+Given an isostatic 2D bar-joint graph $G$ and $\comdrp{G}$, for all nodes $C$ with children $C_1,\ldots,C_N$ keep children according to the following rules.
 \begin{enumerate}
     \item If $C_i \cap C_j$ is trivial then keep all $C_1,\ldots,C_N$ as children.
     \item If $C_i \cap C_j$ is isostatic then select any two out of $C_1,\ldots,C_N$ as children.
@@ -84,7 +84,7 @@ If $C_i\cap C_j$ is trivial, then $\forall k: C_i\cap C_k$ is trivial.
 
 \myexample
 \textsl{[DR-Plan for self-similar structure]}
-This section details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly well-constrained. As explained in the proof of Theorem \ref{theorem:main}, part 2, since there are only 2 possible children, their intersection must be a node 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
+This section details the canonical decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly well-constrained. As explained in the proof of Theorem \ref{theorem:main}, part 2, since there are only 2 possible children, their intersection must be a node 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
 
 Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and $N$ has the same structure, and thus the same pattern is repeated until only triangle $(N+1)/2$ remains in the case that $N$ is odd, or until only triangles $N/2$ and $N/2+1$ remain if $N$ is even.
 

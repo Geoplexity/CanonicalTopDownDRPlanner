@@ -22,11 +22,11 @@ completion $H$ to be 2-trees as in Section \ref{sec:2-tree-reduction}
 or to be a low Cayley complexity tree-decomposable graph as in Section
 \ref{sec:tdecomp}. Clearly these problems have deterministic
 polynomial time algorithms, the algorithms run in time exponential in
-$k$. 
+$k$.
 
-We discuss the complexity of the restricted 
-OMD problem (when $k$ is part of the input) 
-in Section \ref{sec:conclusion}.
+We discuss the complexity of the restricted
+OMD problem (when $k$ is part of the input)
+in Section \ref{sec:futurework}.
 
 %In the recombination setting, the corresponding \dfn{restricted
 %OMD$_k$  problem} requires the reduced graph $G'$ and its isostatic
@@ -57,12 +57,12 @@ connections}
 The OMD problem is closely related to a well-studied problem of
 completion of an under-constrained system to an isostatic one with a
 small DR-plan.
-\begin{observation}
+\begin{observation}\label{obs:OC_to_OMD}
     The (decision version of) the {\bf optimal completion problem
     (OC)} from \cite{sitharam2005combinatorial,joan-arinyo2003transforming,zhang-gao2006well} is OMD$_0$.
 \end{observation}
 In fact, a \dfn{restricted OC} problem was studied by \cite{joan-arinyo2003transforming}
-requiring the completion to be tree-decomposable. 
+requiring the completion to be tree-decomposable.
 %It is not clear if
 %the reverse reduction holds, i.e, is OMD reducible to OC?
 
@@ -87,8 +87,8 @@ the entire solved subgraph must be removed  and all of its edges must
 be counted in $k$.
 
 This reduction is used also for transferring  algorithms for optimal
-DR-planning, recombination, completion, OMD, and other problems 
-from bar-joint systems to 
+DR-planning, recombination, completion, OMD, and other problems
+from bar-joint systems to
 so-called \dfn{multi-body pin} define in Section \ref{sec:bodypin}
 by showing that the corresponding problems for the latter are reduced
 to the corresponding problems on bar-joint systems.

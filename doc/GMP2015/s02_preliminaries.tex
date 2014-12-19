@@ -219,7 +219,7 @@ $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
 %
 \begin{definition}\label{def:drp}
     The \dfn{decomposition-recombination \mbox{(DR-)} plan} of graph
-    $G$, \cite{hoffman2001decompositionI} {\sl DRP}$(G)$ (see Figure \ref{fig:c2c3ofk33s}, is defined as a forest that has the
+    $G$, \cite{hoffman2001decompositionI} $\drp{G}$ (see Figure \ref{fig:c2c3ofk33s}), is defined as a forest that has the
     following properties:
     \begin{enumerate}
         \item Each node represents/contains/is a rigid vertex-induced
@@ -255,8 +255,8 @@ A \dfn{trivial} graph is empty or a single vertex.
 % \todo{This was labeled as both begin(remark) and end(observation), what was your intent?}
 \begin{remark}
     For a given graph, there could be exponentially many  DR-plans and
-    even optimal DR-plans in the size of the graph . A complete DR-
-    plan is unique but may not be (is usually not) optimal. DR-plans
+    even optimal DR-plans in the size of the graph . A complete DR-plan
+    is unique but may not be (is usually not) optimal. DR-plans
     of self-similar graphs are self-similar. More than one node (leaf)
     in a DR-plan forest may represent the same subgraph (vertex) of
     $G$.
@@ -295,8 +295,8 @@ Note that this basic task
 would require finding real solutions a large multivariate polynomial
 system (of inequalities and equalities representing the constraints).
 Without DR-planning, this requires double exponential time in the
-number of variables (even if orientation type is specified). With DR-
-planning, the complexity is dominated by the size of the largest
+number of variables (even if orientation type is specified). With
+DR-planning, the complexity is dominated by the size of the largest
 subsystem that is solved, or recombined from the solutions of its
 child subsystems i.e.,the maximum fan-in occuring in a DR-plan. Thus
 finding an optimal DR-plan is important for realization.
