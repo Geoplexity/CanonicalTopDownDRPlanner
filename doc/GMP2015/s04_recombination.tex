@@ -113,14 +113,14 @@ the following simple but useful theorem.
     $(G,2)$ belongs in the set OMD$_k$.
 \end{theorem}
 
-\begin{proof}
-The proof follows from the fact that 2-trees are well decomposable and
-have simple DR-plans of size 2. We know that $G$ can be reduced by
-removing $k$ edges to create a partial-2-tree $G'$ which can then be
-completed to an (isostatic) 2-tree by adding some set of non-edges
-$F$. Thus the modified graph $H = G'\cup F$ has  a DR-plan of size 2,
-proving the theorem.
-\end{proof}
+% \begin{proof}
+% The proof follows from the fact that 2-trees are well decomposable and
+% have simple DR-plans of size 2. We know that $G$ can be reduced by
+% removing $k$ edges to create a partial-2-tree $G'$ which can then be
+% completed to an (isostatic) 2-tree by adding some set of non-edges
+% $F$. Thus the modified graph $H = G'\cup F$ has  a DR-plan of size 2,
+% proving the theorem.
+% \end{proof}
 
 We refer to such graphs $G$ in short as \dfn{$k$-approximately
 convexifiable}, where the reduced graphs $G'$ and isostatic
@@ -144,22 +144,22 @@ the complexity on the number and ranges  of Cayley parameters $F$.
     in the (discrete range) of the parameters in $F$.
 \end{theorem}
 
-\begin{proof}
-    The Cartesian realization space of $(H,\left<\delta_{E'},
-    \lambda_F\right>)$ is computed easily with a DR-plan of size 2,
-    and is the union of $2^t$ solutions (modulo orientation preserving
-    isometries) each with a distinct orientation type, where $t$ is
-    the number of triangles in the 2-tree $H$; here $\delta_{S}$ is
-    the restriction of the length vector $\delta$ to the edges in $S$.
-    A desired solution $p$ (or connected component of a solution
-    space) of $(G,\delta)$ of an orientation type $\sigma_p$ can be
-    found by a subdivided binary search   of the cartesian realization
-    space of $(H, \left<\delta_{E'}, \lambda_F\right>)$ of orientation
-    type $\sigma_p$ - as $\lambda_F$ ranges over the discretized
-    convex polytope $\Phi_F(G',\delta_E')$ with bounding hyperplanes
-    described in Theorem \ref{theorem:convexcayley}. A solution $p$
-    is found  when the lengths for nonedges in $D$ match $\delta_D$.
-\end{proof}
+% \begin{proof}
+%     The Cartesian realization space of $(H,\left<\delta_{E'},
+%     \lambda_F\right>)$ is computed easily with a DR-plan of size 2,
+%     and is the union of $2^t$ solutions (modulo orientation preserving
+%     isometries) each with a distinct orientation type, where $t$ is
+%     the number of triangles in the 2-tree $H$; here $\delta_{S}$ is
+%     the restriction of the length vector $\delta$ to the edges in $S$.
+%     A desired solution $p$ (or connected component of a solution
+%     space) of $(G,\delta)$ of an orientation type $\sigma_p$ can be
+%     found by a subdivided binary search   of the cartesian realization
+%     space of $(H, \left<\delta_{E'}, \lambda_F\right>)$ of orientation
+%     type $\sigma_p$ - as $\lambda_F$ ranges over the discretized
+%     convex polytope $\Phi_F(G',\delta_E')$ with bounding hyperplanes
+%     described in Theorem \ref{theorem:convexcayley}. A solution $p$
+%     is found  when the lengths for nonedges in $D$ match $\delta_D$.
+% \end{proof}
 
 
 \begin{figure*}\centering
