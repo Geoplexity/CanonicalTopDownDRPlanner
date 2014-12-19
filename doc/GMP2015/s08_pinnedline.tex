@@ -1,11 +1,10 @@
 \section{Application: finding optimal DR-plans and realizations for cross-linking microfibrils }
 \label{sec:pinnedline}
 
-The optimal DR-plan of Section \ref{sec:DRP} can also be applied to analyze and solve
+The canonical DR-plan of Section \ref{sec:DRP} can also be applied to analyze and solve
 the structure of  cross-linking collagen and cellulose microfibrils 
 in animal and plant cell walls, and actin filaments in the cytoskeleton
-by modeling these structures as \dfn{pinned line-incidence
-systems}.
+by modeling these structures as \dfn{pinned line-incidence systems}.
 
 
 \dfn{Collagen} is an important protein material in biological tissues with highly elastic mechanical property \cite{buehler2008nanomechanics}.
@@ -101,12 +100,12 @@ where the grey ovals denote pins representing attachments of fibrils,
 and the vertices $a_1,a_2,\ldots, c_3$ represent cross-linkings.
 % and the black dots stand for vertices/cross-linkings.
 %There are  and 10 vertices/cross-linkings in the graph.
-The graph is well-constrained, with 12 vertices and 24 edges/pins.
+The graph is isostatic, with 12 vertices and 24 edges/pins.
 
 \begin{figure}
   \centering
-   \includegraphics[width=.8\linewidth]{img/pinned}
-\caption{ A well-constrained pinned line-incidence graph.}
+   \includegraphics[width=.7\linewidth]{img/pinned}
+\caption{ An isostatic pinned line-incidence graph.}
 \label{fig:pinned_line}
 \end{figure}
 
@@ -116,10 +115,10 @@ The graph is well-constrained, with 12 vertices and 24 edges/pins.
 %Recall the definitions in Section~\ref{priliminary}.
 
 In this section, we will adapt the results in Section~\ref{sec:DRP}
-to give the Optimal DR-plan for pinned line-incidence graphs.
+to give the canonical DR-plan for pinned line-incidence graphs.
 First, we note that %unlike bar-joint graphs,
-\vemph{a well-constrained pinned line-incidence graph can be disconnected},
-being the disjoint union of two or more well-constrained subgraphs.
+\vemph{an isostatic pinned line-incidence graph can be disconnected},
+being the disjoint union of two or more isostatic subgraphs.
 This is because the pins have fixed positions on the plane.
 %
 %the following difference of pinned line-incidence graphs from the bar-joint graphs.
@@ -147,7 +146,8 @@ This is because the pins have fixed positions on the plane.
 %
 %\end{itemize}
 %
-We define a \dfn{trivial} graph to be a single vertex and make the following modification to the definition of the DR-plan:
+We define a \dfn{trivial} graph to be a single vertex and make the following modification to the definition of 
+the canonical DR-plan:
 
 %\begin{itemize}
 %\item For any $C$, its $N$ children, $C_1, \ldots, C_N$, are {\em edges} or {\em connected} well-constrained vertex-maximal proper subgraphs of that node $C$.
@@ -160,9 +160,9 @@ We define a \dfn{trivial} graph to be a single vertex and make the following mod
 %\end{itemize}
 
 \begin{definition}
-The \dfn{DR-plan} of a well-constrained pinned line-incidence graph $G$ is one in which
-(1) each child node of a non-leaf node $C$ is either an edge not contained in any well-constrained proper subgraph of $C$, or a \dfn{connected} well-constrained vertex-maximal proper subgraph of $C$, and
-(2) a leaf node is a single edge.
+The \dfn{DR-plan} of a  pinned line-incidence graph $G$ is one in which
+(1) each child node of a non-leaf node $C$ is either a \dfn{connected} rigid vertex-induced subgraph of $C$,
+or an edge not contained in any  proper rigid subgraph of $C$, and (2) a leaf node is a single edge.
 % Definition~\ref{def:drp} with  modified rules number 2 and 4:
 %    The \textbf{decomposition-recombination (DR-) plan} of  a 2-dimensional pinned line-incidence graph $G$, $DRP(G)$, is  a tree that has the following properties:
 %    \begin{enumerate}
@@ -171,31 +171,36 @@ The \dfn{DR-plan} of a well-constrained pinned line-incidence graph $G$ is one i
 %        %\item The vertex set of $\bigcup_{i=1}^N{C_i}$ is the vertex set of $C$.
 %        \item[4] A node containing a single edge is a leaf.
 %    \end{enumerate}
+
+The \dfn{canonical DR-plan} of $G$  is one in which 
+the  children containing rigid subgraphs are connected isostatic vertex-maximal subgraphs of the parent.
 \end{definition}
 
 
-With the above modification, we now adapt Theorem~\ref{theorem:main}
-for the optimal DR-plan for pinned line-incidence graphs.
-
-
-\begin{corollary}\label{cor:pinned}
-Given a well-constrained pinned line-incidence graph, for node $C$ in $OptimalDRP(G)$ and the children of $C$ in $CompleteDRP(C)$ labeled as $C_1,\ldots,C_N$
-\begin{enumerate}
-    \item if $C_i \cap C_j$ is trivial then all $C_1,\ldots,C_N$ are children of $C$ in $OptimalDRP(G)$.
-    \item if $C_i \cap C_j$ is well-constrained then any two out of $C_1,\ldots,C_N$ will be the only children of $C$ in $OptimalDRP(G)$.
-\end{enumerate}
-\end{corollary}
-
-The following lemma serves a similar function to Remark~\ref{lemma:union_intersection} in Section~\ref{sec:union_intersection}
+Theorem~\ref{theorem:canonical_is_optimal} and \ref{theorem:main}
+hold for  pinned line-incidence graphs with the above modified definition. 
+The proof is similar to the original proof (in the Appendix) using the same set of lemmas and  
+%
+%\begin{corollary}\label{cor:pinned}
+%Given a isostatic pinned line-incidence graph, for node $C$ in $OptimalDRP(G)$ and the children of $C$ in $CompleteDRP(C)$ labeled as $C_1,\ldots,C_N$
+%\begin{enumerate}
+%    \item if $C_i \cap C_j$ is trivial then all $C_1,\ldots,C_N$ are children of $C$ in $OptimalDRP(G)$.
+%    \item if $C_i \cap C_j$ is isostatic then any two out of $C_1,\ldots,C_N$ will be the only children of $C$ in $OptimalDRP(G)$.
+%\end{enumerate}
+%\end{corollary}
+%
+the following modified version of Observation~\ref{lemma:union_intersection},
+% observation, which
+%serves a similar function to Observation~\ref{lemma:union_intersection} in Section~\ref{sec:DRP}
 %Using similar counting-based argument, %  to Lemma~\ref{t-l1}--\ref{iuc-l1} in Section~\ref{sec:union_intersection},
-and can be proved using a similar counting based argument.
+which  can be proved using a simple counting based argument.
 
 
-\begin{lemma}\label{lem:pinned_union_intersection}
-Let $F_i$ and $F_j$ to be subgraphs of the same well-constrained graph $F$,
-where each of them can be either a single edge or a connected well-constrained subgraph.
+\begin{observation}\label{lem:pinned_union_intersection}
+Let $F_i$ and $F_j$ to be subgraphs of the same isostatic graph $F$,
+where each of them can be either a single edge or a connected isostatic subgraph.
 There are only two possible cases:
-(1) At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is under-constrained, if and only if $F_i \cap F_j$ is trivial; and (2) both $F_i$ and $F_j$ are well-constrained, if and only if $F_i \cup F_j$ is well-constrained, if and only if $F_i \cap F_j$ is well-constrained.
+(1) At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is under-constrained, if and only if $F_i \cap F_j$ is trivial; and (2) both $F_i$ and $F_j$ are isostatic, if and only if $F_i \cup F_j$ is isostatic, if and only if $F_i \cap F_j$ is isostatic.
 %The following table summarizes all bijections:
 %\setlength{\tabcolsep}{3pt}
 %{\small
@@ -211,27 +216,26 @@ There are only two possible cases:
 %\end{center}
 %}
 %\setlength{\tabcolsep}{6pt}
-\end{lemma}
+\end{observation}
 
 Given Lemma~\ref{lem:pinned_union_intersection}, % and the modified definition of DR-plan,
-proofs of Lemma~\ref{lemma:wc_intersection_is_C} and \ref{lemma:uc_intersection_makes_all_uc} straightforwardly extend to  pinned line-incidence graphs.
-The proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for pinned
+Lemma~\ref{lemma:wc_intersection_is_C} and \ref{lemma:uc_intersection_makes_all_uc} straightforwardly extend to  pinned line-incidence graphs. The proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for pinned
 line-incidence graphs is given in Appendix~\ref{sec:appendix_pinned}.
 %The following lemma serves as Lemma~ for pinned line-incidence and can be proved similarly.
 %\begin{lemma}
 %\label{lem:vertex_intersection}
 %If $C_i\cap C_j$ is a single vertex, then $\forall k: C_i\cap C_k$ is a single vertex.
 %\end{lemma}
-
-Given Lemma~\ref{lemma:wc_intersection_makes_all_wc} and Lemma~\ref{lemma:uc_intersection_makes_all_uc},
-it is straightforward to adapt the proof of Theorem~\ref{theorem:main}
-to  pinned line-incidence graphs,
-thus proving Corollary~\ref{cor:pinned}.
+%Given Lemma~\ref{lemma:wc_intersection_makes_all_wc} and Lemma~\ref{lemma:uc_intersection_makes_all_uc},
+Thus it is straightforward to adapt the proof of Theorem~\ref{theorem:main}
+to  pinned line-incidence graphs.
+%thus proving Corollary~\ref{cor:pinned}.
+%
 Consequently, we can efficiently find the optimal DR-plan for  pinned line-incidence graphs using basically the same algorithm as for  bar-joint graphs.
 
 \noindent
 \note The recombination problem for  pinned line-incidence systems is trivial.
 Since the pins are given fixed positions in the plane,
-the solutions of a well-constrained sub-system will automatically be consistent with solutions of the remaining of the system.
+the solutions of a isostatic sub-system will automatically be consistent with solutions of the remaining of the system.
 
 
