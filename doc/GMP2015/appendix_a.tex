@@ -112,13 +112,13 @@ For convenience, it is implied that all graphs are the induced graph on $C$.
 
     \item 2 cases: $C_k$ cannot contain $C_i$ or $C_j$ as proper subgraphs, or else they were not vertex-maximal. These are the graphs $\inducedOnC{R'_i\cup R_j\cup D_{i,j}}$ and $\inducedOnC{R_i\cup R'_j\cup D_{i,j}}$ respectively.
 
-    \item 4 cases: \todo{Uses 2D requirement:} $C_k$ cannot be $\inducedOnC{R_i\cup R_j}$, $\inducedOnC{R'_i\cup R_j}$, $\inducedOnC{R_i\cup R'_j}$, or $\inducedOnC{R'_i\cup R'_j}$ because these are all disconnected (Corollary \ref{corollary:no_edges_between_diff}) and cannot be well-constrained.
+    \item 4 cases: \usestwod $C_k$ cannot be $\inducedOnC{R_i\cup R_j}$, $\inducedOnC{R'_i\cup R_j}$, $\inducedOnC{R_i\cup R'_j}$, or $\inducedOnC{R'_i\cup R'_j}$ because these are all disconnected (Corollary \ref{corollary:no_edges_between_diff}) and cannot be well-constrained.
 
     \item 1 case: $C_k=\inducedOnC{R'_i\cup R'_j\cup D_{i,j}}$ is not possible. Since $C_i\cup C_k = \inducedOnC{R'_i\cup R_j\cup D_{i,j}}\neq C$ we have from Lemma \ref{lemma:wc_intersection_is_C} that $C_i\cup C_k$ cannot be well-constrained. We also know it cannot be trivial because it contains well-constrained subgraphs. This means it must be under-constrained. From Lemma \ref{lemma:union_intersection}, we know that $C_i\cap C_k=\inducedOnC{R'_j\cup D_{i,j}}$ must then be trivial. This is impossible because $D_{i,j}$ is well-constrained, thereby contradicting the assumption that $C_k$ is well-constrained.
 
-    \item 1 case: \todo{Uses 2D requirement:} $C_k=\inducedOnC{R'_i\cup R'_j\cup D'_{i,j}}$ is not possible. Since $C_i\cup C_k\neq C$ (and $C_j\cup C_k\neq C$), we know by the same logic as the previous case that the $C_i\cap C_k$ must be trivial (a single node). However, $C_i\cap C_k=\inducedOnC{R'_j\cup D'_{i,j}}$. This causes a contradiction, the intersection cannot be trivial because $R'_j$ and $D'_{i,j}$ are not empty sets and are disjoint.
+    \item 1 case: \usestwod $C_k=\inducedOnC{R'_i\cup R'_j\cup D'_{i,j}}$ is not possible. Since $C_i\cup C_k\neq C$ (and $C_j\cup C_k\neq C$), we know by the same logic as the previous case that the $C_i\cap C_k$ must be trivial (a single node). However, $C_i\cap C_k=\inducedOnC{R'_j\cup D'_{i,j}}$. This causes a contradiction, the intersection cannot be trivial because $R'_j$ and $D'_{i,j}$ are not empty sets and are disjoint.
 
-    \item 2 cases: \todo{Uses 2D requirement:} $C_k=\inducedOnC{R'_i\cup R_j\cup D'_{i,j}}$ and $C_k=\inducedOnC{R_i\cup R'_j\cup D'_{i,j}}$ are not possible. The proof mirrors the previous case, except here you must choose $C_i$ and $C_j$ respectively.
+    \item 2 cases: \usestwod $C_k=\inducedOnC{R'_i\cup R_j\cup D'_{i,j}}$ and $C_k=\inducedOnC{R_i\cup R'_j\cup D'_{i,j}}$ are not possible. The proof mirrors the previous case, except here you must choose $C_i$ and $C_j$ respectively.
 
     \item 1 case: $C_k=\inducedOnC{R_i\cup R_j\cup D'_{i,j}}$ is all that remains.
 \end{itemize}

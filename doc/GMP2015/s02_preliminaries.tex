@@ -219,7 +219,7 @@ $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
 %
 \begin{definition}\label{def:drp}
     The \dfn{decomposition-recombination \mbox{(DR-)} plan} of graph
-    $G$, \cite{hoffman2001decompositionI} $\drp{G}$ (see Figure \ref{fig:c2c3ofk33s}), is defined as a forest that has the
+    $G$, \cite{hoffman2001decompositionI} $\drp{G}$ (see Figure \ref{fig:c2c3ofk33s}, is defined as a forest that has the
     following properties:
     \begin{enumerate}
         \item Each node represents/contains/is a rigid vertex-induced
@@ -242,8 +242,12 @@ A \dfn{trivial} graph is empty or a single vertex.
         maximal proper subgraphs of $C$. This makes Rule 2 implicit,
         and in fact, $C$ contains all the edges in the union of its
         children as well.
+        We denote a complete DR-plan of $G$ as {\it
+        ComDRP}$(G)$
     A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the tree.
     The maximum  fan-in is called the \dfn{size} of the DR-plan.
+    We denote an optimal DR-plan of $G$ as {\it OptDRP}$(G)$.
+
 %
 %In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$.
 %$C_i$ is the $i^{\text{th}}$ child of $C$. It is implied that $C_i$ is
@@ -255,7 +259,7 @@ A \dfn{trivial} graph is empty or a single vertex.
 % \todo{This was labeled as both begin(remark) and end(observation), what was your intent?}
 \begin{remark}
     For a given graph, there could be exponentially many  DR-plans and
-    even optimal DR-plans in the size of the graph . A complete DR-plan
+    even optimal DR-plans in the size of the graph. A complete DR-plan
     is unique but may not be (is usually not) optimal. DR-plans
     of self-similar graphs are self-similar. More than one node (leaf)
     in a DR-plan forest may represent the same subgraph (vertex) of
