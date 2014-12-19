@@ -1,10 +1,12 @@
 \section{Application: finding optimal DR-plans and realizations for cross-linking microfibrils }
 \label{sec:pinnedline}
 
-The optimal qusecs DR-plan can also be applied to analyze and solve
-the structure of  cross-linking microfibrils in collagen and cellulose
-in biology, by modeling these structures as \dfn{pinned line-incidence
+The optimal DR-plan of Section \ref{sec:DRP} can also be applied to analyze and solve
+the structure of  cross-linking collagen and cellulose microfibrils 
+in animal and plant cell walls, and actin filaments in the cytoskeleton
+by modeling these structures as \dfn{pinned line-incidence
 systems}.
+
 
 \dfn{Collagen} is an important protein material in biological tissues with highly elastic mechanical property \cite{buehler2008nanomechanics}.
 \dfn{Cellulose} is the most important constituent of the cell wall of plants (see Figure~\ref{fig:cellulose}) \cite{fall2013physical,smith1971plant}.
@@ -12,9 +14,9 @@ Both of these substances consist of a large number \dfn{microfibrils},
 %fibril itself straight?
 %Each fibril is attached to some fixed larger organelle/membrane at one spot (typically on the boundary).
 %It is additionally
-each of which is cross-linked at 2 places with some two other fibrils,
+each of which is cross-linked at 2 places with usually 3 other fibrils,
 where the \dfn{cross-linking} is like an incidence constraint that the
-two crosslinked fibrils can slide with each other (see
+crosslinked fibrils can slide against each other while remaining incident (see
 Figure~\ref{fig:crosslink}).
 
 %Collagen
@@ -80,6 +82,7 @@ E \rightarrow \mathbb{R}^2$.
 %%There exists a set $X$ of $|E|$ pins fixed in $\mathbb{R}^2$, such that each edge $e_i$
 %
 A pinned line-incidence graph $G$ is rigid if $|E| = 2|V|$ and $|E'| \le 2|V'|$ for every induced subgraph $(V',E')$ \cite{sitharam2014incidence}. Note that no trivial motion exists since the pins have fixed positions on the plane.
+Euclidean transformations are not factored out.
 In particular, both a single vertex and a single edge are under-constrained graphs.
 
 
@@ -94,7 +97,7 @@ The two cross-linkings on the fibril are modeled as the two vertices in $V$ defi
 
 
 Figure~\ref{fig:pinned_line} shows an example of a pinned line-incidence graph,
-where the grey ovals stand for pins representing attachments of fibrils,
+where the grey ovals denote pins representing attachments of fibrils,
 and the vertices $a_1,a_2,\ldots, c_3$ represent cross-linkings.
 % and the black dots stand for vertices/cross-linkings.
 %There are  and 10 vertices/cross-linkings in the graph.
@@ -188,7 +191,7 @@ The following lemma serves a similar function to Remark~\ref{lemma:union_interse
 and can be proved using a similar counting based argument.
 
 
-\begin{remark}\label{lem:pinned_union_intersection}
+\begin{lemma}\label{lem:pinned_union_intersection}
 Let $F_i$ and $F_j$ to be subgraphs of the same well-constrained graph $F$,
 where each of them can be either a single edge or a connected well-constrained subgraph.
 There are only two possible cases:
@@ -208,9 +211,9 @@ There are only two possible cases:
 %\end{center}
 %}
 %\setlength{\tabcolsep}{6pt}
-\end{remark}
+\end{lemma}
 
-Given Remark~\ref{lem:pinned_union_intersection}, % and the modified definition of DR-plan,
+Given Lemma~\ref{lem:pinned_union_intersection}, % and the modified definition of DR-plan,
 proofs of Lemma~\ref{lemma:wc_intersection_is_C} and \ref{lemma:uc_intersection_makes_all_uc} straightforwardly extend to  pinned line-incidence graphs.
 The proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for pinned
 line-incidence graphs is given in Appendix~\ref{sec:appendix_pinned}.

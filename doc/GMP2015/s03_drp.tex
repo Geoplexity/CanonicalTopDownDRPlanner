@@ -54,7 +54,7 @@ for arbitrary $m$ and $n$, where $i,j,m,n$ do not equal each other. \todo{Prove 
 This proof then applies to itself recursively to show that the fan-in of the children will also be minimum, thereby making this the optimal DR-plan.
 \end{proof}
 
-The following subsections provide the supporting proofs.
+% The following subsections provide the supporting proofs.
 
 
 
@@ -62,8 +62,8 @@ The following subsections provide the supporting proofs.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Relationships for the Union and Intersection of Well-Constrained Subgraphs}
-\label{sec:union_intersection}
+% \subsubsection{Relationships for the Union and Intersection of Well-Constrained Subgraphs}
+% \label{sec:union_intersection}
 
 % This is general, not for 2d
 \begin{remark}\label{lemma:union_intersection}
@@ -105,8 +105,8 @@ For (4), because subgraphs of a well-constrained graph can only be trivial, unde
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Inferring Parent Structure from Union and Intersection of Children}
-\label{sec:infer_parent}
+% \subsubsection{Inferring Parent Structure from Union and Intersection of Children}
+% \label{sec:infer_parent}
 
 
 \begin{lemma}\label{lemma:wc_intersection_is_C}
@@ -228,7 +228,6 @@ Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Remark \ref{
 
 
 
-\subsection{Example}
 
 % We now present two examples of non-tree-decomposable graphs that illustrate the the strength and flexibility of the canonical DR-plan.
 
@@ -247,10 +246,8 @@ Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Remark \ref{
 % \end{figure*}
 
 
-
-% \begin{example}
-%     In figure \ref{fig:doublets}, the two well-constrained vertex-maximal proper subgraphs of the graph are the two doublets, shown in the second level of the DR-plan. These intersect on the well-constrained graph $\{b_1,b_2,b_3\}$. This will necessarily be a child $N=2$ levels below the parent of the two doublets, as explained in Theorem \ref{theorem:main}, point 1. Also shown is the decomposition of the individual doublets. These have five well-constrained vertex-maximal proper subgraphs, the two triangles and the three edges connecting them. As explained in Theorem \ref{theorem:main}, point 2, all of them must be included in the optimal DR-plan. Were any left out, the union of the children would not be the entire parent.
-% \end{example}
+% \myexample
+% In figure \ref{fig:doublets}, the two well-constrained vertex-maximal proper subgraphs of the graph are the two doublets, shown in the second level of the DR-plan. These intersect on the well-constrained graph $\{b_1,b_2,b_3\}$. This will necessarily be a child $N=2$ levels below the parent of the two doublets, as explained in Theorem \ref{theorem:main}, point 1. Also shown is the decomposition of the individual doublets. These have five well-constrained vertex-maximal proper subgraphs, the two triangles and the three edges connecting them. As explained in Theorem \ref{theorem:main}, point 2, all of them must be included in the optimal DR-plan. Were any left out, the union of the children would not be the entire parent.
 
 
 
@@ -268,7 +265,9 @@ Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Remark \ref{
 \label{fig:c2c3ofk33s}
 \end{figure*}
 
-This section details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly well-constrained. As explained in the proof of Theorem \ref{theorem:main}, part 2, since there are only 2 possible children, their intersection must occur 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
+\myexample
+\textsl{[DR-Plan for self-similar structure]}
+This section details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly well-constrained. As explained in the proof of Theorem \ref{theorem:main}, part 2, since there are only 2 possible children, their intersection must be a node 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
 
 Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and $N$ has the same structure, and thus the same pattern is repeated until only triangle $(N+1)/2$ remains in the case that $N$ is odd, or until only triangles $N/2$ and $N/2+1$ remain if $N$ is even.
 
