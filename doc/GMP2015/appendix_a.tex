@@ -10,32 +10,46 @@
 \subsubsection{Proof of Theorem \ref{theorem:main}}
 
 \begin{proof}
-Observation \ref{lemma:union_intersection} shows that the intersection of any two isostatic subgraphs (such as $C_i$ and $C_j$) can only result in trivial or isostatic subgraphs. Therefore, these are the only possibilities to consider.
+Observation \ref{lemma:union_intersection} shows that the intersection of any two isostatic subgraphs can only result in trivial or isostatic subgraphs. Therefore, given $C$ and its isostatic vertex-maximal subgraphs $C_1,\ldots,C_N$, the are only two possibilities to consider. Either (1) subgraphs $C_i$ and $C_j$ have a trivial intersection, or (2) they have an isostatic intersection.
+
 
 \medskip\noindent
-\vemph{Part 1:} We show that no subset of the children can union to form $C$, thereby requiring all of them be included, and because this is the only choice it must be optimal for this node.
+\vemph{Part 1:} First, we claim that if the intersection is trivial all $C_1,\ldots,C_N$ must be children of $C$ in a canonical DR-plan. We do this by showing that no subset of the children can union to form $C$, thereby requiring all of them be included; because this is the only choice, it is the minimum fan-in a canonical DR-plan could have for this node.
+must be optimal for this node.
 
 Take the strict subset $S\subsetneq \{1,\ldots,N\}$ such that $U=\bigcup_{i\in S}{C_i}$ which we \vemph{assume} is isostatic. If $U\neq C$, then we just found a larger proper subgraph and the children were not vertex-maximal to begin with. So, it must be that $U=C$.
 \usestwod
-However, since $C_i \cap C_j$ is trivial then for $k\notin S$ we know, by Lemma \ref{lemma:combined_lemma}, point \ref{lemma:uc_intersection_makes_all_uc}, $U\cap C_k$ must be one or more trivial subgraphs. By definition of a DR-plan $C_k=C\cap C_k$ and we know that $U=C$ so $C_k=U\cap C_k$. Thus, $C_k$ is both one or more trivial subgraphs and a isostatic subgraph of $C$. Thus, the assumption is wrong and $U$ cannot be isostatic. As $C$ is isostatic, this means no proper subset of the children in ComDRP$(C)$ can union to form $C$.
+However, since $C_i \cap C_j$ is trivial then for $k\notin S$ we know, by Lemma \ref{lemma:combined_lemma}, point \ref{lemma:uc_intersection_makes_all_uc}, $U\cap C_k$ must be one or more trivial subgraphs. By definition of a DR-plan $C_k=C\cap C_k$ and we know that $U=C$ so $C_k=U\cap C_k$. Thus, $C_k$ is both one or more trivial subgraphs and a isostatic subgraph of $C$. Thus, the assumption is wrong and $U$ cannot be isostatic. As $C$ is isostatic, this means no proper subset of $C_1,\ldots,C_N$ can union to form $C$.
+
+Furthermore, since a canonical DR-plan uses proper rigid \vemph{vertex-maximal} subgraphs as children, and because their pairwise intersection is trivial, it follows that any such node has at most as many children as a DR-plan without this restriction, because the union of the children have to contain all edges of the parent. Therefore, this is the optimal choice in this case.
 
 \medskip\noindent
-\vemph{Part 2:} If $C_i \cap C_j$ is isostatic, then, by Observation \ref{lemma:union_intersection}, $C_i \cup C_j$ is also isostatic. This means that, by Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_makes_all_wc}, any two children of $C$ will union to $C$ itself. Thus, any two children are potential choices for the optimal DR-plan as they all create equal fan-in (exactly two) at this level.
+\vemph{Part 2:} Second, we claim that if the intersection is isostatic any two children will suffice for a canonical DR-plan and that it will be optimal.
 
-However, to guarantee that any two are the \vemph{optimal} choice, it must ensure minimum fan-in for any descendant. Take the set $S_N=\{1,\dots,N\}$, then we call $I=\bigcap_{k\in S_N}{C_k}$ and $R_k=C\setminus C_k$. Suppose we select $i$ and $j$, where $i\neq j$, as the children. Since
-\[C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)\]
-the children of this node will be
-\[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)\]
-and
-\[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)\]
-% $C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)$
-% the children of this node will be
-% $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)$
+If $C_i \cap C_j$ is isostatic, then, by Observation \ref{lemma:union_intersection}, $C_i \cup C_j$ is also isostatic. This means that, by Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_makes_all_wc}, any two children of $C$ will union to $C$ itself. Thus, any two children can be chosen to make a canonical DR-plan.
+% are potential choices for the optimal DR-plan as they all create equal fan-in (exactly two) at this level.
+
+\newcommand{\induceonc}[1]{Idc\left(C,#1\right)}
+\renewcommand{\induceonc}[1]{#1}
+\newcommand{\iunion}[1]{\induceonc{I\cup\bigcup_{k\in S_N\setminus\{#1\}}{R_k}}}
+
+However, to guarantee that any two are the \vemph{optimal} choice, it must ensure minimum fan-in over all descendants. Take the set $S_N=\{1,\dots,N\}$, then we call $I=\bigcap_{k\in S_N}{C_k}$ and $R_k=C\setminus C_k$. Suppose we select $i$ and $j$, where $i\neq j$, as the children. For convenience, we will assume all subgraphs are induced subgraphs on $C$. We know that $C=\induceonc{I\cup\bigcup_{k\in S_N}{R_k}}$ and $C_i=\iunion{i}$. The isostatic vertex-maximal subgraphs of $C_i$ are $(\iunion{i,1}),\ldots,(\iunion{i,i-1}),(\iunion{i,i+1}),\ldots,(\iunion{i,N})$ all of which intersect on isostatic subgraphs. So any two of these are viable children for $C_i$.
+% Since
+% \[C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)\]
+% the children of $C_i$ will be
+% \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)\]
 % and
-% $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)$
-for arbitrary $m$ and $n$, where $i,j,m,n$ do not equal each other. \todo{Prove these are valid children? Or is this obvious?} This continues for $N-1$ levels total, always with fan-in of two (the minimum possible), at which point every descendant of $C$ is some $Idc(C,I\cup R_k)$ for $k\in S_N$, with every $k$ appearing at least once. Thus, regardless of the choice of $i,j$ and then $m,n$ etc., the DR-plan has fan-in of two for every node for the next $N$ levels, at which point the nodes contain the same subgraphs.
+% \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)\]
+% % $C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)$
+% % the children of this node will be
+% % $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)$
+% % and
+% % $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)$
+% for arbitrary $m$ and $n$, where $i,j,m,n$ do not equal each other. \todo{Prove these are valid children? Or is this obvious?}
+This continues for $N-1$ levels total, always with fan-in of two (the minimum possible), at which point every descendant of $C$ is some $\induceonc{I\cup R_k}$ for $k\in S_N$, with every $k$ appearing at least once. Thus, regardless of the choice of $C_i,C_j$, then their children, etc., the DR-plan has fan-in of two for every node for the next $N$ levels, at which point the nodes contain the same subgraphs. Therefore, the choice is optimal.
 
-This proof then applies to itself recursively to show that the fan-in of the children will also be minimum, thereby making this the optimal DR-plan.
+\medskip\noindent
+This proof then applies to itself recursively to show that the fan-in of the children will also be minimum.
 \end{proof}
 
 

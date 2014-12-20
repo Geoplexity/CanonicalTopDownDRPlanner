@@ -28,10 +28,18 @@ optimality.
 
 This definition gives the canonical DR-plan a surprisingly strong Church-Rosser property.
 
-\begin{theorem} \label{theorem:canonical_is_optimal}
-    \label{theorem:main}
-    Any canonical DR-plan is an optimal DR-plan.
+\begin{theorem}
+\label{theorem:canonical_exists_and_is_optimal}
+\label{theorem:canonical_is_optimal}
+\label{theorem:main}
+    A canonical DR-plan exists and any canonical DR-plan is optimal.
 \end{theorem}
+
+
+% \begin{theorem} \label{theorem:canonical_is_optimal}
+%     \label{theorem:main}
+%     Any canonical DR-plan is an optimal DR-plan.
+% \end{theorem}
 
 %The proof of this theorem is a direct consequence of the following  more general theorem.
 
@@ -106,7 +114,7 @@ holding for these canonical-optimal DR-plans.
 
 \myexample
 \textsl{[DR-Plan for self-similar structure]}
-This section details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly well-constrained. As explained in the proof of Theorem \ref{theorem:main}, part 2, since there are only 2 possible children, their intersection must be a node 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
+This section details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly well-constrained. As explained in the proof of Theorem \ref{theorem:main} since there are only 2 possible children, their intersection must be a node 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
 
 Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and $N$ has the same structure, and thus the same pattern is repeated until only triangle $(N+1)/2$ remains in the case that $N$ is odd, or until only triangles $N/2$ and $N/2+1$ remain if $N$ is even.
 
