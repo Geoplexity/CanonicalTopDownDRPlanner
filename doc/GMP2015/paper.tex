@@ -18,7 +18,20 @@
 
 
 \newtheorem{observation}[theorem]{\sffamily Observation}
+% \newtheorem{openproblem}[theorem]{\sffamily Open Problem}
+
+\theoremstyle{definition}
 \newtheorem{openproblem}[theorem]{\sffamily Open Problem}
+% \theoremstyle{theorem}
+% \newenvironment{openproblem}{
+%     % \begin{samepage}
+%     \begin{trivlist}
+%         \item[\hskip \labelsep \textbf{Open Problem:}]
+% }
+% {
+%     \end{trivlist}
+%     % \end{samepage}
+% }
 
 \newcommand{\dfn}[1]{\textit{#1}} % definition of a word
 \newcommand{\vemph}[1]{\textsl{#1}} % verbal emphasis
@@ -30,6 +43,7 @@
 \newcommand{\note}{\textbf{Note: }}
 
 \newcommand{\todo}[1]{\textsc{{\color{red}#1}}}
+\renewcommand{\todo}[1]{}
 \newcommand{\uncited}{\textsc{{\bf\color{red}[??]}}}
 
 \newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
@@ -38,6 +52,9 @@
 \newcommand{\comdrp}[1]{\text{ComDRP}(#1)}
 \newcommand{\optdrp}[1]{\text{OptDRP}(#1)}
 \newcommand{\candrp}[1]{\text{CanDRP}(#1)}
+
+\newcommand{\candrpcomplexity}{$O(n^3)$}
+\newcommand{\candrpcomplexityv}{$O(|V|^3)$}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

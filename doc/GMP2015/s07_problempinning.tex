@@ -73,16 +73,6 @@ but not  tree-decomposable. Credit to \cite{subdivision_paper} for (a).}
     \ref{sec:DRP} is unchanged and the results of Section \ref{sec:recomb} will still go through with slight modifications.
 \end{remark}
 
-\begin{proof}
-    We can replace each body that has only one pin by a single vertex. A
-    body with 2 pins can be replaced by an edge. In general, a body with $n$
-    pins can be replaced by a 2-tree on $n$ vertices. When finding a
-    DR-plan, we treat each body as trivial, so they become the leaves of our
-    plan. The optimal recombination problem and approach of Section
-    \ref{sec:recomb} are unchanged. The optimal completion via the optimal modification problem in
-Section \ref{sec:recomb} now has an additional constraint that all edges in the 2-tree representation of the bodies must be removed together, not individually.
-\end{proof}
-
 For the rest of this section, we will only be dealing with the DR-plan of
 such qusecs. As such, we will refer only to the underlying hypergraph of the qusecs. We now
 introduce 2 sub-classes of body-hyperpin graphs for modeling Examples 4 and
@@ -131,12 +121,18 @@ $(k,l)$-tightness conditions similar to the way we did in Section
     for the 1 and 2-dof body-pin and triangle-hyperpin systems defined
     above.
 
+
 \begin{observation}
 \label{obs:bodypin_drp}
-    For the 1-dof body-pin graphs described above, a $(3,4)$-sparsity corresponds to a canonical DR-plan whose nodes satisfy one of the following, either
-    (a) the children are 2 proper vertex maximal 1-dof graphs that intersect on another 1-dof graph, or
-    (b) the children are a number of proper maximal 1-dof sub-graphs, sharing at most one body.
+    For the 1-dof body-pin graphs described above that are $(3,4)$-sparse, a $(3,4)$-tight canonical DR-plan exists where every node of a $(3,4)$-sparse graph satisfies one of the following: (1) its children are 2 proper vertex maximal 1-dof graphs that intersect on another 1-dof graph; or (2) its children are all of the proper maximal 1-dof sub-graphs, pairwise sharing at most one body.
 \end{observation}
+
+% \begin{observation}
+% \label{obs:bodypin_drp}
+%     For the 1-dof body-pin graphs described above, $(3,4)$-sparsity corresponds to a canonical DR-plan whose nodes satisfy one of the following, either
+%     (a) the children are 2 proper vertex maximal 1-dof graphs that intersect on another 1-dof graph, or
+%     (b) the children are a number of proper maximal 1-dof sub-graphs, sharing at most one body.
+% \end{observation}
 
 % \begin{proof}
 %     \todo{Item 1 Follows from paper?}
@@ -150,8 +146,7 @@ optimal:
 \begin{remark}\label{rem:1dofcanon}
     When the input is independent,
     all $(3,4)$-tight canonical DR-plans are optimal. We can find such a
-    DR-plan in the same time complexity as the $(2,3)$-tight case for bar
-    and joint graphs discussed in Section \ref{sec:DRP}.
+    DR-plan in the same time complexity as the $(2,3)$-tight case for bar-joint graphs discussed in Section \ref{sec:DRP}.
     This is because
     such $(3,4)$-tight graphs are matroidal and have a pebble game, shown in \cite{Lee:2007:PGA}.
 \end{remark}
@@ -184,7 +179,7 @@ The above discussion leads to the main theorem:
 \begin{theorem}
 \label{thm:1dofcase}
     Given a 1-dof body-pin or triangle-multipin graph $G$ and corresponding
-    1-dof DR-plan $T$, there is a quadratic algorithm for the 1-dof optimal
+    1-dof DR-plan $T$, there is an \candrpcomplexity algorithm for the 1-dof optimal
     completion problem of Section \ref{sec:recomb}.
 \end{theorem}
 

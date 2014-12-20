@@ -1,178 +1,47 @@
 \section{Appendix B}
 \label{sec:appendix:b}
 
-\subsection{Furture Work}
-\label{sec:futurework}
-A few natural  open questions are the following.
-The first 2 are from Section \ref{sec:recomb}.
-
-\begin{openproblem}
-    Combinatorial rigidity for
-    periodic structures is an active area of research. This paper motivates
-    a study of the rigidity of self-similar structures,
-    with self-similar groups replacing periodic groups.
-\end{openproblem}
-
-\begin{openproblem}
-    The pinned line incidence structures of Section \ref{sec:pinnedline},
-    for example in the case of collagen microfibrils, whose function is
-    elastic contraction, should be considered
-    congruent under projective transformations. I.e, the projective group
-    should be factored out as a trivial motion in a new project for
-    extending the combinatorial rigidity characterization of such systems.
-    (Currently we permit no trivial motions at all).
-\end{openproblem}
-
-\begin{openproblem}
-What is the complexity of the restricted OMD (optimal modification for
-decomposition) problem?
-This has the potential to be difficult. For example, when the
-isostatic completion is required to be a 2-tree the restricted OMD
-problem is reducible to the maximum spanning series-parallel subgraph
-problem shown by \cite{cai1993spanning} to be NP-complete even if the input
-graph is planar of maximum degree at most 6. However, since the OMD
-problem has other input restrictions such as not having any proper
-isostatic subgraphs, it is not clear if the reverse reduction exists
-and hence it is unclear whether the OMD problem is NP-complete.
-
-The same holds for the restricted OMD problem where the isostatic
-completion is required to be a tree-decomposable graph of low
-Cayley complexity (i.e, have special, small DR-plans). One potential
-obstacle to an indecomposable graph $G$'s membership in the restricted
-OMD$_k$ for small $k$ is if $G$ is tri-connected and has large girth.
-In fact, 6-connected (hence rigid) graphs with arbitrarily large girth
-have been constructed in \cite{servatius2000rigidity}.
-\end{openproblem}
-
-The next is the reverse direction of Observation \ref{obs:OC_to_OMD} in Section \ref{sec:table}.
-
-\begin{openproblem}
-    Is the OMD (optimal modification for decomposition) problem
-    reducible to the OC (Optimal completion) problem?
-\end{openproblem}
-
-The last problem is from
-Section \ref{sec:bodypin}.
-
-\begin{openproblem}
-    What is the complexity of the optimal completion problem when the given
-    graph has more than 2-dofs?
-    Our proof for the 1 and 2-dof cases relied heavily on the matroidal
-    properties of their corresponding $(k,l)$-tightness.
-    For higher number of dofs, the $(k,l)$ characterization is
-    no longer matroidal \cite{Lee:2007:PGA}.
-    As a result, the major obstacle is that
-    there is no easy way of obtaining an optimal or canonical
-    $k$-dof DR-plan in general.
-    Even assuming such  a DR-plan is available,
-    if higher dofs had the same characteristics,
-    Observation \ref{obs:algebraic_completion}
-    raises questions about the correct measure of DR-plan size that
-    captures algebraic complexity for recombining graphs with many dofs
-    (this is not an issue in the isostatic case). Unless some restrictions
-    can be found and taken advantage of, the $k$-dof optimal
-    completion problem would  have complexity exponential in $k$.
-\end{openproblem}
-
-
-
-
 \subsection{Open Problems}
+\label{sec:futurework}
 
-\todo{added these in newest conclusion}
-
-A few natural  open questions concern the following common theme
-that runs through the paper:
-
+One open problem comes from Section \ref{sec:DRP}:
 \begin{openproblem}
-For fixed $k$ we have polynomial time optimal DR-planning,
-recombination (modification) in the presence of $k$ overconstraints (Section
-\ref{sec:DRP},
-optimal modification for decomposition {\sl OMD}$_k(G)$,
-when at most $k$ constraints are removed
-\ref{sec:recomb}
-and
-also optimal completion
-using at most $k\le 2$ constraints in the body-pin and
-triangle-multipin cases
-under a modified measure for optimizing the
-DR-plan \ref{sec:table}.
-However, $k$ appears in the exponent for
-the straightforward algorithms for these problems.
+    Is there a lower complexity algorithm than \candrpcomplexityv to find the canonical DR-plan of isostatic 2D bar-joint graphs?
 \end{openproblem}
 
-One problem in the above theme is from
-Section \ref{sec:bodypin}.
+
+A few natural  open questions concern the following common theme that runs through the paper:
+
 \begin{openproblem}
-    What is the complexity of the optimal completion problem when the given
-    graph has more than 2-dofs?
-    Our proof for the 1 and 2-dof cases relied heavily on the matroidal
-    properties of their corresponding $(k,l)$-tightness.
-    For higher number of dofs, the $(k,l)$ characterization is
-    no longer matroidal \cite{Lee:2007:PGA}.
-    As a result, the major obstacle is that
-    there is no easy way of obtaining an optimal or canonical
-    $k$-dof DR-plan in general.
-    Even assuming such  a DR-plan is available,
-    if higher dofs had the same characteristics,
-    Observation \ref{obs:algebraic_completion}
-    raises questions about the correct measure of DR-plan size that
-    captures algebraic complexity for recombining graphs with many dofs
-    (this is not an issue in the isostatic case). Unless some restrictions
-    can be found and taken advantage of, the $k$-dof optimal
-    completion problem would  have complexity exponential in $k$.
+    For fixed $k$ we have polynomial time optimal DR-planning, recombination (modification) in the presence of $k$ overconstraints (Section \ref{sec:DRP}, optimal modification for decomposition {\sl OMD}$_k(G)$, when at most $k$ constraints are removed \ref{sec:recomb} and also optimal completion using at most $k\le 2$ constraints in the body-pin and triangle-multipin cases under a modified measure for optimizing the DR-plan \ref{sec:table}. However, $k$ appears in the exponent for the straightforward algorithms for these problems.
+\end{openproblem}
+
+One problem in the above theme is from Section \ref{sec:bodypin}.
+\begin{openproblem}
+    What is the complexity of the optimal completion problem when the given graph has more than 2-dofs? Our proof for the 1 and 2-dof cases relied heavily on the matroidal properties of their corresponding $(k,l)$-tightness. For higher number of dofs, the $(k,l)$ characterization is no longer matroidal \cite{Lee:2007:PGA}. As a result, the major obstacle is that there is no easy way of obtaining an optimal or canonical $k$-dof DR-plan in general. Even assuming such  a DR-plan is available, if higher dofs had the same characteristics, Observation \ref{obs:algebraic_completion} raises questions about the correct measure of DR-plan size that captures algebraic complexity for recombining graphs with many dofs (this is not an issue in the isostatic case). Unless some restrictions can be found and taken advantage of, the $k$-dof optimal completion problem would  have complexity exponential in $k$.
 \end{openproblem}
 
 Another problem from the above theme is from Section \ref{sec:recomb}
 \begin{openproblem}
-What is the complexity of the restricted OMD (optimal modification for
-decomposition) problem?
-This has the potential to be difficult. For example, when the
-isostatic completion is required to be a 2-tree the restricted OMD
-problem is reducible to the maximum spanning series-parallel subgraph
-problem shown by \cite{cai1993spanning} to be NP-complete even if the input
-graph is planar of maximum degree at most 6. However, since the OMD
-problem has other input restrictions such as not having any proper
-isostatic subgraphs, it is not clear if the reverse reduction exists
-and hence it is unclear whether the OMD problem is NP-complete.
+    What is the complexity of the restricted OMD (optimal modification for decomposition) problem? This has the potential to be difficult. For example, when the isostatic completion is required to be a 2-tree the restricted OMD problem is reducible to the maximum spanning series-parallel subgraph problem shown by \cite{cai1993spanning} to be NP-complete even if the input graph is planar of maximum degree at most 6. However, since the OMD problem has other input restrictions such as not having any proper isostatic subgraphs, it is not clear if the reverse reduction exists and hence it is unclear whether the OMD problem is NP-complete.
 
-The same holds for the restricted OMD problem where the isostatic
-completion is required to be a tree-decomposable graph of low
-Cayley complexity (i.e, have special, small DR-plans). One potential
-obstacle to an indecomposable graph $G$'s membership in the restricted
-OMD$_k$ for small $k$ is if $G$ is tri-connected and has large girth.
-In fact, 6-connected (hence rigid) graphs with arbitrarily large girth
-have been constructed in \cite{servatius2000rigidity}.
+    The same holds for the restricted OMD problem where the isostatic completion is required to be a tree-decomposable graph of low Cayley complexity (i.e, have special, small DR-plans). One potential obstacle to an indecomposable graph $G$'s membership in the restricted OMD$_k$ for small $k$ is if $G$ is tri-connected and has large girth. In fact, 6-connected (hence rigid) graphs with arbitrarily large girth have been constructed in \cite{servatius2000rigidity}.
 \end{openproblem}
 
-The next is the reverse direction of Observation \ref{obs:OC_to_OMD} in
-Section \ref{sec:table}.
-
+The next is the reverse direction of Observation \ref{obs:OC_to_OMD} in Section \ref{sec:table}.
 \begin{openproblem}
-    Is the OMD (optimal modification for decomposition) problem
-    reducible to the OC (Optimal completion) problem?
+    Is the OMD (optimal modification for decomposition) problem reducible to the OC (Optimal completion) problem?
 \end{openproblem}
 
 More general problem directions are the following.
 \begin{openproblem}
-    Combinatorial rigidity for
-    periodic structures is an active area of research. This paper motivates
-    a study of the rigidity of self-similar structures,
-    with self-similar groups replacing periodic groups.
+    Combinatorial rigidity for periodic structures is an active area of research. This paper motivates a study of the rigidity of self-similar structures, with self-similar groups replacing periodic groups.
 \end{openproblem}
 
 \begin{openproblem}
-    The pinned line incidence structures of Section \ref{sec:pinnedline},
-    for example in the case of collagen microfibrils, whose function is
-    elastic contraction, should be considered
-    congruent under projective transformations. I.e, the projective group
-    should be factored out as a trivial motion in a new project for
-    extending the combinatorial rigidity characterization of such systems.
-    (Currently we permit no trivial motions at all).
+    The pinned line incidence structures of Section \ref{sec:pinnedline}, for example in the case of collagen microfibrils, whose function is elastic contraction, should be considered congruent under projective transformations. I.e, the projective group should be factored out as a trivial motion in a new project for extending the combinatorial rigidity characterization of such systems. (Currently we permit no trivial motions at all).
 \end{openproblem}
 
-
-
-
-
-
+\begin{openproblem}
+    Experimental validation (either computationally or physical experiments) of predications based on the material model and theory used in this paper. This can be done by modeling known materials and putting stresses on them, seeing if the prediction is observed in the real material. Or, our theory could be used to design new materials, which can be tested to see if they possess predicted properties.
+\end{openproblem}
