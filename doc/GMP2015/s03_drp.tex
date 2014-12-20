@@ -62,20 +62,18 @@ then the following hold:
 
 Then the following key properties hold at the nodes of a canonical DR-plan.
 
-\begin{lemma}
+\begin{lemma}\label{lemma:combined_lemma}
 Let $C$ be a node of a canonical DR-plan, with distinct children $C_i$ and $C_j$
 Then
 \begin{enumerate}
-    \item
-    \label{lemma:wc_intersection_is_C}
-$C_i\cup C_j$ is isostatic if and only if $C_i\cup C_j = C$.
-\item
-    \label{lemma:wc_intersection_makes_all_wc}
-If $C_i\cup C_j$ is isostatic, then $\forall k: C_i\cup C_k$ is isostatic
-Alternatively, if $C_i\cup C_j=C$, then $\forall k: C_i\cup C_k=C$.
-\item
-    \label{lemma:uc_intersection_makes_all_uc}
-If $C_i\cap C_j$ is trivial, then $\forall k: C_i\cap C_k$ is trivial.
+    \item\label{lemma:wc_intersection_is_C}
+    $C_i\cup C_j$ is isostatic if and only if $C_i\cup C_j = C$.
+
+    \item\label{lemma:wc_intersection_makes_all_wc}
+    If $C_i\cup C_j$ is isostatic, then $\forall k: C_i\cup C_k$ is isostatic Alternatively, if $C_i\cup C_j=C$, then $\forall k: C_i\cup C_k=C$.
+
+    \item\label{lemma:uc_intersection_makes_all_uc}
+    If $C_i\cap C_j$ is trivial, then $\forall k: C_i\cap C_k$ is trivial.
 \end{enumerate}
 \end{lemma}
 
@@ -126,6 +124,12 @@ Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and
 % With more effort, it can be shown that pinned line-incidence systems can also use this framework. This is done in section \ref{XXX}.
 
 
-\subsection{Algorithm}
+% \subsection{Algorithm}
 
-The first step of the algorithm to find an optimal DR-plan is the most difficult --- to find the well-constrained vertex-maximal proper subgraphs of the input well-constrained graph. There are two approaches: (1) the bottom-up approach, using the Frontier algorithm \cite{Oung:2001:FFE:376957.376995} to grow these components from single vertices; and (2) the top-down approach, using the pebble game algorithm \cite{Jacobs:1997:PG} on each node and taking the largest components that are not subgraphs of any larger ones. After the subgraphs have been found, it is a straightforward application of the theory. If the intersection of any two of the subgraphs is well-constrained, then take those two to be children of the graph. Otherwise, all the subgraphs are the children. Apply recursively to the children. This naturally terminates when you reach trivial subgraphs. The complexity of this depends on the algorithm for finding children (both are polynomial) and the depth of the plan (the deeper the plan, i.e.\ the smaller the max fan-in, the longer the running time). \todo{Think more about complexity.}
+\begin{theorem}\label{theorem:algo_complexity}
+    There exists an $O(|V|^3)$ algorithm to find a canonical DR-plan for any 2D isostatic bar-joint graph.
+\end{theorem}
+
+\begin{remark}
+    while the canonical DR-plan is optimal only if the input graph is independent, if it has only $k$ overconstraints for some fixed $k$, we can still find the optimal DR-plan. However, the time complexity is exponential in $k$.
+\end{remark}
