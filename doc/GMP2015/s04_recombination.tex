@@ -1,16 +1,16 @@
 \section{Using the canonical, optimal DR-plan for Realizing (Solving) Qusecs}
 \label{sec:recomb}
-
+%
 In this section, we consider the \dfn{optimal recombination} problem
 of combining specific solutions of subsystems in a DR-plan into a
 solution of their parent system $I$ (without loss of generality, at
 the top level of the DR-plan). In the case of isostatic qusecs, the
 parent system $I$ is isostatic (the root of the DR-plan), and we seek
-\dfn{solution(s) (among a finite large number of solutions) with a
-specific orientation or chirality}. In the case of under-constrained
+\vemph{solution(s) (among a finite large number of solutions) with a
+specific orientation or chirality}. In the case of underconstrained
 qusecs the subsystems are the multiple roots of the DR-plan, the
-parent system $I$ is under-constrained, and we typically seek an
-efficient algorithmic description of \dfn{connected component(s) of
+parent system $I$ is underconstrained, and we typically seek an
+efficient algorithmic description of \vemph{connected component(s) of
 solutions with a specific orientation or chirality}.
 
 The main barrier in recombination when given an optimal DR-plan (of
@@ -27,14 +27,22 @@ modification}, of the indecomposable algebraic system $I$ into a
 decomposable system with a small DR-plan (low algebraic complexity).
 Leveraging recent results on \dfn{Cayley configuration spaces}, our
 approach to the optimal modification problem achieves the following:
-\dfn{(a) Small DR-plan.} We obtain a  parameterized family of systems
-$I_{\lambda_F}$ ---  one for each value $\lambda_F$ for the parameters
+
+\medskip\noindent
+\header{(a) Small DR-plan.} We obtain a  parameterized family of systems
+$I_{\lambda_F}$ --- one for each value $\lambda_F$ for the parameters
 $F$,  all of which have small DR-plans. Thus, given a value $v$ for
 $\lambda_F$, the system $I_v$ can potentially be solved or realized
 easily once the orientation type of the solution is known  (when the
-DR-plan size is small enough). \dfn{(b) Solution preservation.}
+DR-plan size is small enough).
+
+\medskip\noindent
+\header{(b) Solution preservation.}
 Moreover, the union of solution spaces of the systems in the family
-$I_{\lambda_F}$ is guaranteed to contain all of $I$'s solutions. \dfn{(c) Efficient search.} Finally, this union can be projected into the
+$I_{\lambda_F}$ is guaranteed to contain all of $I$'s solutions.
+
+\medskip\noindent
+\header{(c) Efficient search.} Finally, this union can be projected into the
 so-called \dfn{Cayley} or distance parameter space $\lambda_F$ that is
 convex or otherwise easy to traverse in order to search for $I$'s
 solution (or connected component) of the desired orientation type. For
@@ -42,6 +50,7 @@ the case when the modification is bounded, this approach provides an
 efficient algorithm for recombination. We first define the decision
 version of the problem of optimal modification for decomposition. The
 standard optimization versions are straightforward.
+
 
 \problemstatement{Optimal Modification for Decomposition (OMD) Problem.}
 Given a generically independent graph $G = (V,E)$ with no non-trivial
@@ -68,32 +77,31 @@ approach for achieving the requirements (a)--(c) mentioned above, by
 restricting the class of reduced graphs $G' = G\setminus E_1$ and
 their isostatic completions $H$ in the above definition of the OMD
 problem, and using a key theorem of Convex Cayley configuration spaces
-\cite{sitharam2010convex}. This theorem characterizes the class of graphs $H$
-and non-edges $F$ (Cayley parameters), such that the set of vectors
+\cite{sitharam2010convex}. This theorem characterizes the class of graphs $H$ and non-edges $F$ (Cayley parameters), such that the set of vectors
 $\lambda_F$ of  attainable lengths of the non-edges $F$ is always
 convex for any given lengths $\delta$ for the edges of $H$ (i.e, over
 all the realizations of the bar-joint constraint system or linkage
 $(H,\delta)$ in 2 dimensions). This set is called the (2-dimensional)
 \dfn{Cayley configuration space} of the linkage $(H,\delta)$ on the
 Cayley parameters $F$, denoted $\Phi_F(H,\delta)$ and can be viewed as
-a ``projection'' of the Cartesian realization space of $(H,\delta)$ on
+a ``projection'' of the cartesian realization space of $(H,\delta)$ on
 the Cayley parameters $F$. Such graphs $H$ are said to have
 \dfn{convexifiable Cayley configuration spaces with parameters $F$}
 (short: \dfn{convexifiable}).
 
-To state the theorem, we first have to
-define the notion of \dfn{2-sums} and \dfn{2-trees}.
-Let $H_1$ and $H_2$ be two graphs on disjoint sets of vertices $V_1$ and $V_2$, with edge sets $E_1$ and $E_2$ containing edges $(u,v)$ and $(w,x)$ respectively.
-% Let $H_1=(V_1,E_1)$ and $H_2=(V_2,E_2)$ be two graphs on disjoint sets of vertices that contain the edges $(u,v)$ and $(w,x)$ respectively.
-A \dfn{2-sum} of $H_1$ and $H_2$ is a graph $H$
-obtained by taking the union of $H_1$ and $H_2$ and identifying $u=w$
-and $v=w$. In this case, $H_1$ and $H_2$ are called \dfn{2-sum
-components} of $H$. A \dfn{minimal 2-sum component} of $H$ is  one
-that cannot be further split into 2-sum components. A \dfn{2-tree} is
-recursively obtained by taking a 2-sum of 2-trees, with the base
-case being a triangle. A \dfn{partial 2-tree} is a 2-tree
-minus some edges. Partial 2-trees characterized as having $K_4$ as a
-forbidden minor are also called series parallel graphs.
+To state the theorem, we first have to define the notion of
+\dfn{2-sums} and \dfn{2-trees}. Let $H_1$ and $H_2$ be two graphs on
+disjoint sets of vertices $V_1$ and $V_2$, with edge sets $E_1$ and
+$E_2$ containing edges $(u,v)$ and $(w,x)$ respectively.% Let $H_1=(V_1,E_1)$ and $H_2=(V_2,E_2)$ be two graphs on disjoint sets of vertices that contain the edges $(u,v)$ and $(w,x)$ respectively.
+A \dfn{2-sum} of $H_1$ and $H_2$ is a graph $H$ obtained by taking the
+union of $H_1$ and $H_2$ and identifying $u=w$ and $v=w$. In this
+case, $H_1$ and $H_2$ are called \dfn{2-sum components} of $H$. A
+\dfn{minimal 2-sum component} of $H$ is  one that cannot be further
+split into 2-sum components. A \dfn{2-tree} is recursively obtained by
+taking a 2-sum of 2-trees, with the base case of a 2-tree being a
+triangle. A \dfn{partial 2-tree} is a 2-tree minus some edges. Partial
+2-trees have an alternate characterization as the graphs that avoid
+$K_4$ minors, and are also called series parallel graphs.
 
 \begin{theorem}\label{theorem:convexcayley}
     \cite{sitharam2010convex} $H$ has a convexifiable Cayley configuration space  with
@@ -162,8 +170,7 @@ the complexity on the number and ranges  of Cayley parameters $F$.
 %     described in Theorem \ref{theorem:convexcayley}. A solution $p$
 %     is found  when the lengths for nonedges in $D$ match $\delta_D$.
 % \end{proof}
-
-
+%
 \begin{figure*}\centering
 \begin{subfigure}{.2\linewidth}\centering
     \input{img/tikz/omd_k33_example_new-0.tikz}
@@ -193,20 +200,22 @@ the complexity on the number and ranges  of Cayley parameters $F$.
 \end{figure*}
 
 \noindent
-\note A huge advantage of the convex Cayley method is that it is
+\note A major advantage of the convex Cayley method is that it is
 completely unaffected when $\delta$ are intervals rather than exact
-values~\cite{sitharam2010convex}.
+values~~\cite{sitharam2010convex}.
+%cite my paper with Heping!!!
 
 \myexample
+[Using Cayley configuration space].
 A graph $G=K_{3,3}$  cannot be decomposed into any nontrivial
 isostatic graphs, i.e, its DR-plan has a root and 9 children
 corresponding to the 9 edges. Solving or recombining the system
 $(G,\delta)$ corresponding to the root of this DR-plan involves
 solving a quadratic system with 8 equations and variables. Instead of
 simultaneously solving this system, we could instead use the fact that
-$G=K_{3,3}$ is in OMD$_1$: remove the edge $e$ in Figure
+$G=K_{3,3}$ is in OMD$_2$: remove the edges $e_1,e_2$ in Figure
 \ref{fig:omd_k33_example} to give a partial 2-tree $G'$. Now add the
-non-edge $f$ to give a 2-tree $H$ with a DR-plan of size 2. The Cayley
+nonedges $f_1,f_2$ to give a 2-tree $H$ with a DR-plan of size 2. The Cayley
 configuration space $\Phi_f(G', \delta_{E\setminus e})$ is a single
 interval of attainable length values $\lambda_F$ for the edge $f$.
 When $\delta$ is generic, i.e, does not admit collinearities or
@@ -218,8 +227,15 @@ orientation choices for each of the 4 triangles) that can be obtained
 by solving a sequence of 4 single quadratics in 1 variable (DR-plan of
 size 2). By subdivided binary search in the interval $\lambda_f \in
 \Phi_f(G', \delta_{E\setminus e})$, the desired solution $p$  of
-$(G,\delta)$ is found when the length of the non-edge $e$ in  the
+$(G,\delta)$ is found when the length of the nonedge $e$ in  the
 realization $q^p_{\lambda_f}$ is $\delta_e$.
+
+In fact, we can show that $G=K_{3,3}$ is in OMD$_1$ by removing a single
+edge to reduce (as shown in Figure \ref{fig:omd_k33_example}) to a
+tree-decomposable graph of low Cayley complexity (which includes the class
+of partial 2-trees).
+In the next Section \ref{sec:tdecomp}, we discuss this issue
+of why the largest class of reduced graphs is desirable.
 %
 \subsection{Optimized Modification by Enlarging the class of Reduced
 Graphs}
@@ -234,7 +250,8 @@ spaces at least when the realization space is restricted to a
 sufficiently comprehensive orientation type. In particular, the so-
 called \dfn{tree-decomposable graphs of low Cayley complexity}
 \cite{sitharam2011cayleyI,sitharam2011cayleyII} include the partial 2-trees and many others that are not
-partial 2-trees. These too result in DR-plans of size 2 or 3, putting
+partial 2-trees. See an illustration in Figure \ref{fig:omd_k33_example}.
+These too result in DR-plans of size 2 or 3, putting
 $G$ in the class OMD$_k$ and thus meeting Criteria (a) and (b). The
 Criterion (c) is met --- for example when $k=1$ --- because 1-dof Cayley
 configuration spaces of linkages based on such graphs $G'$ are known

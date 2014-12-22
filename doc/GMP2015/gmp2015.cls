@@ -67,6 +67,18 @@
 %%
 \RequirePackage{amsmath,amsthm,amssymb}
 
+
+
+
+
+
+
+
+\RequirePackage{anyfontsize}
+
+
+
+
 %%
 %% commonly uses blackboard letters
 %%

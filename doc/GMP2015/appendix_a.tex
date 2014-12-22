@@ -9,13 +9,45 @@
 
 \subsubsection{Proof of Theorem \ref{theorem:main}}
 
+
+
+
+
+
 \begin{proof}
-Observation \ref{lemma:union_intersection} shows that the intersection of any two isostatic subgraphs can only result in trivial or isostatic subgraphs. Therefore, given $C$ and its isostatic vertex-maximal subgraphs $C_1,\ldots,C_N$, the are only two possibilities to consider. Either (1) subgraphs $C_i$ and $C_j$ have a trivial intersection, or (2) they have an isostatic intersection.
+We show the existence of a canonical DR-plan by constructing it as follows:
+
+Begin with $\comdrp{G}$ of a rigid 2D bar-joint graph $G$, for all nodes $C$
+with children $C_1,\ldots,C_N$ keep children nodes according to the following rules:
+\begin{enumerate}
+   \item If $C_i \cap C_j$ is trivial then keep all $C_1,\ldots,C_N$ as children.
+   \item If $C_i \cap C_j$ is rigid then select any two out of $C_1,\ldots,C_N$ as children.
+\end{enumerate}
+
+This directly satisfies properties 2 and 3 of a canonical DR-plan (see definition \ref{def:canonical_drplan}), because all the nodes in $\comdrp{G}$ are rigid vertex-maximal proper subgraphs. However, we still have to show property 1 (that this makes a DR-plan).
+For rule (1), because we are beginning with a complete DR-plan, if we keep all the children it is still a DR-plan. For rule (2), we know that the union must be rigid as well and it cannot be anything other than $C$, otherwise we have found a larger rigid vertex-maximal proper subgraph.
+
+If we begin with an isostatic graph, rigid can be replaced with isostatic throughout the construction and remain valid. The rigid proper subgraphs of an isostatic graph must be isostatic themselves.
+
+Now we must show that a canonical DR-plan is optimal. The proof is by induction on the level of the plan; we show that following these rules always guarantees minimum fan-in at this level and does not increase fan-in on following levels.
+
+ % We do this inductively on the l, beginning with the root node, showing that the rules are always the optimal choice.
+% by discussing each rule and proving inductively that this is the optimal choice at each level of the DR-plan tree, starting with the root node.
+
+
+% Now we show that this plan is optimal by considering the two cases. Observation \ref{lemma:union_intersection} shows that we do not have to consider anything other than the two cases stated in the construction.
+ % the intersection of any two isostatic subgraphs can only result in trivial or isostatic subgraphs. Therefore, given $C$ and its isostatic vertex-maximal subgraphs $C_1,\ldots,C_N$, the are only two possibilities to consider. Either (1) subgraphs $C_i$ and $C_j$ have a trivial intersection, or (2) they have an isostatic intersection.
+
+
+
 
 
 \medskip\noindent
-\vemph{Part 1:} First, we claim that if the intersection is trivial all $C_1,\ldots,C_N$ must be children of $C$ in a canonical DR-plan. We do this by showing that no subset of the children can union to form $C$, thereby requiring all of them be included; because this is the only choice, it is the minimum fan-in a canonical DR-plan could have for this node.
-must be optimal for this node.
+\vemph{Rule 1:}
+% If some pair is intersecting trivially, then in fact all pairs intersect trivially, thus all must be children by defn of canonical drplan
+%
+First, we claim that if the intersection is trivial all $C_1,\ldots,C_N$ must be children of $C$ in an optimal DR-plan. We do this by showing that no subset of the children can union to form $C$, thereby requiring all of them be included; because this is the only choice, it is the minimum fan-in any DR-plan could have for this node.
+% must be optimal for this node.
 
 Take the strict subset $S\subsetneq \{1,\ldots,N\}$ such that $U=\bigcup_{i\in S}{C_i}$ which we \vemph{assume} is isostatic. If $U\neq C$, then we just found a larger proper subgraph and the children were not vertex-maximal to begin with. So, it must be that $U=C$.
 \usestwod
@@ -24,7 +56,7 @@ However, since $C_i \cap C_j$ is trivial then for $k\notin S$ we know, by Lemma 
 Furthermore, since a canonical DR-plan uses proper rigid \vemph{vertex-maximal} subgraphs as children, and because their pairwise intersection is trivial, it follows that any such node has at most as many children as a DR-plan without this restriction, because the union of the children have to contain all edges of the parent. Therefore, this is the optimal choice in this case.
 
 \medskip\noindent
-\vemph{Part 2:} Second, we claim that if the intersection is isostatic any two children will suffice for a canonical DR-plan and that it will be optimal.
+\vemph{Rule 2:} Second, we claim that if the intersection is isostatic, the choice of any two children will result in an optimal DR-plan.
 
 If $C_i \cap C_j$ is isostatic, then, by Observation \ref{lemma:union_intersection}, $C_i \cup C_j$ is also isostatic. This means that, by Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_makes_all_wc}, any two children of $C$ will union to $C$ itself. Thus, any two children can be chosen to make a canonical DR-plan.
 % are potential choices for the optimal DR-plan as they all create equal fan-in (exactly two) at this level.
@@ -47,9 +79,11 @@ However, to guarantee that any two are the \vemph{optimal} choice, it must ensur
 % % $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)$
 % for arbitrary $m$ and $n$, where $i,j,m,n$ do not equal each other. \todo{Prove these are valid children? Or is this obvious?}
 This continues for $N-1$ levels total, always with fan-in of two (the minimum possible), at which point every descendant of $C$ is some $\induceonc{I\cup R_k}$ for $k\in S_N$, with every $k$ appearing at least once. Thus, regardless of the choice of $C_i,C_j$, then their children, etc., the DR-plan has fan-in of two for every node for the next $N$ levels, at which point the nodes contain the same subgraphs. Therefore, the choice is optimal.
-
-\medskip\noindent
-This proof then applies to itself recursively to show that the fan-in of the children will also be minimum.
+%
+% \medskip\noindent
+% This proof then applies to itself recursively to show that the fan-in of the children will also be minimum.
+%
+% -- say this at top `proof is by induction on the level of the dr=plan'
 \end{proof}
 
 
@@ -58,7 +92,7 @@ This proof then applies to itself recursively to show that the fan-in of the chi
 \begin{proof}
 For (1), simply note that if $F_i\cup F_j$ were trivial, then, by definition, $F_i$ and $F_j$ must be trivial.
 
-For (2), observe that under-constrained subgraphs of isostatic graphs must have density less than $k$. For (3), observe that, given a isostatic graph, a subgraph with density $k$ must also be isostatic. Then, use the fact that, by definition, $d(F_i)=k$ and $d(F_j)=k$. Then it is straightforward application of the equation $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
+For (2), observe that underconstrained subgraphs of isostatic graphs must have density less than $k$. For (3), observe that, given a isostatic graph, a subgraph with density $k$ must also be isostatic. Then, use the fact that, by definition, $d(F_i)=k$ and $d(F_j)=k$. Then it is straightforward application of the equation $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
 
 For (4), because subgraphs of a isostatic graph can only be trivial, under-, or isostatic, all cases have already been exhausted.
 \end{proof}
@@ -71,11 +105,11 @@ For (4), because subgraphs of a isostatic graph can only be trivial, under-, or 
 
 %     \item Observe that  Then it is straightforward application of the equation above.
 
-%     % \item Observe that, given a isostatic graph, an under-constrained subgraph must have density less than $k$. Then it is straightforward application of the equation above.
+%     % \item Observe that, given a isostatic graph, an underconstrained subgraph must have density less than $k$. Then it is straightforward application of the equation above.
 
 %     \item Observe that, given a isostatic graph, a subgraph with density $k$ must also be isostatic. Then it is straightforward application of the equation above.
 
-%     % \item \textit{Forward direction:} Since $F_i\cup F_j$ is under-constrained and a subgraph of isostatic $F$, it must be that $d(F_i\cup F_j)=l<k$. Therefore $d(F_i\cap F_j)=2k-l>k$. This means $F_i\cap F_j$ is trivial. \textit{Reverse direction:} We know that $d(F_i\cap F_j)>k$ because it is trivial. By the same math, we find that $d(F_i\cup F_j)<k$, showing it is under-constrained.
+%     % \item \textit{Forward direction:} Since $F_i\cup F_j$ is underconstrained and a subgraph of isostatic $F$, it must be that $d(F_i\cup F_j)=l<k$. Therefore $d(F_i\cap F_j)=2k-l>k$. This means $F_i\cap F_j$ is trivial. \textit{Reverse direction:} We know that $d(F_i\cap F_j)>k$ because it is trivial. By the same math, we find that $d(F_i\cup F_j)<k$, showing it is underconstrained.
 
 %     % \item \textit{Forward direction:} We have that $d(F_i\cup F_j)=k$, therefore $d(F_i\cap F_j)=k$. Being a subgraph of isostatic $F$, $F_i\cap F_j$ is also isostatic. \textit{Reverse direction:} By the same math, we find that $d(F_i\cup F_j)=k$ and, since it is also a subgraph of $F$, it is isostatic.
 
@@ -128,7 +162,7 @@ For convenience, it is implied that all graphs are the induced graph on $C$.
 
     \item 4 cases: \usestwod $C_k$ cannot be $\inducedOnC{R_i\cup R_j}$, $\inducedOnC{R'_i\cup R_j}$, $\inducedOnC{R_i\cup R'_j}$, or $\inducedOnC{R'_i\cup R'_j}$ because these are all disconnected (Observation \ref{observation:no_edges_between_diff}) and cannot be isostatic.
 
-    \item 1 case: $C_k=\inducedOnC{R'_i\cup R'_j\cup D_{i,j}}$ is not possible. Since $C_i\cup C_k = \inducedOnC{R'_i\cup R_j\cup D_{i,j}}\neq C$ we have from Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_is_C}, that $C_i\cup C_k$ cannot be isostatic. We also know it cannot be trivial because it contains isostatic subgraphs. This means it must be under-constrained. From Observation \ref{lemma:union_intersection}, we know that $C_i\cap C_k=\inducedOnC{R'_j\cup D_{i,j}}$ must then be trivial. This is impossible because $D_{i,j}$ is isostatic, thereby contradicting the assumption that $C_k$ is isostatic.
+    \item 1 case: $C_k=\inducedOnC{R'_i\cup R'_j\cup D_{i,j}}$ is not possible. Since $C_i\cup C_k = \inducedOnC{R'_i\cup R_j\cup D_{i,j}}\neq C$ we have from Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_is_C}, that $C_i\cup C_k$ cannot be isostatic. We also know it cannot be trivial because it contains isostatic subgraphs. This means it must be underconstrained. From Observation \ref{lemma:union_intersection}, we know that $C_i\cap C_k=\inducedOnC{R'_j\cup D_{i,j}}$ must then be trivial. This is impossible because $D_{i,j}$ is isostatic, thereby contradicting the assumption that $C_k$ is isostatic.
 
     \item 1 case: \usestwod $C_k=\inducedOnC{R'_i\cup R'_j\cup D'_{i,j}}$ is not possible. Since $C_i\cup C_k\neq C$ (and $C_j\cup C_k\neq C$), we know by the same logic as the previous case that the $C_i\cap C_k$ must be trivial (a single node). However, $C_i\cap C_k=\inducedOnC{R'_j\cup D'_{i,j}}$. This causes a contradiction, the intersection cannot be trivial because $R'_j$ and $D'_{i,j}$ are not empty sets and are disjoint.
 
@@ -156,10 +190,10 @@ The first step of the algorithm is finding the isostatic vertex-maximal proper s
 
 Test the intersection of any two of the true-components. If the intersection is trivial, the entire list becomes the children. Recursively apply the algorithm to each child.
 
-If the intersection is non-trivial (necessarily isostatic), immediately compute the sequential decomposition down to $I=\bigcap_{k\in S_N}{C_k}$. The root of this idea is discussed in detail in the proof of Theorem \ref{theorem:main}, and we use the notation here. We construct something that, while recombining it, results in the same systems to solve as the true DR-plan. Begin with the parent $C$. Its children will be $C\setminus R_1$ and $R_1$ plus the nodes and edges adjacent to $R_1$ that lie in $I$. Recursively apply the algorithm to the child containing $R_1$. The children of $C\setminus R_1$ will be $C\setminus (R_1\cup R_2)$ and $R_2$ plus the nodes and edges adjacent to $R_2$ that lie in $I$. Etc. At $N$ levels down, the 2 children will be $I$ and $R_N$ plus the nodes and edges adjacent to $R_N$ that lie in $I$. Apply the algorithm recursively to both children.
-% Although the nodes containing $R_1,\ldots,R_N$ are under-constrained, simply take the children to be the roots of the forest
+If the intersection is non-trivial (necessarily isostatic), immediately compute the sequential decomposition down to $I=\bigcap_{k\in S_N}{C_k}$. The root of this idea is discussed in detail in the proof of Theorem \ref{theorem:main}, and we use the notation here. We construct a DR-plan whose node set is the same as that of a canonical/optimal DR-plan. Begin with the parent $C$. Its children will be $C\setminus R_1$ and $R_1$ plus the nodes and edges adjacent to $R_1$ that lie in $I$. Recursively apply the algorithm to the child containing $R_1$. The children of $C\setminus R_1$ will be $C\setminus (R_1\cup R_2)$ and $R_2$ plus the nodes and edges adjacent to $R_2$ that lie in $I$. And so on. At $N$ levels down, the 2 children will be $I$ and $R_N$ plus the nodes and edges adjacent to $R_N$ that lie in $I$. Apply the algorithm recursively to both children.
+% Although the nodes containing $R_1,\ldots,R_N$ are underconstrained, simply take the children to be the roots of the forest
 
-The reason we construct it this way is because we end up with a tree instead of a directed acyclic graph. The leaves of this tree will be exactly every single edge in the graph, with none repeated. Therefore, the number of nodes in the tree is $O(|E|)$ which, for isostatic input graphs, is $O(|V|)$.
+The reason for this construction is that the result is a tree with no duplicate nodes. The leaves of this tree will exactly be the edges of this graph. Therefore, the number of nodes in the tree is $O(|E|)$ which, for isostatic input graphs, is $O(|V|)$.
 
 Therefore, the complexity of the algorithm as a whole is $O(|V|^3)$.
 %
@@ -183,7 +217,7 @@ Therefore, the complexity of the algorithm as a whole is $O(|V|^3)$.
 % \end{proof}
 
 % \begin{proof}
-% The first step of the algorithm to find an optimal DR-plan is the most difficult --- to find the well-constrained vertex-maximal proper subgraphs of the input well-constrained graph. There are two approaches: (1) the bottom-up approach, using the Frontier algorithm \cite{Oung:2001:FFE:376957.376995} to grow these components from single vertices; and (2) the top-down approach, using the pebble game algorithm \cite{Jacobs:1997:PG} on each node and taking the largest components that are not subgraphs of any larger ones. After the subgraphs have been found, it is a straightforward application of the theory. If the intersection of any two of the subgraphs is well-constrained, then take those two to be children of the graph. Otherwise, all the subgraphs are the children. Apply recursively to the children. This naturally terminates when you reach trivial subgraphs. The complexity of this depends on the algorithm for finding children (both are polynomial) and the depth of the plan (the deeper the plan, i.e.\ the smaller the max fan-in, the longer the running time). \todo{Think more about complexity.}
+% The first step of the algorithm to find an optimal DR-plan is the most difficult --- to find the wellconstrained vertex-maximal proper subgraphs of the input wellconstrained graph. There are two approaches: (1) the bottom-up approach, using the Frontier algorithm \cite{Oung:2001:FFE:376957.376995} to grow these components from single vertices; and (2) the top-down approach, using the pebble game algorithm \cite{Jacobs:1997:PG} on each node and taking the largest components that are not subgraphs of any larger ones. After the subgraphs have been found, it is a straightforward application of the theory. If the intersection of any two of the subgraphs is wellconstrained, then take those two to be children of the graph. Otherwise, all the subgraphs are the children. Apply recursively to the children. This naturally terminates when you reach trivial subgraphs. The complexity of this depends on the algorithm for finding children (both are polynomial) and the depth of the plan (the deeper the plan, i.e.\ the smaller the max fan-in, the longer the running time). \todo{Think more about complexity.}
 % \end{proof}
 
 
@@ -292,7 +326,7 @@ Since $C_j \cup C_j = C$, there are no edges in $C$ that is not contained in a i
 Then we analyze all the possible cases for $C_k$.
 \begin{itemize}
     \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D_{i,j})$ is not possible. Since $C_k\cup C_i = Idc(C,R'_i\cup R_j\cup D_{i,j})\neq C$ we have from Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_is_C}, that $C_k\cup C_i$ cannot be isostatic.
-    By Lemma~\ref{lem:pinned_union_intersection}, it must be under-constrained,
+    By Lemma~\ref{lem:pinned_union_intersection}, it must be underconstrained,
     so one of $C_i$ and $C_k$ must be an edge, contradicting the assumption that both $C_i$ and $C_k$ are isostatic.
 
     \item 1 case: $C_k=Idc(C,R'_i\cup R'_j\cup D'_{i,j})$ is not possible. The proof is similar to the previous case.

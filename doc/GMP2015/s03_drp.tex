@@ -1,12 +1,12 @@
 \section{The canonical DR-plan}
 \label{sec:DRP}
 % In the problem of the optimal DR-Plan there is generally not a unique plan.
-% % Indeed, we will prove a union of $N$ well-constrained subgraphs will result in $N$ unique plans, but that at the $N^{\text{th}}$ level of the tree it will always be the same. Therefore, all choices of decomposition are in some sense equivalent. The theorem we seek to prove is thus:
+% % Indeed, we will prove a union of $N$ isostatic subgraphs will result in $N$ unique plans, but that at the $N^{\text{th}}$ level of the tree it will always be the same. Therefore, all choices of decomposition are in some sense equivalent. The theorem we seek to prove is thus:
 % However, we will show that regardless of which children are chosen for the plan, so long as they satisfy the definition of an optimal DR-plan, the recombination will require solving of the same systems. Being the smallest such structure that offers this, the definition of an optimal DR-plan could be considered the canonical DR-plan.
 % % To assist in showing this, we prove this core theorem throughout this section:
 
-% In this section, we discuss 2D bar-joint graphs. All vertex weights are $2$, all edge weights are $1$, and constant $k= -{{3}\choose{2}}=-3$. Trivial graphs are a single vertex and empty set. Furthermore, 2D well-constrained graphs must be connected.
-% % The greatest density of a 2D well-constrained graph is $-2$ (the vertex). The other disconnected part of the graph would need to have a density of $-1$, which is over-constrained and not possible in a well-constrained graph (because there is no trivial graph with that density).
+% In this section, we discuss 2D bar-joint graphs. All vertex weights are $2$, all edge weights are $1$, and constant $k= -{{3}\choose{2}}=-3$. Trivial graphs are a single vertex and empty set. Furthermore, 2D isostatic graphs must be connected.
+% % The greatest density of a 2D isostatic graph is $-2$ (the vertex). The other disconnected part of the graph would need to have a density of $-1$, which is overconstrained and not possible in a isostatic graph (because there is no trivial graph with that density).
 
 The NP-hardness of the DR-planning problem for 2D bar-joint graphs is partly
 the consequence of possibly exponential number of DR-plans. On
@@ -19,12 +19,12 @@ DR-plan that mimic a complete DR-plan's uniqueness, while for independent
 (underconstrained or isostatic graphs), we show that the nonunique parts do not affect
 optimality.
 
-\begin{definition}
-    The \dfn{canonical DR-plan} is a DR-plan that satisfies the following two properties:
-    (1) children are isostatic vertex-maximal subgraphs of the parent; and
-    (2) all of the isostatic vertex-maximal subgraphs are children if any two of them intersect trivially, otherwise exactly two are children.
+\begin{definition}\label{def:canonical_drplan}
+    The \dfn{canonical DR-plan} satisfies the following three properties:
+    (1) it is a DR-plan;
+    (2) children are rigid vertex-maximal proper subgraphs of the parent; and
+    (3) if all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise take as children exactly two that intersect non-trivially.
 \end{definition}
-
 
 This definition gives the canonical DR-plan a surprisingly strong Church-Rosser property.
 
@@ -50,7 +50,7 @@ This definition gives the canonical DR-plan a surprisingly strong Church-Rosser 
 %    \item If $C_i \cap C_j$ is trivial then keep all $C_1,\ldots,C_N$ as children.
 %    \item If $C_i \cap C_j$ is isostatic then select any two out of $C_1,\ldots,C_N$ as children.
 %\end{enumerate}
-%The resulting canonical DR-plan is an optimal DR-plan.
+%This is a canonical DR-plan.
 %\end{theorem}
 
 
@@ -63,9 +63,9 @@ If $F_i$ and $F_j$ are isostatic subgraphs of the same
 isostatic graph $F$, \
 then the following hold:
 (1) $F_i\cup F_j$ is not trivial;
-(2) $F_i\cup F_j$ is under-constrained if and only if $F_i\cap F_j$ is trivial;
-(3) $F_i\cup F_j$ is well-constrained if and only if $F_i\cap F_j$ is well-constrained; and
-(4) $F_i\cap F_j$ is not under-constrained.
+(2) $F_i\cup F_j$ is underconstrained if and only if $F_i\cap F_j$ is trivial;
+(3) $F_i\cup F_j$ is isostatic if and only if $F_i\cap F_j$ is isostatic; and
+(4) $F_i\cap F_j$ is not underconstrained.
 \end{observation}
 
 Then the following key properties hold at the nodes of a canonical DR-plan.
@@ -114,7 +114,7 @@ holding for these canonical-optimal DR-plans.
 
 \myexample
 \textsl{[DR-Plan for self-similar structure]}
-This section details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly well-constrained. As explained in the proof of Theorem \ref{theorem:main} since there are only 2 possible children, their intersection must be a node 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
+This section details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly isostatic. As explained in the proof of Theorem \ref{theorem:main} since there are only 2 possible children, their intersection must be a node 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
 
 Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and $N$ has the same structure, and thus the same pattern is repeated until only triangle $(N+1)/2$ remains in the case that $N$ is odd, or until only triangles $N/2$ and $N/2+1$ remain if $N$ is even.
 

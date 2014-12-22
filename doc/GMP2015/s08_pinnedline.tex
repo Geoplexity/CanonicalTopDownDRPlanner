@@ -82,7 +82,7 @@ E \rightarrow \mathbb{R}^2$.
 %
 A pinned line-incidence graph $G$ is rigid if $|E| = 2|V|$ and $|E'| \le 2|V'|$ for every induced subgraph $(V',E')$ \cite{sitharam2014incidence}. Note that no trivial motion exists since the pins have fixed positions on the plane.
 Euclidean transformations are not factored out.
-In particular, both a single vertex and a single edge are under-constrained graphs.
+In particular, both a single vertex and a single edge are underconstrained graphs.
 
 
 
@@ -125,21 +125,21 @@ This is because the pins have fixed positions on the plane.
 %
 %For pinned line-incidence graphs,
 %since the pins have fixed positions on the plane,
-%{\em a well-constrained vertex-maximal proper subgraph can be disconnected},
-%being the disjoint union of two or more well-constrained subgraphs.
+%{\em a wellconstrained vertex-maximal proper subgraph can be disconnected},
+%being the disjoint union of two or more wellconstrained subgraphs.
 %
 %\begin{itemize}
 %
 %\item For pinned line-incidence graphs,
 %since the pins have fixed positions on the plane,
-%no trivial motion exists, therefore {\em no trivial over-constrained graphs exist} (the smallest over-constrained graph has $6$ vertices).\\
-%In particular, note that both a single vertex and a single edge are under-constrained graphs.
+%no trivial motion exists, therefore {\em no trivial overconstrained graphs exist} (the smallest overconstrained graph has $6$ vertices).\\
+%In particular, note that both a single vertex and a single edge are underconstrained graphs.
 %
 %\item
 %For pinned line-incidence graphs,
 %since the pins have fixed positions on the plane,
-%{\em a well-constrained vertex-maximal proper subgraph can be disconnected},
-%being the disjoint union of two or more well-constrained subgraphs. \\
+%{\em a wellconstrained vertex-maximal proper subgraph can be disconnected},
+%being the disjoint union of two or more wellconstrained subgraphs. \\
 %%Without loss of generality,
 %%we slightly modify the requirement of DR-plan for pinned line-incidence graphs
 %%such that only connected subgraphs can be considered as a node of the DR-plan.
@@ -150,7 +150,7 @@ We define a \dfn{trivial} graph to be a single vertex and make the following mod
 the canonical DR-plan:
 
 %\begin{itemize}
-%\item For any $C$, its $N$ children, $C_1, \ldots, C_N$, are {\em edges} or {\em connected} well-constrained vertex-maximal proper subgraphs of that node $C$.
+%\item For any $C$, its $N$ children, $C_1, \ldots, C_N$, are {\em edges} or {\em connected} wellconstrained vertex-maximal proper subgraphs of that node $C$.
 %\item A node containing a single edge is a leaf.
 %%\item
 %%\todo{We just define the %trivial graph/
@@ -167,7 +167,7 @@ or an edge not contained in any  proper rigid subgraph of $C$, and (2) a leaf no
 %    The \textbf{decomposition-recombination (DR-) plan} of  a 2-dimensional pinned line-incidence graph $G$, $DRP(G)$, is  a tree that has the following properties:
 %    \begin{enumerate}
 %        %\item The root of the tree `contains' $G$.
-%        \item[2] For any non-leaf node $C$, each of its children, $C_1,\ldots,C_N$, is either an edge not contained in any well-constrained proper subgraph of $C$, or a {\em connected} well-constrained vertex-maximal proper subgraph of  $C$.
+%        \item[2] For any non-leaf node $C$, each of its children, $C_1,\ldots,C_N$, is either an edge not contained in any wellconstrained proper subgraph of $C$, or a {\em connected} wellconstrained vertex-maximal proper subgraph of  $C$.
 %        %\item The vertex set of $\bigcup_{i=1}^N{C_i}$ is the vertex set of $C$.
 %        \item[4] A node containing a single edge is a leaf.
 %    \end{enumerate}
@@ -200,7 +200,7 @@ which  can be proved using a simple counting based argument.
 Let $F_i$ and $F_j$ to be subgraphs of the same isostatic graph $F$,
 where each of them can be either a single edge or a connected isostatic subgraph.
 There are only two possible cases:
-(1) At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is under-constrained, if and only if $F_i \cap F_j$ is trivial; and (2) both $F_i$ and $F_j$ are isostatic, if and only if $F_i \cup F_j$ is isostatic, if and only if $F_i \cap F_j$ is isostatic.
+(1) At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is underconstrained, if and only if $F_i \cap F_j$ is trivial; and (2) both $F_i$ and $F_j$ are isostatic, if and only if $F_i \cup F_j$ is isostatic, if and only if $F_i \cap F_j$ is isostatic.
 %The following table summarizes all bijections:
 %\setlength{\tabcolsep}{3pt}
 %{\small
@@ -208,10 +208,10 @@ There are only two possible cases:
 %\begin{tabular}{|p{2.8cm}|c|p{2.3cm}|}
 %\hline
 %\textbf{Property of $F_i,F_j$} & \textbf{$F_i\cup F_j$} & \centering \textbf{$F_i\cap F_j$}  \tabularnewline \hline
-% \centering--- &  \sout{over-constrained}          &  \centering --- \tabularnewline \hline
-%at least one of $F_i,F_j$ is an edge & under-constrained       &  \centering a vertex (under-constrained)  \tabularnewline \hline
-%both $F_i$ and $F_j$ are well-constrained & well-constrained        &  \centering well-constrained  \tabularnewline \hline
-% \centering --- & ---                     &  \centering \sout{under-constrained} \tabularnewline \hline
+% \centering--- &  \sout{overconstrained}          &  \centering --- \tabularnewline \hline
+%at least one of $F_i,F_j$ is an edge & underconstrained       &  \centering a vertex (underconstrained)  \tabularnewline \hline
+%both $F_i$ and $F_j$ are wellconstrained & wellconstrained        &  \centering wellconstrained  \tabularnewline \hline
+% \centering --- & ---                     &  \centering \sout{underconstrained} \tabularnewline \hline
 %\end{tabular}
 %\end{center}
 %}
