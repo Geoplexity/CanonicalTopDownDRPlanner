@@ -603,6 +603,30 @@ std::set<Vertex_ID> Subgraph::vertices_adjacent(std::set<Vertex_ID> &v_set) {
     return ret;
 }
 
+// assumes they're disjoint
+std::vector<std::set<Vertex_ID> > Subgraph::edges_between(
+        std::set<Vertex_ID> &v_set_1,
+        std::set<Vertex_ID> &v_set_2)
+{
+    std::vector<std::set<Vertex_ID> > ret;
+    for (std::set<Vertex_ID>::iterator set_v = v_set_1.begin(); set_v != v_set_1.end(); set_v++) {
+        std::set<Vertex_ID> adjacent_vs;
+        boost::graph_traits<Graph>::adjacency_iterator v, v_end;
+        for (boost::tie(v, v_end) = boost::adjacent_vertices(*set_v, *_graph);
+            v != v_end; v++)
+        {
+            if (v_set_2.find(*v) != v_set_2.end()) {
+                std::set<Vertex_ID> add_to;
+                add_to.insert(*v);
+                add_to.insert(*set_v);
+                ret.push_back(add_to);
+            }
+        }
+    }
+
+    return ret;
+}
+
 
 // const std::set<Vertex_ID>* Subgraph::vertices() {return &_vertices; }
 // const std::set<Edge_ID>* Subgraph::edges() {return &_edges; }

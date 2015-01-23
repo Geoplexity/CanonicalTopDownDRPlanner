@@ -17,7 +17,12 @@ struct Cluster {
     bool finished;
 
 
-    Cluster() {finished = false;}
+    Cluster(bool f=false)
+        {finished = f;}
+    Cluster(std::set<Vertex_ID> vs, bool f=false)
+        {vertices = vs; finished = f;}
+    Cluster(std::set<Vertex_ID> vs, std::set<Cluster*> cs, bool f=false)
+        {vertices = vs; children = cs; finished = f;}
 
 
     void add_vertex(Vertex_ID v) {vertices.insert(v);}
@@ -88,11 +93,11 @@ private:
         Cluster* known_cluster,
         bool optimalDRP);
 
-    std::set<Cluster*> _DRP_2D_linear_aux(
-        Cluster* known_cluster,
-        bool optimalDRP);
+    std::set<Cluster*> _DRP_2D_linear_aux();
 
 
+    // get all wellconstrained vertex-maximal subgraphs
+    std::set<Cluster*> get_all_wcvmps(Cluster* known_cluster = NULL);
 
 
 

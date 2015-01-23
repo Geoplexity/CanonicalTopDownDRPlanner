@@ -131,6 +131,11 @@ public:
 
     std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set);
 
+    // assumes they're disjoint
+    std::vector<std::set<Vertex_ID> > edges_between(
+        std::set<Vertex_ID> &v_set_1,
+        std::set<Vertex_ID> &v_set_2);
+
     std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e);
 
     unsigned int num_vertices();
