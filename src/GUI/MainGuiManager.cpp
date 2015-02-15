@@ -225,7 +225,14 @@ void MainGuiManager::poll_for_events(){
 
 
 void MainGuiManager::wait_for_events(){
+    std::cout << "\tAbout to wait." << std::endl;
     glfwWaitEvents();
+    std::cout << "\tHandled." << std::endl;
+    // try {
+    //     glfwWaitEvents();
+    // } catch(...) {
+    //     std::cout <<"Error!" << std::endl;
+    // }
 }
 
 

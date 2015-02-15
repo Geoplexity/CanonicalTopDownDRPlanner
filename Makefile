@@ -15,7 +15,7 @@ OBJECT_DIRECTORY=obj
 CC=g++
 # CFLAGS=-w -Wall
 # CFLAGS=-w
-# CFLAGS=-Wdeprecated-declarations 
+# CFLAGS=-Wdeprecated-declarations
 CFLAGS=-std=c++11
 
 # GLUT - Ubuntu

@@ -37,6 +37,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 
 
 
@@ -75,7 +76,7 @@ public:
   ////
   //// BEGIN DRAWING FUNCTIONS
 
-  void draw_graph_vertices(std::vector<gl_obj::pos_vec> &p);
+  void draw_graph_vertices(std::vector<gl_obj::pos_vec> &p, std::vector<gl_obj::pos_vec> &highlight);
   void draw_graph_edges(std::vector<gl_obj::pos_vec> &p);
 
   void draw_letter(const GLfloat pos[4], const GLfloat tex_coord[4], GLuint tex_id);
@@ -119,6 +120,13 @@ private:
   GLuint translate_location,
          render_mode_location,
          tex_sampler_location;
+
+
+  void _draw_graph_vertices_aux(
+    std::vector<gl_obj::pos_vec> &p,
+    float radius,
+    gl_obj::color_vec color,
+    bool border = true);
 };
 
 

@@ -29,7 +29,8 @@ namespace color {
 
   // gray/green/black
   const gl_obj::color_vec bg   = gl_obj::color_vec(0.85f, 0.85f, 0.85f, 1.f);
-  const gl_obj::color_vec vert = gl_obj::color_vec(0.2f, 0.6f, 0.2f, 0.f);
+  const gl_obj::color_vec h_vert = gl_obj::color_vec(0.2f, 0.6f, 0.2f, 0.f);
+  const gl_obj::color_vec vert = gl_obj::color_vec(0.6f, 0.2f, 0.2f, 0.f);
   // const gl_obj::color_vec vert = gl_obj::color_vec(0.6f, 0.2f, 0.6f, 0.f);
   const gl_obj::color_vec edge = gl_obj::color_vec(0.f, 0.f, 0.f, 0.f);
 
@@ -227,36 +228,34 @@ void Program::check_for_GL_errors(const char* from) {
 }
 
 
-void Program::draw_graph_vertices(
-  vector<gl_obj::pos_vec> &p)
+void Program::_draw_graph_vertices_aux(
+  vector<gl_obj::pos_vec> &p,
+  float radius,
+  gl_obj::color_vec color,
+  bool border)
 {
-  float radius = 0.05;
-  bool border = true;
-
   check_for_GL_errors("Program::draw_graph_vertices - 0");
 
   glUniform1i(render_mode_location, Render_Mode::basic2D);
   check_for_GL_errors("Program::draw_graph_vertices - 1");
 
-
   if (border) {
     // glLineWidth(10);
-
 
     gl_obj::Circle c_outline = gl_obj::Circle(radius, color::edge);
     gl_obj::VertexGroup *vg = &(c_outline.tf->vg);
 
     // initialize the vertex buffer with the vertex data
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  check_for_GL_errors("Program::draw_graph_vertices - 2");
+    check_for_GL_errors("Program::draw_graph_vertices - 2");
     // glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(Vertex), &vg[0] , GL_STATIC_DRAW);
     glBufferData(GL_ARRAY_BUFFER, vg->size() * sizeof(gl_obj::Vertex), &vg->at(0) , GL_STREAM_DRAW);
-  check_for_GL_errors("Program::draw_graph_vertices - 3");
+    check_for_GL_errors("Program::draw_graph_vertices - 3");
 
     for (int i = 0; i < p.size(); i++) {
       //define uniform
       glUniform2fv(translate_location, 1, (float*)&(p[i]));
-  check_for_GL_errors("Program::draw_graph_vertices - 4");
+      check_for_GL_errors("Program::draw_graph_vertices - 4");
 
       // starts from 1
       glDrawArrays(GL_LINE_STRIP, 1, vg->size()-1);
@@ -267,7 +266,9 @@ void Program::draw_graph_vertices(
 
 
   // TODO: Figure out transparency
-  gl_obj::Circle c = gl_obj::Circle(radius, color::vert);
+
+  // draw vertices
+  gl_obj::Circle c = gl_obj::Circle(radius, color);
   gl_obj::VertexGroup *vg = &(c.tf->vg);
 
   // initialize the vertex buffer with the vertex data
@@ -275,7 +276,8 @@ void Program::draw_graph_vertices(
   // glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(Vertex), &vg[0] , GL_STATIC_DRAW);
   glBufferData(GL_ARRAY_BUFFER, vg->size() * sizeof(gl_obj::Vertex), &vg->at(0) , GL_STREAM_DRAW);
 
-  for (int i = 0; i < p.size(); i++) {
+
+  for (unsigned int i = 0; i < p.size(); i++) {
     //define uniform
     glUniform2fv(translate_location, 1, (float*)&(p[i]));
 
@@ -283,6 +285,15 @@ void Program::draw_graph_vertices(
   }
 
   check_for_GL_errors("Program::draw_graph_vertices");
+}
+
+
+void Program::draw_graph_vertices(
+  vector<gl_obj::pos_vec> &p,
+  vector<gl_obj::pos_vec> &highlight)
+{
+  _draw_graph_vertices_aux(highlight, 0.05, color::h_vert, true);
+  _draw_graph_vertices_aux(p, 0.05, color::vert, true);
 }
 
 

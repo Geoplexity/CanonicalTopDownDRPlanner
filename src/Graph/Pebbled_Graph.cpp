@@ -7,24 +7,189 @@
 #include <iostream>
 
 
+Cluster::Cluster(bool f) {
+    finished = f;
+    _parent = NULL;
+    _first_child = NULL; _last_child = NULL;
+    _next = NULL; _prev = NULL;
+}
+Cluster::Cluster(std::set<Vertex_ID> vs, bool f) {
+    vertices = vs;
+    finished = f;
+    _parent = NULL;
+    _first_child = NULL; _last_child = NULL;
+    _next = NULL; _prev = NULL;
+}
+Cluster::Cluster(std::set<Vertex_ID> vs, std::set<Cluster*> cs, bool f) {
+    vertices = vs;
+    finished = f;
+    _parent = NULL;
+    _first_child = NULL; _last_child = NULL;
+    _next = NULL; _prev = NULL;
+
+    add_children(cs);
+}
 
 
-
-void Cluster::print_tree(Graph &g, unsigned int tabs) {
-    for (int i = 0; i < tabs; i++) std::cout << "\t";
-    std::cout << this << " " << finished << ": ";
-    for (std::set<Vertex_ID>::iterator v_it = vertices.begin(); v_it != vertices.end(); v_it++) {
-        std::cout << g[*v_it].name << " ";
+std::set<Cluster*> Cluster::make_children_set() {
+    std::set<Cluster*> ret;
+    for (Cluster* c = _first_child; c != NULL; c = c->next()) {
+        ret.insert(c);
     }
-    std::cout << std::endl;
+    return ret;
+}
 
-    for (std::set<Cluster*>::iterator c_it = children.begin(); c_it != children.end(); c_it++) {
-        (*c_it)->print_tree(g, tabs+1);
+Cluster* Cluster::parent() const {
+    return _parent;
+}
+
+// std::set<Cluster*> Cluster::children() {
+//     return _children;
+// }
+
+Cluster* Cluster::first_child() const {
+    return _first_child;
+    // return (_children.begin() == _children.end())? NULL: *_children.begin();
+}
+Cluster* Cluster::next() const {
+    return _next;
+}
+Cluster* Cluster::prev() const {
+    return _prev;
+}
+
+
+void Cluster::add_vertex(Vertex_ID v) {
+    vertices.insert(v);
+}
+
+
+void Cluster::add_child(Cluster* c) {
+    // _children.insert(c);
+    c->_parent = this;
+    c->_next = NULL; c->_prev = NULL;
+
+    if (_first_child == NULL) {
+        _first_child = c;
+        // _first_child = NULL; _last_child = NULL;
+    } else {
+        _last_child->_next = c;
+        c->_prev = _last_child;
+    }
+
+    _last_child = c;
+}
+// void Cluster::add_children(std::set<Cluster*> cs) {
+//     _children = cs;
+//     for (std::set<Cluster*>::iterator cit = _children.begin(); cit != _children.end(); cit++) {
+//         (*cit)->_parent = this;
+//     }
+// }
+void Cluster::add_children(std::set<Cluster*> cs) {
+    for (std::set<Cluster*>::iterator cit = cs.begin(); cit != cs.end(); cit++) {
+        add_child(*cit);
     }
 }
 
 
+unsigned int Cluster::height() {
+    unsigned int max = 1;
+    for (Cluster *child = first_child(); child != NULL; child = child->next()) {
+        unsigned int child_depth = child->height() + 1;
+        if (child_depth > max) max = child_depth;
+    }
+    return max;
+}
 
+// of the largest level
+unsigned int Cluster::width() {
+    std::vector<Cluster*> this_level, next_level;
+    unsigned int
+        // this_width = 0,
+        next_width = 0,
+        max_width  = 0;
+
+    this_level.push_back(this);
+    max_width = 1;
+
+
+    while (this_level.size() != 0) {
+        for (std::vector<Cluster*>::iterator c = this_level.begin(); c != this_level.end(); c++) {
+            for (Cluster *child = (*c)->first_child(); child != NULL; child = child->next()) {
+                next_level.push_back(child);
+                next_width++;
+            }
+        }
+
+        if (next_width > max_width) max_width = next_width;
+
+        this_level = next_level;
+
+        next_level.clear();
+        next_width = 0;
+    }
+
+    return max_width;
+}
+
+std::vector<unsigned int> Cluster::width_per_level() {
+    std::vector<Cluster*> this_level, next_level;
+    this_level.push_back(this);
+
+    std::vector<unsigned int> ret(height());
+    unsigned int i = 0;
+    ret[i++] = 1;
+
+    while (this_level.size() != 0) {
+        unsigned int next_width = 0;
+        for (std::vector<Cluster*>::iterator c = this_level.begin(); c != this_level.end(); c++) {
+            for (Cluster *child = (*c)->first_child(); child != NULL; child = child->next()) {
+                next_level.push_back(child);
+                next_width++;
+            }
+        }
+
+        ret[i++] = next_width;
+
+        this_level = next_level;
+
+        next_level.clear();
+    }
+
+    return ret;
+}
+
+
+
+void Cluster::print_tree(const Graph *g, unsigned int tabs) {
+    for (int i = 0; i < tabs; i++) std::cout << "\t";
+    std::cout << "Node: ";
+    // std::cout << this << " " << finished << ": ";
+    // std::cout << this << " " << finished << " " << _children.size() << ": ";
+    // std::cout << this << " " << finished << " -" << next() << ": ";
+    // std::cout << this << " " << finished << " -" << prev() << ": ";
+    for (std::set<Vertex_ID>::iterator v_it = vertices.begin(); v_it != vertices.end(); v_it++) {
+        std::cout << (*g)[*v_it].name << " ";
+    }
+    std::cout << std::endl;
+
+    Cluster *fc = first_child();
+    Cluster *n  = next();
+
+    if (fc != NULL) fc->print_tree(g, tabs+1);
+    if (n  != NULL) n ->print_tree(g, tabs);
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
 
 
@@ -248,15 +413,20 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
 }
 
 
-Cluster Pebbled_Graph::DRP_2D(bool optimalDRP) {
-    Cluster ret;
+Cluster* Pebbled_Graph::DRP_2D() {
+    Cluster *ret = new Cluster(true);
+
     std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> sgvs = in_subgraph->vertices();
     for (Sg_Vertex_Iterator v_it = sgvs.first; v_it != sgvs.second; v_it++)
-            ret.add_vertex(*v_it);
+            ret->add_vertex(*v_it);
 
-    // ret.children = _DRP_2D_aux(NULL, optimalDRP);
-    ret.children = _DRP_2D_linear_aux();
-    ret.finished = true;
+    // std::set<Cluster*> children = _DRP_2D_linear_aux();
+    // for (std::set<Cluster*>::iterator c = children.begin(); c != children.end(); c++) {
+    //     (*c)->print_tree(in_subgraph->graph());
+    // }
+    // std::cout << std::endl;
+    ret->add_children(_DRP_2D_linear_aux());
+    ret->finished = true;
 
     return ret;
 }
@@ -372,7 +542,7 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
                 sg.induce(&(*c_it)->vertices);
 
                 Pebbled_Graph pg(&sg);
-                (*c_it)->children = pg._DRP_2D_linear_aux();
+                (*c_it)->add_children(pg._DRP_2D_linear_aux());
 
                 (*c_it)->finished = true;
             }
@@ -450,7 +620,7 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
 
                 // add d
                 Cluster* next_parent = new Cluster(d, true);
-                parent->children.insert(next_parent);
+                parent->add_child(next_parent);
 
                 // add Ri
                 if (Ri.size() > 1) {
@@ -458,7 +628,7 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
                     sg.induce(&Ri);
                     Pebbled_Graph pg(&sg);
 
-                    parent->children.insert(new Cluster(Ri, pg._DRP_2D_linear_aux(), true));
+                    parent->add_child(new Cluster(Ri, pg._DRP_2D_linear_aux(), true));
                 }
 
 
@@ -467,7 +637,7 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
                     vset_it != edges_between_d_and_Ri.end();
                     vset_it++)
                 {
-                    parent->children.insert(new Cluster(*vset_it, true));
+                    parent->add_child(new Cluster(*vset_it, true));
                 }
 
                 // iterate
@@ -480,7 +650,8 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
                 sg.induce(&d);
                 Pebbled_Graph pg(&sg);
 
-                parent->children = pg._DRP_2D_linear_aux();
+                parent->add_children(pg._DRP_2D_linear_aux());
+                // parent->children = pg._DRP_2D_linear_aux();
             }
 
 
@@ -492,7 +663,8 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
             }
 
 
-            current_clusters = original_parent->children;
+            // current_clusters = orig inal_parent->children();
+            current_clusters = original_parent->make_children_set();
             delete original_parent;
         }
         // if it's trivial... same as when it's underconstrained
@@ -504,7 +676,7 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
                     sg.induce(&(*c_it)->vertices);
 
                     Pebbled_Graph pg(&sg);
-                    (*c_it)->children = pg._DRP_2D_linear_aux();
+                    (*c_it)->add_children(pg._DRP_2D_linear_aux());
 
                     (*c_it)->finished = true;
                 }
@@ -519,7 +691,7 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
 
 // // The passed in known_clusters must really be clusters!!! If not, it will be
 // // deleted, in which case it's not safe for anyone else to try to access it
-// std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux(
+// std::set<Cluster*> Pebbled_Graph::_DRP_2D_aux(
 //     Cluster* known_cluster,
 //     bool optimalDRP)
 // {
@@ -528,29 +700,37 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
 //     //     current_clusters.insert(known_cluster);
 
 //     // the system is not wellconstrained
-//     bool underconstrained = false;
 //     if (pebble_game_2D() != this->l) {
-//         underconstrained = true;
+//         std::cout << "Not wellconstrained, " << _total_pebbles_available << ": "; print_all_verts_with_pebbles();
+//         return current_clusters;
 //     }
 
-//     current_clusters = get_all_wcvmps();
-
+//     current_clusters = get_all_wcvmps(known_cluster);
 
 
 //     // std::cout << "Have all clusters" << std::endl;
 
+//     // starts out empty, gets filled if optimalDRP is true and there is wellconstrained intersection
+//     Cluster* shared_cluster = NULL;
+
 
 //     // If looking for optimalDRP, check if intersection is wellconstrained
 //     // if it is, only save two clusters as children.
-//     // bool do_all = true;
-//     if (optimalDRP && !underconstrained) {
-//         if (current_clusters.size() > 1) {
+//     if (optimalDRP) {
+//         if (current_clusters.size() > 1
+//             || (known_cluster != NULL
+//                 && current_clusters.size() == 1))
+//         {
 //             std::set<Cluster*>::iterator c_it = current_clusters.begin();
 //             Cluster *c1, *c2;
 
 //             c1 = *c_it;
-//             c_it++;
-//             c2 = *c_it;
+//             if (known_cluster != NULL)
+//                 c2 = known_cluster;
+//             else {
+//                 c_it++;
+//                 c2 = *c_it;
+//             }
 
 //             std::set<Vertex_ID> intersection;
 //             std::set_intersection(
@@ -561,183 +741,66 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
 
 //             // for 2D wellconstrained input, if it intersects on more than 1 node, it's wellconstrained
 //             if (intersection.size() > 1) {
-//                 // do_all = false;
+//                 // delete extra wellconstrained vertex-maximal nodes
+//                 c_it = current_clusters.begin();
+//                 c_it++;
+//                 if (known_cluster == NULL)
+//                     c_it++;
 
-//                 // current cluster's children are c1 and DRP(c2\c1)
-//                 // then call DRP on all of these
-
-//                 //delete from c2 up through end
 //                 for (; c_it != current_clusters.end(); c_it++) {
 //                     // std::cout << "Delete3" <<std::endl;
 //                     delete (*c_it);
 //                 }
 
-//                 // clear list
 //                 current_clusters.clear();
+//                 current_clusters.insert(c1);
+//                 current_clusters.insert(c2);
 
+//                 if (known_cluster == NULL) {
+//                     // set the intersection as the shared clusters
+//                     shared_cluster = new Cluster();
+//                     shared_cluster->vertices = intersection;
 
+//                 } else {
+//                     // need to go pull the address of the child from known cluster
+//                     // that matches the just discovered intersection... it's in there!
+//                     // This whole process is depth first, so it's been solved
 
-//                 // find and add in C\C1 + adjacent verts
-//                 std::set<Vertex_ID> c_diff_c1;
-//                 std::set_difference(
-//                     in_subgraph->vertices().first, in_subgraph->vertices().second,
-//                     c1->vertices.begin(), c1->vertices.end(),
-//                     std::inserter(c_diff_c1, c_diff_c1.begin()));
+//                     // TODO!!! NOT TRUE!!!
+//                     // if there are n intersecting parts it will be n-1 levels down
 
-//                 // add back in the vertices from c that are adjacent to those in c1
-//                 std::set<Vertex_ID> adj = in_subgraph->vertices_adjacent(c_diff_c1);
-//                 for (std::set<Vertex_ID>::iterator v_it = c_diff_c1.begin(); v_it != c_diff_c1.end(); v_it++) {
-//                     adj.insert(*v_it);
+//                     for (std::set<Cluster*>::iterator c_it = known_cluster->children.begin();
+//                         c_it != known_cluster->children.end();
+//                         c_it++)
+//                     {
+//                         if ((*c_it)->vertices == intersection) {
+//                             shared_cluster = *c_it;
+//                             break;
+//                         }
+//                     }
 //                 }
 
-//                 //!!!!!!!!!!!!!!!!
-//                 //!!!!!!!!!!!!!!!!
-//                 // This is induced! but you want to leave out edges between adjacent verts, not in c1
-//                 Subgraph sg(in_subgraph->graph());
-//                 sg.induce(&adj);
-
-//                 Pebbled_Graph pg(&sg);
-//                 current_clusters = pg._DRP_2D_aux(NULL, optimalDRP);
-
-
-//                 // add back in c1
-//                 current_clusters.insert(c1);
 //             }
 //         }
 //     }
 
+//     if (known_cluster != NULL) current_clusters.insert(known_cluster);
 
 //     // Recursively perform on all children
-//     // if (do_all) {
-//         for (std::set<Cluster*>::iterator c_it = current_clusters.begin(); c_it != current_clusters.end(); c_it++) {
-//             if (!(*c_it)->finished) {
-//                 Subgraph sg(in_subgraph->graph());
-//                 sg.induce(&(*c_it)->vertices);
+//     for (std::set<Cluster*>::iterator c_it = current_clusters.begin(); c_it != current_clusters.end(); c_it++) {
+//         if (!(*c_it)->finished) {
+//             Subgraph sg(in_subgraph->graph());
+//             sg.induce(&(*c_it)->vertices);
 
-//                 Pebbled_Graph pg(&sg);
-//                 (*c_it)->children = pg._DRP_2D_aux(NULL, optimalDRP);
+//             Pebbled_Graph pg(&sg);
+//             (*c_it)->children = pg._DRP_2D_aux(shared_cluster, optimalDRP);
 
-//                 (*c_it)->finished = true;
-//             }
+//             (*c_it)->finished = true;
 //         }
-//     // }
+//     }
 
 //     return current_clusters;
 // }
-
-
-// The passed in known_clusters must really be clusters!!! If not, it will be
-// deleted, in which case it's not safe for anyone else to try to access it
-std::set<Cluster*> Pebbled_Graph::_DRP_2D_aux(
-    Cluster* known_cluster,
-    bool optimalDRP)
-{
-    std::set<Cluster*> current_clusters;
-    // if (known_cluster != NULL)
-    //     current_clusters.insert(known_cluster);
-
-    // the system is not wellconstrained
-    if (pebble_game_2D() != this->l) {
-        std::cout << "Not wellconstrained, " << _total_pebbles_available << ": "; print_all_verts_with_pebbles();
-        return current_clusters;
-    }
-
-    current_clusters = get_all_wcvmps(known_cluster);
-
-
-    // std::cout << "Have all clusters" << std::endl;
-
-    // starts out empty, gets filled if optimalDRP is true and there is wellconstrained intersection
-    Cluster* shared_cluster = NULL;
-
-
-    // If looking for optimalDRP, check if intersection is wellconstrained
-    // if it is, only save two clusters as children.
-    if (optimalDRP) {
-        if (current_clusters.size() > 1
-            || (known_cluster != NULL
-                && current_clusters.size() == 1))
-        {
-            std::set<Cluster*>::iterator c_it = current_clusters.begin();
-            Cluster *c1, *c2;
-
-            c1 = *c_it;
-            if (known_cluster != NULL)
-                c2 = known_cluster;
-            else {
-                c_it++;
-                c2 = *c_it;
-            }
-
-            std::set<Vertex_ID> intersection;
-            std::set_intersection(
-                c1->vertices.begin(), c1->vertices.end(),
-                c2->vertices.begin(), c2->vertices.end(),
-                std::inserter(intersection, intersection.begin()));
-
-
-            // for 2D wellconstrained input, if it intersects on more than 1 node, it's wellconstrained
-            if (intersection.size() > 1) {
-                // delete extra wellconstrained vertex-maximal nodes
-                c_it = current_clusters.begin();
-                c_it++;
-                if (known_cluster == NULL)
-                    c_it++;
-
-                for (; c_it != current_clusters.end(); c_it++) {
-                    // std::cout << "Delete3" <<std::endl;
-                    delete (*c_it);
-                }
-
-                current_clusters.clear();
-                current_clusters.insert(c1);
-                current_clusters.insert(c2);
-
-                if (known_cluster == NULL) {
-                    // set the intersection as the shared clusters
-                    shared_cluster = new Cluster();
-                    shared_cluster->vertices = intersection;
-
-                } else {
-                    // need to go pull the address of the child from known cluster
-                    // that matches the just discovered intersection... it's in there!
-                    // This whole process is depth first, so it's been solved
-
-                    // TODO!!! NOT TRUE!!!
-                    // if there are n intersecting parts it will be n-1 levels down
-
-                    for (std::set<Cluster*>::iterator c_it = known_cluster->children.begin();
-                        c_it != known_cluster->children.end();
-                        c_it++)
-                    {
-                        if ((*c_it)->vertices == intersection) {
-                            shared_cluster = *c_it;
-                            break;
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-
-    if (known_cluster != NULL) current_clusters.insert(known_cluster);
-
-    // Recursively perform on all children
-    for (std::set<Cluster*>::iterator c_it = current_clusters.begin(); c_it != current_clusters.end(); c_it++) {
-        if (!(*c_it)->finished) {
-            Subgraph sg(in_subgraph->graph());
-            sg.induce(&(*c_it)->vertices);
-
-            Pebbled_Graph pg(&sg);
-            (*c_it)->children = pg._DRP_2D_aux(shared_cluster, optimalDRP);
-
-            (*c_it)->finished = true;
-        }
-    }
-
-    return current_clusters;
-}
 
 
 

@@ -11,27 +11,44 @@
 
 struct Cluster {
     std::set<Vertex_ID> vertices;
-    std::set<Cluster*> children;
-    // std::set<Edge_ID> edges;
-
     bool finished;
 
+    // std::set<Cluster*> _children;
 
-    Cluster(bool f=false)
-        {finished = f;}
-    Cluster(std::set<Vertex_ID> vs, bool f=false)
-        {vertices = vs; finished = f;}
-    Cluster(std::set<Vertex_ID> vs, std::set<Cluster*> cs, bool f=false)
-        {vertices = vs; children = cs; finished = f;}
+    Cluster(bool f=false);
+    Cluster(std::set<Vertex_ID> vs, bool f=false);
+    Cluster(std::set<Vertex_ID> vs, std::set<Cluster*> cs, bool f=false);
+
+    std::set<Cluster*> make_children_set();
+
+    Cluster* parent() const;
+
+    // std::set<Cluster*> children();
+
+    Cluster* first_child() const;
+    Cluster* next() const;
+    Cluster* prev() const;
 
 
-    void add_vertex(Vertex_ID v) {vertices.insert(v);}
+    void add_vertex(Vertex_ID v);
 
-    // void finished(bool f) {_finished = f}
-    // bool finished() {return finished;}
-    // void add_edge(Edge_ID e) {edges.insert(e);}
 
-    void print_tree(Graph &g, unsigned int tabs = 0);
+    void add_child(Cluster* c);
+    void add_children(std::set<Cluster*> cs);
+
+
+    unsigned int height();
+    unsigned int width(); // of the largest level
+    std::vector<unsigned int> width_per_level();
+
+    void print_tree(const Graph *g, unsigned int tabs=0);
+private:
+    Cluster
+        *_parent,
+        *_first_child,
+        *_last_child,
+        *_next,
+        *_prev;
 };
 
 
@@ -46,7 +63,7 @@ public:
     std::set<Cluster*> component_pebble_game_2D(Vertex_ID *exclude = NULL);
 
     // If optimal is false, you find completeDRP
-    Cluster DRP_2D(bool optimalDRP = true);
+    Cluster* DRP_2D();
 
 
 private:
