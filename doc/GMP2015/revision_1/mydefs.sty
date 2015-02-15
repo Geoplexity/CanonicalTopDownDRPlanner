@@ -1,0 +1,93 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% From gmp2015.cls
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%
+%% hyperref settings
+%%
+\RequirePackage[colorlinks,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+%%
+%% stick to ams math style
+%%
+\RequirePackage{amsmath,amsthm,amssymb}
+
+%%
+%% commonly uses blackboard letters
+%%
+\def\NN{\mathbb{N}}
+\def\ZZ{\mathbb{Z}}
+\def\QQ{\mathbb{Q}}
+\def\RR{\mathbb{R}}
+\def\CC{\mathbb{C}}
+
+%%
+%% Theorems, Lemmas, etc.
+%%
+\newtheorem{theorem}{\sffamily Theorem}
+\newtheorem{lemma}[theorem]{\sffamily Lemma}
+\newtheorem{corollary}[theorem]{\sffamily Corollary}
+\newtheorem{proposition}[theorem]{\sffamily Proposition}
+\newtheorem{definition}[theorem]{\sffamily Definition}
+\newtheorem{remark}[theorem]{\sffamily Remark}
+\newtheorem{example}[theorem]{\sffamily Example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Personal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+% \usepackage{ulem} % This was breaking emph!
+% \usepackage[normalem]{ulem}
+\usepackage{soul}
+\usepackage{caption}
+\usepackage{subcaption}
+% \usepackage{floatrow}
+
+% \usepackage{atbeginend}
+
+
+\newtheorem{observation}[theorem]{\sffamily Observation}
+% \newtheorem{openproblem}[theorem]{\sffamily Open Problem}
+
+\theoremstyle{definition}
+\newtheorem{openproblem}[theorem]{\sffamily Open Problem}
+% \theoremstyle{theorem}
+% \newenvironment{openproblem}{
+%     % \begin{samepage}
+%     \begin{trivlist}
+%         \item[\hskip \labelsep \textbf{Open Problem:}]
+% }
+% {
+%     \end{trivlist}
+%     % \end{samepage}
+% }
+
+\newcommand{\dfn}[1]{\textit{#1}} % definition of a word
+\newcommand{\vemph}[1]{\textsl{#1}} % verbal emphasis
+% \newcommand{\header}[1]{\underbar{\textsl{#1}}}
+\newcommand{\header}[1]{\ul{\textsl{#1}}}
+\newcommand{\problemstatement}[1]{\medskip\noindent\textbf{#1}}
+\newcommand{\myexample}{\medskip\noindent\textbf{Example.} }
+
+\newcommand{\note}{\textbf{Note: }}
+
+\newcommand{\todo}[1]{\textsc{{\color{red}#1}}}
+\renewcommand{\todo}[1]{}
+\newcommand{\uncited}{\textsc{{\bf\color{red}[??]}}}
+
+\newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
+
+\newcommand{\drp}[1]{\text{DRP}(#1)}
+\newcommand{\comdrp}[1]{\text{ComDRP}(#1)}
+\newcommand{\optdrp}[1]{\text{OptDRP}(#1)}
+\newcommand{\candrp}[1]{\text{CanDRP}(#1)}
+
+\newcommand{\candrpcomplexity}{$O(n^3)$}
+\newcommand{\candrpcomplexityv}{$O(|V|^3)$}

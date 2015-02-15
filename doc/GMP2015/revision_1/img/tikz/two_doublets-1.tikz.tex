@@ -1,0 +1,36 @@
+% \newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
+
+\begin{tikzpicture}[scale=.9, transform shape]
+    \tikzstyle{v}=[draw, circle, minimum size=0.75cm, font=\footnotesize]
+    % \tikzstyle{b}=[draw, font=\footnotesize]
+    \tikzstyle{b}=[]
+    \tikzstyle{e}=[]
+
+    \node[b] (c0) at (0,0) {$\{a_1,a_2,a_3,b_1,b_2,b_3,c_1,c_2,c_3\}$};
+    \node[b] (c1a) at (-2,-1) {$\{a_1,a_2,a_3,b_1,b_2,b_3\}$};
+    \node[b] (c1b) at (2,-1) {$\{b_1,b_2,b_3,c_1,c_2,c_3\}$};
+    \node[b] (c2a) at (-2,-2) {$\{a_1,a_2,a_3\}$};
+    \node[b] (c2b) at (0,-2) {$\{b_1,b_2,b_3\}$};
+    \node[b] (c2c) at (2,-2) {$\{c_1,c_2,c_3\}$};
+    \node[b] (c2ab1) at (-5.6,-2) {$\{a_1,b_1\}$};
+    \node[b] (c2ab2) at (-4.5,-2) {$\{a_2,b_2\}$};
+    \node[b] (c2ab3) at (-3.4,-2) {$\{a_3,b_3\}$};
+    \node[b] (c2bc1) at (5.6,-2) {$\{b_1,c_1\}$};
+    \node[b] (c2bc2) at (4.5,-2) {$\{b_2,c_2\}$};
+    \node[b] (c2bc3) at (3.4,-2) {$\{b_3,c_3\}$};
+
+    \tedge{c0}{c1a}{solid}{}{};
+    \tedge{c0}{c1b}{solid}{}{};
+
+    \tedge{c1a}{c2ab1}{solid}{}{};
+    \tedge{c1a}{c2ab2}{solid}{}{};
+    \tedge{c1a}{c2ab3}{solid}{}{};
+    \tedge{c1a}{c2a}{solid}{}{};
+    \tedge{c1a}{c2b}{solid}{}{};
+
+    \tedge{c1b}{c2bc1}{solid}{}{};
+    \tedge{c1b}{c2bc2}{solid}{}{};
+    \tedge{c1b}{c2bc3}{solid}{}{};
+    \tedge{c1b}{c2b}{solid}{}{};
+    \tedge{c1b}{c2c}{solid}{}{};
+\end{tikzpicture}
