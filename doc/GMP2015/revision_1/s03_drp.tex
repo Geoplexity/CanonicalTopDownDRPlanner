@@ -8,16 +8,9 @@
 % In this section, we discuss 2D bar-joint graphs. All vertex weights are $2$, all edge weights are $1$, and constant $k= -{{3}\choose{2}}=-3$. Trivial graphs are a single vertex and empty set. Furthermore, 2D isostatic graphs must be connected.
 % % The greatest density of a 2D isostatic graph is $-2$ (the vertex). The other disconnected part of the graph would need to have a density of $-1$, which is overconstrained and not possible in a isostatic graph (because there is no trivial graph with that density).
 
-The NP-hardness of the DR-planning problem for 2D bar-joint graphs is partly
-the consequence of possibly exponential number of DR-plans. On
-the other hand, although the complete DR-plan is unique
-it could have large average fan-in and exponentially many nodes making it
-far from optimal.
+The NP-hardness of the DR-planning problem for 2D bar-joint graphs is partly the consequence of possibly exponential number of DR-plans. On the other hand, although the complete DR-plan is unique it could have large average fan-in and exponentially many nodes making it far from optimal.
 
-In this section we define a \dfn{canonical} plan to capture those aspects of an optimal
-DR-plan that mimic a complete DR-plan's uniqueness, while for independent
-(underconstrained or isostatic graphs), we show that the nonunique parts do not affect
-optimality.
+In this section we define a \dfn{canonical} plan to capture those aspects of an optimal DR-plan that mimic a complete DR-plan's uniqueness, while for independent (underconstrained or isostatic graphs), we show that the nonunique parts do not affect optimality.
 
 \begin{definition}\label{def:canonical_drplan}
     The \dfn{canonical DR-plan} satisfies the following three properties:
@@ -54,9 +47,7 @@ This definition gives the canonical DR-plan a surprisingly strong Church-Rosser 
 %\end{theorem}
 
 
-This theorem (proven in the Appendix) relies on the following crucial observation and lemma
-that are also used for other types of qusecs in the Application sections (\ref{sec:bodypin}, \ref{sec:pinnedline}) of
-the paper.
+This theorem (proven in the \ref{theorem:main:proof}) relies on the following crucial observation and lemma that are also used for other types of qusecs in the Application sections (\ref{sec:bodypin}, \ref{sec:pinnedline}) of the paper.
 
 \begin{observation}\label{lemma:union_intersection}
 If $F_i$ and $F_j$ are isostatic subgraphs of the same
@@ -78,7 +69,7 @@ Then
     $C_i\cup C_j$ is isostatic if and only if $C_i\cup C_j = C$.
 
     \item\label{lemma:wc_intersection_makes_all_wc}
-    If $C_i\cup C_j$ is isostatic, then $\forall k: C_i\cup C_k$ is isostatic Alternatively, if $C_i\cup C_j=C$, then $\forall k: C_i\cup C_k=C$.
+    If $C_i\cup C_j$ is isostatic, then $\forall k: C_i\cup C_k$ is isostatic. Alternatively, if $C_i\cup C_j=C$, then $\forall k: C_i\cup C_k=C$.
 
     \item\label{lemma:uc_intersection_makes_all_uc}
     If $C_i\cap C_j$ is trivial, then $\forall k: C_i\cap C_k$ is trivial.
@@ -86,11 +77,7 @@ Then
 \end{lemma}
 
 \begin{remark}
-The first item in the above lemma generalizes to the union of any number of
-children, $C_1,\ldots,C_k$, resulting in the desirable property of \dfn{Cluster
-Minimality},
-defined in \cite{hoffman2001decompositionI}
-holding for these canonical-optimal DR-plans.
+The first item in the above lemma generalizes to the union of any number of children, $C_1,\ldots,C_k$, resulting in the desirable property of \dfn{Cluster Minimality}, defined in \cite{hoffman2001decompositionI} holding for these canonical-optimal DR-plans.
 \end{remark}
 
 
@@ -98,19 +85,59 @@ holding for these canonical-optimal DR-plans.
 
 
 
-\begin{figure*}\centering
-\begin{subfigure}{.3\linewidth}\centering
-    \input{img/tikz/c2c3_of_k33s-0.tikz}
-    \caption{}\label{fig:c2c3ofk33s:a}
-\end{subfigure}%
-\begin{subfigure}{.7\linewidth}\centering
-    \input{img/tikz/c2c3_of_k33s-1.tikz}
-    \caption{}\label{fig:c2c3ofk33s:b}
-\end{subfigure}
+% \begin{figure*}\centering
+% \begin{subfigure}{.3\linewidth}\centering
+%     \input{img/tikz/c2c3_of_k33s-0.tikz}
+%     \caption{}\label{fig:c2c3ofk33s:a}
+% \end{subfigure}%
+% \begin{subfigure}{.7\linewidth}\centering
+%     \input{img/tikz/c2c3_of_k33s-1.tikz}
+%     \caption{}\label{fig:c2c3ofk33s:b}
+% \end{subfigure}
 
-\caption{(\ref{fig:c2c3ofk33s:a}) A doublet ($C_2 \times C_3$) with each edge of the triangles replaced by a $K_{3,3}$. This pattern continues inwards for a total of $N$ triangles, indicated by the dashed lines. (\ref{fig:c2c3ofk33s:b}) Most of the DR-plan of this graph, omitting further decomposition of $K_{3,3}$ subgraphs into the separate 9 edges and of edges into the component nodes. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K_{3,3}$ subgraphs. The dashed lines indicated that this exact structure is repeated.}
-\label{fig:c2c3ofk33s}
-\end{figure*}
+% \caption{(\ref{fig:c2c3ofk33s:a}) A doublet ($C_2 \times C_3$) with each edge of the triangles replaced by a $K_{3,3}$. This pattern continues inwards for a total of $N$ triangles, indicated by the dashed lines. (\ref{fig:c2c3ofk33s:b}) Most of the DR-plan of this graph, omitting further decomposition of $K_{3,3}$ subgraphs into the separate 9 edges and of edges into the component nodes. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K_{3,3}$ subgraphs. The dashed lines indicated that this exact structure is repeated.}
+% \label{fig:c2c3ofk33s}
+% \end{figure*}
+
+
+% \FigInit
+%     {(\ref{fig:c2c3ofk33s:a}) A doublet ($C_2 \times C_3$) with each edge of the triangles replaced by a $K_{3,3}$. This pattern continues inwards for a total of $N$ triangles, indicated by the dashed lines. (\ref{fig:c2c3ofk33s:b}) Most of the DR-plan of this graph, omitting further decomposition of $K_{3,3}$ subgraphs into the separate 9 edges and of edges into the component nodes. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K_{3,3}$ subgraphs. The dashed lines indicated that this exact structure is repeated.}
+%     {fig:c2c3ofk33s}
+% \FigTwoSubfigWithWidth
+%     {.3}
+%     {img/epsfromtikz/c2c3_of_k33s-0}
+%     {}
+%     {fig:c2c3ofk33s:a}
+%     %
+%     {.7}
+%     {img/epsfromtikz/c2c3_of_k33s-1}
+%     {}
+%     {fig:c2c3ofk33s:b}
+
+
+\ClearMyMinHeight
+\SetMyMinHeight{.3}{img/epsfromtikz/c2c3_of_k33s-0}
+\SetMyMinHeight{.7}{img/epsfromtikz/c2c3_of_k33s-1}
+
+\begin{figure*}\centering%
+    %
+    \begin{subfigure}{0.3\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{img/epsfromtikz/c2c3_of_k33s-0}
+        \caption{}\label{fig:c2c3ofk33s:a}
+    \end{subfigure}%
+    %
+    \hfill
+    \begin{subfigure}{0.7\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{img/epsfromtikz/c2c3_of_k33s-1}
+        \caption{}\label{fig:c2c3ofk33s:b}
+    \end{subfigure}%
+    %
+    \caption{(\ref{fig:c2c3ofk33s:a}) A doublet ($C_2 \times C_3$) with each edge of the triangles replaced by a $K_{3,3}$. This pattern continues inwards for a total of $N$ triangles, indicated by the dashed lines. (\ref{fig:c2c3ofk33s:b}) Most of the DR-plan of this graph, omitting further decomposition of $K_{3,3}$ subgraphs into the separate 9 edges and of edges into the component nodes. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K_{3,3}$ subgraphs. The dashed lines indicated that this exact structure is repeated.}
+    \label{fig:c2c3ofk33s}
+\end{figure*}%
+
+
+
 
 \myexample
 \textsl{[DR-Plan for self-similar structure]}

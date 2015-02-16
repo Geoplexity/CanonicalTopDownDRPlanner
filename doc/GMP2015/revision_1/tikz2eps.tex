@@ -1,0 +1,20 @@
+\documentclass[9pt]{book}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
+
+
+\pgfrealjobname{tikz2eps}
+
+\begin{document}
+
+\beginpgfgraphicnamed{fig1}%
+    \input{img/tikz/bodypin_drp.tikz}
+\endpgfgraphicnamed
+
+\end{document}
+
+% latex --jobname=fig1 tikz2eps.tex
+% dvips fig1.dvi
+% mv fig1.div fig1.eps

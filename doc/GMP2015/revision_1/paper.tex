@@ -8,11 +8,14 @@
 
 \usepackage{mydefs}
 
+\def\bibsection{\section*{References}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
+
+\begin{frontmatter}
 %
 % put the title of your paper here
 %
@@ -42,7 +45,7 @@ Systems}
 % \author{Menghan Wang}
 % \author{Joel Willoughby}
 
-\author{Anonymous}
+\author{Anonymous, GMP2015 Submission 110}
 
 %
 % put the affiliations of the authors here
@@ -87,7 +90,9 @@ Systems}
 %
 
 \input{s00_abstract}
-\maketitle
+
+\end{frontmatter}
+% \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -108,6 +113,10 @@ Systems}
 \input{s08_conclusion}
 
 
+\appendix
+\input{appendix_a}
+\input{appendix_b}
+
 % \begin{figure}\centering
 %   \includegraphics[scale=.5]{example.eps}
 %   \caption{Example of a normal figure that spans onse column.}
@@ -122,15 +131,14 @@ Systems}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\bibliographystyle{abbrv}
-\bibliography{paper}
+\bibliographystyle{elsarticle-num}
+\bibliography{paper_references}
 % {\scriptsize \bibliography{paper}}
 
-\clearpage
+% \clearpage
 
-\pagenumbering{roman}
-\linespread{1}
-\input{appendix_a}
-\input{appendix_b}
+% \pagenumbering{roman}
+% \linespread{1}
+
 
 \end{document}
