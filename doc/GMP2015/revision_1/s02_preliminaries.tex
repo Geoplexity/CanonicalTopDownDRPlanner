@@ -1,95 +1,22 @@
 \section{Preliminaries}
 \label{sec:prelim}
-%
-\subsection{Basics}
-%
-In this paper, a \dfn{geometric constraint system} is a multivariate polynomial (usually bilinear or quadratic) system $G(x,\delta)=0$, representing constraints with parameters $\delta$ between geometric primitives  in $\mathbb{R}^2$ represented collectively as $x\in \mathbb{R}^n$.
-%
-When the type of constraint (system) is fixed, the system is simply represented as $(G,\delta)$, where $G$ is the underlying constraint (hyper)graph $G = (V,E)$ with the vertices $V$ representing the geometric primitives in $\mathbb{R}^2$ and (hyper)edges $E$ representing the constraints, each with an associated parameter $\delta$.
-%
-For example, a \dfn{bar-joint system or linkage} $(G,\delta)$, is a graph $G=(V,E)$ with fixed length bars as edges, i.e. $\delta: E \rightarrow \mathbb{R}$; this represents the distance constraint system $\| x_u -x_v \|_2 = \delta_{u,v}$ for  $(u,v) \in E$, where $x_u \in \mathbb{R}^2$ represents the coordinates of $u\in V$.
 
-% \noindent
-% \note Geometric constraint systems can also have inequalities in addition to equations, where the parameters in $\delta$ are small intervals of values rather than exact values.
+\addin{
+Basics definitions and theory for this topic can be found in~\ref{sec:appendix:defs}.
 
-\sidenote{Geometric constraint systems can also have inequalities in addition to equations, where the parameters in $\delta$ are small intervals of values rather than exact values.}
-
-In this paper, we will consider 3 types of constraint systems: bar-joint as well as \dfn{pinned line-incidence} and \dfn{body-hyperpin}. In all of these cases, a Cartesian \dfn{realization} or \dfn{solution} $G(p)$ of $(G,\delta)$ is an assignment of coordinates or Euclidean transformations (poses), $p: V \rightarrow \mathbb{R}^2$ or $\mathbb{R}^3$, to the vertices of $G$ satisfying the constraints with parameters $\delta$, modulo orientation preserving isometries (Euclidean rigid body motions for distance constraint).
-
-Although the realization space itself depends on the constraint parameters $\delta$, many relevant \dfn{generic} properties of the constraint system $G(x,\delta)$ are properties of the constraint (hyper)graph $G$ and do not depend on $\delta$ (or they hold for all but a measure zero set of $\delta$ values). Many of these are properties of the Jacobian $\Delta_x G(x,\delta)$, often called the appropriate \dfn{rigidity matrix of $G$} (a matrix of indeterminates). For example, the \dfn{bar-joint rigidity matrix of the graph $G = (V,E)$} is a matrix of indeterminates representing the Jacobian of the distance map $\| x_u -x_v \|_2$  for $(u,v) \in E$. The matrix has $2$ columns per vertex in $V$ and one row per edge in $E$, where the row corresponding to edge $(u,v)$ contains the 2 coordinate indeterminates for $x_u -x_v$ (resp. $x_v-x_u$) in the 2 columns for $u$ (resp.\ $v$), that is 4 non-zero entries per row.
+Throughout this paper, a \textbf{\textsf{Theorem}}, \textbf{\textsf{Lemma}}, \textbf{\textsf{Observation}}, or \textbf{\textsf{Remark}} with an asterisk after it means that the proof appears in~\ref{sec:appendix:proofs}.
 
 
-% XXXXXXXXX
-% something has to be said along with asimow roth
-% (infinitesimal rigidity implies rigidity) When the rigidity matrix has
-% appropriate rank, the realizations or solutions of the corresponding
-% constraint system are generically isolated and zero-dimensional if the
-% constraint system has equalities and exact values for the parameters
-% $\delta$. If the constraint system has inequalities, i.e, if the
-% $\delta$ lie in an interval, this claim is approximate: the solutions
-% are isolated small, full-dimensional  connected components.
-
-One important property of generic constraint system or (hyper)graph
-%that depends on the appropriate rigidity matrix of indeterminates
-is \dfn{rigidity} (\note we refer to these as properties of the constraint system or as properties of the underlying (hyper)graph interchangeably), i.e., the realizations or solutions of the corresponding constraint system being generically isolated and zero-dimensional.%(if the constraint system has equalities and exact values for the parameters $\delta$).
-The result by Asimow and Roth \cite{asimow1978rigidity}  shows a constraint (hyper)graph is rigid if it is generically \dfn{infinitesimally rigid}, i.e.\ the number of independent rows of its appropriate rigidity matrix is at least the number of columns less the number of rigid body motions, which is 3 for bar-joint systems.
-%This condition is called generic {\em infinitesimal rigidity}.
-
-% \noindent
-% \note If the constraint system has inequalities, i.e, if the $\delta$ lie in an interval, the definition of rigidity is approximate: the solutions are isolated small, full-dimensional  connected components.
-
-\sidenote{If the constraint system has inequalities, i.e, if the $\delta$ lie in an interval, the definition of rigidity is approximate: the solutions are isolated small, full-dimensional  connected components.}
-% generic rigidity, i.e.\ there exist at most finitely many solutions to the system at generic points,  %to the algebraic system
-
-Other generic constraint system or (hyper)graph properties are the following:
-% (\note we refer to these as properties of the constraint
-% system or as properties of the underlying (hyper)graph
-% interchangeably).
-A constraint (hyper)graph $G$ is \dfn{independent} if its appropriate rigidity matrix of indeterminates has independent rows (i.e, the determinant of some square submatrix is not identically zero).
-%It is {\em rigid} if the number of independent rows of the rigidity matrix is
-%at least the number of columns less the number of rigid body motions,
-%which is 3 for distance constraint systems.
-It is \dfn{isostatic (minimally rigid, wellconstrained)} if it is both rigid and independent.
-%if the number of generically independent rows or the rank of the appropriate rigidity matrix is maximal.
-%For example, the maximal rank of a bar-joint rigidity matrix is $2|V| - 3$,
-%where $3$ is the number of rotational and translational degrees-of-freedom of a rigid body in $\mathbb{R}^2$.
-%The graph $G$ is {\em rigid} if there exists some spanning subgraph $S\subseteq G$ such that $S$ is wellconstrained.
-It is \dfn{flexible} if it is not rigid, \dfn{underconstrained} if it is independent and not rigid, or \dfn{overconstrained} if it is not independent.
-
-Defining the combinatorial independence of a subset of edges $E'\subseteq E$ to be the generic independence of corresponding rows in the appropriate rigidity matrix of indeterminates, we obtain the \dfn{rigidity matroid} of a constraint (hyper)graph $G = (V,E)$.%The 2-dimensional {\em rigidity matroid} of a constraint (hyper)graph $G = (V,E)$ is a linear matroid  on $E$,
-%where a subset of edges $E' \subseteq E$ is {\em independent} in the matroid,
-%if the set of corresponding rows in the appropriate rigidity matrix of indeterminates are linearly independent.
-There are various results on combinatorial characterization of independence and rigidity  and rigidity matroids for different types of graphs. For bar-joint rigidity matroid, the famous Laman's theorem \cite{laman1970graphs} states that the underlying graph is isostatic if and only if $|E| = 2|V|-3$ and $|E'| \le 2|V'|-3$ for every induced subgraph with at least 2 vertices. The result by Lovasz and Yemini \cite{lovasz1982generic}  shows that all 6-vertex-connected graphs are rigid in the plane. For bar-body rigidity matroid, Tay \cite{tay1976rigidity} proved that the underlying multigraph is isostatic if and only if it can be decomposed as $3$ edge disjoint spanning trees. White and Whiteley \cite{white1987algebraic} gave the same characterization using a different technique to study the algebraic-geometric conditions of genericity, called pure condition. Lee, Streinu and Theran \cite{lee2007graded} defined the \dfn{$(k,l)$-sparsity matroid}, where a hypergraph $G$ is called \dfn{$(k,l)$-sparse} if $|E'| \le k|V'| - l$ for any induced subgraph $(V',E')$ with at least 2 vertices, and \dfn{$(k,l)$-tight} if is $(k,l)$-sparse and $|E| = k|V| - l$. In general, given a $d$-uniform hypergraph, a $(k,l)$-sparsity condition is matroidal as long as $l \le dk-1$.
+\subsection{Qusecs}
 
 
-
-In this paper, a \dfn{qusecs} is any \dfn{independent} geometric constraint system of one of the 3 types mentioned above.
+In this paper, a \dfn{qusecs} is any independent geometric constraint system of one of 3 types: bar-joint (defined formally in \ref{sec:appendix:defs}), \dfn{body-hyperpin} (defined formally in Section \ref{sec:bodypin}), and \dfn{pinned line-incidence} (defined formally in Section \ref{sec:pinnedline}).
 
 % \medskip\noindent
 % \note In the remainder of this section and sections~\ref{sec:DRP} and \ref{sec:recomb} we only consider bar-joint qusecs and graphs. Relevant formal analogies for the other 2 types of qusecs and (hyper)graphs are given in the subsequent 2 sections on Applications.
 
-\sidenote{In the remainder of this section and sections~\ref{sec:DRP} and \ref{sec:recomb} we only consider bar-joint qusecs and graphs. Relevant formal analogies for the other 2 types of qusecs and (hyper)graphs are given in the subsequent 2 sections on Applications.}
-
-
-
-%XXXNow comes the definition of stress vector and flex vector.
-%NOTE: something has to be said about what flexes and stresses mean
-
-
-%TODO
-Given a bar-joint graph, a vector (of indeterminates) in the right null space of its rigidity matrix is called a \dfn{flex vector}. It has 2 entries per vertex and represents the internal motions of the system (i.e.\ modulo rigid body motions). For rigid graphs, all flex vectors are identically zero.
-%
-A vector (of indeterminates) in the left null space of the rigidity matrix is called a \dfn{stress vector}. It has one entry per edge and represents a \dfn{self stress} of the system. For independent graphs, all stress vectors are identically zero.
-%
-An \dfn{external stress} $t$ is a $1\times 2|V|$ vector  (of indeterminates) which specifies a 2D vector acting at each vertex such that the stress balance equation $sR = t$ holds, where $s$ is a vector of internal stresses, one for each bar, and $R$ is the rigidity matrix.
-
-The notation $Idc(G,X)$ is the subgraph of $G$ induced by the vertex set $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
-
-
-
-
-
-
+In the remainder of this section and Sections~\ref{sec:DRP} and \ref{sec:recomb} we only consider bar-joint qusecs and graphs. Relevant formal analogies for the other 2 types of qusecs and (hyper)graphs are given in their corresponding sections on applications.
+}
 
 
 
@@ -135,10 +62,51 @@ The notation $Idc(G,X)$ is the subgraph of $G$ induced by the vertex set $X\subs
 %     In the familiar geometric cases of $d$-dimensional space, all vertex weights are $d$, all edge weights are $1$, and constant $k= -{{d+1}\choose{2}}$. Trivial graphs for 2D would be a single vertex. Trivial graphs in 3D would be a vertex and an edge (2 vertices with an edge between). Etc. These trivial graphs capture the notion of the rotational symmetry that exists in geometric spaces.
 % \end{definition}
 %
+
+
+\ClearMyMinHeight
+\SetMyMinHeight{.4}{img/epsfromtikz/demo_graph}
+\SetMyMinHeight{.3}{img/epsfromtikz/demo_graph_comdrp}
+\SetMyMinHeight{.3}{img/epsfromtikz/demo_graph_candrp}
+
+\begin{figure*}\centering%
+  %
+  \begin{subfigure}{0.4\linewidth}\centering
+    \includegraphics[height=\myMinHeight]{img/epsfromtikz/demo_graph}
+    \caption{}\label{fig:demo_graph:graph}
+  \end{subfigure}%
+  %
+  \hfill
+  \begin{subfigure}{0.3\linewidth}\centering
+    \includegraphics[height=\myMinHeight]{img/epsfromtikz/demo_graph_comdrp}
+    \caption{}\label{fig:demo_graph:comdrp}
+  \end{subfigure}%
+  %
+  \hfill
+  \begin{subfigure}{0.3\linewidth}\centering
+    \includegraphics[height=\myMinHeight]{img/epsfromtikz/demo_graph_candrp}
+    \caption{}\label{fig:demo_graph:candrp}
+  \end{subfigure}%
+  %
+  \caption{\notetoreviewer{This is a new figure.} \addin{(\ref{fig:demo_graph:graph}) A simple graph, $G_{\Delta}$, used to illustrate concepts throughout this and the next section. (\ref{fig:demo_graph:comdrp}) The complete DR-plan of $G_{\Delta}$, i.e.\ $ComDRP(G_{\Delta})$. Dashed lines indicate that the children repeat the same pattern as the others shown on this level. The children of triangles (3 edges) are omitted. (\ref{fig:demo_graph:candrp}) The canonical DR-plan of $G_{\Delta}$, which is optimal (see Section~\ref{sec:DRP}), i.e.\ $OptDRP(G_{\Delta})$. The children of triangles are omitted.}}
+  \label{fig:demo_graph}
+\end{figure*}%
+
+\begin{figure*}\centering%
+  %
+  \includegraphics[width=0.4\linewidth]{img/epsfromtikz/demo_graph_clustmindrp}
+  \caption{
+  \notetoreviewer{This is a new figure.}
+  \addin{A DR-plan of $G_{\Delta}$ from Figure~\ref{fig:demo_graph:graph}, which gives cluster minimality. Using the ideas from the paper~\cite{lomonosov2004graph}, the children of a triangle are the primitives of a point and an edge. Thus, the fan-in of this graph is 3, whereas the optimal DR-plans shown in Figure~\ref{fig:demo_graph:candrp} and \ref{fig:demo_graph:candrpseq} have fan-in of 2. With this counterexample, it is clear that cluster minimality is not sufficient for optimality.}
+  }
+  \label{fig:demo_graph:clustmindrp}
+\end{figure*}%
+
+
 \begin{definition}\label{def:drp}
-    The \dfn{decomposition-recombination \mbox{(DR-)} plan} of graph $G$, \cite{hoffman2001decompositionI} $\drp{G}$ (see Figure \ref{fig:c2c3ofk33s}, is defined as a forest that has the following properties:
+    The \dfn{decomposition-recombination \mbox{(DR-)} plan} \cite{hoffman2001decompositionI} of graph $G$, $\drp{G}$, \cutout{(see Figure X)} is defined as a forest that has the following properties:
     \begin{enumerate}
-        \item Each node represents/contains/is a rigid vertex-induced subgraph of $G$.
+        \item Each node represents/contains/is a rigid \cutout{vertex-induced} subgraph of $G$.
         % \item For a node, $C$, that is  a non-trivial graph, its $N$
         % children, $C_1, \ldots, C_N$, are rigid vertex-maximal proper
         % subgraphs of $C$.
@@ -149,9 +117,11 @@ The notation $Idc(G,X)$ is the subgraph of $G$ induced by the vertex set $X\subs
 %
     % It can also be described recursively as: the root is $G$, its children are the trivial subgraphs and the DR-plans of its wellconstrained vertex-maximal proper subgraphs whose union is $G$ itself.
 %
-    A DR-plan is \dfn{complete} if it satisfies an additional rule:
-        \item For a node $C$ that is  a non-trivial graph, its $N$ children, $C_1, \ldots, C_N$, are all of the rigid vertex-maximal proper subgraphs of $C$. This makes Rule 2 implicit, and in fact, $C$ contains all the edges in the union of its children as well. We denote a complete DR-plan of $G$ as $\comdrp{G}$
+    A DR-plan is \dfn{complete} if it satisfies an additional rule: for a node $C$ that is  a non-trivial graph, its $N$ children, $C_1, \ldots, C_N$, are all of the rigid vertex-maximal proper subgraphs of $C$. This makes Rule 2 implicit, and in fact, $C$ contains all the edges in the union of its children as well. We denote a complete DR-plan of $G$ as $\comdrp{G}$.
+
     A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the tree. The maximum  fan-in is called the \dfn{size} of the DR-plan. We denote an optimal DR-plan of $G$ as $\optdrp{G}$.
+
+    \addin{See Figures \ref{fig:demo_graph}, \ref{fig:c2c3ofk33s}, \ref{fig:demo_graph:candrpseq}, \ref{fig:demo_graph:clustmindrp}, and \ref{fig:bodypindrp} for examples of DR-plans.}
 
 %
 %In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$.
@@ -165,6 +135,11 @@ The notation $Idc(G,X)$ is the subgraph of $G$ induced by the vertex set $X\subs
 \begin{remark}
     For a given graph, there could be exponentially many  DR-plans and even optimal DR-plans in the size of the graph. A complete DR-plan is unique but may not be (is usually not) optimal. DR-plans of self-similar graphs are self-similar. More than one node (leaf) in a DR-plan forest may represent the same subgraph (vertex) of $G$.
 \end{remark}
+
+\cutout{
+\noindent
+\textbf{Note:} In Section X, $G$ is assumed to be isostatic.
+}
 
 % \begin{definition}
 %     The \textbf{complete DR-plan} of graph $G$, $CompleteDRP(G)$, is the unique DR-plan but with a modified rule number 2: the children are \emph{all} of the trivial or wellconstrained vertex-maximal proper subgraphs of that node $C$. By this, rule 3 is implicit for a complete DR-plan.
@@ -181,21 +156,19 @@ The notation $Idc(G,X)$ is the subgraph of $G$ induced by the vertex set $X\subs
 % \todo{I don't think the following is actually necessary to mention...} To keep problems meaningful we assume that $G$ is connected, as the methods discussed are used to solve systems of equations to establish linkages. It is not useful to solve for two bodies simultaneously if there are no constraints between them.
 % THIS MEANS NO EDGES MAY BE LEFT OUT, ALSO.
 
-\sidenote{In Section \ref{sec:DRP}, $G$ is assumed to be isostatic.}
-
 
 \subsection{Importance of an Optimal DR-plan}
-The use of a DR-plan in designing especially self-similar qusecs is immediately evident, shown in Figures \ref{fig:c2c3ofk33s} and \ref{fig:subdivision}.
+The use of a DR-plan in designing especially self-similar qusecs is immediately evident, shown in Figures \ref{fig:c2c3ofk33s} and \ref{fig:bodypindrp}.
 
 In fact, knowing an optimal DR-plan is crucial for design and analysis of even non-self-similar qusecs and their realizations with various desirable properties.
 
 \medskip\noindent
 \header{Realizing given qusecs.}
-Note that this basic task would require finding real solutions a large multivariate polynomial system (of inequalities and equalities representing the constraints). Without DR-planning, this requires double exponential time in the number of variables (even if orientation type is specified). With DR-planning, the complexity is dominated by the size of the largest subsystem that is solved, or recombined from the solutions of its child subsystems i.e.,the maximum fan-in occurring in a DR-plan. Thus finding an optimal DR-plan is important for realization.
+Note that this basic task would require finding real solutions \addin{to} a large multivariate polynomial system (of inequalities and equalities representing the constraints). Without DR-planning, this requires double exponential time in the number of variables (even if orientation type is specified). With DR-planning, the complexity is dominated by the size of the largest subsystem that is solved, or recombined from the solutions of its child subsystems\addin{,} i.e., the maximum fan-in occurring in a DR-plan. Thus\addin{,} finding an optimal DR-plan is important for realization.
 
 \medskip\noindent
 \header{Recursive block decomposition of the rigidity matrix, stress space and external stresses.}
-This can be obtained using the DR-plan we obtain a with each block being the rigidity matrix of an isostatic subgraph. The blocks intersect on isostatic or trivial subgraphs. This recursive block decomposition of the rigidity matrix $R$ correspondingly recursively decomposes the stress vectors $s$ that balance a given external stress $t$ since $sR = t$. Moreover, the external stress vector $t$ is recursively ``distributed'' into external stresses for each node of the DR-plan. When the rigidity matrix and stress vectors contain indeterminates, this  can be used to design underlying graph and parameters $\delta$ to obtain an optimal distribution of stresses on the geometric primitives. When the realization of qusecs is given, this can be used to analyze the distribution of a given external load.
+This can be obtained using the DR-plan\addin{,} \cutout{we obtain a} with each block being the rigidity matrix of an isostatic subgraph. The blocks intersect on isostatic or trivial subgraphs. This recursive block decomposition of the rigidity matrix $R$ correspondingly recursively decomposes the stress vectors $s$ that balance a given external stress $t$ since $sR = t$. Moreover, the external stress vector $t$ is recursively ``distributed'' into external stresses for each node of the DR-plan. When the rigidity matrix and stress vectors contain indeterminates, this  can be used to design underlying graph and parameters $\delta$ to obtain an optimal distribution of stresses on the geometric primitives. When the realization of qusecs is given, this can be used to analyze the distribution of a given external load.
 
 
 

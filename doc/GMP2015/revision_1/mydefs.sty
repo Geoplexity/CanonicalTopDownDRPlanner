@@ -34,6 +34,10 @@
 \newtheorem{remark}[theorem]{\sffamily Remark}
 \newtheorem{example}[theorem]{\sffamily Example}
 
+\newtheorem{theorem*}[theorem]{\sffamily Theorem*}
+\newtheorem{lemma*}[theorem]{\sffamily Lemma*}
+\newtheorem{remark*}[theorem]{\sffamily Remark*}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Personal
@@ -57,9 +61,12 @@
 
 \newtheorem{observation}[theorem]{\sffamily Observation}
 % \newtheorem{openproblem}[theorem]{\sffamily Open Problem}
+\newtheorem{conjecture}[theorem]{\sffamily Conjecture}
+
+\newtheorem{observation*}[theorem]{\sffamily Observation*}
 
 \theoremstyle{definition}
-\newtheorem{openproblem}[theorem]{\sffamily Open Problem}
+\newtheorem{openproblem}{\sffamily Open Problem}
 % \theoremstyle{theorem}
 % \newenvironment{openproblem}{
 %     % \begin{samepage}
@@ -81,8 +88,8 @@
 \newcommand{\note}{\textbf{Note: }}
 \newcommand{\sidenote}[1]{\medskip\noindent\textbf{Note: }#1\medskip}
 
-\newcommand{\todo}[1]{\textsc{{\color{red}#1}}}
-\renewcommand{\todo}[1]{}
+\newcommand{\todo}[1]{\textsc{{\color{green}#1}}}
+%\renewcommand{\todo}[1]{}
 \newcommand{\uncited}{\textsc{{\bf\color{red}[??]}}}
 
 
@@ -95,7 +102,17 @@
 \newcommand{\candrpcomplexityv}{$O(|V|^3)$}
 
 
+\newcommand{\usestwod}{\todo{Uses 2D requirement:}}
+\renewcommand{\usestwod}{}
 
+
+% editing macros
+\newcommand{\cutout}[1]{{\color{red}\st{#1}}}
+\newcommand{\addin}[1]{{\color{red}#1}}
+\newcommand{\notetoreviewer}[1]{\textsc{{\color{red}#1}}}
+%\renewcommand{\cutout}[1]{}
+%\renewcommand{\addin}[1]{#1}
+%\renewcommand{\notetoreviewer}[1]{}
 
 
 

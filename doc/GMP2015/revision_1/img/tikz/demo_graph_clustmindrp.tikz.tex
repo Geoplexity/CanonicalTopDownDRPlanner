@@ -1,0 +1,93 @@
+\begin{tikzpicture}
+    \tikzstyle{v}=[draw, circle, minimum size=0.75cm]
+    \tikzstyle{c}=[draw, circle, inner sep=1.5, fill=black]
+    \tikzstyle{b}=[align=center]
+    \tikzstyle{e}=[]
+
+    \node[regular polygon, regular polygon sides=3, fill=white, inner sep=4, dashed] (center) at (0,0-.125-.125) {};
+
+
+% LEVEL 1
+    \node[b] (vG) at ( 0,  0) {$G_{\Delta}$};
+
+
+% LEVEL 2
+    \def\x{-2.5}
+    \def\y{-.75}
+    \node[c] (n1va) at (\x+0, \y+0)     [label={left, inner sep=.555}:$a$]{};
+    \node[c] (n1vb) at (\x-.5,\y-.866)  [label={left, inner sep=.555}:$b$]{};
+    \node[c] (n1vc) at (\x+.5,\y-.866)  [label={right,inner sep=.555}:$c$]{};
+    \tedge{n1va}{n1vb}{solid}{}{};
+    \tedge{n1vb}{n1vc}{solid}{}{};
+    \tedge{n1vc}{n1va}{solid}{}{};
+
+    \def\x{0}
+    \def\y{-.75}
+    \node[c] (n1vb) at (\x+0, \y+0)  [label={left, inner sep=.555}:$b$]{};
+    \node[c] (n1vd) at (\x-.5,\y-.866) [label={left, inner sep=.555}:$d$]{};
+    \node[c] (n1ve) at (\x+.5,\y-.866) [label={below,inner sep=.555}:$e$]{};
+    \tedge{n1vb}{n1vd}{solid}{}{};
+    \tedge{n1vd}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vb}{solid}{}{};
+
+    \def\x{2.5}
+    \def\y{-.75}
+    \node[c] (n1vc) at (\x+0, \y+0)  [label={right,inner sep=.555}:$c$]{};
+    \node[c] (n1ve) at (\x-.5,\y-.866) [label={below,inner sep=.555}:$e$]{};
+    \node[c] (n1vf) at (\x+.5,\y-.866) [label={right,inner sep=.555}:$f$]{};
+    \tedge{n1vc}{n1vf}{solid}{}{};
+    \tedge{n1vf}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vc}{solid}{}{};
+
+
+% LEVEL 3
+    \def\x{-2.75}
+    \def\y{-2.25}
+    \node[c] (n1va) at (\x+0, \y+0)     [label={left, inner sep=.555}:$a$]{};
+    \node[c] (n1vb) at (\x-.5,\y-.866)  [label={left, inner sep=.555}:$b$]{};
+    \tedge{n1va}{n1vb}{solid}{}{};
+
+    \def\x{-2.25}
+    \def\y{-2.25}
+    \node[c] (n1vc) at (\x+.5,\y-.866)  [label={right,inner sep=.555}:$c$]{};
+%
+%
+    \def\x{-.25}
+    \def\y{-2.25}
+    \node[c] (n1vb) at (\x+0, \y+0)  [label={left, inner sep=.555}:$b$]{};
+    \node[c] (n1vd) at (\x-.5,\y-.866) [label={left, inner sep=.555}:$d$]{};
+    \tedge{n1vb}{n1vd}{solid}{}{};
+
+    \def\x{.25}
+    \def\y{-2.25}
+    \node[c] (n1ve) at (\x+.5,\y-.866) [label={below,inner sep=.555}:$e$]{};
+%
+%
+    \def\x{2.25}
+    \def\y{-2.25}
+    \node[c] (n1vc) at (\x+0, \y+0)  [label={right,inner sep=.555}:$c$]{};
+    \node[c] (n1ve) at (\x-.5,\y-.866) [label={below,inner sep=.555}:$e$]{};
+    \tedge{n1ve}{n1vc}{solid}{}{};
+
+    \def\x{2.75}
+    \def\y{-2.25}
+    \node[c] (n1vf) at (\x+.5,\y-.866) [label={right,inner sep=.555}:$f$]{};
+
+
+
+% DRP edges
+    \draw (vG)--(-2.3,-.55);
+    \draw (vG)--( 0,  -.55);
+    \draw (vG)--( 2.3,-.55);
+
+    \draw (-2.5-.1, -1.716)--(-2.65,-1.95);
+    \draw (-2.5+.1, -1.716)--(-2.05,-2.55);
+
+    \draw (-2.5-.1+2.5, -1.716)--(-2.65+2.5,-1.95);
+    \draw (-2.5+.1+2.5, -1.716)--(-2.05+2.5,-2.55);
+
+    \draw (-2.5-.1+2.5+2.5, -1.716)--(-2.65+2.5+2.5,-1.95);
+    \draw (-2.5+.1+2.5+2.5, -1.716)--(-2.05+2.5+2.5,-2.55);
+
+
+\end{tikzpicture}

@@ -1,7 +1,10 @@
-\section{Application: finding optimal DR-plans and realizations for cross-linking microfibrils }
+\section{Application: Finding optimal DR-plans and realizations for cross-linking microfibrils }
 \label{sec:pinnedline}
 
-The canonical DR-plan of Section \ref{sec:DRP} can also be applied to analyze and solve the structure of  cross-linking collagen and cellulose microfibrils in animal and plant cell walls, and actin filaments in the cytoskeleton by modeling these structures as \dfn{pinned line-incidence systems}.
+The canonical DR-plan of Section \ref{sec:DRP} can also be applied to analyze and solve the structure of
+\cutout{cross-linking collagen and cellulose microfibrils in animal and plant cell walls, and actin filaments in the cytoskeleton}
+\addin{cross-linking collagen microfibrils in animals, cellulose microfibrils in plant cell walls, and actin filaments in the cytoskeleton}
+by modeling these structures as \dfn{pinned line-incidence systems}.
 
 
 \dfn{Collagen} is an important protein material in biological tissues with highly elastic mechanical property \cite{buehler2008nanomechanics}. \dfn{Cellulose} is the most important constituent of the cell wall of plants (see Figure~\ref{fig:cellulose}) \cite{fall2013physical,smith1971plant}. Both of these substances consist of a large number \dfn{microfibrils},
@@ -46,25 +49,26 @@ each of which is cross-linked at 2 places with usually 3 other fibrils, where th
 
 
 \ClearMyMinHeight
-\SetMyMinHeight{.45}{img/AFM_Innventia_nanocellulose}
-\SetMyMinHeight{.45}{img/crosslink}
+\SetMyMinHeight{.32}{img/AFM_Innventia_nanocellulose}
+\SetMyMinHeight{.32}{img/crosslink}
+\SetMyMinHeight{.32}{img/pinned}
 
 \begin{figure}\centering%
-    %
-    \begin{subfigure}{0.45\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{img/AFM_Innventia_nanocellulose}
-        \caption{}\label{fig:cellulose}
-    \end{subfigure}%
-    %
-    \hfill
-    \begin{subfigure}{0.45\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{img/crosslink}
-        \caption{}\label{fig:crosslink}
-    \end{subfigure}%
-    %
-    \caption{(\ref{fig:cellulose}) Microfibrils of carboxymethylated nanocellulose adsorbed on a silica surface \cite{wikimediacommons2010afm}. (\ref{fig:crosslink}) Cross-linking of cellulose microfibrils \cite{wikimediacommons2007plant}.}
+\begin{subfigure}{0.32\linewidth}\centering
+    \includegraphics[height=\myMinHeight]{img/AFM_Innventia_nanocellulose}
+    \caption{}\label{fig:cellulose}
+\end{subfigure}\hfill%
+\begin{subfigure}{0.32\linewidth}\centering
+    \includegraphics[height=\myMinHeight]{img/crosslink}
+    \caption{}\label{fig:crosslink}
+\end{subfigure}\hfill%
+\begin{subfigure}{0.32\linewidth}\centering
+    \includegraphics[height=\myMinHeight]{img/pinned}
+    \caption{}
+    \label{fig:pinned_line}
+\end{subfigure}%
+\caption{\notetoreviewer{Combined 2 figures.} (\ref{fig:cellulose}) Microfibrils of carboxymethylated nanocellulose adsorbed on a silica surface \cite{wikimediacommons2010afm}. \ref{fig:crosslink} Cross-linking of cellulose microfibrils \cite{wikimediacommons2007plant}. \ref{fig:pinned_line} An isostatic pinned line-incidence graph\addin{, representing fibrils and their attachments.}}
 \end{figure}%
-
 
 
 
@@ -99,11 +103,11 @@ Figure~\ref{fig:pinned_line} shows an example of a pinned line-incidence graph, 
 %There are  and 10 vertices/cross-linkings in the graph.
 The graph is isostatic, with 12 vertices and 24 edges/pins.
 
-\begin{figure}\centering
-    \includegraphics[width=.7\linewidth]{img/pinned}
-    \caption{An isostatic pinned line-incidence graph.}
-    \label{fig:pinned_line}
-\end{figure}
+% \begin{figure}\centering
+%     \includegraphics[width=.7\linewidth]{img/pinned}
+%     \caption{An isostatic pinned line-incidence graph.}
+%     \label{fig:pinned_line}
+% \end{figure}
 
 
 \subsection{Optimal DR-plan for pinned line-incidence systems}
@@ -166,7 +170,7 @@ We define a \dfn{trivial} graph to be a single vertex and make the following mod
 \end{definition}
 
 
-Theorem~\ref{theorem:main} holds for  pinned line-incidence graphs with the above modified definition. The proof is similar to the original proof (in \ref{theorem:main:proof}) using the same set of lemmas and
+Theorem~\ref{theorem:main} holds for pinned line-incidence graphs with \cutout{the above} \addin{this} modified definition. The proof is similar to the original proof (in Section~\ref{sec:DRP}) using the same set of lemmas and
 %
 %\begin{corollary}\label{cor:pinned}
 %Given a isostatic pinned line-incidence graph, for node $C$ in $OptimalDRP(G)$ and the children of $C$ in $CompleteDRP(C)$ labeled as $C_1,\ldots,C_N$
@@ -185,7 +189,7 @@ which  can be proved using a simple counting based argument.
 
 \begin{observation}\label{lem:pinned_union_intersection}
     Let $F_i$ and $F_j$ to be subgraphs of the same isostatic graph $F$, where each of them can be either a single edge or a connected isostatic subgraph. There are only two possible cases:
-    (1) At least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is underconstrained, if and only if $F_i \cap F_j$ is trivial; and (2) both $F_i$ and $F_j$ are isostatic, if and only if $F_i \cup F_j$ is isostatic, if and only if $F_i \cap F_j$ is isostatic.
+    (1) at least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is underconstrained, if and only if $F_i \cap F_j$ is trivial; and (2) both $F_i$ and $F_j$ are isostatic, if and only if $F_i \cup F_j$ is isostatic, if and only if $F_i \cap F_j$ is isostatic.
     %The following table summarizes all bijections:
     %\setlength{\tabcolsep}{3pt}
     %{\small
@@ -203,8 +207,8 @@ which  can be proved using a simple counting based argument.
     %\setlength{\tabcolsep}{6pt}
 \end{observation}
 
-Given Lemma~\ref{lem:pinned_union_intersection}, % and the modified definition of DR-plan,
-Lemma~\ref{lemma:wc_intersection_is_C} and \ref{lemma:uc_intersection_makes_all_uc} straightforwardly extend to  pinned line-incidence graphs. The proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for pinned line-incidence graphs is given in~\ref{sec:appendix_pinned}.
+Given \cutout{Lemma} \addin{Observation}~\ref{lem:pinned_union_intersection}, % and the modified definition of DR-plan,
+Lemma \addin{\ref{lemma:combined_lemma}, Point} \ref{lemma:wc_intersection_is_C} and \ref{lemma:uc_intersection_makes_all_uc}\addin{,} straightforwardly extend to pinned line-incidence graphs. The proof of Point~\ref{lemma:wc_intersection_makes_all_wc} for pinned line-incidence graphs is given in~\ref{sec:appendix_pinned}.
 %The following lemma serves as Lemma~ for pinned line-incidence and can be proved similarly.
 %\begin{lemma}
 %\label{lem:vertex_intersection}

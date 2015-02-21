@@ -1,15 +1,20 @@
 \section{Problem Relationships and Unification}
 \label{sec:table}
-In this section we provide a unified view of  the various problems studied in the previous 2 sections, along with formal reductions between them, and relationships to other known problems and results as well as open questions.
-%
+
+In this section we provide a unified view of the various problems studied in the previous 2 sections, along with formal reductions between them\cutout{, and}\addin{. We discuss their} relationship\cutout{s} to other known problems and results as well as open questions.
+
+
+
+
+
 \subsection{Special classes of small DR-plans}
 As seen in the previous section, 2-trees and tree-decomposable graphs have not only small, but also special DR-plans that permit easy solving---essentially a single quadratic at a time.
 
 The \dfn{restricted optimal DR-planning problem} requires DR-plans of one of these types, which reduces to recognizing if the input graph is a 2-tree or a tree-decomposable graph for which simple near-linear time algorithms are available \cite{valdes1979recognition,fudos1997graph} and the DR-plan is a by-product output of the recognition algorithm.
 
-In the recombination setting, the corresponding \dfn{restricted OMD$_k$  problem} requires the reduced graph $G'$ and its isostatic completion $H$ to be 2-trees as in Section \ref{sec:2-tree-reduction} or to be a low Cayley complexity tree-decomposable graph as in Section \ref{sec:tdecomp}. Clearly these problems have deterministic polynomial time algorithms, the algorithms run in time exponential in $k$.
+In the recombination setting, the corresponding \dfn{restricted OMD$_k$  problem} requires the reduced graph $G'$ and its isostatic completion $H$ to be 2-trees as in Section \ref{sec:2-tree-reduction} or to be a low Cayley complexity tree-decomposable graph as in Section \ref{sec:tdecomp}. Clearly these problems have deterministic polynomial time algorithms \addin{in $n$}, \addin{but} the algorithms run in time exponential in $k$.
 
-We discuss the complexity of the restricted OMD problem (when $k$ is part of the input) in \ref{sec:futurework}.
+We discuss the complexity of the restricted OMD problem (when $k$ is part of the input) in Section \ref{sec:futurework}.
 
 %In the recombination setting, the corresponding \dfn{restricted
 %OMD$_k$  problem} requires the reduced graph $G'$ and its isostatic

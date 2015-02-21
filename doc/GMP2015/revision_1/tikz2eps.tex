@@ -10,11 +10,19 @@
 \begin{document}
 
 \beginpgfgraphicnamed{fig1}%
-    \input{img/tikz/bodypin_drp.tikz}
+    % $
+    % \vcenter{\hbox{$G_{\Delta}=$}}
+    % \vcenter{\hbox{\input{img/tikz/demo_graph.tikz}}}
+    % $
+    \input{img/tikz/demo_graph_comdrp.tikz}
+    % \input{img/tikz/demo_graph_candrp.tikz}
+    % \input{img/tikz/demo_graph_candrp_seq.tikz}
+    % \input{img/tikz/demo_graph_clustmindrp.tikz}
+    % \input{img/tikz/c2c3_of_k33s-0.tikz}
 \endpgfgraphicnamed
 
 \end{document}
 
 % latex --jobname=fig1 tikz2eps.tex
 % dvips fig1.dvi
-% mv fig1.div fig1.eps
+% mv fig1.ps fig1.eps
