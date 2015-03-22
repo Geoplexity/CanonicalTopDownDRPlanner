@@ -1,0 +1,20 @@
+graph G {
+"It's";
+"dangerous";
+"to";
+"go";
+"alone!";
+"Take this.";
+
+"It's"--"dangerous" ;
+"It's"--"to" ;
+"dangerous"--"to" ;
+
+"dangerous"--"go" ;
+"dangerous"--"alone!" ;
+"go"--"alone!" ;
+
+"to"--"alone!" ;
+"to"--"Take this." ;
+"alone!"--"Take this." ;
+}

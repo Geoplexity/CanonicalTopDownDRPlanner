@@ -1,0 +1,56 @@
+graph G {
+a;
+b;
+c;
+d;
+e;
+f;
+g;
+h;
+i;
+j;
+k;
+l;
+m;
+n;
+o;
+
+a--b ;
+b--c ;
+a--c ;
+
+d--e ;
+e--f ;
+d--f ;
+
+g--h ;
+h--i ;
+g--i ;
+
+j--k ;
+k--l ;
+j--l ;
+
+m--n ;
+n--o ;
+m--o ;
+
+a--d ;
+c--e ;
+
+b--h ;
+c--g ;
+
+e--g ;
+f--i ;
+
+f--l ;
+
+h--k ;
+i--j ;
+
+k--o ;
+l--o ;
+
+l--m ;
+}

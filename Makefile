@@ -58,12 +58,13 @@ endif
 
 
 _DEPS = Graph/Graph.hpp Graph/Pebbled_Graph.hpp \
-	GUI/MainGuiManager.hpp GUI/program.hpp GUI/Circle.hpp GUI/utils.h GUI/Font.hpp
+	GUI/MainGuiManager.hpp GUI/Vision_Handler_2D.hpp GUI/program.hpp GUI/Circle.hpp GUI/EasyFont.hpp GUI/utils.h GUI/Font.hpp
 DEPS = $(patsubst %,$(SOURCE_DIRECTORY)/%,$(_DEPS))
+
 
 _OBJ = main.o \
 	Graph/Graph.o Graph/Pebbled_Graph.o \
-	GUI/MainGuiManager.o GUI/program.o GUI/utils.o GUI/Font.o
+	GUI/MainGuiManager.o GUI/Vision_Handler_2D.o GUI/program.o GUI/utils.o GUI/Font.o
 OBJ = $(patsubst %,$(OBJECT_DIRECTORY)/%,$(_OBJ))
 
 EXEC = drp

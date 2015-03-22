@@ -1,7 +1,16 @@
-Doesn't check if the same edge is entered twice (same direction or reversed)
+GUI:
+    - Zoom is weird, zooms in on (0,0)
+    - Put a line over my thick line, just to be safe2
+
+Build:
+    - Makefile doesn't contain vision_handler_2d
+
+Pebble game:
+    - Doesn't check if the same edge is entered twice (same direction or reversed)
 
 
-Put a line over my thick line, just to be safe2
+
+
 
 
 Mention bodypin

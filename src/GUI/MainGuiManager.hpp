@@ -30,6 +30,7 @@ public:
     void get_window_size_in_screen_coords(int *width, int *height);
 
     // from bottom left
+    // void get_cursor_position(double *x, double *y);
     void get_cursor_position_pixels(int *x, int *y);
 
 
@@ -42,9 +43,15 @@ public:
 
 
 
+    // When adding one of these you need to:
+    //   1. Add the virtual (but not abstract) function here
+    //   2. Add the static function to the MainGuiManager
+    //   3. Register the static function with glfw in the MainGuiManager constructor
+
+
     // typedef void(*  GLFWerrorfun )(int, const char *) The function signature for error callbacks. More...
     // typedef void(*  GLFWwindowposfun )(GLFWwindow *, int, int) The function signature for window position callbacks. More...
-    // static void window_resize_callback_wrapper  (GLFWwindow *window, int width, int height);
+    virtual void window_resize_callback(int width, int height) {};
     // static void window_close_callback_wrapper   (GLFWwindow *window);
     // static void window_refresh_callback_wrapper (GLFWwindow *window);
     // typedef void(*  GLFWwindowfocusfun )(GLFWwindow *, int) The function signature for window focus/defocus callbacks. More...
@@ -105,7 +112,7 @@ private:
 
     // typedef void(*  GLFWerrorfun )(int, const char *) The function signature for error callbacks. More...
     // typedef void(*  GLFWwindowposfun )(GLFWwindow *, int, int) The function signature for window position callbacks. More...
-    // static void window_resize_callback_wrapper  (GLFWwindow *window, int width, int height);
+    static void window_resize_callback_wrapper (GLFWwindow *window, int width, int height);
     // static void window_close_callback_wrapper   (GLFWwindow *window);
     // static void window_refresh_callback_wrapper (GLFWwindow *window);
     // typedef void(*  GLFWwindowfocusfun )(GLFWwindow *, int) The function signature for window focus/defocus callbacks. More...

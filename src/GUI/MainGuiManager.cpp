@@ -34,6 +34,10 @@ void Window::get_window_size_in_pixels(int *width, int *height) {
     glfwGetFramebufferSize(this->glfw_window(), width, height);
 }
 
+// void Window::get_cursor_position(double *x, double *y) {
+//     glfwGetCursorPos(this->glfw_window(), x, y);
+// }
+
 void Window::get_cursor_position_pixels(int *x, int *y) {
     int width, height;
     get_window_size_in_pixels(&width, &height);
@@ -180,6 +184,7 @@ void MainGuiManager::create_window(
 
 
     // bind functions for window
+    glfwSetWindowSizeCallback(new_glfw_window, window_resize_callback_wrapper);
     glfwSetMouseButtonCallback(new_glfw_window, mouse_button_callback_wrapper);
     glfwSetCursorPosCallback(new_glfw_window, cursor_pos_callback_wrapper);
     glfwSetScrollCallback(new_glfw_window, scroll_callback_wrapper);
@@ -225,9 +230,9 @@ void MainGuiManager::poll_for_events(){
 
 
 void MainGuiManager::wait_for_events(){
-    std::cout << "\tAbout to wait." << std::endl;
+    // std::cout << "\tAbout to wait." << std::endl;
     glfwWaitEvents();
-    std::cout << "\tHandled." << std::endl;
+    // std::cout << "\tHandled." << std::endl;
     // try {
     //     glfwWaitEvents();
     // } catch(...) {
@@ -240,7 +245,14 @@ void MainGuiManager::wait_for_events(){
 
 
 
-
+void MainGuiManager::window_resize_callback_wrapper(GLFWwindow *window, int width, int height) {
+    std::map<GLFWwindow*, Window*>::iterator win = MainGuiManager::window_mapper.find(window);
+    if (win != MainGuiManager::window_mapper.end()) {
+        win->second->width_screen_coords = width;
+        win->second->height_screen_coords = height;
+        win->second->window_resize_callback(width, height);
+    }
+}
 
 void MainGuiManager::mouse_button_callback_wrapper(GLFWwindow *window, int button, int action, int mods) {
     // MainGuiManager::current_window_context->mouse_button_callback(button, action, mods);

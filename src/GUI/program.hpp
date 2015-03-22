@@ -41,6 +41,11 @@
 
 
 
+template <typename T>
+struct uniform_with_location {
+  T uniform;
+  GLuint location;
+};
 
 
 
@@ -66,7 +71,8 @@ public:
 
   ////
   //// BEGIN UNIFORM SETTERS
-
+  void setUniform_ViewMatrix(glm::mat4 view_matrix);
+  void setUniform_ProjectionMatrix(glm::mat4 projection_matrix);
   //// END UNIFORM SETTERS
   ////
 
@@ -78,7 +84,13 @@ public:
 
   void draw_graph_vertices(std::vector<gl_obj::pos_vec> &p, std::vector<gl_obj::pos_vec> &highlight);
   void draw_graph_edges(std::vector<gl_obj::pos_vec> &p);
+  void draw_graph_vertices_names(
+    std::vector<std::string> &p_names,
+    std::vector<gl_obj::pos_vec> &p,
+    std::vector<std::string> &highlight_names,
+    std::vector<gl_obj::pos_vec> &highlight);
 
+  // void draw_easy_font(gl_obj::VertexGroup &vg);
   void draw_letter(const GLfloat pos[4], const GLfloat tex_coord[4], GLuint tex_id);
 
   //// END DRAWING FUNCTIONS
@@ -121,12 +133,21 @@ private:
          render_mode_location,
          tex_sampler_location;
 
+  uniform_with_location<glm::mat4> _view_matrix;
+  uniform_with_location<glm::mat4> _projection_matrix;
+
 
   void _draw_graph_vertices_aux(
     std::vector<gl_obj::pos_vec> &p,
     float radius,
     gl_obj::color_vec color,
     bool border = true);
+
+  void _draw_graph_vertices_names_aux(
+    std::vector<std::string> &p_names,
+    std::vector<gl_obj::pos_vec> &p,
+    float radius,
+    gl_obj::color_vec color);
 };
 
 

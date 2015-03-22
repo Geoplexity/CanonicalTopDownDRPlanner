@@ -1,6 +1,7 @@
 #include "program.hpp"
 
 #include "utils.h"
+#include "EasyFont.hpp"
 
 #include "../../ext/glm/gtc/matrix_transform.hpp"
 
@@ -20,6 +21,13 @@ namespace Render_Mode {
 }
 
 
+namespace parameters {
+  const float vertex_radius_base = 0.05;
+  const float vertex_radius_highlight = vertex_radius_base*1.5;
+  const float edge_width = 0.004f;
+  const float base_text_height = vertex_radius_base*0.9;
+}
+
 
 namespace color {
   // offwhite/green/black
@@ -33,6 +41,7 @@ namespace color {
   const gl_obj::color_vec vert = gl_obj::color_vec(0.6f, 0.2f, 0.2f, 0.f);
   // const gl_obj::color_vec vert = gl_obj::color_vec(0.6f, 0.2f, 0.6f, 0.f);
   const gl_obj::color_vec edge = gl_obj::color_vec(0.f, 0.f, 0.f, 0.f);
+  const gl_obj::color_vec text = gl_obj::color_vec(0.f, 0.f, 1.f, 0.f);
 
   // black/green/white
   // const gl_obj::color_vec bg   = gl_obj::color_vec(0.f, 0.f, 0.f, 1.f);
@@ -183,20 +192,26 @@ void Program::init_attributes() {
 }
 
 void Program::init_uniforms() {
-  cout << "0 TL: " << translate_location << " RL: " << render_mode_location << endl;
+  cout << "Program::init_uniforms - translate: Before = " << translate_location << ". After = ";
   translate_location = glGetUniformLocation(program, "translate");
+  cout << translate_location << endl;
 
-  cout << "1 TL: " << translate_location << " RL: " << render_mode_location << endl;
+  cout << "Program::init_uniforms - render_mode: Before = " << render_mode_location << ". After = ";
   render_mode_location = glGetUniformLocation(program, "render_mode");
+  cout << render_mode_location << endl;
 
-  cout << "2 TL: " << translate_location << " RL: " << render_mode_location << endl;
-
+  cout << "Program::init_uniforms - tex_sampler: Before = " << tex_sampler_location << ". After = ";
   tex_sampler_location = glGetUniformLocation(program, "tex_sampler");
   glUniform1i(tex_sampler_location, 0);
-  // cout << "3 TL: " << translate_location << " RL: " << render_mode_location << endl;
-  // rand_trans = glGetUniformLocation(program, "rand_trans");
+  cout << tex_sampler_location << endl;
 
-  // glUniform1i(rand_trans, 1);
+  cout << "Program::init_uniforms - _view_matrix: Before = " << _view_matrix.location << ". After = ";
+  _view_matrix.location = glGetUniformLocation(program, "view_matrix");
+  cout << _view_matrix.location << endl;
+
+  cout << "Program::init_uniforms - _projection_matrix: Before = " << _projection_matrix.location << ". After = ";
+  _projection_matrix.location = glGetUniformLocation(program, "projection_matrix");
+  cout << _projection_matrix.location << endl;
 }
 
 //// END INITIALIZATION FUNCTIONS
@@ -207,7 +222,21 @@ void Program::init_uniforms() {
 
 ////
 //// BEGIN UNIFORM SETTERS
-
+void Program::setUniform_ViewMatrix(glm::mat4 view_matrix) {
+  // _view_matrix.uniform = view_matrix;
+  // cout << "setUniform_ViewMatrix: 0" << endl;
+  glUniformMatrix4fv(_view_matrix.location, 1, GL_FALSE, &(view_matrix[0][0]));
+  // cout << "setUniform_ViewMatrix: 1" << endl;
+}
+void Program::setUniform_ProjectionMatrix(glm::mat4 projection_matrix) {
+  // for (int i = 0; i < 4; i++) {
+  //     for (int j = 0; j < 4; j++) {
+  //         cout << projection_matrix[i][j] << " ";
+  //     }
+  //     cout << endl;
+  // }
+  glUniformMatrix4fv(_projection_matrix.location, 1, GL_FALSE, &(projection_matrix[0][0]));
+}
 //// END UNIFORM SETTERS
 ////
 
@@ -239,31 +268,6 @@ void Program::_draw_graph_vertices_aux(
   glUniform1i(render_mode_location, Render_Mode::basic2D);
   check_for_GL_errors("Program::draw_graph_vertices - 1");
 
-  if (border) {
-    // glLineWidth(10);
-
-    gl_obj::Circle c_outline = gl_obj::Circle(radius, color::edge);
-    gl_obj::VertexGroup *vg = &(c_outline.tf->vg);
-
-    // initialize the vertex buffer with the vertex data
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    check_for_GL_errors("Program::draw_graph_vertices - 2");
-    // glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(Vertex), &vg[0] , GL_STATIC_DRAW);
-    glBufferData(GL_ARRAY_BUFFER, vg->size() * sizeof(gl_obj::Vertex), &vg->at(0) , GL_STREAM_DRAW);
-    check_for_GL_errors("Program::draw_graph_vertices - 3");
-
-    for (int i = 0; i < p.size(); i++) {
-      //define uniform
-      glUniform2fv(translate_location, 1, (float*)&(p[i]));
-      check_for_GL_errors("Program::draw_graph_vertices - 4");
-
-      // starts from 1
-      glDrawArrays(GL_LINE_STRIP, 1, vg->size()-1);
-    }
-
-    check_for_GL_errors("Program::draw_graph_vertices - border");
-  }
-
 
   // TODO: Figure out transparency
 
@@ -285,6 +289,35 @@ void Program::_draw_graph_vertices_aux(
   }
 
   check_for_GL_errors("Program::draw_graph_vertices");
+
+
+
+  if (border) {
+    // glLineWidth(10);
+
+    // gl_obj::Circle c_outline = gl_obj::Circle(radius, color::edge);
+    gl_obj::Circle c_outline = gl_obj::Circle(radius*1.05, color::edge);
+    gl_obj::VertexGroup *vg = &(c_outline.tf->vg);
+
+    // initialize the vertex buffer with the vertex data
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    check_for_GL_errors("Program::draw_graph_vertices - 2");
+    // glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(Vertex), &vg[0] , GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vg->size() * sizeof(gl_obj::Vertex), &vg->at(0) , GL_STREAM_DRAW);
+    check_for_GL_errors("Program::draw_graph_vertices - 3");
+
+    for (int i = 0; i < p.size(); i++) {
+      //define uniform
+      glUniform2fv(translate_location, 1, (float*)&(p[i]));
+      check_for_GL_errors("Program::draw_graph_vertices - 4");
+
+      // starts from 1
+      // glDrawArrays(GL_LINE_STRIP, 1, vg->size()-1);
+      glDrawArrays(GL_TRIANGLE_FAN, 1, vg->size());
+    }
+
+    check_for_GL_errors("Program::draw_graph_vertices - border");
+  }
 }
 
 
@@ -292,8 +325,8 @@ void Program::draw_graph_vertices(
   vector<gl_obj::pos_vec> &p,
   vector<gl_obj::pos_vec> &highlight)
 {
-  _draw_graph_vertices_aux(highlight, 0.05, color::h_vert, true);
-  _draw_graph_vertices_aux(p, 0.05, color::vert, true);
+  _draw_graph_vertices_aux(highlight, parameters::vertex_radius_highlight, color::h_vert, true);
+  _draw_graph_vertices_aux(p, parameters::vertex_radius_base, color::vert, true);
 }
 
 
@@ -301,7 +334,7 @@ void Program::draw_graph_vertices(
 // void Program::draw_graph_edges(
 //   vector<gl_obj::pos_vec> &e)
 // {
-//   float thickness = 10.f;
+//   float parameters::edge_width = 10.f;
 
 
 //   // prepare edges
@@ -326,7 +359,7 @@ void Program::draw_graph_vertices(
 //   check_for_GL_errors("Program::draw_graph_edges - 2");
 
 //   // specify some parameters
-//   glLineWidth(thickness);
+//   glLineWidth(parameters::edge_width);
 //   check_for_GL_errors("Program::draw_graph_edges - 3");
 
 //   // draw points
@@ -341,7 +374,6 @@ void Program::draw_graph_vertices(
 void Program::draw_graph_edges(
   vector<gl_obj::pos_vec> &e)
 {
-  float thickness = 0.004f;
     check_for_GL_errors("Program::draw_graph_edges - 0");
 
   glUniform1i(render_mode_location, Render_Mode::basic2D);
@@ -349,7 +381,7 @@ void Program::draw_graph_edges(
 
   // prepare edges
   for (int i = 0; i < e.size(); i+=2) {
-    gl_obj::WideLine wl = gl_obj::WideLine(e[i], e[i+1], thickness, color::edge);
+    gl_obj::WideLine wl = gl_obj::WideLine(e[i], e[i+1], parameters::edge_width, color::edge);
     gl_obj::VertexGroup *vg = &(wl.tf->vg);
 
 
@@ -371,6 +403,86 @@ void Program::draw_graph_edges(
     check_for_GL_errors("Program::draw_graph_edges");
   }
 }
+
+
+void Program::_draw_graph_vertices_names_aux(
+  std::vector<std::string> &p_names,
+  std::vector<gl_obj::pos_vec> &p,
+  float radius,
+  gl_obj::color_vec color)
+{
+  for (int i = 0; i < p_names.size(); i++) {
+    gl_obj::VertexGroup vg = stb_easy_font_print(
+      p_names[i].c_str(),
+      color,
+      parameters::base_text_height,
+      parameters::base_text_height/6.f);
+
+    // cout << "_draw_graph_vertices_names_aux: " << i << " " << p_names[i] << endl;
+
+    check_for_GL_errors("Program::draw_graph_edges - 0");
+
+    glUniform1i(render_mode_location, Render_Mode::basic2D);
+    check_for_GL_errors("Program::draw_graph_edges - 1");
+
+    // initialize the vertex buffer with the vertex data
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    // glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(Vertex), &vg[0] , GL_STATIC_DRAW);
+    check_for_GL_errors("Program::draw_graph_edges - 2");
+    glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(gl_obj::Vertex), &vg[0], GL_STREAM_DRAW);
+    check_for_GL_errors("Program::draw_graph_edges - 3");
+
+
+    gl_obj::pos_vec trans = p[i];
+    trans[0] += (radius*1.1);
+    trans[1] += (radius*1.5);
+    glUniform2fv(translate_location, 1, &(trans[0]));
+    check_for_GL_errors("Program::draw_graph_edges - 4");
+
+    // draw points
+    glDrawArrays(GL_TRIANGLES, 0, vg.size());
+
+    check_for_GL_errors("Program::draw_graph_edges");
+  }
+}
+
+void Program::draw_graph_vertices_names(
+    std::vector<std::string> &p_names,
+    std::vector<gl_obj::pos_vec> &p,
+    std::vector<std::string> &highlight_names,
+    std::vector<gl_obj::pos_vec> &highlight)
+{
+  _draw_graph_vertices_names_aux(highlight_names, highlight, parameters::vertex_radius_highlight, color::text);
+  _draw_graph_vertices_names_aux(p_names, p, parameters::vertex_radius_base, color::text);
+}
+
+
+// void Program::draw_easy_font(
+//   gl_obj::VertexGroup &vg)
+// {
+//     check_for_GL_errors("Program::draw_graph_edges - 0");
+
+//   glUniform1i(render_mode_location, Render_Mode::basic2D);
+//     check_for_GL_errors("Program::draw_graph_edges - 1");
+
+//   // initialize the vertex buffer with the vertex data
+//   glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//   // glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(Vertex), &vg[0] , GL_STATIC_DRAW);
+//   check_for_GL_errors("Program::draw_graph_edges - 2");
+//   glBufferData(GL_ARRAY_BUFFER, vg.size() * sizeof(gl_obj::Vertex), &vg[0], GL_STREAM_DRAW);
+//   check_for_GL_errors("Program::draw_graph_edges - 3");
+
+
+//   glm::vec2 trans(0.f, 0.f);
+//   glUniform2fv(translate_location, 1, &(trans[0]));
+//   check_for_GL_errors("Program::draw_graph_edges - 4");
+
+//   // draw points
+//   glDrawArrays(GL_TRIANGLES, 0, vg.size());
+
+//   check_for_GL_errors("Program::draw_graph_edges");
+
+// }
 
 
 
