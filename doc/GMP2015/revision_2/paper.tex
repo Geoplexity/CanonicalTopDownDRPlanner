@@ -1,0 +1,157 @@
+%
+% include the class file for GMP 2015
+%
+% \documentclass[submission]{gmp2015}
+\documentclass[3p]{elsarticle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{mydefs}
+
+\def\bibsection{\section*{References}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+
+\begin{frontmatter}
+%
+% put the title of your paper here
+%
+\title{Designing Qusecs Optimally: Quasi-uniform or Self-similar Layered Materials as Recursively Decomposed Solutions of Geometric Constraint Systems}
+
+%
+% put your submission number here
+% this number will appear instead of authors and affiliations if the class option "submission" is active
+%
+% \SubNumber{110}
+
+%
+% put the author names here
+% use the second argument as a reference to the list of affiliations
+% no authors and affiliations will appear if the class option "submission" is active
+%
+% \author{Troy Baker}{1}
+% \author{Meera Sitharam}{1}
+% \author{Menghan Wang}{1}
+% \author{Joel Willoughby}{1}
+
+% \author{Troy Baker}
+% \author{Meera Sitharam}
+% \author{Menghan Wang}
+% \author{Joel Willoughby}
+
+\author[uf]{T.~Baker\corref{cor}}
+\ead{tbaker@cise.ufl.edu}
+
+\author[uf]{M.~Sitharam}
+\ead{sitharam@cise.ufl.edu}
+
+\author[uf]{M.~Wang}
+\ead{menghan@cise.ufl.edu}
+
+\author[uf]{J.~Willoughby}
+\ead{jw5@cise.ufl.edu}
+
+
+\address[uf]{University of Florida, CSE Building, Gainesville, Florida, U.S.A., 32611}
+
+\cortext[cor]{Corresponding author}
+
+%
+% put the affiliations of the authors here
+%
+% \affiliation{1}{Department of Computer and Information Science and Engineering, University of Florida, USA}
+
+% \linespread{0.9}
+
+% \let\tempone\itemize
+% \let\temptwo\enditemize
+% \renewenvironment{itemize}{
+% \tempone
+%     \addtolength{\topsep}{-\baselineskip}
+%     \addtolength{\partopsep}{-\baselineskip}
+%     \addtolength{\itemsep}{-0.25\baselineskip}
+% }{\temptwo}
+% \let\tempone\enumerate
+% \let\temptwo\endenumerate
+% \renewenvironment{enumerate}{
+% \tempone
+%     \addtolength{\topsep}{-\baselineskip}
+%     \addtolength{\partopsep}{-\baselineskip}
+%     \addtolength{\itemsep}{-0.25\baselineskip}
+% }{\temptwo}
+
+
+
+
+% \columnsep{0.95}
+
+% \renewenvironment{itemize}{\begin{itemize}
+% \addtolength{\topsep}{-\baselineskip}
+% \addtolength{\itemsep}{-\baselineskip}
+% \end{itemize}}
+
+% \setlist[itemize]{noitemsep, topsep=0pt}
+
+
+
+%
+% the rest is as usual
+%
+
+\input{s00_abstract}
+
+\end{frontmatter}
+% \maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\input{s01_introduction}
+
+\input{s02_preliminaries}
+
+\input{s03_drp}
+
+\input{s04_recombination}
+
+\input{s05_problems}
+
+\input{s06_problempinning}
+
+\input{s07_pinnedline}
+
+\input{s08_conclusion}
+
+
+\appendix
+\input{appendix_defs}
+\input{appendix_proofs}
+% \input{appendix_b}
+
+% \begin{figure}\centering
+%   \includegraphics[scale=.5]{example.eps}
+%   \caption{Example of a normal figure that spans onse column.}
+%   \label{fig:square}
+% \end{figure}
+
+% \begin{figure*}\centering
+%     \includegraphics{example.eps}
+%     \caption{Example of a figure that spans both columns.}
+% \end{figure*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{elsarticle-num}
+\bibliography{paper_references}
+% {\scriptsize \bibliography{paper}}
+
+% \clearpage
+
+% \pagenumbering{roman}
+% \linespread{1}
+
+
+\end{document}

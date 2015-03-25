@@ -1,0 +1,169 @@
+\begin{tikzpicture}
+    \tikzstyle{v}=[draw, circle, minimum size=0.75cm]
+    \tikzstyle{c}=[draw, circle, inner sep=1.5, fill=black]
+    \tikzstyle{b}=[align=center]
+    \tikzstyle{e}=[]
+
+    \node[regular polygon, regular polygon sides=3, fill=white, inner sep=4, dashed] (center) at (0,0-.125-.125) {};
+
+
+% LEVEL 1
+    \node[b] (vG) at ( 0,  0) {$G_{\Delta}$};
+
+
+% LEVEL 2
+    \def\x{-1.5}
+    \def\y{-.5}
+    \node[c] (n1va) at (\x+0, \y+0)     [label={left, inner sep=.555}:$a$]{};
+    \node[c] (n1vb) at (\x-.5,\y-.866)  [label={left, inner sep=.555}:$b$]{};
+    \node[c] (n1vc) at (\x+.5,\y-.866)  [label={right,inner sep=.555}:$c$]{};
+    \node[c] (n1vd) at (\x-1, \y-1.732) [label={left, inner sep=.555}:$d$]{};
+    \node[c] (n1ve) at (\x+0, \y-1.732) [label={below,inner sep=.555}:$e$]{};
+    % \node[c] (n1vf) at (\x+1, \y-1.732) [label={right,inner sep=.555}:$f$]{};
+    \tedge{n1va}{n1vb}{solid}{}{};
+    \tedge{n1vb}{n1vc}{solid}{}{};
+    \tedge{n1vc}{n1va}{solid}{}{};
+    \tedge{n1vb}{n1vd}{solid}{}{};
+    \tedge{n1vd}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vb}{solid}{}{};
+    % \tedge{n1vc}{n1vf}{solid}{}{};
+    % \tedge{n1vf}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vc}{solid}{}{};
+
+    \def\x{1.5}
+    \def\y{-.5}
+    \node[c] (n1va) at (\x+0, \y+0)     [label={left, inner sep=.555}:$a$]{};
+    \node[c] (n1vb) at (\x-.5,\y-.866)  [label={left, inner sep=.555}:$b$]{};
+    \node[c] (n1vc) at (\x+.5,\y-.866)  [label={right,inner sep=.555}:$c$]{};
+    % \node[c] (n1vd) at (\x-1, \y-1.732) [label={left, inner sep=.555}:$d$]{};
+    \node[c] (n1ve) at (\x+0, \y-1.732) [label={below,inner sep=.555}:$e$]{};
+    \node[c] (n1vf) at (\x+1, \y-1.732) [label={right,inner sep=.555}:$f$]{};
+    \tedge{n1va}{n1vb}{solid}{}{};
+    \tedge{n1vb}{n1vc}{solid}{}{};
+    \tedge{n1vc}{n1va}{solid}{}{};
+    % \tedge{n1vb}{n1vd}{solid}{}{};
+    % \tedge{n1vd}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vb}{solid}{}{};
+    \tedge{n1vc}{n1vf}{solid}{}{};
+    \tedge{n1vf}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vc}{solid}{}{};
+
+
+% LEVEL 3
+    \def\x{-3}
+    \def\y{-2.75+.433}
+    % \node[c] (n1va) at (\x+0, \y+0)     [label={left, inner sep=.555}:$a$]{};
+    \node[c] (n1vb) at (\x-.5,\y-.866)  [label={left, inner sep=.555}:$b$]{};
+    % \node[c] (n1vc) at (\x+.5,\y-.866)  [label={right,inner sep=.555}:$c$]{};
+    \node[c] (n1vd) at (\x-1, \y-1.732) [label={left, inner sep=.555}:$d$]{};
+    \node[c] (n1ve) at (\x+0, \y-1.732) [label={below,inner sep=.555}:$e$]{};
+    % \node[c] (n1vf) at (\x+1, \y-1.732) [label={right,inner sep=.555}:$f$]{};
+    % \tedge{n1va}{n1vb}{solid}{}{};
+    % \tedge{n1vb}{n1vc}{solid}{}{};
+    % \tedge{n1vc}{n1va}{solid}{}{};
+    \tedge{n1vb}{n1vd}{solid}{}{};
+    \tedge{n1vd}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vb}{solid}{}{};
+    % \tedge{n1vc}{n1vf}{solid}{}{};
+    % \tedge{n1vf}{n1ve}{solid}{}{};
+    % \tedge{n1ve}{n1vc}{solid}{}{};
+
+    \def\x{0}
+    \def\y{-2.75}
+    \node[c] (n1va) at (\x+0, \y+0)     [label={left, inner sep=.555}:$a$]{};
+    \node[c] (n1vb) at (\x-.5,\y-.866)  [label={left, inner sep=.555}:$b$]{};
+    \node[c] (n1vc) at (\x+.5,\y-.866)  [label={right,inner sep=.555}:$c$]{};
+    % \node[c] (n1vd) at (\x-1, \y-1.732) [label={left, inner sep=.555}:$d$]{};
+    \node[c] (n1ve) at (\x+0, \y-1.732) [label={below,inner sep=.555}:$e$]{};
+    % \node[c] (n1vf) at (\x+1, \y-1.732) [label={right,inner sep=.555}:$f$]{};
+    \tedge{n1va}{n1vb}{solid}{}{};
+    \tedge{n1vb}{n1vc}{solid}{}{};
+    \tedge{n1vc}{n1va}{solid}{}{};
+    % \tedge{n1vb}{n1vd}{solid}{}{};
+    % \tedge{n1vd}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vb}{solid}{}{};
+    % \tedge{n1vc}{n1vf}{solid}{}{};
+    % \tedge{n1vf}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vc}{solid}{}{};
+
+    \def\x{3}
+    \def\y{-2.75+.433}
+    % \node[c] (n1va) at (\x+0, \y+0)     [label={left, inner sep=.555}:$a$]{};
+    % \node[c] (n1vb) at (\x-.5,\y-.866)  [label={left, inner sep=.555}:$b$]{};
+    \node[c] (n1vc) at (\x+.5,\y-.866)  [label={right,inner sep=.555}:$c$]{};
+    % \node[c] (n1vd) at (\x-1, \y-1.732) [label={left, inner sep=.555}:$d$]{};
+    \node[c] (n1ve) at (\x+0, \y-1.732) [label={below,inner sep=.555}:$e$]{};
+    \node[c] (n1vf) at (\x+1, \y-1.732) [label={right,inner sep=.555}:$f$]{};
+    % \tedge{n1va}{n1vb}{solid}{}{};
+    % \tedge{n1vb}{n1vc}{solid}{}{};
+    % \tedge{n1vc}{n1va}{solid}{}{};
+    % \tedge{n1vb}{n1vd}{solid}{}{};
+    % \tedge{n1vd}{n1ve}{solid}{}{};
+    % \tedge{n1ve}{n1vb}{solid}{}{};
+    \tedge{n1vc}{n1vf}{solid}{}{};
+    \tedge{n1vf}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vc}{solid}{}{};
+
+
+% LEVEL 4
+    \def\x{-1}
+    \def\y{-4.3-.866}
+    \node[c] (n1va) at (\x+0, \y+0)     [label={left, inner sep=.555}:$a$]{};
+    \node[c] (n1vb) at (\x-.5,\y-.866)  [label={left, inner sep=.555}:$b$]{};
+    \node[c] (n1vc) at (\x+.5,\y-.866)  [label={right,inner sep=.555}:$c$]{};
+    % \node[c] (n1vd) at (\x-1, \y-1.732) [label={left, inner sep=.555}:$d$]{};
+    % \node[c] (n1ve) at (\x+0, \y-1.732) [label={below,inner sep=.555}:$e$]{};
+    % \node[c] (n1vf) at (\x+1, \y-1.732) [label={right,inner sep=.555}:$f$]{};
+    \tedge{n1va}{n1vb}{solid}{}{};
+    \tedge{n1vb}{n1vc}{solid}{}{};
+    \tedge{n1vc}{n1va}{solid}{}{};
+    % \tedge{n1vb}{n1vd}{solid}{}{};
+    % \tedge{n1vd}{n1ve}{solid}{}{};
+    % \tedge{n1ve}{n1vb}{solid}{}{};
+    % \tedge{n1vc}{n1vf}{solid}{}{};
+    % \tedge{n1vf}{n1ve}{solid}{}{};
+    % \tedge{n1ve}{n1vc}{solid}{}{};
+
+
+
+    \def\x{1}
+    \def\y{-4.3}
+    % \node[c] (n1va) at (\x+0, \y+0)     [label={left, inner sep=.555}:$a$]{};
+    \node[c] (n1vb) at (\x-.5,\y-.866)  [label={left, inner sep=.555}:$b$]{};
+    \node[c] (n1vc) at (\x+.5,\y-.866)  [label={right,inner sep=.555}:$c$]{};
+    % \node[c] (n1vd) at (\x-1, \y-1.732) [label={left, inner sep=.555}:$d$]{};
+    \node[c] (n1ve) at (\x+0, \y-1.732) [label={below,inner sep=.555}:$e$]{};
+    % \node[c] (n1vf) at (\x+1, \y-1.732) [label={right,inner sep=.555}:$f$]{};
+    % \tedge{n1va}{n1vb}{solid}{}{};
+    \tedge{n1vb}{n1vc}{solid}{}{};
+    % \tedge{n1vc}{n1va}{solid}{}{};
+    % \tedge{n1vb}{n1vd}{solid}{}{};
+    % \tedge{n1vd}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vb}{solid}{}{};
+    % \tedge{n1vc}{n1vf}{solid}{}{};
+    % \tedge{n1vf}{n1ve}{solid}{}{};
+    \tedge{n1ve}{n1vc}{solid}{}{};
+
+
+% DRP edges
+    \draw (vG)--(-1,-.866);
+    \draw (vG)--( 1,-.866);
+
+    \draw (-2.1, -2.45)--(-3.2, -3.1);
+    \draw (-1.9, -2.45)--(-.7, -3.1);
+
+    \draw (2.1, -2.45)--(3.2, -3.1);
+    \draw (1.9, -2.45)--(.7, -3.1);
+
+    \draw (-.3, -4.45)--(-1, -4.916);
+    \draw (.3, -4.45)--(1, -4.916);
+
+    % \draw (-.4, -2.432)--(-1.5,-3.032);
+    % \draw ( .4, -2.432)--( 1.5,-3.032);
+
+    % \draw (-1.1, -4.282)--(-2.4,-4.966);
+    % \draw (-.9, -4.282)--(-.6,-4.966);
+
+    % \draw[dashed] (1.1, -4.282)--(2.4,-4.966);
+    % \draw[dashed] (.9, -4.282)--(1.1,-4.966);
+\end{tikzpicture}

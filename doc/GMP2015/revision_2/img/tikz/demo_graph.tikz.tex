@@ -1,0 +1,34 @@
+% $
+% \vcenter{\hbox{$G_{\Delta}=$}}
+% \vcenter{\hbox{\input{img/tikz/demo_graph.tikz}}}
+% $
+
+
+\begin{tikzpicture}
+    \tikzstyle{v}=[draw, circle, minimum size=0.75cm]
+    \tikzstyle{c}=[draw, circle, inner sep=1.5, fill=black]
+    \tikzstyle{e}=[]
+
+
+    \node[regular polygon, regular polygon sides=3, fill=white, inner sep=4, dashed] (center) at (0,0-.125-.125) {};
+
+
+    \node[c] (va) at ( 0,  0) [label={left, inner sep=.555}:$a$]{};
+    \node[c] (vb) at (-.5, -.866) [label={left, inner sep=.555}:$b$]{};
+    \node[c] (vc) at ( .5, -.866) [label={right,inner sep=.555}:$c$]{};
+    \node[c] (vd) at (-1, -1.732) [label={left, inner sep=.555}:$d$]{};
+    \node[c] (ve) at ( 0, -1.732) [label={below,inner sep=.555}:$e$]{};
+    \node[c] (vf) at ( 1, -1.732) [label={right,inner sep=.555}:$f$]{};
+
+    \tedge{va}{vb}{solid}{}{};
+    \tedge{vb}{vc}{solid}{}{};
+    \tedge{vc}{va}{solid}{}{};
+
+    \tedge{vb}{vd}{solid}{}{};
+    \tedge{vd}{ve}{solid}{}{};
+    \tedge{ve}{vb}{solid}{}{};
+
+    \tedge{vc}{vf}{solid}{}{};
+    \tedge{vf}{ve}{solid}{}{};
+    \tedge{ve}{vc}{solid}{}{};
+\end{tikzpicture}

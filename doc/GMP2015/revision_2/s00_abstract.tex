@@ -1,0 +1,122 @@
+\begin{abstract}
+Crucial for the design and analysis of quasi-uniform (aperiodic) and self-similar, layered material structures is the recursive decomposition of diverse types of underlying 2D geometric constraint systems, which we call \dfn{qusecs}. While the optimal recursive decomposition (\dfn{DR-planning}) problem is NP-hard for general 2D bar-joint constraint systems, we describe an \candrpcomplexity\ algorithm  for qusecs that are defined to be isostatic or underconstrained. The algorithm relies on the new notion of a canonical DR-plan that meets various desirable, previously studied criteria. In addition, we leverage recent results on Cayley configuration spaces to show that the indecomposable systems---that are solved at the nodes of the optimal DR-plan by recombining solutions to child systems---can be minimally modified to become decomposable and have a small DR-plan, leading to efficient realization algorithms. We show formal connections to well-known problems such as completion of underconstrained systems. We briefly discuss the modeling and analysis of two specific 2D layered materials, modeled as body-hyperpin and pinned line-incidence systems, as applications of the above theory and algorithms. We intend to make a software implementation and videos available upon request and publicly available for the final version.
+\end{abstract}
+
+\begin{keyword}
+    rigidity \sep
+    geometric constraint solving \sep
+    configuration spaces \sep
+    self-similar structures \sep
+    layered materials
+    %
+    % \PACS 71.35.-y \sep 71.35.Lk \sep 71.36.+c
+\end{keyword}
+
+% Easychair keyphrases
+% canonical dr plan (380), optimal dr plan (364), constraint system (236), pinned line incidence (200), cayley configuration space (198), geometric constraint system (190), pinned line incidence graph (180), geometric constraint (166), pinned line incidence system (120), self similar (115), bar joint (113), cayley configuration (90), parent system (90), pinned line (85), strong church rosser property (80), external stress (80), rigidity matrix (80), tree decomposable graph (79), low cayley complexity (79), bar joint system (79), connected component (70), line incidence (70), orientation type (70), wikimedia common (70), cross linking (70), computational geometry (70), rigid vertex maximal proper subgraph (69), bar joint graph (63), appropriate rigidity matrix (63), plant cell wall (63)
+
+
+
+
+
+% =====================CUT HERE ==============
+
+% Examples include:
+% cellulose and collagen microfibrils in cell walls;
+% actin cytoskeleton matrix; hierarchical bone cross-section;
+% ciliary membranes and transitions;
+% self-similar DNA self-assemblies; silica bilayers;
+% disordered graphene; etc.
+
+
+% By  defining a canonical recursive decomposition
+% ({\it DR plan}),  we show that the optimal DR-planning
+% problem for
+
+
+
+
+% We  navigate the NP-hardness of finding
+% optimal DR-plans by defining a
+% so-called {\it canonical} DR-plan and showing a strong Church-Rosser
+% property: {\it all canonical DR-plans for isostatic or underconstrained
+% 2D qusecs are optimal}.
+% \item
+% We give an efficient ($O(n^2)$) algorithm to find a canonical (and hence
+% optimal) DR-plan for all 3 types of 2D qusecs mentioned above.
+% The canonical DR-plan
+% illuminates the essence of the NP-hardness of finding optimal DR-plans for
+% overconstrained systems, and characterizes those
+% overconstrained 2D qusecs for which the above algorithm does find an
+% optimal DR-plan.
+% \item
+% We show how to judiciously combine
+% existing methods for recombination with searching  convex or low
+% complexity Cayley configuration spaces to  navigate the solution space of
+% isostatic 2D qusecs, and
+% explore connected components of the configuration space of
+% underconstrained 2D qusecs.
+% \item
+
+% \item
+% Software implementation and videos can be found at: \todo{Provide Link}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+% A variety of quasi-uniform (aperiodic) and possibly self-similar, layered material structures are natural consequences of the design objectives of rigidity and flexibility, minimizing mass, optimally distributing external stresses, and participating in assembly of diverse and multifunctional, larger structures.
+
+% Crucial for design and analysis of these properties is the recursive decomposition of diverse types of underlying isostatic or underconstrained 2D geometric constraint systems (which we collectively call \textit{qusecs}). While the optimal recursive decomposition (\textit{DR-planning}) problem is NP-hard even for 2D bar-joint constraint systems, we describe an $O(n^2)$ algorithm  for qusecs. Besides elucidating the source of NP-hardness, the algorithm outputs \textit{canonical} DR-plans that meet previously studied desirable criteria. When a DR-plan is input, we show reductions between problems related to realizing qusecs,  leading to efficient algorithms that leverage recent results on Cayley configuration spaces. We briefly discuss two specific 2D layered materials as applications of the above algorithms, whose software implementation is available.
+
+% \textit{Keywords: rigidity, geometric constraint solving, configuration spaces, self-similar structures, layered materials}
+
+% % =====================CUT HERE ==============
+
+% % Examples include:
+% % cellulose and collagen microfibrils in cell walls;
+% % actin cytoskeleton matrix; hierarchical bone cross-section;
+% % ciliary membranes and transitions;
+% % self-similar DNA self-assemblies; silica bilayers;
+% % disordered graphene; etc.
+
+
+% % By  defining a canonical recursive decomposition
+% % ({\it DR plan}),  we show that the optimal DR-planning
+% % problem for
+
+
+
+
+% % We  navigate the NP-hardness of finding
+% % optimal DR-plans by defining a
+% % so-called {\it canonical} DR-plan and showing a strong Church-Rosser
+% % property: {\it all canonical DR-plans for isostatic or underconstrained
+% % 2D qusecs are optimal}.
+% % \item
+% % We give an efficient ($O(n^2)$) algorithm to find a canonical (and hence
+% % optimal) DR-plan for all 3 types of 2D qusecs mentioned above.
+% % The canonical DR-plan
+% % illuminates the essence of the NP-hardness of finding optimal DR-plans for
+% % overconstrained systems, and characterizes those
+% % overconstrained 2D qusecs for which the above algorithm does find an
+% % optimal DR-plan.
+% % \item
+% % We show how to judiciously combine
+% % existing methods for recombination with searching  convex or low
+% % complexity Cayley configuration spaces to  navigate the solution space of
+% % isostatic 2D qusecs, and
+% % explore connected components of the configuration space of
+% % underconstrained 2D qusecs.
+% % \item
+
+% % \item
+% % Software implementation and videos can be found at: \todo{Provide Link}.
