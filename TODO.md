@@ -1,12 +1,29 @@
-GUI:
-    - Zoom is weird, zooms in on (0,0)
-    - Put a line over my thick line, just to be safe2
+GUI
+============
+- Zoom is weird, zooms in on (0,0)
+- Put a line over my thick line, just to be safe
 
-Build:
-    - Makefile doesn't contain vision_handler_2d
+Build
+============
+- Circle should be broken up
+- windows in main should be pulled out itno separate files
+- should make cpp files for some header only things (like circle, easyfont, etc)
 
-Pebble game:
-    - Doesn't check if the same edge is entered twice (same direction or reversed)
+Pebble game
+============
+- Doesn't check if the same edge is entered twice (same direction or reversed)
+
+Known bugs
+============
+- Run square edges triangle and press space... usually crashes
+
+Features to add
+============
+- Color code clicking
+- Decomposition as explained in the paper
+- Recombination
+
+
 
 
 

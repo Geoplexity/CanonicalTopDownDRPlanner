@@ -106,15 +106,17 @@ private:
     };
 
 
-    std::set<Cluster*> _DRP_2D_aux(
-        Cluster* known_cluster,
-        bool optimalDRP);
+    // std::set<Cluster*> _DRP_2D_aux(
+    //     Cluster* known_cluster,
+    //     bool optimalDRP);
 
+    // The linear decomposition version of the DR-plan. It will be optimal,
+    // but it isn't the vertex-maximal decomposition. It's equivalent.
     std::set<Cluster*> _DRP_2D_linear_aux();
 
 
     // get all wellconstrained vertex-maximal subgraphs
-    std::set<Cluster*> get_all_wcvmps(Cluster* known_cluster = NULL);
+    std::set<Cluster*> get_all_wcvmps();
 
 
 

@@ -23,6 +23,7 @@ public:
     Window();
 
     void set_as_context();
+    void close_window();
     bool should_close();
     void swap_buffers();
 

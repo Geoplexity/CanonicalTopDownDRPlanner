@@ -22,6 +22,10 @@ void Window::set_as_context() {
     MainGuiManager::set_window_context(this->glfw_window());
 }
 
+void Window::close_window() {
+    glfwSetWindowShouldClose(glfw_window(), GL_TRUE);
+}
+
 bool Window::should_close() {
     return glfwWindowShouldClose(this->glfw_window());
 }

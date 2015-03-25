@@ -300,8 +300,7 @@ public:
         if (action == GLFW_PRESS) {
             // cout << "\tPressed" << endl;
             if (key == GLFW_KEY_ESCAPE) {
-                cout << "HERE!" << endl;
-                // glfwSetWindowShouldClose(window, GL_TRUE);
+                this->close_window();
             } else if (key == GLFW_KEY_UP) {
                 if (this->current_drp_node != NULL) {
                     highlight_cluster(current_drp_node->parent());
@@ -319,11 +318,16 @@ public:
                     highlight_cluster(current_drp_node->prev());
                 }
             } else if (key == GLFW_KEY_SPACE) {
-                // cout << "\t\tSpace" << endl;
                 if (drp_display_window == NULL) {
                     drp_display_window = new DrpDisplayWindow(drp);
                     float scale = 3;
-                    global::mgm.create_window(drp_display_window, global::window::width_screen_coords/scale, global::window::height_screen_coords/scale, "DR-Plan", 3, 2);
+                    global::mgm.create_window(
+                        drp_display_window,
+                        global::window::width_screen_coords/scale,
+                        global::window::height_screen_coords/scale,
+                        "DR-Plan",
+                        3,
+                        2);
                     drp_display_window->init_program();
 
                     drp_display_window->update_graph_positions();

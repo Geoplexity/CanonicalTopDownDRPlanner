@@ -6,6 +6,15 @@
 
 #include <iostream>
 
+// #define FOR_EACH_IN(TYPE, X, Y) \
+//     for (TYPE::iterator Y = X.begin(); Y != X.end(); Y++)
+
+// #define FOR_EACH_EDGE_IN_SUBGRAPH(X, Y) \
+//     std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> _FOR_EACH_EDGE_IN_SUBGRAPH_TEMP_PAIR = X->edges(); \
+//     for (Sg_Edge_Iterator Y = _FOR_EACH_EDGE_IN_SUBGRAPH_TEMP_PAIR.first; Y != _FOR_EACH_EDGE_IN_SUBGRAPH_TEMP_PAIR.second; Y++)
+// #define FOR_EACH_EDGE_IN_SUBGRAPH(X, Y) \
+//     for (Sg_Edge_Iterator Y = X->edges().first; Y != X->edges().second; Y++)
+
 
 Cluster::Cluster(bool f) {
     finished = f;
@@ -483,7 +492,7 @@ void erase_and_delete_all_subseteqs(std::set<Cluster*> &super, std::set<Cluster*
 
 
 // get all wellconstrained vertex-maximal subgraphs
-std::set<Cluster*> Pebbled_Graph::get_all_wcvmps(Cluster* known_cluster) {
+std::set<Cluster*> Pebbled_Graph::get_all_wcvmps() {
     std::set<Cluster*> current_clusters;
 
     std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = this->in_subgraph->vertices();
@@ -496,9 +505,9 @@ std::set<Cluster*> Pebbled_Graph::get_all_wcvmps(Cluster* known_cluster) {
         std::vector<std::set<Cluster*>::iterator> to_erase;
 
 
-        // remove anything from potential that's a subseteq of known
-        if (known_cluster != NULL)
-            erase_and_delete_all_subseteqs(known_cluster, potential_clusters);
+        // // remove anything from potential that's a subseteq of known
+        // if (known_cluster != NULL)
+        //     erase_and_delete_all_subseteqs(known_cluster, potential_clusters);
 
 
         // remove anything from potential that's a subseteq of something from current
@@ -525,8 +534,6 @@ std::set<Cluster*> Pebbled_Graph::get_all_wcvmps(Cluster* known_cluster) {
 
 
 
-// The passed in known_clusters must really be clusters!!! If not, it will be
-// deleted, in which case it's not safe for anyone else to try to access it
 
 // it will be optimal
 std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
@@ -688,6 +695,11 @@ std::set<Cluster*> Pebbled_Graph::_DRP_2D_linear_aux()
 }
 
 
+
+// The following is left in for posterity. It decomposes the graph, but subgraphs
+// will be put in the DRP multiple times as separate graphs... There isn't a good
+// way to keep track of whether or not this is happening, except with the linear
+// decomposition given above.
 
 // // The passed in known_clusters must really be clusters!!! If not, it will be
 // // deleted, in which case it's not safe for anyone else to try to access it
