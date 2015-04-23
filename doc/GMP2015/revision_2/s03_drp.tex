@@ -12,6 +12,31 @@ The NP-hardness of the DR-planning problem for 2D bar-joint graphs is partly the
 
 In this section, we define a \dfn{canonical} plan to capture those aspects of an optimal DR-plan that mimic a complete DR-plan's uniqueness, while for independent (underconstrained or isostatic graphs), we show that the nonunique parts do not affect optimality.
 
+\subsection{Previous Work}
+\todo{We now briefly survey existing techniques for studying 2D qusecs,  many of which are \dfn{bar-joint} systems (Examples 1 and 2 above, see Sections \ref{sec:prelim}, \ref{sec:DRP}, and \ref{sec:recomb}), \dfn{body-hyperpin} systems (Example 4 and 5, see Section \ref{sec:bodypin}) or \dfn{pinned-line incidence} systems (Example 3, see Section \ref{sec:pinnedline}). The limitations of these techniques directly motivate the contributions of this paper.}
+
+\begin{enumerate}
+    \item
+    \header{Finding (vertex)-maximal generically rigid subsystems}
+    Fast, graph-based algorithms exist (pebble-game \cite{Jacobs:1997:PG,lee2005finding}), for locating all maximal, \dfn{generically rigid} subsystems \seedefs. When the input itself is rigid, these algorithms do nothing, i.e., compute the identity function.
+
+    However, both for self-similar or just aperiodic 2D qusecs, it is imperative to recursively decompose rigid systems into their rigid subsystems, down to the level of geometric primitives, in order to understand or design properties at all scales, such as \seedefs\ \dfn{rigidity}, \dfn{flexes}, distribution of \dfn{external stresses}, boundary conditions for \dfn{isostaticity}, as well as behavior under constraint variations.
+
+    \item
+    \header{Optimal Recursive Decomposition (DR-planning).}
+    Recursive decomposition of geometric constraint systems has been formalized \cite{hoffman2001decompositionI,hoffman2001decompositionII} and well-studied \cite{jermann2006decomposition,sitharam2005combinatorial} as the \dfn {Decomposition-Recombination (DR-) planning} problem \seedefsprelim. For the abovementioned classes of 2D qusecs, generic rigidity is a combinatorial property and hence each level of the decomposition should, in principle, be achievable by a graph-based algorithm as in (1), without involving geometric information in the constraint system. Since many such decompositions can exist for a given constraint system, criteria defining desirable or optimal DR-plans and DR-planning algorithms were given in \cite{hoffman2001decompositionI}. An \dfn{optimal DR-plan} is one that minimizes the \dfn{size} \seedefsprelim, i.e., the maximum number of child subsystems of any parent system. Being exponential in the size, the complexity of solving the parent constraint system is overwhelmingly dominated by the complexity of solving the child systems.
+
+    However, for general 2D qusecs that could be overconstrained, even when restricted to bar-joint systems, the optimal DR-planning problem was shown to be NP-hard \cite{lomonosov2004graph}.
+
+    \item
+    \header{DR-plans for special classes and with other criteria.}
+    For a special class of 2D qusecs, namely \dfn{tree-decomposable} systems  \cite{fudos1997graph,owen1991algebraic,joan-arinyo2004revisiting}  common in computer aided mechanical design, (which includes ruler-and-compass and Henneberg-I constructible systems), all DR-plans turn out to be optimal. This satisfies the so-called \dfn{Church-Rosser} criterion, leading to highly efficient DR-planning algorithms. For general 2D qusecs, alternate criteria were suggested such as \dfn{cluster minimality} requiring parent systems to be composed of a minimal set of at least 2 rigid proper subsystems (i.e., no proper subset forms a rigid system); and \dfn{proper maximality}, requiring child subsystems to be maximal rigid proper subsystems of the parent system. \seedefsc.
+
+    \indent
+    While polynomial time algorithms were given to generate DR-plans meeting the cluster minimality criterion \cite{hoffman2001decompositionI}, no such algorithm is known for the latter criterion.
+\end{enumerate}
+
+\subsection{Theory}
 \sidenote{In this section, $G$ is always assumed to be isostatic.}
 
 \begin{definition}\label{def:canonical_drplan}
@@ -232,7 +257,7 @@ Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and
 % With more effort, it can be shown that pinned line-incidence systems can also use this framework. This is done in section \ref{XXX}.
 
 
-% \subsection{Algorithm}
+\subsection{Algorithm}
 
 
 

@@ -148,20 +148,6 @@ In the remainder of this section and Sections~\ref{sec:DRP} and \ref{sec:recomb}
 % THIS MEANS NO EDGES MAY BE LEFT OUT, ALSO.
 
 
-\subsection{Importance of an Optimal DR-plan}
-The use of a DR-plan in designing especially self-similar qusecs is immediately evident, shown in Figures \ref{fig:c2c3ofk33s} and \ref{fig:bodypindrp}.
-
-In fact, knowing an optimal DR-plan is crucial for design and analysis of even non-self-similar qusecs and their realizations with various desirable properties.
-
-\medskip\noindent
-\header{Realizing given qusecs.}
-Note that this basic task would require finding real solutions to a large multivariate polynomial system (of inequalities and equalities representing the constraints). Without DR-planning, this requires double exponential time in the number of variables (even if orientation type is specified). With DR-planning, the complexity is dominated by the size of the largest subsystem that is solved, or recombined from the solutions of its child subsystems, i.e., the maximum fan-in occurring in a DR-plan. Thus, finding an optimal DR-plan is important for realization.
-
-\medskip\noindent
-\header{Recursive block decomposition of the rigidity matrix, stress space and external stresses.}
-This can be obtained using the DR-plan, with each block being the rigidity matrix of an isostatic subgraph. The blocks intersect on isostatic or trivial subgraphs. This recursive block decomposition of the rigidity matrix $R$ correspondingly recursively decomposes the stress vectors $s$ that balance a given external stress $t$ since $sR = t$. Moreover, the external stress vector $t$ is recursively ``distributed'' into external stresses for each node of the DR-plan. When the rigidity matrix and stress vectors contain indeterminates, this  can be used to design underlying graph and parameters $\delta$ to obtain an optimal distribution of stresses on the geometric primitives. When the realization of qusecs is given, this can be used to analyze the distribution of a given external load.
-
-
 
 
 %\subsection{DR-plan}

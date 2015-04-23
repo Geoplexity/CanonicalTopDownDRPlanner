@@ -1,4 +1,5 @@
-\section{Using the canonical, optimal DR-plan for Realizing (Solving) Qusecs}
+% \section{Using the canonical, optimal DR-plan for Realizing (Solving) Qusecs}
+\section{Recombination and Problem Relationships}
 \label{sec:recomb}
 %
 In this section, we consider the \dfn{optimal recombination} problem of combining specific solutions of subsystems in a DR-plan into a solution of their parent system $I$ (without loss of generality, at the top level of the DR-plan). In the case of isostatic qusecs, the parent system $I$ is isostatic (the root of the DR-plan), and we seek \vemph{solution(s) (among a finite large number of solutions) with a specific orientation or chirality}. In the case of underconstrained qusecs the subsystems are the multiple roots of the DR-plan, the parent system $I$ is underconstrained, and we typically seek an efficient algorithmic description of \vemph{connected component(s) of solutions with a specific orientation or chirality}.
@@ -7,17 +8,22 @@ The main barrier in recombination when given an optimal DR-plan (of smallest pos
 
 In the following, we formulate the problem of \dfn{optimal modification} of the indecomposable algebraic system $I$ into a decomposable system with a small DR-plan (low algebraic complexity). Leveraging recent results on \dfn{Cayley configuration spaces}, our approach to the optimal modification problem achieves the following:
 
-\medskip\noindent
-\header{(a) Small DR-plan.}
-We obtain a  parameterized family of systems $I_{\lambda_F}$---one for each value $\lambda_F$ for the parameters $F$,  all of which have small DR-plans. Thus, given a value $v$ for $\lambda_F$, the system $I_v$ can potentially be solved or realized easily once the orientation type of the solution is known  (when the DR-plan size is small enough).
+\begin{enumerate}[(a)]
+    \item
+    \header{Small DR-plan.}
+    We obtain a  parameterized family of systems $I_{\lambda_F}$---one for each value $\lambda_F$ for the parameters $F$,  all of which have small DR-plans. Thus, given a value $v$ for $\lambda_F$, the system $I_v$ can potentially be solved or realized easily once the orientation type of the solution is known  (when the DR-plan size is small enough).
 
-\medskip\noindent
-\header{(b) Solution preservation.}
-Moreover, the union of solution spaces of the systems in the family $I_{\lambda_F}$ is guaranteed to contain all of $I$'s solutions.
 
-\medskip\noindent
-\header{(c) Efficient search.}
-Finally, this union can be projected into the so-called \dfn{Cayley} or distance parameter space $\lambda_F$ that is convex or otherwise easy to traverse in order to search for $I$'s solution (or connected component) of the desired orientation type. For the case when the modification is bounded, this approach provides an efficient algorithm for recombination. We first define the decision version of the problem of optimal modification for decomposition. The standard optimization versions are straightforward.
+    \item
+    \header{Solution preservation.}
+    Moreover, the union of solution spaces of the systems in the family $I_{\lambda_F}$ is guaranteed to contain all of $I$'s solutions.
+
+
+    \item
+    \header{Efficient search.}
+    Finally, this union can be projected into the so-called \dfn{Cayley} or distance parameter space $\lambda_F$ that is convex or otherwise easy to traverse in order to search for $I$'s solution (or connected component) of the desired orientation type. For the case when the modification is bounded, this approach provides an efficient algorithm for recombination. We first define the decision version of the problem of optimal modification for decomposition. The standard optimization versions are straightforward.
+\end{enumerate}
+
 
 
 \problemstatement{Optimal Modification for Decomposition (OMD) Problem.}
@@ -26,6 +32,24 @@ Given a generically independent graph $G = (V,E)$ with no non-trivial proper iso
 
 It is immediately clear that indecomposable graphs $G$ that belong in OMD$_k$ for small $k$ and $s$  lend themselves to modification  into decomposable graphs satisfying Criteria (a) and (b) above. However, it is not clear how Criterion (c) is met by OMD graphs.
 
+
+
+
+\subsection{Previous Work}
+\todo{We now briefly survey existing techniques for studying 2D qusecs,  many of which are \dfn{bar-joint} systems (Examples 1 and 2 above, see Sections \ref{sec:prelim}, \ref{sec:DRP}, and \ref{sec:recomb}), \dfn{body-hyperpin} systems (Example 4 and 5, see Section \ref{sec:bodypin}) or \dfn{pinned-line incidence} systems (Example 3, see Section \ref{sec:pinnedline}). The limitations of these techniques directly motivate the contributions of this paper.}
+
+\begin{enumerate}
+    \item
+    \header{Optimal Recombination and Solution Space Navigation.}
+    For the entire DR-plan, finding all desired solutions is barely tractable even if recombination of solved subsystems is easy for each indecomposable parent system in the DR-plan. This is because even for the simplest, highly decomposable systems with small DR-plans, the problem of finding even a single solution to the input system at the root of the DR-plan is NP-hard  \cite{saxe1979embeddability} and there is a combinatorial explosion of solutions \cite{borcea2004number}. Typically, however, the desired solution has a given orientation type, in which case, the crux of the difficulty is concentrated in the algebraic complexity of (re)combining child system solutions to give a solution to the parent system at any given level of the DR-plan. For fairly general 3D constraint systems, there are algorithms with formal guarantees that uncover underlying matroids to combinatorially obtain an optimal parameterization to minimize the algebraic complexity of the indecomposable parent (sub)systems that occur in the DR-plan \cite{sitharam2010optimized,sitharam2006well,sitharam2010reconciling}, provided the DR-plan meets some of the abovementioned criteria.
+
+    However, the generality of these algorithms trades-off against efficiency, and despite the optimization, the best algorithms can still take exponential time in the number of child subsystems (which can be arbitrarily large even for optimal DR-plans) in order to guarantee all solutions of a given orientation type, even for a single (sub)system in a DR-plan. They are prohibitively slow in practice. We note that, utilizing the DR-plan and optimal recombination as a principled basis, high performance heuristics and software exists \cite{sitharam2006solution} to tame combinatorial explosion via user intervention.
+
+
+    \item
+    \header{Configuration Spaces of Underconstrained Systems.}
+    For underconstrained 2D bar-joint and body-hyperpin qusecs obtained from various subclasses of tree-decomposable systems, algorithms have been developed to complete them into isostatic systems \cite{joan-arinyo2003transforming,sitharam2005combinatorial,gao2006ctree,sitharam2010convex} and to find paths within the connected components \cite{sitharam2011cayleyI,hidalgo2011reachability} of standard Cartesian configuration spaces. Most of the algorithms with formal guarantees leverage Cayley configuration space theory \cite{sitharam2010convex,sitharam2011cayleyI,sitharam2011cayleyII} to characterize subclasses of graphs and additional constraints that control combinatorial explosion, and provide faithful bijective representation of connected components and paths. These algorithms have decreasing efficiency as the subclass of systems gets bigger, with highest efficiency for underlying partial 2-tree graphs (alternately called tree-width 2, series-parallel, and $K_4$ minor avoiding), moderate efficiency for 1 degree-of-freedom (dof) graphs with low Cayley complexity (which include common linkages such as the Strandbeest, Limacon and Cardioid), and decreased efficiency for general 1-dof tree-decomposable graphs. While software suites exist  \cite{keycurriculum1995geometer,porta2014open,siemens1999d,todd2007geometry}, no such formal algorithms and guarantees are known for non-tree-decomposable systems.
+\end{enumerate}
 
 
 
