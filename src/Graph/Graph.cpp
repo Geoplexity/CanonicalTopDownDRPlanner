@@ -3,6 +3,9 @@
 #include "Graph.hpp"
 
 
+#include "MinPriorityQueue.hpp"
+
+
 
 // #include <boost/graph/topological_sort.hpp>
 
@@ -83,6 +86,11 @@
 
 
 
+
+
+
+
+
 Vertex_ID Graph::add_vertex(Vertex_Properties vp) {
     return this->Graph_Type::add_vertex(vp);
 }
@@ -94,13 +102,13 @@ Vertex_ID Graph::add_vertex() {
 Edge_ID Graph::add_edge(Vertex_ID v0, Vertex_ID v1, Edge_Properties ep) {
     std::pair<Edge_ID, bool> p = this->Graph_Type::add_edge(v0, v1, ep);
     Edge_ID e = p.first;
-    bool success = p.second;
+    // bool success = p.second;
 
-    if (success) {
-        //
-    } else {
-        //
-    }
+    // if (success) {
+    //     //
+    // } else {
+    //     //
+    // }
 
     return e;
 }
@@ -109,12 +117,268 @@ Edge_ID Graph::add_edge(Vertex_ID v0, Vertex_ID v1, double distance) {
     return this->add_edge(v0, v1, Edge_Properties(distance));
 }
 
+void Graph::remove_vertex(Vertex_ID v) {
+    boost::remove_vertex(v, *this);
+}
+
+void Graph::remove_edge(Edge_ID e) {
+    boost::remove_edge(e, *this);
+}
+
+void Graph::remove_edge(Vertex_ID v0, Vertex_ID v1) {
+    boost::remove_edge(v0, v1, *this);
+}
+
+
+bool Graph::has_edge(Vertex_ID v0, Vertex_ID v1) {
+    return boost::edge(v0, v1, *this).second;
+}
+
+void Graph::contract_edge(Vertex_ID v0, Vertex_ID v1) {
+    std::cout
+        << "Graph::contract_edge: "
+        << (*this)[v0].name << "--" << (*this)[v1].name
+        << std::endl;
+
+    // boost::graph_traits<Graph>::adjacency_iterator v, v_end;
+    // for (boost::tie(v, v_end) = boost::adjacent_vertices(vertex, *_graph);
+    //     v != v_end; v++)
+    // {
+    //     if (_vertices.find(*v) != _vertices.end()) {
+    //         Edge_ID e = boost::edge(vertex, *v, *_graph).first;
+    //         _edges.insert(e);
+    //     }
+    // }
+
+
+    // boost::graph_traits<Graph>::adjacency_iterator
+    std::pair<Graph_Adj_Iterator, Graph_Adj_Iterator> v0_adj = boost::adjacent_vertices(v0, *this);
+    // for (Graph_Adj_Iterator v0_adj_it = v0_adj.first; v0_adj_it != v0_adj.second; ++v0_adj_it) {
+    //     // don't add any edges from v1 to v1
+    //     if (v1 == *v0_adj_it) continue;
+
+    //     // returns pair of edge and bool (true if edge exists)
+    //     std::pair<Edge_ID, bool> e_v1_to_adj = boost::edge(v1, *v0_adj_it, *this);
+    //     std::pair<Edge_ID, bool> e_adj_to_v1 = boost::edge(*v0_adj_it, v1, *this);
+
+    //     // std::cout << (*this)[v1].name << "--" << (*this)[*v0_adj_it].name << ": " << (e_v1_to_adj.second?"t":"f") << std::endl;
+    //     // std::cout << (*this)[*v0_adj_it].name << "--" << (*this)[v1].name << ": " << (e_adj_to_v1.second?"t":"f") << std::endl;
+
+    //     if ( ! (e_v1_to_adj.second || e_adj_to_v1.second) ) {
+    //         boost::add_edge(v1, *v0_adj_it, *this);
+    //     }
+
+    //     // e_v1_to_adj = boost::edge(v1, *v0_adj_it, *this);
+    //     // std::cout << "\t" << (*this)[v1].name << "--" << (*this)[*v0_adj_it].name << ": " << (e_v1_to_adj.second?"t":"f") << std::endl;
+    // }
+    for (Graph_Adj_Iterator v0_adj_it = v0_adj.first; v0_adj_it != v0_adj.second; ++v0_adj_it) {
+        // don't add any edges from v1 to v1
+        // only add edge if it's not already in
+        if (v1 != *v0_adj_it && !has_edge(v1, *v0_adj_it))
+            boost::add_edge(v1, *v0_adj_it, *this);
+    }
+    boost::clear_vertex(v0, *this);
+    // boost::remove_vertex(v0, *this);
+    remove_vertex(v0);
+
+
+
+
+
+    // // Remove v0 from v1's neighbor list
+    // (*this)[v1].erase(
+    //     std::remove((*this)[v1].begin(), (*this)[v1].end(), v0),
+    //     (*this)[v1].end()
+    // );
+
+    // // Replace any references to v0 with references to v1
+    // typedef typename AdjacencyList::value_type::iterator adjacency_iterator_t;
+
+    // adjacency_iterator_t u_neighbor_end = (*this)[v0].end();
+    // for (
+    //     adjacency_iterator_t u_neighbor_itr = (*this)[v0].begin();
+    //     u_neighbor_itr != u_neighbor_end; ++u_neighbor_itr)
+    // {
+    //     Vertex u_neighbor(*u_neighbor_itr);
+    //     std::replace(neighbors[u_neighbor].begin(), neighbors[u_neighbor].end(), u, v );
+    // }
+
+    // // Remove v1 from v0's neighbor list
+    // (*this)[v0].erase(
+    //     std::remove((*this)[v0].begin(), (*this)[v0].end(), v1),
+    //     (*this)[v0].end()
+    // );
+
+    // // Add everything in v0's neighbor list to v1's neighbor list
+    // std::copy(
+    //     (*this)[v0].begin(), (*this)[v0].end(),
+    //     std::back_inserter((*this)[v1])
+    // );
+
+    // // Clear v0's neighbor list
+    // (*this)[v0].clear();
+}
+
+
+// void vertex_copier(Vertex_Properties v0, Vertex_Properties v1) {
+//     v0.x = v1.x;
+//     v0.y = v1.y;
+//     v0.color = v1.color;
+//     v0.name = v1.name;
+//     v0.point = v1.point;
+// }
+
+// void edge_copier(Edge_Properties e0, Edge_Properties e1) {
+//     e0.length = e1.length;
+// }
+
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//     // boost::dynamic_properties dp;
+
+//     // // vertex properties
+//     // dp.property("node_id", boost::get(&Vertex_Properties::name, *this));
+//     // // boost::make_null_property<Vertex_ID, std::string>
+//     // dp.property("x", boost::get(&Vertex_Properties::x, *this));
+//     // dp.property("y", boost::get(&Vertex_Properties::y, *this));
+
+//     // // edge properties
+//     // dp.property("length", boost::get(&Edge_Properties::length, *this));
+
+//     // // read in
+//     // std::ifstream f(filename);
+//     // boost::read_graphviz(f, *this, dp);
+
+
+
+// // typedef boost::property<boost::vertex_index_t, std::size_t, boost::property<vertex_position_t, Position> > VertexProperties;
+// // typedef boost::adjacency_list<boost::vecS, boost::listS, boost::undirectedS, VertexProperties> Graph;
+// typedef boost::graph_traits<Graph> GraphTraits;
+
+// namespace detail {
+//     // typedef boost::grid_graph<2> Grid;
+//     // typedef boost::graph_traits<Grid> GridTraits;
+
+//     struct vertex_copier {
+//         typedef boost::property_map< Graph, boost::vertex_index_t>::type Graph_index_map;
+//         // typedef boost::property_map< ::Graph, boost::vertex_index_t>::type graph_vertex_index_map;
+//         typedef boost::property_map< ::Graph, ::vertex_position_t>::type graph_vertex_position_map;
+
+//         const Grid& grid;
+//         grid_vertex_index_map grid_vertex_index;
+//         graph_vertex_index_map graph_vertex_index;
+//         graph_vertex_position_map graph_vertex_position;
+
+//         grid_to_graph_vertex_copier(const Grid& grid_, Graph& graph)
+//             : grid(grid_), grid_vertex_index(get(boost::vertex_index_t(), grid_)),
+//             graph_vertex_index(get(boost::vertex_index_t(), graph)),
+//             graph_vertex_position(get(::vertex_position_t(), graph))
+//         {
+//         }
+
+//     private:
+//         Position grid_vertex_index_to_position(std::size_t idx) const {
+//             unsigned num_dims = grid.dimensions();
+//             assert(grid.dimensions() == 2);
+
+//             idx %= grid.length(0) * grid.length(1);
+
+//             Position ret;
+//             ret.x = idx % grid.length(0);
+//             ret.y = idx / grid.length(0);
+
+//             return ret;
+//         }
+
+//     public:
+//         void operator()(GridTraits::vertex_descriptor grid_vertex, ::GraphTraits::vertex_descriptor graph_vertex) const {
+//             std::size_t idx = get(grid_vertex_index, grid_vertex);
+//             put(graph_vertex_index, graph_vertex, idx);
+//             Position pos = grid_vertex_index_to_position(idx);
+//             std::cout << "grid_vertex = " << idx << ", pos.x = " << pos.x << ", pos.y = " << pos.y << std::endl;
+//             put(graph_vertex_position, graph_vertex, pos);
+//         }
+//     };
+
+//     struct grid_to_graph_edge_copier {
+//         void operator()(GridTraits::edge_descriptor grid_edge, ::GraphTraits::edge_descriptor graph_edge) const {
+//         }
+//     };
+// }
+
+// int main()
+// {
+//     boost::array<std::size_t, 2> lengths = { { 3, 5 } };
+//     detail::Grid grid(lengths);
+
+//     Graph graph;
+
+//     boost::copy_graph(grid, graph, boost::vertex_copy(detail::grid_to_graph_vertex_copier(grid, graph))
+//             .edge_copy(detail::grid_to_graph_edge_copier()));
+
+//     std::cout << std::endl;
+//     boost::write_graphviz(std::cout, graph);
+
+//     return EXIT_SUCCESS;
+// }
+
+
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+
+
+
+// #include <boost/property_map/property_map.hpp>
+// bool Graph::is_series_parallel() {
+//     // typedef std::map<Vertex_ID, size_t> IndexMap;
+//     // IndexMap mapIndex;
+//     // boost::associative_property_map<IndexMap> propmapIndex(mapIndex);
+
+//     // int i=0;
+//     // Vertex_Iterator v, v_end;
+//     // for (boost::tie(v, v_end) = this->vertices(); v != v_end; v++) {
+//     //     boost::put(propmapIndex, *v, i++);
+//     //     // mpq.insert(*v, degree_of_vertex(*v));
+//     // }
+
+//     // Graph g_copy;
+//     // boost::copy_graph(*this, g_copy, boost::vertex_index_map(propmapIndex));
+
+//     vertex_copier copier;
+//     Graph g_copy;
+//     boost::copy_graph(
+//         *this,
+//         g_copy,
+//         boost::bgl_named_params<
+//             vertex_copier,
+//             boost::vertex_copy_t,
+//             boost::bgl_named_params<vertex_copier,boost::edge_copy_t> >(copier));
+//     // return g_copy._is_series_parallel_aux();
+// }
+
+
+
 std::pair<Vertex_Iterator, Vertex_Iterator> Graph::vertices() const {
     return boost::vertices(*this);
 }
 
 std::pair<Edge_Iterator, Edge_Iterator> Graph::edges() const {
     return boost::edges(*this);
+}
+
+unsigned int Graph::degree_of_vertex(Vertex_ID v) {
+    return boost::degree(v, *this);
 }
 
 Vertex_Iterator Graph::find_vertex(const char *name) const {

@@ -38,6 +38,16 @@ struct Vertex_Properties {
     }
 };
 
+// struct vertex_copier {
+//   template <typename S, typename D>
+//   void operator()(const S& /*src*/, D& /*dest*/) {
+//     // Nothing for now, deduced types to try and just make it compile
+//     // TODO: set values for pos to reflect position on grid.
+//   }
+// };
+// void vertex_copier(Vertex_Properties v0, Vertex_Properties v1);
+
+
 
 struct Edge_Properties {
     double length;
@@ -53,6 +63,9 @@ struct Edge_Properties {
         // pebbles = 0;
     }
 };
+
+// void edge_copier(Edge_Properties e0, Edge_Properties e1);
+
 
 // typedef boost::adjacency_list<boost::listS,
 //                 boost::listS,
@@ -72,7 +85,7 @@ typedef boost::graph_traits<Graph_Type>::edge_descriptor Edge_ID;
 typedef boost::graph_traits<Graph_Type>::vertex_iterator Vertex_Iterator;
 typedef boost::graph_traits<Graph_Type>::edge_iterator Edge_Iterator;
 
-
+typedef boost::graph_traits<Graph_Type>::adjacency_iterator Graph_Adj_Iterator;
 
 
 
@@ -86,10 +99,22 @@ public:
     Vertex_ID add_vertex();
 
     Edge_ID add_edge(Vertex_ID v0, Vertex_ID v1, Edge_Properties ep);
-    Edge_ID add_edge(Vertex_ID v0, Vertex_ID v1, double distance);
+    Edge_ID add_edge(Vertex_ID v0, Vertex_ID v1, double length);
+
+    void remove_vertex(Vertex_ID v);
+    void remove_edge(Edge_ID e);
+    void remove_edge(Vertex_ID v0, Vertex_ID v1);
+
+    bool has_edge(Vertex_ID v0, Vertex_ID v1);
+
+    // v0 disappears, v1 remains
+    void contract_edge(Vertex_ID v0, Vertex_ID v1);
+    // bool is_series_parallel();
 
     std::pair<Vertex_Iterator, Vertex_Iterator> vertices() const;
     std::pair<Edge_Iterator, Edge_Iterator> edges() const;
+
+    unsigned int degree_of_vertex(Vertex_ID v);
 
     Vertex_Iterator find_vertex(const char *name) const;
 
@@ -103,6 +128,8 @@ public:
 
     void write_to_file(const char* filename);
     void read_from_file(const char* filename);
+private:
+    // bool _is_series_parallel_aux();
 };
 
 
@@ -148,7 +175,6 @@ private:
     std::set<Vertex_ID> _vertices;
     std::set<Edge_ID> _edges;
 };
-
 
 
 #endif

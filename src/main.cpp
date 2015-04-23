@@ -1,5 +1,6 @@
 #include "Graph/Graph.hpp"
 #include "Graph/Pebbled_Graph.hpp"
+#include "Graph/Isostatic_Graph_Realizer.hpp"
 
 #include "GUI/MainGuiManager.hpp"
 #include "GUI/Vision_Handler_2D.hpp"
@@ -670,7 +671,44 @@ int main(int argc, char **argv) {
 
         cout << "Pebbles remaining: " << pg.pebble_game_2D() << endl;
     } else if (runtime_option == ro_test) {
-        cout << "Nothing." << endl;
+        cout << "Testing edge contraction." << endl;
+
+        Isostatic_Graph_Realizer isg(&g);
+        isg.realize();
+
+        // int i = 0;
+
+        // cout << "Original Vertices (" << g.num_vertices() << " vertices, "<< g.num_edges() << " edges): " << endl;
+        // std::pair<Vertex_Iterator, Vertex_Iterator> vs = g.vertices();
+        // for (Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++) {
+        //     // cout << "\t" << i++ << ": " << *v_it << endl;
+        //     cout << "\t" << i++ << ": " << g[*v_it].name << endl;
+        // }
+
+        // // Vertex_ID v0 = *vs.first;
+        // // vs.first++;
+        // // Vertex_ID v1 = *vs.first;
+        // g.contract_edge(*(g.find_vertex("e")), *(g.find_vertex("c")));
+        // g.contract_edge(*(g.find_vertex("g")), *(g.find_vertex("c")));
+        // g.contract_edge(*(g.find_vertex("a")), *(g.find_vertex("b")));
+        // g.contract_edge(*(g.find_vertex("h")), *(g.find_vertex("i")));
+        // g.contract_edge(*(g.find_vertex("f")), *(g.find_vertex("d")));
+
+
+        // i = 0;
+        // cout << "New Vertices (" << g.num_vertices() << " vertices, "<< g.num_edges() << " edges): " << endl;
+        // vs = g.vertices();
+        // for (Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++) {
+        //     // cout << "\t" << i++ << ": " << *v_it << endl;
+        //     cout << "\t" << i++ << ": " << g[*v_it].name << endl;
+        // }
+
+        myWindow.update_graph_positions();
+        myWindow.update_display();
+        // std::pair<Vertex_Iterator, Vertex_Iterator> vs = g.vertices();
+        // do {
+        //     cout << *(vs.first) << endl;
+        // } while (++(vs.first) != vs.second);
     }
 
 

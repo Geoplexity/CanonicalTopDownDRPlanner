@@ -57,13 +57,13 @@ endif
 
 
 
-_DEPS = Graph/Graph.hpp Graph/Pebbled_Graph.hpp \
+_DEPS = Graph/Graph.hpp Graph/Pebbled_Graph.hpp Graph/Isostatic_Graph_Realizer.hpp Graph/MinPriorityQueue.hpp \
 	GUI/MainGuiManager.hpp GUI/Vision_Handler_2D.hpp GUI/program.hpp GUI/Circle.hpp GUI/EasyFont.hpp GUI/utils.h GUI/Font.hpp
 DEPS = $(patsubst %,$(SOURCE_DIRECTORY)/%,$(_DEPS))
 
 
 _OBJ = main.o \
-	Graph/Graph.o Graph/Pebbled_Graph.o \
+	Graph/Graph.o Graph/Pebbled_Graph.o Graph/Isostatic_Graph_Realizer.o \
 	GUI/MainGuiManager.o GUI/Vision_Handler_2D.o GUI/program.o GUI/utils.o GUI/Font.o
 OBJ = $(patsubst %,$(OBJECT_DIRECTORY)/%,$(_OBJ))
 
