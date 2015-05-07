@@ -10,10 +10,20 @@
 
 The NP-hardness of the DR-planning problem for 2D bar-joint graphs is partly the consequence of possibly exponential number of DR-plans. On the other hand, although the complete DR-plan is unique it could have large average fan-in and exponentially many nodes making it far from optimal.
 
-In this section, we define a \dfn{canonical} plan to capture those aspects of an optimal DR-plan that mimic a complete DR-plan's uniqueness, while for independent (underconstrained or isostatic graphs), we show that the nonunique parts do not affect optimality.
+In this section, we define a \dfn{canonical} plan to capture those aspects of an optimal DR-plan that mimic the uniqueness of a complete DR-plan, and we show that the nonunique parts do not affect optimality for independent (underconstrained or isostatic) graphs. Furthermore, we give an efficient \candrpcomplexity\ algorithm to find the canonical DR-plan of any independent graph. The definition is as follows:
+
+\begin{definition}\label{def:canonical_drplan}
+    The \dfn{canonical DR-plan} satisfies the following three properties:
+    (1) it is a DR-plan;
+    (2) children are rigid vertex-maximal proper subgraphs of the parent; and
+    (3) if all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise take as children exactly two that intersect non-trivially.
+\end{definition}
+
+
 
 \subsection{Previous Work}
-\todo{We now briefly survey existing techniques for studying 2D qusecs,  many of which are \dfn{bar-joint} systems (Examples 1 and 2 above, see Sections \ref{sec:prelim}, \ref{sec:DRP}, and \ref{sec:recomb}), \dfn{body-hyperpin} systems (Example 4 and 5, see Section \ref{sec:bodypin}) or \dfn{pinned-line incidence} systems (Example 3, see Section \ref{sec:pinnedline}). The limitations of these techniques directly motivate the contributions of this paper.}
+% \todo{We now briefly survey existing techniques for studying 2D qusecs,  many of which are \dfn{bar-joint} systems (Examples 1 and 2 above, see Sections \ref{sec:prelim}, \ref{sec:DRP}, and \ref{sec:recomb}), \dfn{body-hyperpin} systems (Example 4 and 5, see Section \ref{sec:bodypin}) or \dfn{pinned-line incidence} systems (Example 3, see Section \ref{sec:pinnedline}). The limitations of these techniques directly motivate the contributions of this paper.}
+We now briefly survey existing techniques for detecting rigidity and creating DR-plans of 2D constraint systems. The limitations of these techniques directly motivate the contributions in this section.
 
 \begin{enumerate}
     \item
@@ -37,16 +47,14 @@ In this section, we define a \dfn{canonical} plan to capture those aspects of an
 \end{enumerate}
 
 \subsection{Theory}
-\sidenote{In this section, $G$ is always assumed to be isostatic.}
+In this section and in section~\ref{sec:recomb}, we deal exclusively with isostatic constraint systems. Any reference to some graph $G$ is assumed to be isostatic (i.e.\ well-constrained or $(k,l)$-tight).
+% \sidenote{In this section, $G$ is always assumed to be isostatic.}
 
-\begin{definition}\label{def:canonical_drplan}
-    The \dfn{canonical DR-plan} satisfies the following three properties:
-    (1) it is a DR-plan;
-    (2) children are rigid vertex-maximal proper subgraphs of the parent; and
-    (3) if all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise take as children exactly two that intersect non-trivially.
-\end{definition}
 
-This definition gives the canonical DR-plan a surprisingly strong Church-Rosser property.
+
+% This definition gives the canonical DR-plan a surprisingly strong Church-Rosser property.
+
+Definition~\ref{def:canonical_drplan} gives the canonical DR-plan a surprisingly strong Church-Rosser property, which is made explicit in Theorem~\ref{theorem:main}, the main result of this section.
 
 \begin{theorem}
 \label{theorem:canonical_exists_and_is_optimal}
@@ -83,7 +91,7 @@ Begin with $\comdrp{G}$ of a rigid 2D bar-joint graph $G$, for all nodes $C$ wit
    \item If $C_i \cap C_j$ is rigid then select any two out of $C_1,\ldots,C_N$ as children.
 \end{enumerate}
 
-This directly satisfies properties 2 and 3 of a canonical DR-plan (see definition \ref{def:canonical_drplan}), because all the nodes in $\comdrp{G}$ are rigid vertex-maximal proper subgraphs. However, we still have to show property 1 (that this makes a DR-plan).
+This directly satisfies properties 2 and 3 of a canonical DR-plan (see Definition~\ref{def:canonical_drplan}), because all the nodes in $\comdrp{G}$ are rigid vertex-maximal proper subgraphs. However, we still have to show property 1 (that this makes a DR-plan).
 For rule (1), because we are beginning with a complete DR-plan, if we keep all the children it is still a DR-plan. For rule (2), we know that the union must be rigid as well and it cannot be anything other than $C$, otherwise we have found a larger rigid vertex-maximal proper subgraph.
 
 If we begin with an isostatic graph, rigid can be replaced with isostatic throughout the construction and remain valid. The rigid proper subgraphs of an isostatic graph must be isostatic themselves.
@@ -145,7 +153,7 @@ This continues for $N-1$ levels total, always with fan-in of two (the minimum po
 % -- say this at top `proof is by induction on the level of the dr=plan'
 \end{proof}
 
-This proof of this theorem relied on the following crucial observation and lemma that are also used for other types of qusecs in the application sections (\ref{sec:bodypin} and \ref{sec:pinnedline}) of the paper.
+This proof of this theorem relied on the following crucial observation and lemma. These will be used again in the application sections (\ref{sec:bodypin} and \ref{sec:pinnedline}) of the paper, with modifications to work for other types of qusecs.
 
 \begin{observation*}\label{lemma:union_intersection}
 If $F_i$ and $F_j$ are isostatic subgraphs of the same
@@ -160,7 +168,7 @@ then the following hold:
 Then the following key properties hold at the nodes of a canonical DR-plan.
 
 \begin{lemma*}\label{lemma:combined_lemma}
-Let $C$ be a node of a canonical DR-plan, with distinct children $C_i$ and $C_j$
+Let $C$ be a node of a canonical DR-plan, with distinct children $C_i$ and $C_j$.
 Then
 \begin{enumerate}
     \item\label{lemma:wc_intersection_is_C}
@@ -289,10 +297,16 @@ Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and
 %   \label{fig:demo_graph}
 % \end{figure*}%
 
+% \begin{figure*}\centering%
+%   %
+%   \includegraphics[width=0.3\linewidth]{img/epsfromtikz/demo_graph_candrp_seq}
+%   \caption{The sequential canonical DR-plan of $G_{\Delta}$ from Figure~\ref{fig:demo_graph:graph}, which is optimal (as explained in the proof of Theorem~\ref{theorem:algo_complexity}). The children of the triangle are omitted. Compare to to the typical canonical DR-plan shown in Figure~\ref{fig:demo_graph:candrp}. Also, note that the bottom-left node, the triangle $bce$, is the intersection of the 3 children of $G_{\Delta}$ in $ComDRP(G_{\Delta})$, shown in Figure~\ref{fig:demo_graph:comdrp}.}
+%   \label{fig:demo_graph:candrpseq}
+% \end{figure*}%
 \begin{figure*}\centering%
   %
-  \includegraphics[width=0.3\linewidth]{img/epsfromtikz/demo_graph_candrp_seq}
-  \caption{The sequential canonical DR-plan of $G_{\Delta}$ from Figure~\ref{fig:demo_graph:graph}, which is optimal (as explained in the proof of Theorem~\ref{theorem:algo_complexity}). The children of the triangle are omitted. Compare to to the typical canonical DR-plan shown in Figure~\ref{fig:demo_graph:candrp}. Also, note that the bottom-left node, the triangle $bce$, is the intersection of the 3 children of $G_{\Delta}$ in $ComDRP(G_{\Delta})$, shown in Figure~\ref{fig:demo_graph:comdrp}.}
+  \includegraphics[width=0.3\linewidth]{img/svg/3xc2c3_candrp_seq}
+  \caption{The sequential canonical DR-plan of $G_{demo}$ from Figure~\ref{fig:demo_graph:graph}, which is optimal (as explained in the proof of Theorem~\ref{theorem:algo_complexity}). The children of the triangle are omitted. Compare to to the typical canonical DR-plan shown in Figure~\ref{fig:demo_graph:candrp}. Also, note that the bottom-left node, the triangle, is the intersection of the 3 children of $G_{demo}$ in $ComDRP(G_{demo})$, shown in Figure~\ref{fig:demo_graph:comdrp}.}
   \label{fig:demo_graph:candrpseq}
 \end{figure*}%
 
@@ -301,14 +315,16 @@ Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and
 \end{theorem}
 
 \begin{proof}
-The first step of the algorithm is finding the isostatic vertex-maximal proper subgraphs of the input isostatic graph $G$. Do this by first dropping arbitrary edge $e$ from the edge set and running the pebble game algorithm \cite{Jacobs:1997:PG} on this subgraph, which is $O(|V|^2)$. The output of this will be a list of component-candidates. Then run the Frontier algorithm \cite{hoffman2001decompositionII} \cite{lomonosov2004graph} ($O(|V|)$) on each candidate along with edge $e$, which will find the minimal subgraph $D$ that contains the candidate and $e$. If $D=G$, move the candidate (before adding $e$) to the true-component list and remove it from the candidate-component list. If $D\subsetneq G$, remove all candidates that are subgraphs of $D$ from the candidate-component list and add $D$ back to the list. Continue with the next candidate. When you exhaust the candidates, move to the next step.
+The first step of the algorithm, which we call $CanDRP(G)$, is finding the isostatic vertex-maximal proper subgraphs of the input isostatic graph $G$. Do this by first dropping arbitrary edge $e$ from the edge set and running the pebble game algorithm \cite{Jacobs:1997:PG} on this subgraph, which is $O(|V|^2)$. The output of this will be a list of component-candidates. Then run the Frontier algorithm \cite{hoffman2001decompositionII} \cite{lomonosov2004graph} ($O(|V|)$) on each candidate along with edge $e$, which will find the minimal subgraph $D$ that contains the candidate and $e$. If $D=G$, move the candidate (before adding $e$) to the true-component list and remove it from the candidate-component list. If $D\subsetneq G$, remove all candidates that are subgraphs of $D$ from the candidate-component list and add $D$ back to the list. Continue with the next candidate. When you exhaust the candidates, move to the next step.
 
-Test the intersection of any two of the true-components. If the intersection is trivial, the entire list becomes the children. Recursively apply the algorithm to each child.
+Test the intersection of any two of the true-components. If the intersection is trivial, the entire list become the children; recursively apply the algorithm to each child. If the intersection is non-trivial (necessarily isostatic), immediately compute the sequential decomposition down to $I=\bigcap_{k=1}^{N}{C_k}$. The root of this idea is discussed in detail in the proof of Theorem \ref{theorem:main}. We construct a DR-plan whose node set is the same as that of a canonical/optimal DR-plan. Begin with the parent $C$. Its children will be $S_1$ and $CanDRP(T_1)$, where $S_1=C\setminus R_1$ and $T_1$ is $R_1$ plus all incident edges (observe that these edges will add nodes from $I$ and that $T_1$ is underconstrained so it will be a forest and each root becomes a child of $C$). The children of $S_1$ will be $S_2$ and $CanDRP(T_2)$, where $S_2=C\setminus (R_1\cup R_2)$ and $T_2$ is $R_2$ plus all incident edges. And so on. At $N$ levels down, the children will be $S_N=I$ and $CanDRP(T_N)$, where $T_N$ is $R_N$ plus all incident edges. Apply the algorithm recursively to both children. See Figure~\ref{fig:demo_graph:candrpseq} for an example. \todo{should this more elaborate discussion be moved outside the proof?}
 
-If the intersection is non-trivial (necessarily isostatic), immediately compute the sequential decomposition down to $I=\bigcap_{k\in S_N}{C_k}$. The root of this idea is discussed in detail in the proof of Theorem \ref{theorem:main}, and we use the notation here. We construct a DR-plan whose node set is the same as that of a canonical/optimal DR-plan. Begin with the parent $C$. Its children will be $C\setminus R_1$ and $R_1$ plus the nodes and edges adjacent to $R_1$ that lie in $I$. Recursively apply the algorithm to the child containing $R_1$. The children of $C\setminus R_1$ will be $C\setminus (R_1\cup R_2)$ and $R_2$ plus the nodes and edges adjacent to $R_2$ that lie in $I$. And so on. At $N$ levels down, the 2 children will be $I$ and $R_N$ plus the nodes and edges adjacent to $R_N$ that lie in $I$. Apply the algorithm recursively to both children. See Figure~\ref{fig:demo_graph:candrpseq} for an example.
+The previous discussion was a detailed explanation with an implied efficient method to solve for the case of non-trivial intersections, which avoids recomputation of the isostatic components of $C$. This stage of the algorithm could be stated more succinctly:
+if the intersection is trivial, recursively apply $CanDRP$ to the entire list of true-components and set the resulting trees as the children. Else, the intersection is non-trivial, and the children of the node are $CanDRP(C_1)$ and $CanDRP(T)$, where $C_1$ is the first true-component of the parent $C$ (chosen arbitrarily, could be any child) and $T$ is the underconstrained graph formed from $C\setminus C_1$ plus all incident edges (also adding the associated nodes in $C_1$).
+
 % Although the nodes containing $R_1,\ldots,R_N$ are underconstrained, simply take the children to be the roots of the forest
 
-The reason for this construction is that the result is a tree with no duplicate nodes. The leaves of this tree will exactly be the edges of this graph. Therefore, the number of nodes in the tree is $O(|E|)$ which, for isostatic input graphs, is $O(|V|)$.
+The reason for this construction is that it makes analysis of the algorithm convenient. The result of the algorithm is DR-plan that is a tree with no duplicate nodes. The leaves of this tree will be exactly the edges of this graph. Therefore, the number of nodes in the tree is $O(|E|)$ which, for isostatic input graphs, is $O(|V|)$.
 
 Therefore, the complexity of the algorithm as a whole is $O(|V|^3)$.
 %
