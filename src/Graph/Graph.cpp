@@ -118,7 +118,32 @@ Edge_ID Graph::add_edge(Vertex_ID v0, Vertex_ID v1, double distance) {
 }
 
 void Graph::remove_vertex(Vertex_ID v) {
+    std::vector<Vertex_ID> vs;
+
+    for (std::pair<Graph_Adj_Iterator, Graph_Adj_Iterator> v_adj = boost::adjacent_vertices(v, *this);
+        v_adj.first != v_adj.second;
+        v_adj.first++)
+    {
+        vs.push_back(*(v_adj.first));
+    }
+
+    for (std::vector<Vertex_ID>::iterator v_it = vs.begin(); v_it != vs.end(); v_it++) {
+        // std::cout << "Removing edge: (" << (*this)[v].name << ", " << (*this)[*v_it].name << ")" << std::endl;
+        // std::cout << "\tDegree of " << (*this)[*v_it].name << " before: " << degree_of_vertex(*v_it) << std::endl;
+        remove_edge(v, *v_it);
+        // std::cout << "\tDegree of " << (*this)[*v_it].name << " after: " << degree_of_vertex(*v_it) << std::endl;
+    }
+
+    // for (std::vector<Vertex_ID>::iterator v_it = vs.begin(); v_it != vs.end(); v_it++) {
+    //     std::cout << "\tDegree of " << (*this)[*v_it].name << " before: " << degree_of_vertex(*v_it) << std::endl;
+    // }
+
+    // std::cout << "Removing vertex: " << (*this)[v].name << std::endl;
     boost::remove_vertex(v, *this);
+
+    // for (std::vector<Vertex_ID>::iterator v_it = vs.begin(); v_it != vs.end(); v_it++) {
+    //     std::cout << "\tDegree of " << (*this)[*v_it].name << " after: " << degree_of_vertex(*v_it) << std::endl;
+    // }
 }
 
 void Graph::remove_edge(Edge_ID e) {
@@ -134,11 +159,17 @@ bool Graph::has_edge(Vertex_ID v0, Vertex_ID v1) {
     return boost::edge(v0, v1, *this).second;
 }
 
+Edge_ID Graph::edge(Vertex_ID v0, Vertex_ID v1) {
+    return boost::edge(v0, v1, *this).first;
+}
+
 void Graph::contract_edge(Vertex_ID v0, Vertex_ID v1) {
-    std::cout
-        << "Graph::contract_edge: "
-        << (*this)[v0].name << "--" << (*this)[v1].name
-        << std::endl;
+    // std::cout
+    //     << "Graph::contract_edge: "
+    //     << (*this)[v0].name << "--" << (*this)[v1].name
+    //     << std::endl;
+
+
 
     // boost::graph_traits<Graph>::adjacency_iterator v, v_end;
     // for (boost::tie(v, v_end) = boost::adjacent_vertices(vertex, *_graph);
@@ -381,6 +412,34 @@ unsigned int Graph::degree_of_vertex(Vertex_ID v) {
     return boost::degree(v, *this);
 }
 
+
+std::set<Vertex_ID> Graph::vertices_adjacent(Vertex_ID v) {
+    std::set<Vertex_ID> ret;
+
+    boost::graph_traits<Graph>::adjacency_iterator v_it, v_end;
+    for (boost::tie(v_it, v_end) = boost::adjacent_vertices(v, *this);
+        v_it != v_end; v_it++)
+    {
+        ret.insert(*v_it);
+    }
+
+    return ret;
+}
+
+std::set<Vertex_ID> Graph::vertices_adjacent(std::set<Vertex_ID> &v_set) {
+    std::set<Vertex_ID> ret;
+    for (std::set<Vertex_ID>::iterator set_v = v_set.begin(); set_v != v_set.end(); set_v++) {
+        boost::graph_traits<Graph>::adjacency_iterator v, v_end;
+        for (boost::tie(v, v_end) = boost::adjacent_vertices(*set_v, *this);
+            v != v_end; v++)
+        {
+            ret.insert(*v);
+        }
+    }
+
+    return ret;
+}
+
 Vertex_Iterator Graph::find_vertex(const char *name) const {
     Vertex_Iterator v, v_end;
     for (boost::tie(v, v_end) = this->vertices(); v != v_end; v++) {
@@ -412,11 +471,13 @@ void Graph::set_layout() {
     typedef boost::property_map<Graph_Type, Point Vertex_Properties::*>::type Vertex_Point_Map;
     typedef boost::property_map<Graph_Type, double Edge_Properties::*>::type Edge_Distance_Map;
 
-
+    // std::cout << "layout: 1" << std::endl;
     Vertex_Point_Map vp_map = boost::get(&Vertex_Properties::point, *this);
     Edge_Distance_Map ed_map = boost::get(&Edge_Properties::length, *this);
 
+    // std::cout << "layout: 2" << std::endl;
     boost::circle_graph_layout(*this, vp_map, 100);
+    // std::cout << "layout: 2.5" << std::endl;
     boost::kamada_kawai_spring_layout(
         *this,
         vp_map,
@@ -435,11 +496,13 @@ void Graph::set_layout() {
     //     boost::square_topology<>());
 
 
+    // std::cout << "layout: 3" << std::endl;
     Vertex_Iterator i, end;
     for (boost::tie(i, end) = this->vertices(); i != end; i++) {
         (*this)[*i].x = vp_map[*i][0];
         (*this)[*i].y = vp_map[*i][1];
     }
+    // std::cout << "layout: 4" << std::endl;
 }
 
 
@@ -544,6 +607,42 @@ void Graph::read_from_file(const char* filename) {
 
 
 
+
+
+void Graph::print_vertices(unsigned int indent) {
+    std::string tabs = "";
+    for (int i = 0; i < indent; i++) tabs+="\t";
+
+    std::cout << tabs << "Graph vertices:" << std::endl;
+    tabs += "\t";
+    for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = vertices(); vs.first != vs.second; vs.first++) {
+        Vertex_ID v = *(vs.first);
+        std::cout << tabs
+            << "ID: " << v << " | "
+            << "Name: " << (*this)[v].name  << " | "
+            << "Degree: " << degree_of_vertex(v)
+            << std::endl;
+    }
+}
+
+
+void Graph::print_edges(unsigned int indent) {
+    std::string tabs = "";
+    for (int i = 0; i < indent; i++) tabs+="\t";
+
+    std::cout << tabs << "Graph edges:" << std::endl;
+    tabs += "\t";
+    for (std::pair<Edge_Iterator, Edge_Iterator> es = edges(); es.first != es.second; es.first++) {
+        Edge_ID e = *(es.first);
+        std::pair<Vertex_ID, Vertex_ID> vs = verts_on_edge(e);
+
+        std::cout << tabs
+            << "ID: " << e << " | "
+            << "Verts: (" << (*this)[vs.first].name << ", " << (*this)[vs.second].name << ") | "
+            << "Length: " << (*this)[e].length
+            << std::endl;
+    }
+}
 
 
 

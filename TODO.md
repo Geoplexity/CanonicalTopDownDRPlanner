@@ -5,8 +5,8 @@ GUI
 
 Build
 ============
-- Circle should be broken up
-- windows in main should be pulled out itno separate files
+- Circle.hpp should be broken up
+- windows in main should be pulled out into separate files
 - should make cpp files for some header only things (like circle, easyfont, etc)
 
 Pebble game
@@ -18,6 +18,7 @@ Series-parallel testing
 - Can there be degree zero vertices?
 - Can there be 3+ degree one verts?
 - MinPriorityQueue needs to handle errors more gracefully
+- Isostatic_Graph_Realizer should check that the graph is at least three vertices
 
 Known bugs
 ============
@@ -33,7 +34,7 @@ Software
 ========
 1) Make a mechanism for doing edge contractions and deletions
 2) Detect if a graph is a partial 2-tree by looking for K4 minor
-3) Automate the process of transforming a graph into a partial 2-tree vie edge deletions, either randomized or some heuristic... will require some thought, it will be random at first
+3) Automate the process of transforming a graph into a partial 2-tree via edge deletions, either randomized or some heuristic... will require some thought, it will be random at first
 4) Figure out how to pick the non-edges needed to get a 2-tree
 5) Determine the realization of a graph given lengths of non-edges
 6) Figure out the intervals of these non-edges and search the space for a realization that has the desired length of dropped edges

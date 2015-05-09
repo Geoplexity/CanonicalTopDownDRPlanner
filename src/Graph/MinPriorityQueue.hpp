@@ -80,6 +80,10 @@ public:
         return heap.size() == 0? true: false;
     }
 
+    unsigned int size() {
+        return heap.size();
+    }
+
     void insert(ID id, Key key) {
         if (map.find(id) != map.end()) // TODO: error
             return;
@@ -91,13 +95,19 @@ public:
         heapify_up(inserted);
     }
 
-    std::pair<ID, Key> pop_top() {
-        std::pair<ID, Key> ret = heap[0];
+    void pop() {
         swap(0, heap.size()-1);
         erase_last();
-
         heapify_down(0);
+    }
 
+    std::pair<ID, Key> top() {
+        return heap[0];
+    }
+
+    std::pair<ID, Key> pop_top() {
+        std::pair<ID, Key> ret = top();
+        pop();
         return ret;
     }
 

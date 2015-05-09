@@ -36,6 +36,11 @@ struct Vertex_Properties {
         y = 0;
         color = 0x000000;
     }
+
+    void set_position(double x, double y) {
+        this->x = x; this->y = y;
+        point[0] = x; point[1] = y;
+    }
 };
 
 // struct vertex_copier {
@@ -106,6 +111,7 @@ public:
     void remove_edge(Vertex_ID v0, Vertex_ID v1);
 
     bool has_edge(Vertex_ID v0, Vertex_ID v1);
+    Edge_ID edge(Vertex_ID v0, Vertex_ID v1); // can be unsafe... edge may not exist
 
     // v0 disappears, v1 remains
     void contract_edge(Vertex_ID v0, Vertex_ID v1);
@@ -115,6 +121,8 @@ public:
     std::pair<Edge_Iterator, Edge_Iterator> edges() const;
 
     unsigned int degree_of_vertex(Vertex_ID v);
+    std::set<Vertex_ID> vertices_adjacent(Vertex_ID v);
+    std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set);
 
     Vertex_Iterator find_vertex(const char *name) const;
 
@@ -128,6 +136,9 @@ public:
 
     void write_to_file(const char* filename);
     void read_from_file(const char* filename);
+
+    void print_vertices(unsigned int indent = 0);
+    void print_edges(unsigned int indent = 0);
 private:
     // bool _is_series_parallel_aux();
 };
