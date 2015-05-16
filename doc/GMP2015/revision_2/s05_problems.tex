@@ -8,13 +8,13 @@ In this section we provide a unified view of the various problems studied in the
 
 
 \subsubsection{Special classes of small DR-plans}
-As seen in the previous section, 2-trees and tree-decomposable graphs have not only small, but also special DR-plans that permit easy solving---essentially a single quadratic at a time.
+As seen in the previous section, 2-trees and tree-decomposable graphs have not only small, but also special DR-plans that permit easy solving---essentially by solving a single quadratic at a time.
 
 The \dfn{restricted optimal DR-planning problem} requires DR-plans of one of these types, which reduces to recognizing if the input graph is a 2-tree or a tree-decomposable graph for which simple near-linear time algorithms are available \cite{valdes1979recognition,fudos1997graph} and the DR-plan is a by-product output of the recognition algorithm.
 
 In the recombination setting, the corresponding \dfn{restricted OMD$_k$  problem} requires the reduced graph $G'$ and its isostatic completion $H$ to be 2-trees as in Section \ref{sec:2-tree-reduction} or to be a low Cayley complexity tree-decomposable graph as in Section \ref{sec:tdecomp}. Clearly these problems have deterministic polynomial time algorithms in $n$, but the algorithms run in time exponential in $k$.
 
-We discuss the complexity of the restricted OMD problem (when $k$ is part of the input) in Section \ref{sec:futurework}.
+We discuss the complexity of the restricted OMD problem (when $k$ is part of the input) in the open-problem Section \ref{sec:futurework}.
 
 %In the recombination setting, the corresponding \dfn{restricted
 %OMD$_k$  problem} requires the reduced graph $G'$ and its isostatic
@@ -39,7 +39,7 @@ We discuss the complexity of the restricted OMD problem (when $k$ is part of the
 %In fact, 6-connected (hence rigid) graphs with arbitrarily large girth
 %have been constructed in \cite{servatius2000rigidity}.
 %
-\subsubsection{Optimal Modification, Completion and Recombination: formal
+\subsubsection{Optimal Modification, Completion and Recombination: previous work and formal
 connections}
 %
 The OMD problem is closely related to a well-studied problem of completion of an underconstrained system to an isostatic one with a small DR-plan.
@@ -52,9 +52,9 @@ In fact, a \dfn{restricted OC} problem was studied by \cite{joan-arinyo2003trans
 
 We now connect the OMD problem to the informal \dfn{optimal recombination (OR)} problem mentioned as motivation at the beginning of Section \ref{sec:recomb}.
 
-In order to connect the OR problem to OMD, when the input graph is the isostatic graph at the DR-plan root, we do not consider the case where the two child \dfn{solved subgraphs} (corresponding to already solved subsystems) have a nontrivial intersection (in this case the recombination is trivial). We only consider the case where no two child solved subgraphs (resp. two root subgraphs when the input graph is underconstrained) share more than 1 vertex. We replace such solved subgraphs  by isostatic graphs as follows. If a solved subgraph shares at most one vertex with the remainder of the graph, simply replace it by an edge one of whose endpoints  is the shared vertex. Otherwise, replace it by  a 2-tree graph of the shared vertices. Finally, we add the additional restriction to the OM Problem that when any edge in a solved subgraph is chosen among the $k$ edges to be removed, in fact the entire solved subgraph must be removed  and all of its edges must be counted in $k$.
+In order to connect the OR problem to OMD, when the input graph is the isostatic graph at the DR-plan root, we do not consider the case where the two child \dfn{solved subgraphs} (corresponding to already solved subsystems) have a nontrivial intersection (in this case the recombination is trivial). We only consider the case where no two child solved subgraphs (resp. two root subgraphs when the input graph is underconstrained) share more than 1 vertex. We replace such solved subgraphs  by isostatic graphs as follows. If a solved subgraph shares at most one vertex with the remainder of the graph, simply replace it by an edge one of whose endpoints  is the shared vertex. Otherwise, replace it by  a 2-tree graph of the shared vertices. Finally, we add the additional restriction to the OM problem that when any edge in a solved subgraph is chosen among the $k$ edges to be removed, in fact the entire solved subgraph must be removed  and all of its edges must be counted in $k$.
 
-This reduction is used also for transferring  algorithms for optimal DR-planning, recombination, completion, OMD, and other problems from bar-joint systems to so-called \dfn{body-hyperpin}, defined in Section \ref{sec:bodypin}, by showing that the problems for the latter are reduced to the corresponding problems on bar-joint systems.
+This reduction is used also for adapting  algorithms for optimal DR-planning, recombination, completion, OMD, and other problems from bar-joint systems to so-called \dfn{body-hyperpin}, defined in Section \ref{sec:bodypin}, by showing that the problems for the latter are reduced to the corresponding problems on bar-joint systems.
 
 %\note This section deals only with bar-joint systems, however,
 %extensions of several of these problems, approaches and solutions to

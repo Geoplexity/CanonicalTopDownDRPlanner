@@ -1,10 +1,10 @@
 \section{Application: Finding optimal DR-plans and realizations for cross-linking microfibrils }
 \label{sec:pinnedline}
 
-The canonical DR-plan of Section \ref{sec:DRP} can also be applied to analyze and solve the structure of cross-linking collagen microfibrils in animals, cellulose microfibrils in plant cell walls, and actin filaments in the cytoskeleton by modeling these structures as \dfn{pinned line-incidence systems}.
+The canonical DR-plan of Section \ref{sec:DRP} can additionally be applied to analyze and solve the structure of cross-linking collagen microfibrils in animals, cellulose microfibrils in plant cell walls, and actin filaments in the cytoskeleton by modeling these structures as a third type of qusecs, \dfn{pinned line-incidence systems}.
 
 
-\dfn{Collagen} is an important protein material in biological tissues with highly elastic mechanical property \cite{buehler2008nanomechanics}. \dfn{Cellulose} is the most important constituent of the cell wall of plants (see Figure~\ref{fig:cellulose}) \cite{fall2013physical,smith1971plant}. Both of these substances consist of a large number \dfn{microfibrils},
+\dfn{Collagen} is an important protein material in biological tissues with highly elastic mechanical properties \cite{buehler2008nanomechanics}. \dfn{Cellulose} is the most important constituent of the cell wall of plants (see Figure~\ref{fig:cellulose}) \cite{fall2013physical,smith1971plant}. Both of these substances consist of a large number \dfn{microfibrils},
 %fibril itself straight?
 %Each fibril is attached to some fixed larger organelle/membrane at one spot (typically on the boundary).
 %It is additionally
@@ -91,7 +91,7 @@ A pinned line-incidence graph $G$ is rigid if $|E| = 2|V|$ and $|E'| \le 2|V'|$ 
 
 
 
-In the case of microfibril cross-linking, each fibril is attached to some fixed larger organelle/membrane at one spot. Consequently, each fibril can be modeled as an edge of the graph, with the attachment being the corresponding pin. The two cross-linkings on the fibril are modeled as the two vertices in $V$ defining the edge.
+In the case of microfibril cross-linking, each fibril is attached to some fixed larger organelle/membrane at one site. Consequently, each fibril can be modeled as an edge of the graph, with the attachment being the corresponding pin. The two cross-linkings in which the fibril participates are modeled as the two vertices in $V$ defining the edge.
 
 
 
@@ -163,7 +163,7 @@ We define a \dfn{trivial} graph to be a single vertex and make the following mod
     %        \item[4] A node containing a single edge is a leaf.
     %    \end{enumerate}
 
-    The \dfn{canonical DR-plan} of $G$  is one in which the  children containing rigid subgraphs are connected isostatic vertex-maximal subgraphs of the parent.
+    The \dfn{canonical DR-plan}  of $G$  is one in which the  child rigid subgraphs are connected, isostatic vertex-maximal subgraphs of the parent.
 \end{definition}
 
 

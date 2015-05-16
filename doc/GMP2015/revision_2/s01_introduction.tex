@@ -5,37 +5,38 @@
 \newcommand{\seedefsb}{(see \ref{sec:appendix:defs} for definitions)}
 \newcommand{\seedefsc}{See \ref{sec:appendix:defs} for formal definitions}
 \newcommand{\seedefsd}{see \ref{sec:appendix:defs} for definitions}
-\newcommand{\seedefsprelim}{(formally defined in Section \ref{sec:prelim})}
+\newcommand{\seedefsprelim}{(formally defined in Section \ref{sec:prelim:defs})}
 
 
 % \todo{Regarding qusecs... We use the standard way of dealing w/ these problems, namely modeling it as a geometric constraint system...
 % \todo{Restructure intro so that we have... problems first... closing with ``Concerning these issue... this is what we do in relation to them... the specifics we address..'' and go into summary of our contributions}
 
+Geometric constraint systems have well-established, mature applications in mechanical engineering and  robotics, and they continue to find emerging applications in diverse fields from machine learning to molecular modeling.  Solving or realizing geometric constraint systems requires finding real solutions to a large multivariate polynomial system (of equalities and inequalities representing the constraints); this requires double exponential time in the number of variables, even if the type or orientation of the solution is specified.
+% Thus, recursive decomposition into locally rigid subsystems (which have finitely many solutions) is crucial for realizing a geometric constraint system by the reverse process of recombining the subsystem solutions.
+Thus, to realize a geometric constraint system, it is crucial to perform recursive decomposition into locally rigid subsystems (which have finitely many solutions), and then apply the reverse process of recombining the subsystem solutions.
+With the use of \dfn{decomposition-recombination (DR-) planning}, the complexity is dominated by the size of the largest subsystem that is solved, or recombined, from the solutions of its child subsystems, i.e.\ the maximum fan-in occurring in a DR-plan.
+In addition, navigating and analyzing the solution spaces, as well as designing constraint systems with desired solution spaces leads to the \dfn{optimal decomposition-recombination (DR-) planning} problem~\cite{sitharam2005combinatorial, hoffman2001decompositionI, hoffman2001decompositionII}. \todo{Feels very clunky.}
+
+For a broad class of geometric constraint systems, local rigidity is characterized generically as a sparsity and tightness condition of the underlying constraint (hyper)graph~\cite{laman1970graphs,streinu2009sparse,tay1976rigidity,white1987algebraic}. This allows the generic DR-planning problem to be stated and treated as a combinatorial or (hyper)graph problem as we do in this paper.
+
+We additionally conjecture that versions of \frontier, a previously given, bottom-up, polynomial time method for obtaining DR-plans with various desired properties~\cite{hoffman2001decompositionI, hoffman2001decompositionII,lomonosov2004graph,sitharam2005combinatorial}, in fact generate an optimal DR-plan for non-overconstrained systems.
 
 
-Geometric constraint systems are ubiquitous in material and mechanical engineering, robotics, bioinformatics, and many other fields. Some systems have an underlying sparsity condition that characterize rigidity, allowing for matroidal techniques of rigidity detection and decomposition. However, the design and analysis of these systems is complicated by the NP-hardness barrier of creating optimal decomposition-recombination (DR-) plans. While other papers have focused on a few desirable criteria and made use of hueristics, by focusing on the class of independent (isostatic or underconstrained) systems we have found an efficient way to construct the optimal DR-plan.
-Additionally, in real world applications, many of these systems exhibit degrees of self-similarity and quasi-uniformity. Our formulation of the optimal DR-plan can leverage these properties, further reducing the complexity of the DR-plan.
-Furthermore, we address the fact that indecomposable subsystems in a system can be arbitrarily large, representing a bottle-neck in the computational efficiency in the analysis of these systems. We also address this problem with an efficient technique of optimal modification for further decomposition.
+Na{\"i}vely, the optimal DR-plan is used as follows. Each decomposed subsystem---a node of the DR-plan---is treated and solved as a polynomial system of constraints between its child subsystems. However, even in an optimal DR-plan, there can be arbitrarily many children at a node. In other words, even in the recursive decomposition given by an optimal DR-plan, the  size of the maximal indecomposable subsystem could be arbitrarily large.  It represents a bottleneck that dictates the complexity of solving or realizing the constraint system \cite{sitharam2010optimized,sitharam2006well,sitharam2010reconciling}.  We address this problem using the recently developed concept of \dfn{convex Cayley configuration spaces} \cite{sitharam2010convex,sitharam2011cayleyI,sitharam2011cayleyII,sitharam2014beast,sitharam2013caymos,wang2014cayley}. This allows for even greater reduction of the complexity by realizing large, indecomposable systems in a manner that avoids working with large systems of equations.
+Specifically, we give an efficient technique for \dfn{optimally modifying} large indecomposable subsystems in a manner that reduces their complexity while preserving desired solutions; the modification ensures a convex Cayley configuration space, and the space can be efficiently searched to find a realization that satisfies the additional constraints of the original system.
+This optimal modification  problem is a generalization of the previously studied problem of optimal completion of underconstrained systems \cite{sitharam2005combinatorial,joan-arinyo2003transforming}.
+
+DR-plans are especially useful for constraint systems that exhibit some level of \dfn{self-similarity} and \dfn{quasi-uniformity}, in addition to isostaticity.  These properties can be leveraged to further reduce the complexity of both optimal DR-plan construction and recombination.
+We consider 3 different types of constraint systems---which we collectively call \dfn{qusecs}---that are used to model, design, and analyze quasi-uniform or self-similar materials.
+In the remainder of this section, we motivate the materials application and give the contributions and organization of the paper.
 
 % In this paper, we introduce new techniques for the recursive decomposition and recombination of two dimensional independent (isostatic or underconstrained) constraint systems. The main contributions are a method to generate an optimal decomposition-recombination (DR-) plan
-
 %  leveraging the quasi-uniformity and self-similarity present in many real world applications,
-
-\subsection{Recursive Decomposition Problem}
-The first problem we consider is the optimal recursive decomposition problem of highly general geometric constraint systems with the sole requirement that local rigidity is characterized as a sparsity condition of an underlying (hyper)graph. This characterization has broad applicability in practice, and we provide several concrete examples.
-
-
-
-
-
-
-
-
 % Decomposition is crucial for realizing and designing the geometric constraint system and its properties such as rigidity, stability, and stress response to external loads. When realizing these sparsity-condition constraint systems, the task would require finding real solutions to a large multivariate polynomial system (of inequalities and equalities representing the constraints). Without decomposition to plan the recombination (DR-planning), this requires double exponential time in the number of variables (even if orientation type is specified). With DR-planning, the complexity is dominated by the size of the largest subsystem that is solved, or recombined from the solutions of its child subsystems, i.e., the maximum fan-in occurring in a DR-plan. Thus, finding an optimal DR-plan is important for realization.
 
-Decomposition is crucial for realizing and designing the geometric constraint system and its properties such as rigidity, stability, and stress response to external loads. When realizing constraint systems, the task would require finding real solutions to a large multivariate polynomial system (of inequalities and equalities representing the constraints); this requires double exponential time in the number of variable, even if orientation type is specified.
+
+
 % Without decomposition to plan the recombination (DR-planning), this requires double exponential time in the number of variables (even if orientation type is specified).
-With the use of decomposition-recomination (DR-) planning, the complexity is dominated by the size of the largest subsystem that is solved, or recombined from the solutions of its child subsystems, i.e., the maximum fan-in occurring in a DR-plan. Thus, finding an optimal DR-plan is important for realization.
 
 
 
@@ -49,41 +50,34 @@ With the use of decomposition-recomination (DR-) planning, the complexity is dom
 
 % Furthermore, recursive block decomposition of the rigidity matrix, stress space, and external stresses can be obtained using the DR-plan. Each block is the rigidity matrix of an isostatic subgraph. The blocks intersect on isostatic or trivial subgraphs. This recursive block decomposition of the rigidity matrix $R$ corresponds to a recursive decomposition of the stress vectors $s$ that balance a given external stress $t$ since $sR = t$. Moreover, the external stress vector $t$ is recursively ``distributed'' into external stresses for each node of the DR-plan. When the rigidity matrix and stress vectors contain indeterminates, this can be used to design underlying graph and parameters $\delta$ to obtain an optimal distribution of stresses on the geometric primitives. When the realization of the system \nameit is given, this can be used to analyze the distribution of a given external load.
 
-Furthermore, the DR-plan can be used to obtain recursive block decomposition of the rigidity matrix, stress space, and external stresses. Each block is the rigidity matrix of an isostatic subgraph. The blocks intersect on isostatic or trivial subgraphs. This recursive block decomposition of the rigidity matrix $R$ corresponds to a recursive decomposition of the stress vectors $s$ that balance a given external stress $t$ since $sR = t$. Moreover, the external stress vector $t$ is recursively ``distributed'' into external stresses for each node of the DR-plan. When the rigidity matrix and stress vectors contain indeterminates, this can be used to design underlying graph and parameters $\delta$ to obtain an optimal distribution of stresses on the geometric primitives. When the realization of the system is given, this can be used to analyze the distribution of a given external load.
 
+
+%highly general geometric constraint systems with the  This characterization has broad applicability in practice, and we provide several concrete examples.
 
 
 
 % In the literature, this problem is called the optimal decomposition recombination (DR-) planning problem, which,
-An optimal DR-plan decreases the computation involved in such tasks; however, in general, finding an optimal DR-plan is NP-hard. Therefore, previous algorithms for the problem did not consider optimality and instead focused on other desirable criteria of the output DR-plan. By concentrating on geometric constraint system that are not overconstrained, we give a polynomial time algorithm for optimal DR-planning by capturing the notion of a canonical DR-plan. Then we show that all canonical DR-plans are optimal for systems that are not overconstrained. This immediately gives a polynomial time algorithm for obtaining a DR-planning that is not only optimal but also has the previously studied desirable properties. In fact, we conjecture that one of the earlier algorithms also produces an optimal DR-plan and that every optimal DR-plan is in some formal sense canonical.
-
-
+%An optimal DR-plan decreases the computation involved in such tasks; however, in general, finding an optimal DR-plan is NP-hard. Therefore, previous algorithms for the problem did not consider optimality and instead focused on other desirable criteria of the output DR-plan.
 % Knowing an optimal DR-plan is crucial when working with isostatic geometric constraint systems with an underlying sparsity condition \nameit. It allows for efficient design and analysis of these systems with various desirable properties. The importance of an optimal plan is particularly evident when these systems \nameit are self-similar or quasi-uniform, shown in Figures \ref{fig:c2c3ofk33s} and \ref{fig:bodypindrp}, as the complexity of the plan is even further reduced.
 
 
 
-\subsection{Recombination Problem}
-The second problem we consider is the complexity of recombination. Na{\"i}vely, recombination can be done by finding the solutions to the polynomial system of equations describing the constraints between the children; however, even in an optimal DR-plan, there can be arbitrarily many children at a node.
 
 % Instead, we propose the modification of the subsystem to find a convex configuration space that can be efficiently searched for a solution to the original system.
-
-Instead, we make use of the notion of Cayley complexity to quantify the difficulty of each step of recombination. Once a subsystem of a node is found that has a convex Cayley configuration space, the space can be efficiently searched to find a realization that satisfies the additional constraints of the original system.
-This allows for even greater reduction of the complexity, by realizing large, indecomposable systems in a way that avoids working with large systems of equations.
-
-
-
+%Instead, we make use of the notion of Cayley complexity to quantify the difficulty of each step of recombination.
 % We additionally use the notion of Cayley complexity to quantify the difficulty of each step of recombination. Once a subsystem is found that has a convex Cayley configuration space, the space can be efficiently searched to find a realization that satisfies the additional constraints of the original system.
 % This allows for even greater reduction of the complexity, by realizing large, indecomposable systems in a way that avoids working with large systems of equations.
 
 
 
 \subsection{Introducing Qusecs}
-When working on these problems, there is a large, natural class of constraint systems that we call \dfn{qusecs}, a contraction of ``quasi-uniform or self-similar constraint systems''.
+A large class of constraint systems that we call \dfn{qusecs}, a contraction of ``quasi-uniform or self-similar constraint system'', (a) can be treated combinatorially as described above and (b) occur as independent (isostatic or underconstrained) systems in materials applications. We discuss these next.
 %
-Some properties of natural and engineered materials can be analyzed by treating them as two dimensional (2D) layers. As illustrated by the examples below, the structure within each layer is often: self-similar\footnote{In this manuscript we only study finite 2D structures. \dfn{Self-similarity} refers to the result of finitely many levels of hierarchy or subdivision in an iterated scheme to generate self-similar structures.}~\cite{2012arXiv1204.6389G}, spanning multiple scales; generally aperiodic and quasi-uniform within any one scale; and composed of a few repeated motifs appearing in disordered arrangements.
-Note that a layer is not necessarily planar, it can consist of multiple, inter-constraining planar (genus 0) monolayers. Furthermore, a layer is often  either \vemph{isostatic} or \vemph{underconstrained} (\vemph{not self-stressed}, \seedefsd). A variety of quasi-uniform (aperiodic) and self-similar, layered material structures are a natural consequence of design objectives such as rigidity or flexibility, minimizing mass, optimally distributing external stresses and participating in the assembly of diverse and multifunctional, larger  structures.
+Some natural and engineered materials can be analyzed by treating them as two dimensional (2D) layers. As illustrated by the examples below, the structure within each layer is often: self-similar\footnote{In this manuscript we only study finite 2D structures. \dfn{Self-similarity} refers to the result of finitely many levels of hierarchy or subdivision in an iterated scheme to generate self-similar structures.}~\cite{2012arXiv1204.6389G}, spanning multiple scales; generally aperiodic and quasi-uniform within any one scale; and composed of a few repeated motifs appearing in disordered arrangements.
+Note that a 2D layer is not necessarily planar (genus 0), it can consist of multiple, inter-constraining planar monolayers. Furthermore, a layer is often  either \dfn{isostatic} or \dfn{underconstrained} (not \dfn{self-stressed}/\dfn{overconstrained}, \seedefsd). \todo{consider...} These properties, as well as quasi-uniformity, aperiodicity, self-similarity, and layered structure, are natural consequences of evolutionary pressures or design objectives such as stability, minimizing mass, optimally distributing external stresses, and participating in the assembly of diverse and multifunctional, larger structures.
 %
-The importance of an optimal DR-plan is particularly evident when a system is a qusecs. The quasi-uniform or self-similar properties mean that solutions for one subsystem can solve other subsystems, thus causing further reduction in the complexity of the plan. This is shown in Figures \ref{fig:c2c3ofk33s} and \ref{fig:bodypindrp}.
+
+The importance of an optimal DR-plan is particularly evident for a qusecs. The quasi-uniform or self-similar properties mean that the decomposition and solution for one subsystem can be used as the decomposition and solution for other subsystems, thus causing further reduction in the complexity of both DR-planning and recombination. This is shown in Figures \ref{fig:c2c3ofk33s} and \ref{fig:bodypindrp}.
 
 
 
@@ -153,15 +147,15 @@ The importance of an optimal DR-plan is particularly evident when a system is a 
 Some materials that are readily modeled as qusecs include:
 %
 \begin{enumerate}
-    \item \label{materialexample1} Cross-sections of microtubule structures~\cite{microtubule_necklace} (Figure \ref{fig:material_examples:microtubule}) e.g., in ciliary membranes and transitions~\cite{microtubule_cilia}.
+    \item \label{materialexample1} Cross-sections of microtubule structures~\cite{microtubule_necklace} (Figure \ref{fig:material_examples:microtubule}), e.g., in ciliary membranes and transitions~\cite{microtubule_cilia}.
 
-    \item \label{materialexample2} Cross-sections of organic tissue with hierarchical structure, e.g. compact bone and tendon (Figure \ref{fig:material_examples:tendon}).
+    \item \label{materialexample2} Cross-sections of organic tissue with hierarchical structure, e.g., compact bone and tendon (Figure \ref{fig:material_examples:tendon}).
 
-    \item \label{materialexample3} Crosslinked cellulose or collagen microfibril monolayers e.g., in cell-walls~\cite{wikimediacommons2010afm}~\cite{wikimediacommons2007plant}, as well as crosslinked actin filaments in the cytoskeleton matrix. See Section \ref{sec:pinnedline}.
+    \item \label{materialexample3} Crosslinked cellulose or collagen microfibril monolayers, e.g., in cell-walls~\cite{wikimediacommons2010afm, wikimediacommons2007plant}, as well as crosslinked actin filaments in the cytoskeleton matrix. See Section \ref{sec:pinnedline}.
 
-    \item \label{materialexample4} More recent, engineered examples, including disordered graphene layers~\cite{Graphene1}~\cite{Graphene2} sometimes reinforced by microfibrils; and DNA assemblies including a recent Sierpinski gasket~\cite{self_assembly_sierpinski} (Figure \ref{fig:material_examples:sierpinski}), bringing other self-similar structures~\cite{wikimediacommons2012subdivision} within reach.
+    \item \label{materialexample4} More recent, engineered examples, including disordered graphene layers~\cite{Graphene1, Graphene2} sometimes reinforced by microfibrils; and DNA assemblies including a recent Sierpinski gasket~\cite{self_assembly_sierpinski} (Figure \ref{fig:material_examples:sierpinski}), bringing other self-similar structures~\cite{wikimediacommons2012subdivision} within reach.
 
-    \item \label{materialexample5} Silica bi-layers~\cite{silica_bilayers}, glass~\cite{sructure_of_2d_glass}, and materials that behave like assemblies of 2D particles under non-overlap constraints, i.e, like jammed disks on the plane~\cite{jammed_disks}. See Section \ref{sec:bodypin}.
+    \item \label{materialexample5} Silica bi-layers~\cite{silica_bilayers}, glass~\cite{sructure_of_2d_glass}, and materials that behave like assemblies of 2D particles under non-overlap constraints, i.e.\ like jammed disks on the plane~\cite{jammed_disks}. See Section \ref{sec:bodypin}.
 \end{enumerate}
 
 
@@ -170,8 +164,9 @@ Some materials that are readily modeled as qusecs include:
 \subsection{Organization and Contributions}
 \label{sec:cont}
 
-In Section \ref{sec:prelim}, we provide basic definitions in rigidity theory, including what it means for a DR-plan to be complete or optimal. We also elaborate on the new notion of qusecs.
-This section is relevant to Examples \ref{materialexample1} and \ref{materialexample2}, where we model them as bar-joint systems and discuss achieving isostaticity, distribution of stresses in self-similar, and other important concepts. \todo{We don't model them as bar-joint... What did this mean originally?}
+In Section \ref{sec:prelim}, we provide basic definitions in combinatorial rigidity theory,  and formalize the new notion of qusecs~\cite{sitharam2010optimized,sitharam2006well,sitharam2010reconciling}.
+In addition, we define DR-plans and what it means for a DR-plan to be complete or optimal. We survey previous work on DR-planning algorithms, discussing other desirable criteria of DR-plans and their relation to the NP-hard optimality property of DR-plans.
+%This section is relevant to Examples \ref{materialexample1} and \ref{materialexample2},  model them as bar-joint systems and discuss achieving isostaticity, distribution of stresses in self-similar, and other important concepts. \todo{We don't model them as bar-joint... What did this mean originally?}
 
 % In Section \ref{sec:DRP}, we navigate the NP-hardness barrier (discussed in the following subsection), for finding optimal DR-plans by defining a so-called \dfn{canonical} DR-plan and showing a strong Church-Rosser property: \vemph{all canonical DR-plans for isostatic or underconstrained 2D qusecs are optimal}.
 
@@ -179,8 +174,7 @@ This section is relevant to Examples \ref{materialexample1} and \ref{materialexa
 % The canonical DR-plan elucidates the essence of the NP-hardness of finding optimal DR-plans for over-constrained systems.
 % Furthermore, our optimal/canonical DR-plan satisfies desirable properties such as the previously studied Cluster Minimality \cite{hoffman2001decompositionI} (see Figure~\ref{fig:demo_graph:clustmindrp}).
 
-In Section \ref{sec:DRP}, we define a so-called \dfn{canonical DR-plan} and prove a strong Church-Rosser property: all canonical DR-plans for isostatic or underconstrained 2D qusecs are optimal. In so doing, we navigate the NP-hardness barrier present in the general form of the DR-planning problem; the canonical DR-plan elucidates the essence of the NP-hardness of finding optimal DR-plans for over-constrained systems. Furthermore, our optimal/canonical DR-plan satisfies desirable properties such as the previously studied Cluster Minimality \cite{hoffman2001decompositionI} (see Figure~\ref{fig:demo_graph:clustmindrp}). Also in this section, a polynomial time (\candrpcomplexity) algorithm is provided to find a canonical DR-plan for isostatic bar-joint graphs.
-
+In Section \ref{sec:DRP}, we define a so-called \dfn{canonical DR-plan} and prove a strong Church-Rosser property: all canonical DR-plans for isostatic or underconstrained qusecs are optimal. In so doing, we navigate the NP-hardness barrier present in the general form of the DR-planning problem; the canonical DR-plan elucidates the essence of the NP-hardness of finding optimal DR-plans when a system is over-constrained. Furthermore, our optimal/canonical DR-plan satisfies desirable properties such as the previously studied {\em cluster minimality}  \cite{hoffman2001decompositionI} (see Figure~\ref{fig:demo_graph:clustmindrp}). Also in this section, a polynomial time (\candrpcomplexity) algorithm is provided to find a canonical DR-plan for isostatic bar-joint graphs.  While this and the next section focus on bar-joint graphs, the theory is easily extended to other qusecs used to model the abovementioned types of materials, as shown in subsequent sections.
 % that such a plan will be optimal, in the sense that it minimizes the fan-in over all nodes, for isostatic bar-joint graphs.
 % Additionally, a polynomial time (\candrpcomplexity) algorithm is provided to find a canonical DR-plan for isostatic bar-joint graphs.
 
@@ -193,8 +187,13 @@ In Section \ref{sec:table}, we show formal connection to well known problems suc
 
 % \todo{Section \ref{sec:recomb} addresses the issue of large, indecomposable subgraphs in the optimal DR-plan of bar-joint graphs by proposing a novel method of modification. By dropping edges to get a convex configuration space, realizations of the original linkage can be found. Also problem relations...}
 
-While both of these sections focus on bar-joint graphs, the theory is easily extended to other qusecs. The following sections focus on explicit applications by modeling rigidity in certain materials as qusecs.
+ % The next sections focus on explicit applications by modeling certain materials as qusecs.
 
-In Section \ref{sec:bodypin} and \ref{sec:pinnedline}, we briefly describe applications of the above techniques to modeling, analyzing, and designing specific properties in 2D material layers~\cite{Jackson2008bodypin}. For Examples \ref{materialexample4} and \ref{materialexample5}, we discuss boundary-conditions for achieving various desired properties of body-hyperpin systems. For Example \ref{materialexample3}, we discuss canonical and optimal DR-plans for pinned line incidence systems \cite{sitharam2014incidence}).
+In Section~\ref{sec:bodypin} and~\ref{sec:pinnedline}, we briefly describe applications of the above techniques to modeling, analyzing, and designing specific properties in 2D material layers~\cite{Jackson2008bodypin}. We explicitly model these materials as qusecs. For Examples~\ref{materialexample4} and~\ref{materialexample5}, we discuss boundary conditions for achieving various desired properties of body-hyperpin systems. For Example~\ref{materialexample3}, we discuss canonical and optimal DR-plans for pinned line incidence systems~\cite{sitharam2014incidence}.
+
+The last Section~\ref{sec:conclusion} concludes the paper, and Section \ref{sec:open} lists open problems and conjectures. In particular, we conjecture that the methods of Section~\ref{sec:DRP} extend in fact to a large class of (hyper)graphs, formally those with an underlying abstract rigidity matroid in which independence corresponds to some type of sparsity, and maximal independence (rigidity) is a tightness condition.
+
+Throughout this paper,  an asterisk after a formal statement indicates that its proof appears in~\ref{sec:appendix:proofs}.
+
 
 \todo{We intend to make software implementation and videos available upon request and publicly available for the final version of the paper.}
