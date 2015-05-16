@@ -550,7 +550,8 @@ public:
 
 enum runtime_options {
     ro_drp_2d,
-    ro_display_realized_graph,
+    ro_display_linkage,
+    ro_display_framework,
     ro_test
 };
 
@@ -597,8 +598,10 @@ int main(int argc, char **argv) {
             if (!val.compare("0")) {
                 runtime_option = ro_drp_2d;
             } else if (!val.compare("1")) {
-                runtime_option = ro_display_realized_graph;
+                runtime_option = ro_display_linkage;
             } else if (!val.compare("2")) {
+                runtime_option = ro_display_framework;
+            } else if (!val.compare("3")) {
                 runtime_option = ro_test;
             } else {
                 cerr << "Invalid value for flag " << flag << "." << endl;
@@ -631,7 +634,7 @@ int main(int argc, char **argv) {
     // copy.write_to_file("test_files/out.dot");
 
     // get layout... x/y coords
-    if (runtime_option != ro_display_realized_graph) {
+    if (runtime_option != ro_display_framework) {
         g.set_layout();
         g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
     } else {
@@ -661,7 +664,16 @@ int main(int argc, char **argv) {
         cout << "Running DRP_2D on \"" << dot_file << "\"." << endl;
 
         myWindow.get_drp();
-    } else if (runtime_option == ro_display_realized_graph) {
+    } else if (runtime_option == ro_display_linkage) {
+        cout << "Displaying realized graph \"" << dot_file << "\"." << endl;
+
+        // Subgraph sg(&g);
+        // std::pair<Vertex_Iterator, Vertex_Iterator> vs = g.vertices();
+        // sg.induce(vs.first, vs.second);
+        // Pebbled_Graph pg(&sg);
+
+        // cout << "Pebbles remaining: " << pg.pebble_game_2D() << endl;
+    } else if (runtime_option == ro_display_framework) {
         cout << "Displaying realized graph \"" << dot_file << "\"." << endl;
 
         Subgraph sg(&g);
@@ -671,10 +683,12 @@ int main(int argc, char **argv) {
 
         cout << "Pebbles remaining: " << pg.pebble_game_2D() << endl;
     } else if (runtime_option == ro_test) {
-        cout << "Testing edge contraction." << endl;
+        cout << "Testing realization." << endl;
 
         Isostatic_Graph_Realizer isg(&g);
         isg.realize();
+
+        g = *isg.working_copy;
 
         // int i = 0;
 

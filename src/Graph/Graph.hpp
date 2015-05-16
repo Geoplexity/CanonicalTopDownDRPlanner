@@ -110,8 +110,8 @@ public:
     void remove_edge(Edge_ID e);
     void remove_edge(Vertex_ID v0, Vertex_ID v1);
 
-    bool has_edge(Vertex_ID v0, Vertex_ID v1);
-    Edge_ID edge(Vertex_ID v0, Vertex_ID v1); // can be unsafe... edge may not exist
+    bool has_edge(Vertex_ID v0, Vertex_ID v1) const;
+    Edge_ID edge(Vertex_ID v0, Vertex_ID v1) const; // can be unsafe... edge may not exist
 
     // v0 disappears, v1 remains
     void contract_edge(Vertex_ID v0, Vertex_ID v1);
@@ -120,9 +120,9 @@ public:
     std::pair<Vertex_Iterator, Vertex_Iterator> vertices() const;
     std::pair<Edge_Iterator, Edge_Iterator> edges() const;
 
-    unsigned int degree_of_vertex(Vertex_ID v);
-    std::set<Vertex_ID> vertices_adjacent(Vertex_ID v);
-    std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set);
+    unsigned int degree_of_vertex(Vertex_ID v) const;
+    std::set<Vertex_ID> vertices_adjacent(Vertex_ID v) const;
+    std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set) const;
 
     Vertex_Iterator find_vertex(const char *name) const;
 
@@ -137,10 +137,35 @@ public:
     void write_to_file(const char* filename);
     void read_from_file(const char* filename);
 
-    void print_vertices(unsigned int indent = 0);
-    void print_edges(unsigned int indent = 0);
+    void print_vertices(unsigned int indent = 0) const;
+    void print_edges(unsigned int indent = 0) const;
 private:
     // bool _is_series_parallel_aux();
+};
+
+
+
+
+
+class Mapped_Graph_Copy : public Graph {
+public:
+    Mapped_Graph_Copy(const Graph *g);
+
+    // This "copies through"... Makes a copy of the input mapped graph copy 'g'
+    // but instead of mapping to 'g' it maps to 'g.orig'
+    Mapped_Graph_Copy(const Mapped_Graph_Copy &g);
+
+
+    // input is a copy Vertex_ID
+    Vertex_ID original_vertex(Vertex_ID v) const;
+    // input is an input Vertex_ID
+    Vertex_ID copy_vertex(Vertex_ID v) const;
+
+    void print_copy_to_orig(unsigned int indent = 0);
+private:
+    const Graph *orig;
+
+    std::map<Vertex_ID, Vertex_ID> orig_to_copy, copy_to_orig;
 };
 
 

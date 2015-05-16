@@ -155,11 +155,11 @@ void Graph::remove_edge(Vertex_ID v0, Vertex_ID v1) {
 }
 
 
-bool Graph::has_edge(Vertex_ID v0, Vertex_ID v1) {
+bool Graph::has_edge(Vertex_ID v0, Vertex_ID v1) const {
     return boost::edge(v0, v1, *this).second;
 }
 
-Edge_ID Graph::edge(Vertex_ID v0, Vertex_ID v1) {
+Edge_ID Graph::edge(Vertex_ID v0, Vertex_ID v1) const {
     return boost::edge(v0, v1, *this).first;
 }
 
@@ -408,12 +408,12 @@ std::pair<Edge_Iterator, Edge_Iterator> Graph::edges() const {
     return boost::edges(*this);
 }
 
-unsigned int Graph::degree_of_vertex(Vertex_ID v) {
+unsigned int Graph::degree_of_vertex(Vertex_ID v) const {
     return boost::degree(v, *this);
 }
 
 
-std::set<Vertex_ID> Graph::vertices_adjacent(Vertex_ID v) {
+std::set<Vertex_ID> Graph::vertices_adjacent(Vertex_ID v) const {
     std::set<Vertex_ID> ret;
 
     boost::graph_traits<Graph>::adjacency_iterator v_it, v_end;
@@ -426,7 +426,7 @@ std::set<Vertex_ID> Graph::vertices_adjacent(Vertex_ID v) {
     return ret;
 }
 
-std::set<Vertex_ID> Graph::vertices_adjacent(std::set<Vertex_ID> &v_set) {
+std::set<Vertex_ID> Graph::vertices_adjacent(std::set<Vertex_ID> &v_set) const {
     std::set<Vertex_ID> ret;
     for (std::set<Vertex_ID>::iterator set_v = v_set.begin(); set_v != v_set.end(); set_v++) {
         boost::graph_traits<Graph>::adjacency_iterator v, v_end;
@@ -609,7 +609,7 @@ void Graph::read_from_file(const char* filename) {
 
 
 
-void Graph::print_vertices(unsigned int indent) {
+void Graph::print_vertices(unsigned int indent) const {
     std::string tabs = "";
     for (int i = 0; i < indent; i++) tabs+="\t";
 
@@ -620,13 +620,14 @@ void Graph::print_vertices(unsigned int indent) {
         std::cout << tabs
             << "ID: " << v << " | "
             << "Name: " << (*this)[v].name  << " | "
-            << "Degree: " << degree_of_vertex(v)
+            << "Degree: " << degree_of_vertex(v) << " | "
+            << "Position: (" << (*this)[v].x << ", " << (*this)[v].y << ")"
             << std::endl;
     }
 }
 
 
-void Graph::print_edges(unsigned int indent) {
+void Graph::print_edges(unsigned int indent) const {
     std::string tabs = "";
     for (int i = 0; i < indent; i++) tabs+="\t";
 
@@ -839,6 +840,88 @@ void Graph::print_edges(unsigned int indent) {
 //   std::cout << "Triangle layout (Kamada-Kawai).\n";
 //   print_graph_layout(g, get(vertex_position, g));
 // }
+
+
+
+
+
+
+
+
+
+
+
+Mapped_Graph_Copy::Mapped_Graph_Copy(const Graph *g) {
+    orig = g;
+
+    Vertex_Iterator v, v_end;
+    for (boost::tie(v, v_end) = orig->vertices(); v != v_end; v++) {
+        // Vertex_ID new_v = copy.add_vertex();
+        Vertex_ID new_v = add_vertex((*orig)[*v]);
+        orig_to_copy[*v] = new_v;
+        copy_to_orig[new_v] = *v;
+    }
+
+    // std::cout << "========graph_copy:" <<std::endl;
+    // print_copy_to_orig(1);
+    // print_vertices(2);
+
+    Edge_Iterator e, e_end;
+    for (boost::tie(e, e_end) = orig->edges(); e != e_end; e++) {
+        std::pair<Vertex_ID, Vertex_ID> vs = orig->verts_on_edge(*e);
+        add_edge(orig_to_copy[vs.first], orig_to_copy[vs.second], (*orig)[*e].length);
+    }
+}
+
+Mapped_Graph_Copy::Mapped_Graph_Copy(const Mapped_Graph_Copy &g) {
+    orig = g.orig;
+
+    Vertex_Iterator v, v_end;
+    for (boost::tie(v, v_end) = g.vertices(); v != v_end; v++) {
+        Vertex_ID orig_v = g.original_vertex(*v);
+        Vertex_ID new_v = add_vertex(g[*v]);
+        orig_to_copy[orig_v] = new_v;
+        copy_to_orig[new_v] = orig_v;
+    }
+
+    Edge_Iterator e, e_end;
+    for (boost::tie(e, e_end) = g.edges(); e != e_end; e++) {
+        std::pair<Vertex_ID, Vertex_ID> vs = g.verts_on_edge(*e);
+        add_edge(
+            orig_to_copy[g.original_vertex(vs.first)],
+            orig_to_copy[g.original_vertex(vs.second)],
+            g[*e].length);
+    }
+}
+
+Vertex_ID Mapped_Graph_Copy::original_vertex(Vertex_ID v) const {
+    return copy_to_orig.at(v);
+}
+
+Vertex_ID Mapped_Graph_Copy::copy_vertex(Vertex_ID v) const {
+    return orig_to_copy.at(v);
+}
+
+void Mapped_Graph_Copy::print_copy_to_orig(unsigned int indent) {
+    for (int i = 0; i < indent; i++) std::cout << "\t";
+    std::cout << "copy_to_orig mapping (new, old):" << std::endl;
+
+    for (std::map<Vertex_ID, Vertex_ID>::iterator v = copy_to_orig.begin(); v!= copy_to_orig.end(); v++) {
+        for (int i = 0; i < indent+1; i++) std::cout << "\t";
+        // std::cout << "(" << v->first << ", " << v->second << ")" << std::endl;
+        std::cout << "(" << v->first << ": " << (*this)[v->first].name << ", " << v->second << ": " << (*orig)[v->second].name << ")" << std::endl;
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
