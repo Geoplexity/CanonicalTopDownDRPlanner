@@ -1,4 +1,4 @@
-\section{Main Result: canonical DR-plan, Optimality, and Algorithm}
+\section{Main Result: Canonical DR-Plan, Optimality, and Algorithm}
 \label{sec:DRP}
 % In the problem of the optimal DR-Plan there is generally not a unique plan.
 % % Indeed, we will prove a union of $N$ isostatic subgraphs will result in $N$ unique plans, but that at the $N^{\text{th}}$ level of the tree it will always be the same. Therefore, all choices of decomposition are in some sense equivalent. The theorem we seek to prove is thus:
@@ -9,12 +9,12 @@
 % % The greatest density of a 2D isostatic graph is $-2$ (the vertex). The other disconnected part of the graph would need to have a density of $-1$, which is overconstrained and not possible in a isostatic graph (because there is no trivial graph with that density).
 
 
-\subsection{Canonical DR-plan}
+\subsection{Canonical DR-Plan}
 In this section, we define a \dfn{canonical} plan to capture those aspects of an optimal DR-plan that mimic the  uniqueness of a complete DR-plan, and we show that the nonunique aspects do not affect optimality for independent (underconstrained or isostatic) graphs. Furthermore, we give an efficient \candrpcomplexity\ algorithm to find the canonical DR-plan of any independent graph. The definition is as follows:
 
 \begin{definition}\label{def:canonical_drplan}
-    The \dfn{canonical DR-plan} \addin{of a graph $G$} satisfies the following three properties:
-    (1) it is a DR-plan \addin{of $G$};
+    The \dfn{canonical DR-plan} of a graph $G$ satisfies the following three properties:
+    (1) it is a DR-plan of $G$;
     (2) children are rigid vertex-maximal proper subgraphs of the parent; and
     (3) if all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise exactly two that intersect non-trivially are children.
 \end{definition}
@@ -32,7 +32,7 @@ Definition~\ref{def:canonical_drplan} gives the canonical DR-plan a surprisingly
 \label{theorem:canonical_exists_and_is_optimal}
 \label{theorem:canonical_is_optimal}
 \label{theorem:main}
-    A canonical DR-plan exists \addin{for a graph $G$} and any canonical DR-plan is optimal \addin{if $G$ is independent.}
+    A canonical DR-plan exists for a graph $G$ and any canonical DR-plan is optimal if $G$ is independent.
 \end{theorem}
 
 
@@ -70,22 +70,21 @@ Note that if we begin with an isostatic graph, ``rigid'' can be replaced with ``
 
 Next we show that a canonical DR-plan is optimal.
 
-First, note  that any  DR-plan \addin{$R$} without the Property (2) of a canonical DR-plan can always be modified (by introducing intermediate nodes) to satisfy Property (2) without  increasing the max fan-in, since any rigid proper subgraph of a graph $C$ (a child of node $C$ of the DR-plan \addin{$R$})
-is the subgraph of some \addin{cluster} of $C$.
-Thus without loss of generality, we can assume that \cutout{the} \addin{an} optimal DR-plan satisfies Property (2) of a canonical DR-plan.
+First, note  that any  DR-plan $R$ without the Property (2) of a canonical DR-plan can always be modified (by introducing intermediate nodes) to satisfy Property (2) without  increasing the max fan-in, since any rigid proper subgraph of a graph $C$ (a child of node $C$ of the DR-plan $R$)
+is the subgraph of some cluster of $C$.
+Thus without loss of generality, we can assume that an optimal DR-plan satisfies Property (2) of a canonical DR-plan.
 
-\addin{The proof of optimality of a canonical DR-plan is by induction on its height.  The base case trivially holds for canonical DR-plans of height 0, i.e.\ for single edges. The induction hypothesis is that canonical DR-plans of height $t$ are optimal for the root node.}
-\addin{For the induction step consider a canonical DR-plan $R$ of  height $t+1$ rooted at a node $C$.}
+The proof of optimality of a canonical DR-plan is by induction on its height.  The base case trivially holds for canonical DR-plans of height 0, i.e.\ for single edges. The induction hypothesis is that canonical DR-plans of height $t$ are optimal for the root node.
+For the induction step consider a canonical DR-plan $R$ of  height $t+1$ rooted at a node $C$.
 Notice that $R$ represents a canonical DR-plan $R(C)$ for the graphs $C$ corresponding to each of its  descendant nodes.
 Thus, from the induction hypothesis, we know that the $R(C_i)$ is optimal for $C_i$.
 
 Thus it is sufficient to demonstrate a set of nodes $S$  that must be present in any  DR-plan $R$ for $C$ that satisfies Property (2), including a known optimal one; and furthermore, for any such DR-plan $R$,  either (Claim 1) $S$ must be the set of children of $C$; or (Claim 2) for all the ancestors $A$ of $S$, $R$ has the minimum possible fan-in of 2.
 
 We show the two claims below.
-The first claim is that \addin{for a node $C$ whose clusters have trivial pairwise intersections}, any DR-plan \cutout{$R$} \addin{of $C$} that satisfies Property (2) must also satisfy Property (3) at $C$, i.e.\ the set of children $S$ of $C$ consists of all clusters of $C$.
-\addin{Because this is the only choice, it is the minimum fan-in at $C$ for any DR-plan for $C$ with Property (2), including a known optimal one.}
-The second claim shows that in the case of nodes $C$ whose rigid, vertex-maximal proper subgraphs have  non-trivial pairwise intersections, \addin{every canonical DR-plan of $C$ that uses any possible choice} of two such subgraphs of $C$ as children \cutout{ (minimum possible fan-in at $C$)} results in \addin{a minimum possible fan-in of 2 in the ancestor nodes $A$ leading to the}     {\em same maximal antichain $S$ of descendants $D$ of $C$}. \addin{The antichain is maximal in the partial order of rigid subgraphs of $C$ under containment.} I.e.\ $S$ satisfies the property that every proper vertex-maximal rigid subgraph of $C$ is a superset of some $D$ in $S$; \addin{this follows from properties of maximal antichains} that no element of $S$ is contained in the union of other elements of $S$; and the union of elements of $S$ is $C$. Thus any  DR-plan  \cutout{$R$} that satisfies Property (2) \addin{and hence contains two or more of the rigid vertex-maximal proper subgraphs of $C$ as children} must \addin{also} contain every element of $S$. The two claims complete the proof that every canonical
-DR-plan is optimal.
+The first claim is that for a node $C$ whose clusters have trivial pairwise intersections, any DR-plan of $C$ that satisfies Property (2) must also satisfy Property (3) at $C$, i.e.\ the set of children $S$ of $C$ consists of all clusters of $C$.
+Because this is the only choice, it is the minimum fan-in at $C$ for any DR-plan for $C$ with Property (2), including a known optimal one.
+The second claim shows that in the case of nodes $C$ whose rigid, vertex-maximal proper subgraphs have  non-trivial pairwise intersections, every canonical DR-plan of $C$ that uses any possible choice of two such subgraphs of $C$ as children results in a minimum possible fan-in of 2 in the ancestor nodes $A$ leading to the {\em same maximal antichain $S$ of descendants $D$ of $C$}. The antichain is maximal in the partial order of rigid subgraphs of $C$ under containment. I.e.\ $S$ satisfies the property that every proper vertex-maximal rigid subgraph of $C$ is a superset of some $D$ in $S$; this follows from properties of maximal antichains that no element of $S$ is contained in the union of other elements of $S$; and the union of elements of $S$ is $C$. Thus any  DR-plan that satisfies Property (2) and hence contains two or more of the rigid vertex-maximal proper subgraphs of $C$ as children must also contain every element of $S$. The two claims complete the proof that every canonical DR-plan is optimal.
 
 
 
@@ -122,7 +121,7 @@ Furthermore, since a canonical DR-plan has nodes with proper rigid \vemph{vertex
 \vemph{Claim 2:}
 If some pair in the set of child clusters $C_1,\ldots,C_N$ of $C$ has an isostatic (nontrivial) intersection, then choosing any two as children (minimum possible fan-in) will result in the same maximal antichain of descendants of $C$.
 
-\addin{To prove Claim 2}, notice that if  $C_i \cap C_j$ is isostatic, then, by Observation \ref{lemma:union_intersection}, $C_i \cup C_j$ is also isostatic. This means that, by Lemma \ref{lemma:combined_lemma}, \addin{Point} \ref{lemma:wc_intersection_makes_all_wc}, the union of any two children of $C$ is $C$ itself. Thus, any two children can be chosen to make a canonical DR-plan and that is the minimum fan-in possible for a node of the DR-plan.
+To prove Claim 2, notice that if  $C_i \cap C_j$ is isostatic, then, by Observation \ref{lemma:union_intersection}, $C_i \cup C_j$ is also isostatic. This means that, by Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc}, the union of any two children of $C$ is $C$ itself. Thus, any two children can be chosen to make a canonical DR-plan and that is the minimum fan-in possible for a node of the DR-plan.
 % are potential choices for the optimal DR-plan as they all create equal fan-in (exactly two) at this level.
 
 \newcommand{\induceonc}[1]{Idc\left(C,#1\right)}
@@ -180,7 +179,7 @@ Then
 \end{lemma*}
 
 \begin{remark}
-The first item in the above lemma generalizes to the union of any number of children, $C_1,\ldots,C_k$, resulting in the desirable property of \dfn{cluster minimality} (defined in \cite{hoffman2001decompositionI} and in Section \ref{sec:prev}) holding for \cutout{these} canonical-optimal DR-plans.
+The first item in the above lemma generalizes to the union of any number of children, $C_1,\ldots,C_k$, resulting in the desirable property of \dfn{cluster minimality} (defined in \cite{hoffman2001decompositionI} and in Section \ref{sec:prev}) holding for canonical-optimal DR-plans.
 \end{remark}
 
 
@@ -217,40 +216,64 @@ The first item in the above lemma generalizes to the union of any number of chil
 %     {fig:c2c3ofk33s:b}
 
 
+% \ClearMyMinHeight
+% \SetMyMinHeight{.3}{img/epsfromtikz/c2c3_of_k33s-0}
+% \SetMyMinHeight{.7}{img/epsfromtikz/c2c3_of_k33s-1}
+
+% \begin{figure*}\centering%
+%     %
+%     \begin{subfigure}{0.3\linewidth}\centering
+%         \includegraphics[height=\myMinHeight]{img/epsfromtikz/c2c3_of_k33s-0}
+%         \caption{}\label{fig:c2c3ofk33s:a}
+%     \end{subfigure}%
+%     %
+%     \hfill
+%     \begin{subfigure}{0.7\linewidth}\centering
+%         \includegraphics[height=\myMinHeight]{img/epsfromtikz/c2c3_of_k33s-1}
+%         \caption{}\label{fig:c2c3ofk33s:b}
+%     \end{subfigure}%
+%     %
+%     \caption{(\ref{fig:c2c3ofk33s:a}) A doublet ($C_2 \times C_3$) with each edge of the triangles replaced by a $K_{3,3}$. This pattern continues inwards for a total of $N$ triangles, indicated by the dashed lines. (\ref{fig:c2c3ofk33s:b}) Most of the DR-plan of this graph, omitting further decomposition of $K_{3,3}$ subgraphs into the separate 9 edges and of edges into the component nodes. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K_{3,3}$ subgraphs. The dashed lines indicated that this exact structure is repeated.}
+%     \label{fig:c2c3ofk33s}
+% \end{figure*}%
+
 \ClearMyMinHeight
-\SetMyMinHeight{.3}{img/epsfromtikz/c2c3_of_k33s-0}
-\SetMyMinHeight{.7}{img/epsfromtikz/c2c3_of_k33s-1}
+\SetMyMinHeight{.3}{img/svg/revised_c2c3_of_k33s}
+\SetMyMinHeight{.7}{img/svg/revised_c2c3_of_k33s_candrp}
 
 \begin{figure*}\centering%
     %
     \begin{subfigure}{0.3\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{img/epsfromtikz/c2c3_of_k33s-0}
+        \includegraphics[height=\myMinHeight]{img/svg/revised_c2c3_of_k33s}
         \caption{}\label{fig:c2c3ofk33s:a}
     \end{subfigure}%
     %
     \hfill
     \begin{subfigure}{0.7\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{img/epsfromtikz/c2c3_of_k33s-1}
+        \includegraphics[height=\myMinHeight]{img/svg/revised_c2c3_of_k33s_candrp}
         \caption{}\label{fig:c2c3ofk33s:b}
     \end{subfigure}%
     %
-    \caption{(\ref{fig:c2c3ofk33s:a}) A doublet ($C_2 \times C_3$) with each edge of the triangles replaced by a $K_{3,3}$. This pattern continues inwards for a total of $N$ triangles, indicated by the dashed lines. (\ref{fig:c2c3ofk33s:b}) Most of the DR-plan of this graph, omitting further decomposition of $K_{3,3}$ subgraphs into the separate 9 edges and of edges into the component nodes. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K_{3,3}$ subgraphs. The dashed lines indicated that this exact structure is repeated.}
+    \caption{
+    (\ref{fig:c2c3ofk33s:a}) A sequence of doublets ($C_2 \times C_3$) intersecting on triangles, where the edges of the triangles are replaced by $K_{3,3}$'s. This pattern continues inwards for a total of $N$ triangles, indicated by the dashed arrows. (\ref{fig:c2c3ofk33s:b}) The canonical DR-plan of $G$, drawn as a DAG. $G\setminus\{a_i,b_i,c_i\}$ is shorthand for $G$ difference those nodes and all of the nodes in the corresponding $K_{3,3}$ subgraphs. Below the third level, the obvious pattern continues until only the individual doublets are present (fourth level) with the ellipses indicating the remaining doublets between those shown. Decomposition of one of these doublets is shown. The dashed lines indicated that this exact decomposition (of the similar nodes on the level) is repeated. Further decomposition of $K_{3,3}$ subgraphs into the separate 9 edges is omitted from the figure.
+    }
     \label{fig:c2c3ofk33s}
 \end{figure*}%
 
 
 
 
-\myexample
-\textsl{[DR-Plan for self-similar structure]}
-This example details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}. The graph $G$ has only two isostatic vertex-maximal subgraphs, $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle $N$. These intersect on $G$ without triangle $1$ and $N$ which is clearly isostatic. As explained in the proof of Theorem \ref{theorem:main} since there are only 2 possible children, their intersection must be a node 2 levels below the parent. Just as expected, it is on the third level, as it is a child of both of $G$'s children. Furthermore, it intersects trivially with the edges that connect triangle $1$ and $N$ to $2$ and $N-1$, respectively; these necessarily intersect with triangle $1$ and $N$ themselves trivially (by Theorem \ref{theorem:main}, part 1) making all of these children. The triangles then decompose into their constituent $K_{3,3}$ graphs, which then decompose into 9 edges.
+\begin{example}[DR-plan for self-similar structure]
+% \myexample
+% \textsl{[DR-plan for self-similar structure]}
+This example details the decomposition of the graph in Figure \ref{fig:c2c3ofk33s}, the canonical DR-plan of $G$. It begins with the whole (isostatic) graph as the root. The graph $G$ has only two isostatic vertex-maximal subgraphs: $G$ without the outermost triangle composed of $K_{3,3}$ graphs (triangle $1$) and $G$ without the inner triangle (triangle $N$). These intersect on $G$ without triangle $1$ and $N$ which is clearly isostatic. As explained in the proof of Theorem \ref{theorem:main}, since there are only 2 possible children, their intersection must be a node 2 levels below the parent. As expected, it is on the third level, as a child of both of $G$'s children.
 
-Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and $N$ has the same structure, and thus the same pattern is repeated until only triangle $(N+1)/2$ remains in the case that $N$ is odd, or until only triangles $N/2$ and $N/2+1$ remain if $N$ is even.
+Both of $G$'s children are similar to $G$, but containing only $N-1$ triangles. Therefore, the canonical DR-plans of these children follow the same pattern. This continues downward until the individual doublets are reached (there will be multiple occurrences of the same doublets at this level, but they can be represented as the same node in a DAG).
 
+Further decomposition of one of these doublets is shown. The three edges between the triangles and the triangles themselves all intersect trivially pairwise. By Theorem \ref{theorem:main}, part 1, they must all be children in the DR-plan. Similarly, the triangles decompose into their three trivially intersecting $K_{3,3}$'s. Then the $K_{3,3}$ subgraphs decompose into their separate 9 edges.
 
-% \begin{example}
-%     In
-% \end{example}
+The self-similar nature of this graph is evident in the canonical DR-plan. Many structures are repeated throughout the DR-plan, allowing for shared computation in both decomposition and recombination.
+\end{example}
 
 
 
@@ -307,7 +330,7 @@ Now, the self-similar nature of the graph is clear; $G$ without triangle $1$ and
 \end{figure*}%
 
 \begin{theorem}\label{theorem:algo_complexity}
-    There exists an \candrpcomplexityv\ algorithm to find a canonical DR-plan for \addin{an input graph}.
+    There exists an \candrpcomplexityv\ algorithm to find a canonical DR-plan for an input graph.
 \end{theorem}
 
 \begin{proof}
@@ -348,25 +371,60 @@ The DR-plan  output by this algorithm is a tree where each node is a distinct su
 % The first step of the algorithm to find an optimal DR-plan is the most difficult --- to find the wellconstrained vertex-maximal proper subgraphs of the input wellconstrained graph. There are two approaches: (1) the bottom-up approach, using the \frontier\ algorithm \cite{Oung:2001:FFE:376957.376995} to grow these components from single vertices; and (2) the top-down approach, using the pebble game algorithm \cite{Jacobs:1997:PG} on each node and taking the largest components that are not subgraphs of any larger ones. After the subgraphs have been found, it is a straightforward application of the theory. If the intersection of any two of the subgraphs is wellconstrained, then take those two to be children of the graph. Otherwise, all the subgraphs are the children. Apply recursively to the children. This naturally terminates when you reach trivial subgraphs. The complexity of this depends on the algorithm for finding children (both are polynomial) and the depth of the plan (the deeper the plan, i.e.\ the smaller the max fan-in, the longer the running time). \todo{Think more about complexity.}
 % \end{proof}
 
-\addin{
 
-\subsection{Overconstrained Graphs and NP-hardness of Optimal DR-planning}
+% \begin{figure*}\centering%
+%   \includegraphics[width=\linewidth]{img/svg/overconstrained_choices}
+%   \caption{The first graph is over constrained by one edge (a $K_{3,3}$ with an extra vertex attached by 3 edges). The second graph is a minimally rigid subgraph of the first. Any DR-plan of this graph will have fan-in of at least 9, occurring at the node that decomposes the $K_{3,3}$. The third graph is a different subgraph of the first. A canonical and cluster minimal DR-plan of size 2 can be made for this graph (it is a Henneberg-I construction). Thus, we can see the first graph has both non-optimal (second graph) and optimal (third graph) canonical, cluster minimal DR-plans.}
+%   \label{fig:overconstrained_choices}
+% \end{figure*}%
+
+
+
+
+\ClearMyMinHeight
+\SetMyMinHeight{.6}{img/svg/new_overconstrained_not_optimal}
+\SetMyMinHeight{.4}{img/svg/new_overconstrained_optimal}
+
+\begin{figure*}\centering%
+    %
+    \begin{subfigure}{0.5\linewidth}\centering
+        \scalebox{1}[.9]{
+        \includegraphics[height=\myMinHeight]{img/svg/new_overconstrained_optimal}
+        }
+        \caption{}\label{fig:overconstrained:optimal}
+    \end{subfigure}%
+    %
+    \hfill
+    \begin{subfigure}{0.5\linewidth}\centering
+        \scalebox{1}[.9]{
+        \includegraphics[height=\myMinHeight]{img/svg/new_overconstrained_not_optimal}
+        }
+        \caption{}\label{fig:overconstrained:not_optimal}
+    \end{subfigure}%
+    %
+    \caption{
+    % (\ref{fig:overconstrained:optimal}) An optimal DR-plan of a singly overconstrained rigid graph with a fan-in of 5. Decomposition of triangles is omitted. (\ref{fig:overconstrained:not_optimal}) A canonical and cluster-minimal DR-plan of the same graph. The DR-plan has a fan-in of 9 and is non-optimal, shown by the preceding counter-example. Since the nontrivial intersection of the two children of the root is underconstrained, their decompositions are separate, causing the large fan-in.
+    Both figures are canonical and cluster-minimal DR-plans of the same singly overconstrained rigid graph. Decomposition of triangles are omitted and dashed lines indicate a decomposition similar to the other nodes on the same level. (\ref{fig:overconstrained:optimal}) is an optimal DR-plan, with a fan-in of 5. (\ref{fig:overconstrained:not_optimal}) has a fan-in of 9 and is non-optimal, shown by the preceding counter-example.
+    }
+    \label{fig:overconstrained}
+\end{figure*}%
+
+\subsection{Overconstrained Graphs and NP-Hardness of Optimal DR-Planning}
 \label{sec:drp:overconstrained}
 
 For overconstrained (not independent) graphs, a canonical DR-plan is still well-defined.
 However, it may be far from optimal. The proofs of Theorem \ref{theorem:main}, Observation \ref{lemma:union_intersection}, and Lemma \ref{lemma:combined_lemma} all fail for overconstrained graphs.
 It is important to note that, regardless whether the graph is overconstrained, if every node in a canonical DR-plan $R$ has clusters whose pairwise intersection is trivial, then the DR-plan is the unique one satisfying Property (2), and since we know that there is an optimal DR-plan that satisfies Property (2), $R$ is in fact optimal. The problem arises when some node in a DR-plan has clusters whose pairwise intersection is non-trivial.
-In this case, an arbitrary choice of a pair of clusters as children of the node in a canonical DR-plan may not result in an optimal DR-plan if the graph is overconstrained. \todo{rephrase? Theorem 4 shows this. If it's independent it \vemph{will} be optimal (the church rosser property), no longer holds if it's overconstrained.}
-A good source of examples of overconstrained graphs with canonical DR-plans that are not optimal are graphs whose cluster-minimal DR-plans that are not optimal. The example shown in Figure \ref{fig:canonicalnotoptimal} is a canonical, cluster-minimal DR-plan that is not optimal; an optimal DR-plan is also shown in the figure.
+In this case, an arbitrary choice of a pair of clusters as children of an overconstrained node in a canonical DR-plan may not result in an optimal DR-plan. This is in contrast to independent graphs, which, as shown in Theorem~\ref{theorem:main}, exhibit the strong Church-Rosser property that any choice yields an optimal DR-plan.
+% \todo{rephrase? Theorem 4 shows this. If it's independent it \vemph{will} be optimal (the church rosser property), no longer holds if it's overconstrained.}
+A good source of examples of overconstrained graphs with canonical DR-plans that are not optimal are graphs whose cluster-minimal DR-plans that are not optimal. The example shown in Figure \ref{fig:overconstrained} is a canonical, cluster-minimal DR-plan that is not optimal; an optimal DR-plan is also shown in the figure.
+The root cause of the NP-hardness is encapsulated in this figure: because the different choices of vertex-maximal subgraphs for overconstrained input do not incur the same fan-in, finding the optimal DR-plan becomes a search problem with a combinatorial explosion of options.
 
 
 As mentioned earlier, the Modified \frontier\ algorithm
 version given in \cite{lomonosov2004graph} runs in polynomial time and finds a cluster-minimal DR-plan for any graph.
-Similarly, the algorithm given above finds a canonical DR-plan also for any input graph.  However neither of these DR-plans may be optimal for overconstrained graphs as shown in Figure \ref{fig:canonicalnotoptimal}.
+Similarly, the algorithm given above finds a canonical DR-plan also for any input graph.  However neither of these DR-plans may be optimal for overconstrained graphs as shown in Figure \ref{fig:overconstrained}.
 
 While the canonical DR-plan is optimal only if the input graph is independent, when there are only $k$ overconstraints for some fixed $k$, we can still find the optimal DR-plan using a straightforward modification of the above algorithm. However, the time complexity is exponential in $k$.
 
 This exponential growth of time complexity for overconstrained graphs is in fact captured in the proof of NP-hardness of optimal DR-planning in \cite{sitharam2005combinatorial, lomonosov2004graph}.
-}
-
-

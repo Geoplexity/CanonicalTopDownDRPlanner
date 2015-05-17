@@ -1,8 +1,16 @@
 Response to Reviewers
+
+
 =====================
 
+
+
 Reviewer #1
+
+
 -----------
+
+
 Overall I think this paper is timely and interesting.  It is very nice that the authors have included a number of open questions to emphasize that there is more work to be done in this area.  The notation and terminology is rather dense, however, this is probably unavoidable given the intricacy of the questions being addressed.
 
 I don't think the abstract is significantly improved from the original version; there is still a lot of area-specific terminology that makes it hard to understand what the paper is about.  Perhaps a simple motivating example explained in detail over a couple sentences would help, especially explaining why one would want to model a particular ``quasi-uniform, self-similar, layered material structure'' using a decomposition of geometric constraint systems.
@@ -14,14 +22,31 @@ This line at the end of the abstract and at the end of section 2.1 should be mod
 This paper seems essentially ready for publication.
 
 
-Response:
-- Abstract had substantial rework. While we don't give a complete example in the abstract, we do mention which materials we model in this paper. In the introduction, we do explain much more clearly why we would want to use qusecs.
+
+
+RESPONSE TO REVIEWER # 1:
+
+
+- Abstract had substantial rework. We felt it would be nontraditional to give a complete example in the abstract. But we do mention in the abstract which materials we model in the paper.
+
+In the introduction, we explain much more clearly why we would want to use qusecs.
+
+
 - We moved the definitions into the body of the paper.
-- We provide a link where the video and code will be made available. Currently a work in progress, but we are committed to providing a well-documented, open source, highly functional application. The video will be made sooner.
+
+
+- We cite a link where the video and code will be made available. We do not intend the code to be part of the submission. If the journal publishes videos linked to the paper, and the editors find it appropriate, we will upload the video files along with the final version.
+
+
+
+
 
 
 Reviewer #2
+
+
 -----------
+
 This paper proposes a recursive decomposition planning algorithm to model a material layer as a solution of a 2D geometric constraint system. While the work seems important in material modeling, the topic is a kind of out of focus of GMP audiences. Besides, I'm not quite satisfied with the organization and structure of the paper, and I feel it is not suitable for publication in current form.
 
 1. The paper is far out of a 10 pages limit.
@@ -31,68 +56,147 @@ This paper proposes a recursive decomposition planning algorithm to model a mate
 5. The texts contain various formats and styles: Captioned, Bold fonts, colored, underlined, .... This unusual in scientific papers.
 
 
-Response:
-1. We are now submitting to the main journal.
+
+
+
+RESPONSE TO REVIEWER #2:
+
+
+1. Our revision is being sent to the main journal rather than the
+conference special issue and we were
+told that the page limit does not apply.
+
+
 2. We moved preliminaries into the main body of the paper (section 2).
+
+
 3. We moved the algorithm into its own subsection and revised the proof to be more clear.
-4. ...
-5. We have addressed this. We have reformatted our unusual headings and such.
+
+
+4. We have enumerated the examples.
+
+5. We have addressed this and made the style uniform. We have reformatted our unusual headings etc..
+
+
+
 
 
 
 
 Further Changes
+
+
 ===============
+
+
 
 Here we discuss additional changes the reviewers should be aware of.
 
-One of the main issues with our paper was that it would not be a good fit for GMP. After much discussion, we decided that we agree and are now submitting the paper for consideration to be published in the standard journal (see next section in this file). The changes made in this revision are discussed below.
 
-Title: Because of the substantial changes to the paper, we decided the title no longer made sense in the context of the revised paper. As such, we have changed it to `Optimal Decomposition and Recombination of Isostatic Geometric Constraint Systems for Designing Layered Materials'. We believe this also makes the intent of our paper much more clear.
 
-Throughout: Many minor corrections to spelling, grammar, and punctuation. Additionally, many sentences were rephrased/restructured to improve clarity. Also, because our paper is no longer being considered for the special issue and does not have to adhere to the page limit, we have reformatted parts of the paper to use more space to improve readability and conform to standard formatting (addressing concerns of reviewer 2).
+After much discussion,  we are now submitting the revision to appear in the regular journal (see next section in this file) rather than the conference special issue.
+The changes made in this revision are discussed below.
 
-Two concepts were further fleshed out and discussed in this iteration: (a) The comparison of our canonical DRP to the previously studied cluster-minimal DRP, and (b) the extension of our theory to a larger class of (hyper)graphs, formally those with an underlying abstract rigidity matroid in which independence corresponds to some type of sparsity, and maximal independence (rigidity) is a tightness condition.. This is reflected throughout the paper, but is especially prevalent in (1), (2), (3), and (8).
 
-Abstract: Substantially altered for clarity. Similar content.
+
+Title: Because of the substantial changes to the paper, we decided the title was no longer appropriately indicative of the revised paper.  Hence we have changed it to `Optimal Decomposition and Recombination of Isostatic Geometric Constraint Systems for Designing Layered Materials'. We believe this also makes the intent of our paper much more clear.
+
+
+
+Throughout: Many minor corrections to spelling, grammar, and punctuation. Additionally, many sentences were rephrased/restructured to improve clarity. Also, because our paper is being considered to appear in the regular issue and does not have to adhere to the page limit, we have reformatted parts of the paper to use more space to improve readability and conform to standard formatting (addressing concerns of reviewer 2).
+
+
+
+Some concepts were further fleshed out and discussed in this iteration:
+(a) The comparison of our canonical DRP to the previously studied cluster-minimal DRP, and
+(b) the reasons why neither canonical DRP nor cluster-minimal DRP's are optimal when the original constraint graph is overconstrained (not independent).
+(c) We have also modified the writing so that it is clear that our theory extends to a larger class of (hyper)graphs, formally those with an underlying abstract rigidity matroid in which independence corresponds to some type of sparsity, and maximal independence (rigidity) is a tightness condition.
+
+This is reflected throughout the paper, but is especially  in (1), (2), (3), and (8).
+
+
+
+Abstract: Substantially altered for clarity.
+
+
 
 (1) Introduction: Entirely rewritten. A major complaint was that it was difficult to get a big picture understanding of the paper without reading the entire thing. We believe we addressed this with our revised intro (and abstract). This also includes a thorough explanation of `qusecs' and why we believe this notion is important to define and give a name, directly addressing reviewer criticism. Also, the discussion of previous work was moved into the corresponding sections (2) and (4).
 
-(2) Preliminaries: Moved back in the definitions from the appendix (as per reviewer request). Moved in discussion of previous work on DR-plans from (1).
 
-(3) Canonical DR-plan: Improved the section introduction. Clarified/improved the definition of a canonical DR-plan. There are new figures to demonstrate the concepts; instead of the previous trivial (in the sense that it was tree-decomposable) example of three triangles, we use three $C2\times C3$s intersecting on a single triangle. Also, there is a new figure that corrects the previous, erroneous figure discussing cluster minimality in the previous revision. Revised proofs for clarity, but there were no fundamental changes. Put algorithm in a separate section (improved proof as mentioned) as per reviewer 2's request. Moved out cluster minimality conjecture to the conclusion. Added a discussion on the overconstrained problem and NP-hardness (3.3).
+
+(2) Preliminaries:  The definitions from the appendix (as per reviewer request) have been moved to this section.  Also reorganized the discussion of previous work on DR-plans.
+
+
+
+(3) Canonical DR-plan: Improved the section introduction. Clarified/improved the definition of a canonical DR-plan. There are new figures to demonstrate the concepts; instead of the previous trivial (in the sense that it was tree-decomposable) example of three triangles, we use three $C2\times C3$s intersecting on a single triangle. Also, there is a new figure illustrating cluster minimality or canonical does not imply optimality in the case of overconstrained graphs. This was not present in the previous revision. We revised proofs for clarity, but there were no fundamental changes.
+
+We put algorithm in a separate section (improved proof as mentioned) as per reviewer 2's request.  We moved the cluster minimality conjecture to the conclusion.  We added a discussion on the overconstrained problem and NP-hardness (3.3).
+
+
 
 (4) Recombination: Improved the section introduction. Moved in discussion of previous work on recombination from (1). Made the section that followed in the previous revision into a subsection (4.5).
 
-(5) and (6) Application sections: No changes.
 
-(8) Conclusion: Moved in conjectures about cluster minimality from (3). Added new open problem (OP2).
+
+(5) and (6) Application sections: No substantial changes other than rewordings.
+
+
+
+(8) Conclusion: Moved in conjectures about MFA and cluster minimality from (3). Added new open problem (OP2).
+
+
 
 (App. A) Proofs: Revised DRP proofs for clarity, but there were no fundamental changes.
 
 
 
 
-Journal Change
+
+
+Journal Issue Change
+
+
 ==============
 
-Originally the paper was submitted for consideration of publication in the special issue of CAGD for GMP2015. However, pending our major revision, this was changed to the regular issue of CAGD. We received confirmation from the GMP co-chairs that this paper would now be handled by the CAGD editors-in-chief. Below, we have copied the email we received from the conference chairs, stating the change.
-
-Upon submission, the exact content of this section will also be emailed to editors-in-chief, along with our submission number: XX.
-
-If there are additional questions in regard to this issue, please send an email.
 
 
-Email
------
-GMP2015 <gmp2015@easychair.org> Wed, Mar 25, 2015 at 7:17 AM
+
+Originally the paper was submitted for consideration of publication in the special issue of CAGD for GMP2015.
+
+However, for various reasons, this was changed to the regular issue of CAGD (and although our paper was invited to be presented at GMP15, we were unable to attend). We received confirmation from the GMP co-chairs that this paper would now be handled by the CAGD editors-in-chief.
+
+Below, we have copied the email we received from the conference chairs, stating the change.
+
+
+
+If there are additional questions in regard to this issue, please contact the corresponding author.
+
+
+
+
+-----------
+
+Reference email from GMP15 co-chairs
+
+-----------
+
+
+GMP2015 <gmp2015@easychair.org>
+
+Wed, Mar 25, 2015 at 7:17 AM
+
+
 To: Troy Baker <tbaker@cise.ufl.edu>
+
+
 Dear Troy Baker,
 
 even though your GMP submission will not appear in the conference special
 issue, but - after a major revision - in a forthcoming regular issue of
 CAGD, you still have the chance to present your work at the GMP 2015
 conference, and we would be very glad if you accept this invitation.
+
+
 
 More information about the conference can be found here:
 http://gmp2015.inf.usi.ch/
@@ -101,11 +205,17 @@ Note that you may require a visa to come to Switzerland and that the
 application process can take some time. So it is best to start early. More
 information about visa can be found here: http://gmp2015.inf.usi.ch/visa
 
+
+
 Please inform us about your decision whether or not to come to GMP 2015
 and to present your work by sending an e-mail to "gmp2015@usi.ch" before
 *April 2, 2015* to help us plan the conference program.
 
+
+
 With kind regards
+
+
 
 Elaine Cohen & Kai Hormann
 [GMP 2015 conference chairs]

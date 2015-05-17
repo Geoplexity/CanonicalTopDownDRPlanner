@@ -21,7 +21,7 @@ For (1), simply note that if $F_i\cup F_j$ were trivial, then, by definition, $F
 
 For the next parts, we use the quantity $d(G)=2|V|-|E|$, which we call \dfn{density}.
 For (2), observe that underconstrained subgraphs of isostatic graphs must have density less than 3.
-For (3), observe that, given an isostatic graph, a subgraph with density $3$ must also be isostatic. Then, use the fact that, by definition, density of $F_i$ denoted $d(F_i)=3$ and $d(F_j)=3$. Then it is straightforward application of the inclusion-exclusion $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
+For (3), observe that, given an isostatic graph, a subgraph with density $3$ must also be isostatic. Then, use the fact that, by definition, $d(F_i)=3$ and $d(F_j)=3$. Then it is straightforward application of the inclusion-exclusion $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
 
 For (4), because subgraphs of a isostatic graph can only be trivial, underconstrained, or isostatic, all cases have already been exhausted.
 \end{proof}
@@ -52,7 +52,7 @@ For (4), because subgraphs of a isostatic graph can only be trivial, underconstr
 \subsubsection{Proof of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_is_C}}
 
 \begin{proof}
-Assume $C_i\cup C_j \neq C$. This would contradict the proper vertex-maximality of  $C_i,C_j$.
+Assume $C_i\cup C_j \neq C$. This would contradict the proper vertex-maximality of $C_i,C_j$.
 %
 In the reverse direction, we know $C$ is either a non-leaf node (isostatic by definition of a DR-plan) or $G$ itself (isostatic by definition of the problem). Thus, $C_i\cup C_j=C$ is isostatic.
 \end{proof}
@@ -126,7 +126,7 @@ Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Observation 
 
 \subsubsection{Proof of Theorem \ref{theorem:criterionc}}
 \begin{proof}
-    The Cartesian realization space of $(H,\left<\delta_{E'}, \lambda_F\right>)$ is computed easily with a DR-plan of size 2, and is the union of $2^t$ solutions (modulo orientation preserving isometries) each with a distinct orientation type, where $t$ is the number of triangles in the 2-tree $H$; here $\delta_{S}$ is the restriction of the length vector $\delta$ to the edges in $S$. A desired solution $p$ (or connected component of a solution space) of $(G,\delta)$ of an orientation type $\sigma_p$ can be found by a subdivided binary search   of the Cartesian realization space of $(H, \left<\delta_{E'}, \lambda_F\right>)$ of orientation type $\sigma_p$ - as $\lambda_F$ ranges over the discretized convex polytope $\Phi_F(G',\delta_E')$ with bounding hyperplanes described in Theorem \ref{theorem:convexcayley}. A solution $p$ is found  when the lengths for nonedges in $D$ match $\delta_D$.
+    The Cartesian realization space of $(H,\left<\delta_{E'}, \lambda_F\right>)$ is computed easily with a DR-plan of size 2, and is the union of $2^t$ solutions (modulo orientation preserving isometries) each with a distinct orientation type, where $t$ is the number of triangles in the 2-tree $H$; here $\delta_{S}$ is the restriction of the length vector $\delta$ to the edges in $S$. A desired solution $p$ (or connected component of a solution space) of $(G,\delta)$ of an orientation type $\sigma_p$ can be found by a subdivided binary search of the Cartesian realization space of $(H, \left<\delta_{E'}, \lambda_F\right>)$ of orientation type $\sigma_p$, as $\lambda_F$ ranges over the discretized convex polytope $\Phi_F(G',\delta_E')$ with bounding hyperplanes described in Theorem \ref{theorem:convexcayley}. A solution $p$ is found  when the lengths for nonedges in $D$ match $\delta_D$.
 \end{proof}
 
 
@@ -139,7 +139,7 @@ Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Observation 
 
 \subsubsection{Proof of Observation \ref{obs:bodypin_drp}}
 \begin{proof}
-    The existence of this canonical DR-plan follows from the same arguments as in the proof of Theorem \ref{theorem:main}. The only difference is the definition of a trivial intersection. In this case, when two subgraphs share more than 1 body, they become rigid (in fact over constrained). Sharing a pin is not considered an intersection. Such a structure is viewed as two subgraphs each sharing 1 body with a 3rd 1-dof subgraph which essentially just consists of those two bodies pinned together.
+    The existence of this canonical DR-plan follows from the same arguments as in the proof of Theorem \ref{theorem:main}. The only difference is the definition of a trivial intersection. In this case, when two subgraphs share more than 1 body, they become rigid (in fact over constrained). Sharing a pin is not considered an intersection. Such a structure is viewed as two subgraphs each sharing 1 body with a third 1-dof subgraph which essentially just consists of those two bodies pinned together.
 \end{proof}
 
 \subsubsection{Proof of Theorem \ref{thm:1dofcase}}
@@ -180,14 +180,14 @@ We adopt the following algorithm. Choose the 2 bodies to pin to by choosing a no
 \begin{proof}
     An isostatic graph has 3 parameters that define its position and orientation. These are the Euclidean motions. A 1-dof graph has  4 parameters: the 3 Euclidean motions and a dof parameter. A 2-dof has 5 parameters. The number of parameters roughly correlates with the algebraic complexity of obtaining a realization.
 
-    Thus, starting with a $T$ as described in the proof for Remark \ref{thm:1dofcase}: when a node $b$ is pinned, the same structure is preserved as before. Suppose  $v$ is an isostatic node after pinning $b$. Then, the children of $v$ (except one if $v \neq b$) have 1-dof. The realization complexity for $v$ is simply that of realizing each of its children. In general, the number of parameters for $v$  will be $np(v) = 4nc_1(v)+3$, if $v \neq b$ and $np(b) = 4nc_1(b)$, where $nc_k(v)$ is the number of $k$-dof children of $v$.
+    Thus, starting with a $T$ as described in the proof for Remark \ref{thm:1dofcase}, when a node $b$ is pinned, the same structure is preserved as before. Suppose  $v$ is an isostatic node after pinning $b$. Then, the children of $v$ (except one if $v \neq b$) have 1-dof. The realization complexity for $v$ is simply that of realizing each of its children. In general, the number of parameters for $v$  will be $np(v) = 4nc_1(v)+3$, if $v \neq b$ and $np(b) = 4nc_1(b)$, where $nc_k(v)$ is the number of $k$-dof children of $v$.
 
     Minimizing the algebraic complexity  requires minimizing the maximum $np(v)$ for any node $v$. In this case, it is not possible to always choose to pin a node closest to a leaf in the tree, because it could have high fan-in. So we  try
 brute force by pinning all nodes to  pick the one with the lowest algebraic complexity. This algorithm is still quadratic for the 1-dof case.
 
     For the 2-dof situation, there are more cases to consider. If we pin the same node twice as above, we have $np(v) = 5nc_2(v)+3$ for any ancestor $v \neq b$ and $np(b) = 5nc_2(b)$. If we pin a node $v$ and one of its ancestors $v'$, then any nodes between $v'$ and $v$ will be 1-dof, any nodes above $v'$ will be isostatic, and nodes below $v$ will be 2-dof. Note that solving or realizing $v'$ will also realize $v$.  Next, we need to consider nodes above and including $v'$ in our complexity: $np(v') = 5nc_2(v') + 4$ and $np(a) = 3 + 5nc_2(a)$ for $a$ an ancestor of $v'$.
 
-The only remaining case is pinning two nodes that are incomparable, i.e., do not have a descendant/ancestor relationship. The only change from the previous case is that for the lowest common ancestor of the nodes $v'$, $np(v') = 2*4+5nc_2(v')$. For any ancestor $a$ of $v'$, we still have $np(a) = 3 + 5nc_2(a)$.
+The only remaining case is pinning two nodes that are incomparable, i.e.\ do not have a descendant/ancestor relationship. The only change from the previous case is that for the lowest common ancestor of the nodes $v'$, $np(v') = 2*4+5nc_2(v')$. For any ancestor $a$ of $v'$, we still have $np(a) = 3 + 5nc_2(a)$.
 
     Like the 1-dof case, we again cannot simply choose the nodes deepest in the tree to pin. However, neither can we assume pinning one node twice will give us the best algebraic complexity. Hence, we will need to check each pair of nodes to pin. This makes our brute-force algorithm $O(b^3)$, where $b$ is the number of bodies.
 \end{proof}

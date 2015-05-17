@@ -10,12 +10,12 @@ The main barrier in recombination when given an optimal DR-plan  (of smallest po
 % \todo{We now briefly survey existing techniques for studying 2D qusecs,  many of which are \dfn{bar-joint} systems (Examples 1 and 2 above, see Sections \ref{sec:prelim}, \ref{sec:DRP}, and \ref{sec:recomb}), \dfn{body-hyperpin} systems (Example 4 and 5, see Section \ref{sec:bodypin}) or \dfn{pinned-line incidence} systems (Example 3, see Section \ref{sec:pinnedline}). The limitations of these techniques directly motivate the contributions of this paper.}
 We now briefly survey existing techniques for handling the complexity of recombination of DR-plans for qusecs. The limitations of these techniques directly motivate the contributions in this section.
 
-\subsubsection{Optimal Recombination and Solution Space Navigation.}
+\subsubsection{Optimal Recombination and Solution Space Navigation}
 For the entire DR-plan, finding all desired solutions is barely tractable even if recombination of solved subsystems is easy for each indecomposable parent system in the DR-plan. This is because even for the simplest, highly decomposable systems with small DR-plans, the problem of finding even a single solution to the input system at the root of the DR-plan is NP-hard  \cite{saxe1979embeddability} and there is a combinatorial explosion of solutions \cite{borcea2004number}. Typically, however, the desired solution has a given orientation type, in which case, the crux of the difficulty is concentrated in the algebraic complexity of (re)combining child system solutions to give a solution to the parent system at any given level of the DR-plan. For fairly general 3D constraint systems, there are algorithms with formal guarantees that uncover underlying matroids to combinatorially obtain an optimal parameterization to minimize the algebraic complexity of the indecomposable parent (sub)systems that occur in the DR-plan \cite{sitharam2010optimized,sitharam2006well,sitharam2010reconciling}, provided the DR-plan meets some of the abovementioned criteria.
 
 However, the generality of these algorithms trades-off against efficiency, and, despite the optimization, the best algorithms can still take exponential time in the number of child subsystems (which can be arbitrarily large even for optimal DR-plans) in order to guarantee all solutions of a given orientation type, even for a single (sub)system in a DR-plan. They are prohibitively slow in practice. We note that, utilizing the DR-plan and optimal recombination as a principled basis, high performance heuristics and software exists \cite{sitharam2006solution} to tame combinatorial explosion via user intervention.
 
-\subsubsection{Configuration Spaces of Underconstrained Systems.}
+\subsubsection{Configuration Spaces of Underconstrained Systems}
 For underconstrained 2D bar-joint and body-hyperpin qusecs obtained from various subclasses of tree-decomposable systems, algorithms have been developed to complete them into isostatic systems
 \cite{joan-arinyo2003transforming,sitharam2005combinatorial,gao2006ctree,sitharam2010convex} and to find paths within the connected components \cite{sitharam2011cayleyI,hidalgo2011reachability} of standard Cartesian configuration spaces. Most of the algorithms with formal guarantees leverage Cayley configuration space theory \cite{sitharam2010convex,sitharam2011cayleyI,sitharam2011cayleyII} to characterize subclasses of graphs and additional constraints that control combinatorial explosion, and provide faithful bijective representation of connected components and paths. These algorithms have decreasing efficiency as the subclass of systems gets bigger, with highest efficiency for underlying partial 2-tree graphs (alternately called tree-width 2, series-parallel, and $K_4$ minor avoiding), moderate efficiency for 1 degree-of-freedom (dof) graphs with low Cayley complexity (which include common linkages such as the Strandbeest, Limacon, and Cardioid), and decreased efficiency for general 1-dof tree-decomposable graphs. While software suites exist  \cite{keycurriculum1995geometer,porta2014open,siemens1999d,todd2007geometry}, no such formal algorithms and guarantees are known for non-tree-decomposable systems.
 
@@ -53,7 +53,7 @@ It is immediately clear that indecomposable graphs $G$ that belong in OMD$_k$ fo
 \subsection{Using Convex Cayley Configuration Spaces}
 \label{sec:2-tree-reduction}
 %
-Next we provide the necessary background to describe a specific approach for achieving the requirements (a)--(c) mentioned above, by restricting the class of reduced graphs $G' = G\setminus E_1$ and their isostatic completions $H$ in the above definition of the OMD problem, and using a key theorem of Convex Cayley configuration spaces \cite{sitharam2010convex}. This theorem characterizes the class of graphs $H$ and non-edges $F$ (Cayley parameters), such that the set of vectors $\lambda_F$ of  attainable lengths of the non-edges $F$ is always convex for any given lengths $\delta$ for the edges of $H$ (i.e.\ over all the realizations of the bar-joint constraint system or linkage $(H,\delta)$ in 2 dimensions). This set is called the (2-dimensional) \dfn{Cayley configuration space} of the linkage $(H,\delta)$ on the Cayley parameters $F$, denoted $\Phi_F(H,\delta)$ and can be viewed as a ``projection'' of the cartesian realization space of $(H,\delta)$ on the Cayley parameters $F$. Such graphs $H$ are said to have \dfn{convexifiable Cayley configuration spaces for some parameters $F$} (short: $H$ is \dfn{convexifiable} \todo{This shortening doesn't exactly make sense}).
+Next we provide the necessary background to describe a specific approach for achieving the requirements (a)--(c) mentioned above, by restricting the class of reduced graphs $G' = G\setminus E_1$ and their isostatic completions $H$ in the above definition of the OMD problem, and using a key theorem of Convex Cayley configuration spaces \cite{sitharam2010convex}. This theorem characterizes the class of graphs $H$ and non-edges $F$ (Cayley parameters), such that the set of vectors $\lambda_F$ of  attainable lengths of the non-edges $F$ is always convex for any given lengths $\delta$ for the edges of $H$ (i.e.\ over all the realizations of the bar-joint constraint system or linkage $(H,\delta)$ in 2 dimensions). This set is called the (2-dimensional) \dfn{Cayley configuration space} of the linkage $(H,\delta)$ on the Cayley parameters $F$, denoted $\Phi_F(H,\delta)$ and can be viewed as a ``projection'' of the cartesian realization space of $(H,\delta)$ on the Cayley parameters $F$. Such graphs $H$ are said to have \dfn{convexifiable Cayley configuration spaces for some parameters $F$} (short: $H$ is \dfn{convexifiable}).
 
 To state the theorem, we first have to define the notion of \dfn{2-sums} and \dfn{2-trees}. Let $H_1$ and $H_2$ be two graphs on disjoint sets of vertices $V_1$ and $V_2$, with edge sets $E_1$ and $E_2$ containing edges $(u,v)$ and $(w,x)$ respectively.
 % Let $H_1=(V_1,E_1)$ and $H_2=(V_2,E_2)$ be two graphs on disjoint sets of vertices that contain the edges $(u,v)$ and $(w,x)$ respectively.
@@ -84,8 +84,9 @@ The idea of our approach to achieve the criteria (a)--(c) begins with the follow
 
 We refer to such graphs $G$ in short as \dfn{$k$-approximately convexifiable}, where the reduced graphs $G'$ and isostatic completions $H$ are convexifiable. As observed earlier, since graphs such as $G$ are in OMD$_k$, Criteria (a) and (b) are automatically met for small enough $k$. Criterion (c) is addressed as described in the following efficient search procedure which clarifies the dependence of the complexity on the number and ranges  of Cayley parameters $F$.
 
-\begin{theorem*}\label{theorem:criterionc}
-    [Efficient search]
+\begin{theorem*}[Efficient search]
+\label{theorem:criterionc}
+    % [Efficient search]
     For an indecomposable, $k$-approximately convexifiable graph $G = (V,E)$, let $G' = (V,E' =E\setminus D)$ be a spanning partial 2-tree subgraph where $|D| \le  k$. Let  $F$ be a set of non-edges of $G$ such that $H = (V, E'\cup F)$ is a 2-tree. Each solution $p$ (or connected component of a solution space) of $(G,\delta)$ of an orientation type $\sigma_p$ can be found in time $O(\log(W))$ where $W$ is the number of cells of desired accuracy (discrete volume) of the convex polytope $\Phi_F(G',\delta_E')$. The (discrete) volume $W$ is exponential in $|F|$ and polynomial in the (discrete range) of the parameters in $F$.
 \end{theorem*}
 
@@ -165,7 +166,7 @@ We refer to such graphs $G$ in short as \dfn{$k$-approximately convexifiable}, w
     \end{subfigure}
 
     \caption{
-    (\ref{fig:omd_k33_example:a}) The $K_{3,3}$ with two labeled edges, $e_1$ and $e_2$. (\ref{fig:omd_k33_example:b}) The $K_{3,3}$ with $e_1$ and $e_2$ removed (dashed lines) and rearranged to illustrate that it is now a partial 2-tree. (\ref{fig:omd_k33_example:c}) The $K_{3,3}$ with $\{e_1,e_2\}$ removed and $\{f_1,f_2\}$ (bold lines) added to make a 2-tree, showing that the $K_{3,3}$ is at least $OMD_2$. (\ref{fig:omd_k33_example:d}) The $K_{3,3}$ with only $e_2$ removed (dashed line). (\ref{fig:omd_k33_example:e}) The $K_{3,3}$ with $e_2$ removed and $f_3$ (bold line) added to make a low Cayley complexity graph, showing that the $K_{3,3}$ is $OMD_1$.
+    (\ref{fig:omd_k33_example:a}) The $K_{3,3}$ with two labeled edges, $e_1$ and $e_2$. (\ref{fig:omd_k33_example:b}) The $K_{3,3}$ with $e_1$ and $e_2$ removed (dashed lines) and rearranged to illustrate that it is now a partial 2-tree. (\ref{fig:omd_k33_example:c}) The $K_{3,3}$ with $\{e_1,e_2\}$ removed and $\{f_1,f_2\}$ (bold lines) added to make a 2-tree, showing that the $K_{3,3}$ is at least OMD$_2$. (\ref{fig:omd_k33_example:d}) The $K_{3,3}$ with only $e_2$ removed (dashed line). (\ref{fig:omd_k33_example:e}) The $K_{3,3}$ with $e_2$ removed and $f_3$ (bold line) added to make a low Cayley complexity graph, showing that the $K_{3,3}$ is OMD$_1$.
     }
     \label{fig:omd_k33_example}
 \end{figure*}
@@ -176,11 +177,13 @@ We refer to such graphs $G$ in short as \dfn{$k$-approximately convexifiable}, w
 \sidenote{A major advantage of the convex Cayley method is that it is completely unaffected when $\delta$ are intervals of values rather than exact values~~\cite{sitharam2010convex}.}
 %cite my paper with Heping!!!
 
-\myexample
-[Using Cayley configuration space].
+\begin{example}[Using Cayley configuration space]
+% \myexample
+% [Using Cayley configuration space].
 A graph $G=K_{3,3}$  cannot be decomposed into any nontrivial isostatic graphs, i.e.\ its DR-plan has a root and 9 children corresponding to the 9 edges. Solving or recombining the system $(G,\delta)$ corresponding to the root of this DR-plan involves solving a quadratic system with 8 equations and variables. Instead of simultaneously solving this system, we could instead use the fact that $G=K_{3,3}$ is in OMD$_2$: remove the edges $e_1,e_2$ in Figure \ref{fig:omd_k33_example} to give a partial 2-tree $G'$. Now add the non-edges $f_1,f_2$ to give a 2-tree $H$ with a DR-plan of size 2. The Cayley configuration space $\Phi_f(G', \delta_{E\setminus e})$ is a single interval of attainable length values $\lambda_F$ for the edge $f$. When $\delta$ is generic, i.e.\ does not admit collinearities or coincidences in the realizations of $(G,\delta)$, the realization space of $(H, \left<\delta_{E\setminus e}, \lambda_f\right>)$ has 16 solutions $q^p_{\lambda_f}$ (modulo orientation preserving isometries), with distinct orientation types $\sigma_p$ (two orientation choices for each of the 4 triangles) that can be obtained by solving a sequence of 4 single quadratics in 1 variable (DR-plan of size 2). By subdivided binary search in the interval $\lambda_f \in \Phi_f(G', \delta_{E\setminus e})$, the desired solution $p$  of $(G,\delta)$ is found when the length of the nonedge $e$ in  the realization $q^p_{\lambda_f}$ is $\delta_e$.
 
 In fact, we can show that $G=K_{3,3}$ is in OMD$_1$ by removing a single edge to reduce (as shown in Figure \ref{fig:omd_k33_example}) to a tree-decomposable graph of low Cayley complexity (which includes the class of partial 2-trees). In the next Section \ref{sec:tdecomp}, we discuss this issue of why the largest class of reduced graphs is desirable.
+\end{example}
 
 
 
@@ -188,7 +191,7 @@ In fact, we can show that $G=K_{3,3}$ is in OMD$_1$ by removing a single edge to
 
 
 
-\subsection{Optimized Modification by Enlarging the class of Reduced
+\subsection{Optimized Modification by Enlarging the Class of Reduced
 Graphs}
 \label{sec:tdecomp}
 %

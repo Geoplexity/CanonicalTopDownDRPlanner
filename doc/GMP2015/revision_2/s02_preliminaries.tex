@@ -5,7 +5,7 @@
 
 We first give basic definitions and concepts in combinatorial rigidity, leading to a definition of a DR-plan, its properties, and how they relate. The section ends with a discussion of previous work on DR-plans.
 
-\subsection{Geometric Constraint systems and Combinatorial Rigidity}
+\subsection{Geometric Constraint Systems and Combinatorial Rigidity}
 \label{sec:prelim:defs}
 \label{sec:appendix:defs}
 
@@ -110,7 +110,7 @@ We note that  the remainder of this section and Sections~\ref{sec:DRP} and \ref{
 
 
 
-\subsection{Decomposition-Recombination (DR) Plans}
+\subsection{Decomposition-Recombination (DR-) Plans}
 %
 %$G=(V,E,w_V,w_E)$ is a set of vertices, $V$, and a set of edges, $E$, defined as a tuple of vertices from $V$ (undirected). Additionally, there are two weight functions, $w_V: V \to \mathbb{R}^+$ and $w_E: E \to \mathbb{R}^+$. The \textbf{density} of graph $G$ is $d(G) = \sum_{e\in E}{w_E(e)} - \sum_{v\in V}{w_V(v)}$.
 %
@@ -220,10 +220,10 @@ We note that  the remainder of this section and Sections~\ref{sec:DRP} and \ref{
 
 
 
-\ClearMyMinHeight
-\SetMyMinHeight{.4}{img/svg/triangle}
-\SetMyMinHeight{.3}{img/svg/triangle_candrp}
-\SetMyMinHeight{.3}{img/svg/triangle_clustmindrp}
+% \ClearMyMinHeight
+% \SetMyMinHeight{.4}{img/svg/triangle}
+% \SetMyMinHeight{.3}{img/svg/triangle_candrp}
+% \SetMyMinHeight{.3}{img/svg/triangle_clustmindrp}
 
 %\begin{figure*}\centering%
 %
@@ -287,27 +287,27 @@ More than one node (leaf) in a DR-plan forest may represent the same subgraph (v
 For a given graph, there could be exponentially many DR-plans---and even optimal DR-plans---in the size of the graph. A complete DR-plan is unique but may not be (and is usually not) optimal. DR-plans of self-similar graphs are self-similar.
 \end{remark}
 
-See Figures \ref{fig:demo_graph}, \ref{fig:c2c3ofk33s}, \ref{fig:demo_graph:candrpseq}, \ref{fig:demo_graph:clustmindrp}, and \ref{fig:bodypindrp} for examples of DR-plans and how their properties relate to each other.
+See Figures \ref{fig:demo_graph}, \ref{fig:c2c3ofk33s}, \ref{fig:demo_graph:candrpseq}, \ref{fig:overconstrained}, and \ref{fig:bodypindrp} for examples of DR-plans and how their properties relate to each other.
 
 
-\subsection{Previous Work on DR-plans}
+\subsection{Previous Work on DR-Plans}
 \label{sec:prev}
 % \todo{We now briefly survey existing techniques for studying 2D qusecs,  many of which are \dfn{bar-joint} systems (Examples 1 and 2 above, see Sections \ref{sec:prelim}, \ref{sec:DRP}, and \ref{sec:recomb}), \dfn{body-hyperpin} systems (Example 4 and 5, see Section \ref{sec:bodypin}) or \dfn{pinned-line incidence} systems (Example 3, see Section \ref{sec:pinnedline}). The limitations of these techniques directly motivate the contributions of this paper.}
 We now briefly survey existing techniques for detecting rigidity and creating DR-plans of 2D constraint systems. The limitations of these techniques directly motivate the contributions of the next  section.
 
-\subsubsection{Finding (vertex)-maximal generically rigid subsystems}
+\subsubsection{Finding (Vertex)-Maximal, Generically Rigid Subsystems}
 Fast, graph-based algorithms exist (pebble-game~\cite{Jacobs:1997:PG,hoffmann1997solvablesubsets,jermann2006decomposition,Lee:2007:PGA}), for locating all maximal, \dfn{generically rigid} subsystems \seedefs. When the input itself is rigid, these algorithms do nothing, i.e.\ compute the identity function.
 
 However, both for self-similar or just aperiodic 2D qusecs, it is imperative to recursively decompose rigid systems into their rigid subsystems, down to the level of geometric primitives, in order to understand or design properties at all scales, such as \seedefs\ \dfn{rigidity}, \dfn{flexes}, distribution of \dfn{external stresses}, boundary conditions for \dfn{isostaticity}, as well as behavior under constraint variations.
 
-\subsubsection{Optimal Recursive Decomposition (DR-planning)}
-Recursive decomposition of geometric constraint systems has been formalized \cite{hoffman2001decompositionI,hoffman2001decompositionII} and well-studied \cite{lomonosov2004graph,sitharam2005combinatorial,jermann2006decomposition} as the \dfn {Decomposition-Recombination (DR-) planning} problem \seedefsprelim. For the abovementioned classes of 2D qusecs, generic rigidity is a combinatorial property and hence each level of the decomposition should, in principle, be achievable by a graph-based algorithm \todo{rephrase? maybe not} without involving geometric information in the constraint system. Since many such decompositions can exist for a given constraint system, criteria defining desirable or optimal DR-plans and DR-planning algorithms were given in~\cite{hoffman2001decompositionI}.
+\subsubsection{Optimal Recursive Decomposition (DR-Planning)}
+Recursive decomposition of geometric constraint systems has been formalized \cite{hoffman2001decompositionI,hoffman2001decompositionII} and well-studied \cite{lomonosov2004graph,sitharam2005combinatorial,jermann2006decomposition} as the \dfn {Decomposition-Recombination (DR-) planning} problem \seedefsprelim. For the abovementioned classes of 2D qusecs, generic rigidity is a combinatorial property and hence each level of the decomposition should, in principle, be achievable by a graph-based algorithm without involving the geometric information in the constraint system. Since many such decompositions can exist for a given constraint system, criteria defining desirable or optimal DR-plans and DR-planning algorithms were given in~\cite{hoffman2001decompositionI}.
 %An \dfn{optimal DR-plan} is one that minimizes the \dfn{size} \seedefsprelim, i.e., the maximum number of child subsystems of any parent system. Being exponential in the size, the complexity of solving the parent constraint system is overwhelmingly dominated by the complexity of solving the child systems.
 
 However, for overconstrained 2D qusecs, even when restricted to bar-joint systems, the optimal DR-planning problem was shown to be NP-hard \cite{lomonosov2004graph, sitharam2005combinatorial}.
 The NP-hardness of the optimal DR-planning problem for 2D bar-joint graphs is partly the consequence of possibly exponential number of DR-plans. On the other hand, although the complete DR-plan is unique it could have large average fan-in and exponentially many nodes making it far from optimal.
 
-\subsubsection{DR-plans for special classes and with other criteria}
+\subsubsection{DR-plans for Special Classes and with Other Criteria}
 For a special class of 2D qusecs, namely \dfn{tree-decomposable} systems~\cite{owen1991algebraic,fudos1997graph,joan-arinyo2004revisiting} common in computer aided mechanical design (which includes ruler-and-compass and Henneberg-I constructible systems), all DR-plans turn out to be optimal. This satisfies the Church-Rosser property, leading to highly efficient DR-planning algorithms. For general 2D qusecs, alternate criteria were suggested such as \dfn{cluster minimality} requiring parent systems to have a minimal set of at least 2 rigid proper subsystems as children (i.e.\ the union of no proper subset of size at least 2 child subsystems forms a rigid system); and \dfn{proper maximality}, requiring child subsystems to be maximal rigid proper subsystems of the parent system. \seedefsc.
 
 While polynomial time algorithms were given to generate DR-plans meeting the cluster minimality criterion~\cite{lomonosov2004graph}, no such algorithm is known for the latter criterion.
