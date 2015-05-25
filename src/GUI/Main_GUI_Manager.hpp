@@ -1,5 +1,5 @@
-#ifndef MAINGUIMANAGER_HPP
-#define MAINGUIMANAGER_HPP
+#ifndef MAIN_GUI_MANAGER_HPP
+#define MAIN_GUI_MANAGER_HPP
 
 #include <GL/glew.h> // must come before GLFW include
 #define GLFW_INCLUDE_GL_3
@@ -18,7 +18,7 @@ unsigned int bottom, left, width, height;
 
 
 class Window {
-friend class MainGuiManager;
+friend class Main_GUI_Manager;
 public:
     Window();
 
@@ -46,8 +46,8 @@ public:
 
     // When adding one of these you need to:
     //   1. Add the virtual (but not abstract) function here
-    //   2. Add the static function to the MainGuiManager
-    //   3. Register the static function with glfw in the MainGuiManager constructor
+    //   2. Add the static function to the Main_GUI_Manager
+    //   3. Register the static function with glfw in the Main_GUI_Manager constructor
 
 
     // typedef void(*  GLFWerrorfun )(int, const char *) The function signature for error callbacks. More...
@@ -80,10 +80,10 @@ private:
 
 
 
-class MainGuiManager {
+class Main_GUI_Manager {
 public:
-    MainGuiManager();
-    ~MainGuiManager();
+    Main_GUI_Manager();
+    ~Main_GUI_Manager();
 
     // returns new window reference
     void create_window(
@@ -132,7 +132,7 @@ private:
 
 class ex_instance_exists: public std::exception {
     virtual const char* what() const throw() {
-        return "An instance of MainGuiManager already exists.";
+        return "An instance of Main_GUI_Manager already exists.";
     }
 };
 

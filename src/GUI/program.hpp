@@ -2,7 +2,7 @@
 #define PROGRAM_HPP
 
 
-#include "Circle.hpp"
+#include "gl_objects.hpp"
 
 
 

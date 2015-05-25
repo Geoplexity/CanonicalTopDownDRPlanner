@@ -1,3 +1,7 @@
+// Altered from the original open source code. See comments below for source.
+
+
+
 // stb_easy_font.h - v0.5 - bitmap font for 3D rendering - public domain
 // Sean Barrett, Feb 2015
 //
@@ -87,7 +91,7 @@ void print_string(float x, float y, char *text, float r, float g, float b)
 #ifndef EASYFONT_HPP
 #define EASYFONT_HPP
 
-#include "Circle.hpp"
+#include "gl_objects.hpp"
 
 #include <stdlib.h>
 

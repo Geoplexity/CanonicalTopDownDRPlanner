@@ -1,4 +1,4 @@
-#include "MainGuiManager.hpp"
+#include "Main_GUI_Manager.hpp"
 
 #include <iostream>
 
@@ -8,9 +8,9 @@
 
 
 // initialize static members
-bool MainGuiManager::instance_exists = false;
-GLFWwindow* MainGuiManager::current_window_context = NULL;
-std::map<GLFWwindow*, Window*> MainGuiManager::window_mapper;
+bool Main_GUI_Manager::instance_exists = false;
+GLFWwindow* Main_GUI_Manager::current_window_context = NULL;
+std::map<GLFWwindow*, Window*> Main_GUI_Manager::window_mapper;
 
 
 
@@ -19,7 +19,7 @@ Window::Window() {
 }
 
 void Window::set_as_context() {
-    MainGuiManager::set_window_context(this->glfw_window());
+    Main_GUI_Manager::set_window_context(this->glfw_window());
 }
 
 void Window::close_window() {
@@ -36,6 +36,10 @@ void Window::swap_buffers() {
 
 void Window::get_window_size_in_pixels(int *width, int *height) {
     glfwGetFramebufferSize(this->glfw_window(), width, height);
+}
+
+void Window::get_window_size_in_screen_coords(int *width, int *height) {
+    glfwGetWindowSize(this->glfw_window(), width, height);
 }
 
 // void Window::get_cursor_position(double *x, double *y) {
@@ -93,21 +97,21 @@ static void error_callback(int error, const char* description)
 
 
 
-MainGuiManager::MainGuiManager() {
+Main_GUI_Manager::Main_GUI_Manager() {
     if (instance_exists) throw ex_instance_exists();
 
     // setup GLFW
     if (!glfwInit()) exit(EXIT_FAILURE);
     glfwSetErrorCallback(error_callback);
 
-    MainGuiManager::instance_exists = true;
+    Main_GUI_Manager::instance_exists = true;
 }
 
-MainGuiManager::~MainGuiManager() {
+Main_GUI_Manager::~Main_GUI_Manager() {
     // for some reason closing the windows in the deconstructor will give segfault
 
-    // for (std::map<GLFWwindow*, Window*>::iterator it = MainGuiManager::window_mapper.begin();
-    //     it != MainGuiManager::window_mapper.end();
+    // for (std::map<GLFWwindow*, Window*>::iterator it = Main_GUI_Manager::window_mapper.begin();
+    //     it != Main_GUI_Manager::window_mapper.end();
     //     it++)
     // {
     //     this->close_window(it->first);
@@ -118,7 +122,7 @@ MainGuiManager::~MainGuiManager() {
 }
 
 
-void MainGuiManager::create_window(
+void Main_GUI_Manager::create_window(
         Window* window,
         int width_in_screen_coordinates,
         int height_in_screen_coordinates,
@@ -168,7 +172,7 @@ void MainGuiManager::create_window(
     window->width_screen_coords = width_in_screen_coordinates;
     window->height_screen_coords = height_in_screen_coordinates;
 
-    MainGuiManager::window_mapper[new_glfw_window] = window;
+    Main_GUI_Manager::window_mapper[new_glfw_window] = window;
 
     GLFWwindow* old_glfw_window = set_window_context(new_glfw_window);
 
@@ -207,9 +211,9 @@ void MainGuiManager::create_window(
 }
 
 
-GLFWwindow* MainGuiManager::set_window_context(GLFWwindow* new_window) {
-    GLFWwindow* old_window_context = MainGuiManager::current_window_context;
-    MainGuiManager::current_window_context = new_window;
+GLFWwindow* Main_GUI_Manager::set_window_context(GLFWwindow* new_window) {
+    GLFWwindow* old_window_context = Main_GUI_Manager::current_window_context;
+    Main_GUI_Manager::current_window_context = new_window;
     glfwMakeContextCurrent(new_window);
     // std::cout << "Old context: " << old_window_context << "."
     //     << std::endl
@@ -221,19 +225,19 @@ GLFWwindow* MainGuiManager::set_window_context(GLFWwindow* new_window) {
 
 
 
-void MainGuiManager::close_window(GLFWwindow* window) {
-    size_t erased = MainGuiManager::window_mapper.erase(window);
+void Main_GUI_Manager::close_window(GLFWwindow* window) {
+    size_t erased = Main_GUI_Manager::window_mapper.erase(window);
     if (erased == 1) glfwDestroyWindow(window);
 }
 
 
 
-void MainGuiManager::poll_for_events(){
+void Main_GUI_Manager::poll_for_events(){
     glfwPollEvents();
 }
 
 
-void MainGuiManager::wait_for_events(){
+void Main_GUI_Manager::wait_for_events(){
     // std::cout << "\tAbout to wait." << std::endl;
     glfwWaitEvents();
     // std::cout << "\tHandled." << std::endl;
@@ -249,42 +253,42 @@ void MainGuiManager::wait_for_events(){
 
 
 
-void MainGuiManager::window_resize_callback_wrapper(GLFWwindow *window, int width, int height) {
-    std::map<GLFWwindow*, Window*>::iterator win = MainGuiManager::window_mapper.find(window);
-    if (win != MainGuiManager::window_mapper.end()) {
+void Main_GUI_Manager::window_resize_callback_wrapper(GLFWwindow *window, int width, int height) {
+    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
+    if (win != Main_GUI_Manager::window_mapper.end()) {
         win->second->width_screen_coords = width;
         win->second->height_screen_coords = height;
         win->second->window_resize_callback(width, height);
     }
 }
 
-void MainGuiManager::mouse_button_callback_wrapper(GLFWwindow *window, int button, int action, int mods) {
-    // MainGuiManager::current_window_context->mouse_button_callback(button, action, mods);
+void Main_GUI_Manager::mouse_button_callback_wrapper(GLFWwindow *window, int button, int action, int mods) {
+    // Main_GUI_Manager::current_window_context->mouse_button_callback(button, action, mods);
 
-    std::map<GLFWwindow*, Window*>::iterator win = MainGuiManager::window_mapper.find(window);
-    if (win != MainGuiManager::window_mapper.end()) {
+    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
+    if (win != Main_GUI_Manager::window_mapper.end()) {
         // if (win->second->mouse_button_callback != NULL)
         win->second->mouse_button_callback(button, action, mods);
     }
 }
 
-void MainGuiManager::cursor_pos_callback_wrapper(GLFWwindow *window, double xpos, double ypos) {
-    std::map<GLFWwindow*, Window*>::iterator win = MainGuiManager::window_mapper.find(window);
-    if (win != MainGuiManager::window_mapper.end()) {
+void Main_GUI_Manager::cursor_pos_callback_wrapper(GLFWwindow *window, double xpos, double ypos) {
+    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
+    if (win != Main_GUI_Manager::window_mapper.end()) {
         win->second->cursor_pos_callback(xpos, ypos);
     }
 }
 
-void MainGuiManager::scroll_callback_wrapper(GLFWwindow *window, double x_offset, double y_offset) {
-    std::map<GLFWwindow*, Window*>::iterator win = MainGuiManager::window_mapper.find(window);
-    if (win != MainGuiManager::window_mapper.end()) {
+void Main_GUI_Manager::scroll_callback_wrapper(GLFWwindow *window, double x_offset, double y_offset) {
+    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
+    if (win != Main_GUI_Manager::window_mapper.end()) {
         win->second->scroll_callback(x_offset, y_offset);
     }
 }
 
-void MainGuiManager::key_callback_wrapper(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    std::map<GLFWwindow*, Window*>::iterator win = MainGuiManager::window_mapper.find(window);
-    if (win != MainGuiManager::window_mapper.end()) {
+void Main_GUI_Manager::key_callback_wrapper(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
+    if (win != Main_GUI_Manager::window_mapper.end()) {
         win->second->key_callback(key, scancode, action, mods);
     }
 }

@@ -1,7 +1,7 @@
-#include "program.hpp"
+#include "Program.hpp"
 
 #include "utils.h"
-#include "EasyFont.hpp"
+#include "easy_font.hpp"
 
 #include "../../ext/glm/gtc/matrix_transform.hpp"
 

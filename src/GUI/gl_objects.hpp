@@ -1,5 +1,5 @@
-#ifndef CIRCLE_HPP
-#define CIRCLE_HPP
+#ifndef GL_OBJECTS_HPP
+#define GL_OBJECTS_HPP
 
 
 #include "../../ext/glm/glm.hpp"

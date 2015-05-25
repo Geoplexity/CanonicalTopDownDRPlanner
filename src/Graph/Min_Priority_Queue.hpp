@@ -1,12 +1,12 @@
-#ifndef MINPRIORITYQUEUE_HPP
-#define MINPRIORITYQUEUE_HPP
+#ifndef MIN_PRIORITY_QUEUE_HPP
+#define MIN_PRIORITY_QUEUE_HPP
 
 #include <vector>
 #include <map>
 // #include <iostream>
 
 template<typename ID, typename Key>
-class MinPriorityQueue {
+class Min_Priority_Queue {
 private:
     std::vector< std::pair<ID, Key> > heap;
     std::map<ID, unsigned int> map;
@@ -74,7 +74,7 @@ private:
         }
     }
 public:
-    MinPriorityQueue() {}
+    Min_Priority_Queue() {}
 
     bool empty() {
         return heap.size() == 0? true: false;

@@ -1,6 +1,6 @@
 #include "Isostatic_Graph_Realizer.hpp"
 
-#include "MinPriorityQueue.hpp"
+#include "Min_Priority_Queue.hpp"
 
 #include <cmath>
 #include <iostream>
@@ -51,7 +51,7 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::realize() {
 }
 
 bool Isostatic_Graph_Realizer::is_partial_2_tree(Mapped_Graph_Copy &mgc) {
-    MinPriorityQueue<Vertex_ID, unsigned int> mpq;
+    Min_Priority_Queue<Vertex_ID, unsigned int> mpq;
     Vertex_Iterator v, v_end;
     for (boost::tie(v, v_end) = mgc.vertices(); v != v_end; v++) {
         mpq.insert(*v, mgc.degree_of_vertex(*v));
@@ -179,7 +179,7 @@ std::list<Edge_ID> Isostatic_Graph_Realizer::make_2_tree() {
 
     Mapped_Graph_Copy mgc(working_copy);
 
-    MinPriorityQueue<Vertex_ID, unsigned int> mpq;
+    Min_Priority_Queue<Vertex_ID, unsigned int> mpq;
     Vertex_Iterator v, v_end;
     for (boost::tie(v, v_end) = mgc.vertices(); v != v_end; v++) {
         mpq.insert(*v, mgc.degree_of_vertex(*v));

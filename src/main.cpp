@@ -2,17 +2,7 @@
 #include "Graph/Pebbled_Graph.hpp"
 #include "Graph/Isostatic_Graph_Realizer.hpp"
 
-#include "GUI/MainGuiManager.hpp"
-#include "GUI/Vision_Handler_2D.hpp"
-#include "GUI/program.hpp"
-
-#include "GUI/Circle.hpp"
-
-
-// #include "GUI/EasyFont.hpp"
-
-
-
+#include "Application/Graph_Display_Window.hpp"
 
 #include <iostream>
 #include <vector>
@@ -22,20 +12,12 @@ using namespace std;
 
 
 
-// `freetype-config --libs`
-
-
-
-
-
-
-
-
-
-#include "GUI/Font.hpp"
-
-
-
+enum runtime_options {
+    ro_drp_2d = 0,
+    ro_display_linkage = 1,
+    ro_display_framework = 2,
+    ro_test = 3
+};
 
 
 
@@ -43,7 +25,10 @@ using namespace std;
 namespace global {
     // Program *myProg;
 
-    MainGuiManager mgm;
+    namespace dflt {
+        string dot_file = "test_files/test.dot";
+        runtime_options runtime_option = ro_drp_2d;
+    }
 
     namespace window {
         const int width_screen_coords = 1000, height_screen_coords = width_screen_coords/1.618;
@@ -55,512 +40,9 @@ namespace global {
 
 
 
-class My2dAppWindow : public Window {
-public:
-    Program *program;
-    Vision_Handler_2D *vh;
-
-    My2dAppWindow() {}
-
-    void init_program() {
-        set_as_context();
-        this->program = new Program("src/GUI/shaders/vs.glsl", "src/GUI/shaders/fs.glsl");
-
-        init_vision_handler();
-    }
-
-    void init_vision_handler() {
-        int width, height;
-        this->get_window_size_in_pixels(&width, &height);
-        vh = new Vision_Handler_2D(float(width) / float(height));
-
-        update_view_matrix();
-        update_projection_matrix();
-    }
-
-    void update_view_matrix() {
-        this->program->setUniform_ViewMatrix(vh->get_view_matrix());
-    }
-
-    void update_projection_matrix() {
-        this->program->setUniform_ProjectionMatrix(vh->get_projection_matrix());
-    }
-
-    virtual void update_display() = 0;
-
-    void window_resize_callback(int width, int height) {
-        vh->aspect_ratio(float(width) / float(height));
-        update_projection_matrix();
-        update_display();
-    }
-};
-
-
-class DrpDisplayWindow : public My2dAppWindow {
-public:
-    Cluster *drp;
-    std::vector<gl_obj::pos_vec> vertices, vertices_highlight;
-    std::vector<gl_obj::pos_vec> edges;
-
-    // unsigned int height;
-    // std::vector<unsigned int> width_per_level;
-
-    DrpDisplayWindow(Cluster *drp) {
-        this->drp = drp;
-
-
-        // this->graph = graph;
-        // this->current_drp_node = NULL;
-
-        update_graph_positions();
-        // update_display();
-    }
-
-    void update_graph_positions() {
-        // erase old
-        vertices.clear();
-        vertices_highlight.clear();
-        edges.clear();
-
-
-        std::vector<unsigned int> width_per_level = drp->width_per_level();
-        unsigned int height = width_per_level.size();
-
-        std::map<Cluster*, gl_obj::pos_vec> node_position;
-
-
-        std::vector<Cluster*> this_level, next_level;
-        this_level.push_back(drp);
-
-        gl_obj::pos_vec parent(0, 1);
-
-        std::vector<unsigned int> position(height);
-
-        for (unsigned int i = 0; i < height; i++) {
-            position[i] = 0;
-            float y = (height == 1)? 0 : 1 - ((float)i)/(height-1)*2;
-
-            for (std::vector<Cluster*>::iterator c = this_level.begin(); c != this_level.end(); c++) {
-                float x = (width_per_level[i] == 1)? 0 : ((float)position[i])/(width_per_level[i]-1)*2 - 1;
-                position[i]++;
-
-                gl_obj::pos_vec pos(x*.95, y*.95);
-                vertices.push_back(pos);
-                node_position[*c] = pos;
-
-                if (i != 0) {
-                    edges.push_back(node_position[(*c)->parent()]);
-                    edges.push_back(pos);
-                }
-
-                for (Cluster *child = (*c)->first_child(); child != NULL; child = child->next()) {
-                    next_level.push_back(child);
-                }
-            }
-
-            this_level = next_level;
-            next_level.clear();
-        }
-    }
-
-    void update_display() {
-        set_as_context();
-
-        // cout << "DDW, display: Here 2" << endl;
-        // Clip the view port to match our ratio
-        int width, height;
-        get_window_size_in_pixels(&width, &height);
-        // width /= 10.f; height /= 10.f;
-        // cout << "DDW, display: Here 3" << endl;
-        glViewport(0, 0, width, height);
-        // cout << "DDW, display: Here 4" << endl;
-
-
-        program->clearViewport();
-        // do_font_stuff();
-        // cout << "DDW, display: Here 5" << endl;
-
-        // cout << "DISPLAY: Number of verts = " << vertices.size() << endl;
-        // cout << "DISPLAY: Number of edges = " << edges.size() << endl;
-        program->draw_graph_edges(edges);
-        program->draw_graph_vertices(vertices, vertices_highlight);
-        // cout << "DDW, display: Here 6" << endl;
-
-        // myProg->draw_colorpicking_scene();
-        program->flush();
-        // cout << "DDW, display: Here 7" << endl;
-
-        swap_buffers();
-        // cout << "DDW, display: Here 8" << endl;
-    }
-};
-
-
-
-
-
-class GraphDisplayWindow : public My2dAppWindow {
-public:
-    bool left_mouse_clicking;
-    int mouse_xpos_previous, mouse_ypos_previous;
-
-    DrpDisplayWindow *drp_display_window;
-
-    Graph *graph;
-    std::vector<gl_obj::pos_vec> vertices, vertices_highlight;
-    std::vector<string> vertices_names, vertices_highlight_names;
-    std::vector<gl_obj::pos_vec> edges;
-    Cluster* drp;
-    Cluster* current_drp_node;
-
-    // std::set<unsigned int> highlight_vertices;
-
-
-    GraphDisplayWindow(Graph *graph) {
-        this->left_mouse_clicking = false;
-
-        this->drp_display_window = NULL;
-
-        this->graph = graph;
-        this->drp = NULL;
-        this->current_drp_node = NULL;
-
-        update_graph_positions();
-    }
-
-    void update_graph_positions() {
-        vertices.clear();
-        vertices_highlight.clear();
-        vertices_names.clear();
-        vertices_highlight_names.clear();
-        for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
-            vs.first != vs.second;
-            vs.first++)
-        {
-            gl_obj::pos_vec pos((*graph)[*vs.first].x, (*graph)[*vs.first].y);
-            if (current_drp_node != NULL && current_drp_node->vertices.find(*vs.first) != current_drp_node->vertices.end()) {
-                vertices_highlight.push_back(pos);
-                vertices_highlight_names.push_back((*graph)[*vs.first].name);
-            } else {
-                vertices.push_back(pos);
-                vertices_names.push_back((*graph)[*vs.first].name);
-            }
-        }
-
-
-
-        edges.clear();
-        for (std::pair<Edge_Iterator, Edge_Iterator> es = graph->edges();
-            es.first != es.second;
-            es.first++)
-        {
-            std::pair<Vertex_ID, Vertex_ID> uv = graph->verts_on_edge(*es.first);
-            edges.push_back(gl_obj::pos_vec((*graph)[uv.first].x, (*graph)[uv.first].y));
-            edges.push_back(gl_obj::pos_vec((*graph)[uv.second].x, (*graph)[uv.second].y));
-        }
-    }
-
-    void get_drp() {
-        Subgraph sg(graph);
-        std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
-        sg.induce(vs.first, vs.second);
-
-        // sg.remove_vertex(*(g.find_vertex("7")));
-
-
-        Pebbled_Graph pg(&sg);
-
-        this->drp = pg.DRP_2D();
-        this->drp->print_tree(graph);
-        // cout << "Height: " << this->drp->height() << endl;
-        // cout << "Width: " << this->drp->width() << endl;
-
-        // this->highlight_vertices = this->current_drp_node->vertices;
-
-        // cout << "Num vertices " << g.num_vertices() << endl;
-        // myWindow.update_graph_positions();
-
-        this->current_drp_node = drp;
-
-        update_graph_positions();
-        update_display();
-    }
-
-    void highlight_cluster(Cluster* c) {
-        if (c) {
-            this->current_drp_node = c;
-            update_graph_positions();
-            update_display();
-        }
-    }
-
-
-
-    void key_callback(int key, int scancode, int action, int mods) {
-        // cout << "Key" << endl;
-        if (action == GLFW_PRESS) {
-            // cout << "\tPressed" << endl;
-            if (key == GLFW_KEY_ESCAPE) {
-                this->close_window();
-            } else if (key == GLFW_KEY_UP) {
-                if (this->current_drp_node != NULL) {
-                    highlight_cluster(current_drp_node->parent());
-                }
-            } else if (key == GLFW_KEY_DOWN) {
-                if (this->current_drp_node != NULL) {
-                    highlight_cluster(current_drp_node->first_child());
-                }
-            } else if (key == GLFW_KEY_RIGHT) {
-                if (this->current_drp_node != NULL) {
-                    highlight_cluster(current_drp_node->next());
-                }
-            } else if (key == GLFW_KEY_LEFT) {
-                if (this->current_drp_node != NULL) {
-                    highlight_cluster(current_drp_node->prev());
-                }
-            } else if (key == GLFW_KEY_SPACE) {
-                if (drp_display_window == NULL) {
-                    drp_display_window = new DrpDisplayWindow(drp);
-                    float scale = 3;
-                    global::mgm.create_window(
-                        drp_display_window,
-                        global::window::width_screen_coords/scale,
-                        global::window::height_screen_coords/scale,
-                        "DR-Plan",
-                        3,
-                        2);
-                    drp_display_window->init_program();
-
-                    drp_display_window->update_graph_positions();
-                    // cout << "GDW: Here 0" << endl;
-                    drp_display_window->update_display();
-                    // cout << "GDW: Here 1" << endl;
-                }
-            }
-        }
-    };
-
-
-    void mouse_button_callback(int button, int action, int mods) {
-        if (button == GLFW_MOUSE_BUTTON_1) {
-            if (action == GLFW_PRESS) {
-                this->left_mouse_clicking = true;
-                this->get_cursor_position_pixels(&mouse_xpos_previous, &mouse_ypos_previous);
-            } else if (action == GLFW_RELEASE) {
-                this->left_mouse_clicking = false;
-            }
-        }
-    }
-
-    void cursor_pos_callback(double xpos, double ypos) {
-        // if (this->left_mouse_clicking) {
-        //     this->get_cursor_position(&xpos, &ypos);
-        //     cout << "Position: " << xpos << " " << ypos << endl;
-
-        //     double diff_x = xpos - mouse_xpos_previous;
-        //     double diff_y = ypos - mouse_ypos_previous;
-
-        //     cout << "\tChange: "  << diff_x << " " << diff_y << endl;
-        //     vh->translate(diff_x, diff_y);
-
-        //     mouse_xpos_previous = xpos;
-        //     mouse_ypos_previous = ypos;
-
-        //     // this->program->setUniform_ViewMatrix(vh->get_view_matrix());
-        //     update_view_matrix();
-        //     update_display();
-        // }
-        if (this->left_mouse_clicking) {
-            int x, y;
-            this->get_cursor_position_pixels(&x, &y);
-            // cout << x << " " << y << endl;
-
-            int width, height;
-            this->get_window_size_in_pixels(&width, &height);
-
-            float dx,dy;
-            dx = 2*((float)(mouse_xpos_previous - x))/width;
-            dy = 2*((float)(mouse_ypos_previous - y))/height;
-            // cout << "\tChange: "  << dx << " " << dy << endl;
-
-            float ar = vh->aspect_ratio();
-            if (ar > 1)
-                dx *= ar;
-            else
-                dy /= ar;
-
-            vh->translate(dx, dy);
-
-            mouse_xpos_previous = x;
-            mouse_ypos_previous = y;
-
-            update_view_matrix();
-            update_display();
-        }
-    }
-
-
-
-
-    void scroll_callback(double x_offset, double y_offset) {
-        // cout << "scroll_callback " << vh->zoom() << " ";
-        if (y_offset > 0) {
-            //scroll up
-            vh->scale_zoom(0.95, 0.01f, 50.f);
-        } else {
-            //scroll down
-            vh->scale_zoom(1/0.95, 0.01f, 50.f);
-        }
-        // cout << vh->zoom() << endl;
-        update_view_matrix();
-        update_display();
-    }
-
-
-
-    // void print_string(float x, float y, char *text, float r, float g, float b) {
-    //     static char buffer[99999]; // ~500 chars
-    //     int num_quads;
-    //     num_quads = stb_easy_font_print(x, y, text, NULL, buffer, sizeof(buffer));
-    //     glColor3f(r,g,b);
-    //     glEnableClientState(GL_VERTEX_ARRAY);
-    //     glVertexPointer(2, GL_FLOAT, 16, buffer);
-    //     glDrawArrays(GL_QUADS, 0, num_quads*4);
-    //     glDisableClientState(GL_VERTEX_ARRAY);
-    // }
-
-
-
-    // void print_string(float x, float y, const char *text, float r, float g, float b) {
-    //     gl_obj::VertexGroup vg = stb_easy_font_print(text, x, y, gl_obj::color_vec(0.f, 0.f, 1.f, 0.f), 0.03, 0.005);
-    //     // gl_obj::VertexGroup vg = stb_easy_font_print(text, x, y, gl_obj::color_vec(0.f, 0.f, 0.f, 0.f), 0.1, 0.2);
-    //     program->draw_easy_font(vg);
-    // }
-
-
-    void update_display() {
-        set_as_context();
-
-
-        // Clip the view port to match our ratio
-        int width, height;
-        get_window_size_in_pixels(&width, &height);
-        glViewport(0, 0, width, height);
-
-
-        program->clearViewport();
-        // do_font_stuff();
-
-        // string printthis = "Hello,\nthis\nis\na\nfont\ntest!";
-        // print_string(0,0,printthis.c_str(),0,0,0);
-        // cout << "DISPLAY: Number of verts = " << vertices.size() << endl;
-        // cout << "DISPLAY: Number of edges = " << edges.size() << endl;
-        program->draw_graph_vertices_names(vertices_names, vertices, vertices_highlight_names, vertices_highlight);
-        program->draw_graph_edges(edges);
-        program->draw_graph_vertices(vertices, vertices_highlight);
-
-        // myProg->draw_colorpicking_scene();
-        program->flush();
-
-        swap_buffers();
-    }
-};
-
-
-
-
-
-// void do_font_stuff() {
-//     char *ttf_file = "src/resources/OpenSans-Regular.ttf";
-
-
-//     // Create a library
-//     Font::Library * fontlib = new Font::Library();
-
-//     // Create a face in the library
-//     Font::Face * fontface = new Font::Face(fontlib, ttf_file);
-
-//     // Set the face size to be used
-//     fontface->size(16);
-
-//     // Fetch a glyph using utf-8 index
-//     const Font::Glyph * g;
-//     g = fontface->glyph('A');
-
-//     // Do something with the glyph, like store it in a vbo
-//     // g.vertices
-//     // g.texcoords
-//     // Both are GLfloat[4] containing the lower-left corner in the first two values and the upper right corner in the last two values
-//     // And bind the texture using the OpenGL texture id of the library:
-//     GLuint t = fontlib->texture();
-
-//     cout << fontlib->_texture_width << " " << fontlib->_texture_height << endl;
-
-//     cout << "tex id: " << t << endl;
-//     cout << g->vertices[0] << " "
-//         << g->vertices[1] << " "
-//         << g->vertices[2] << " "
-//         << g->vertices[3] << endl;
-//     cout << g->texcoords[0] << " "
-//         << g->texcoords[1] << " "
-//         << g->texcoords[2] << " "
-//         << g->texcoords[3] << endl;
-
-//     global::myProg->draw_letter(g->vertices, g->texcoords, t);
-
-//     // GLfloat verts[4] = {g->vertices[0], g->vertices[1], g->texcoords[0], g->texcoords[1]};
-//     // GLfloat texs[4]  = {g->vertices[2], g->vertices[3], g->texcoords[2], g->texcoords[3]};
-//     // global::myProg->draw_letter(verts, texs, t);
-
-
-//     // Check for any errors
-//     const char * err = fontlib->getErrorString();
-//     if (err) cout << "Font errors: " << err << endl;
-
-//     // If you wanted to write out a string, advance your cursor with
-//     float next_pen_x = fontface->advance('A', 'F');
-//     cout << next_pen_x << endl;
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-enum runtime_options {
-    ro_drp_2d,
-    ro_display_linkage,
-    ro_display_framework,
-    ro_test
-};
-
-
-
 int main(int argc, char **argv) {
-    string dot_file = "test_files/test.dot";
-
-    runtime_options runtime_option = ro_drp_2d;
+    string dot_file = global::dflt::dot_file;
+    runtime_options runtime_option = global::dflt::runtime_option;
 
     // handle command-line arguments
     for (int i = 1; i < argc; i++) {
@@ -642,10 +124,12 @@ int main(int argc, char **argv) {
     }
 
 
-    // MainGuiManager mgm;
+    Main_GUI_Manager mgm;
+    Graph_Display_Window myWindow(&mgm, &g);
+    // myWindow.init();
 
-    GraphDisplayWindow myWindow(&g);
-    global::mgm.create_window(
+
+    mgm.create_window(
         &myWindow,
         global::window::width_screen_coords,
         global::window::height_screen_coords,
@@ -729,7 +213,7 @@ int main(int argc, char **argv) {
     while (!myWindow.should_close()) {
         // mgm.poll_for_events();
         // cout << "About to wait." << endl;
-        global::mgm.wait_for_events();
+        mgm.wait_for_events();
         // cout << "Handled." << endl;
     }
 
@@ -738,7 +222,6 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-
 
 
 
@@ -821,9 +304,9 @@ int main(int argc, char **argv) {
 
 
 
-//     MainGuiManager mgm;
+//     Main_GUI_Manager mgm;
 
-//     GraphDisplayWindow myWindow;
+//     Graph_Display_Window myWindow;
 //     mgm.create_window(&myWindow, global::window::width_screen_coords, global::window::height_screen_coords, "Graph Drawer", 3, 2);
 //     myWindow.set_as_context();
 
