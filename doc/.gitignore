@@ -3,6 +3,7 @@
 *.fdb_latexmk
 *.log
 *.gz
+*.spl
 *.pdf
 
 # BibTeX
