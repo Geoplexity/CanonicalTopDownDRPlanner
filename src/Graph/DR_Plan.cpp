@@ -30,14 +30,8 @@ void DR_Plan::print_cluster(const Graph &g, Cluster &c) {
 void DR_Plan::print_depth_first(DRP_Node *node, unsigned int tabs) {
     for (int i = 0; i < tabs; i++) std::cout << "\t";
     std::cout << "Node: ";
-    // std::cout << this << " " << finished << ": ";
-    // std::cout << this << " " << finished << " " << _children.size() << ": ";
-    // std::cout << this << " " << finished << " -" << next() << ": ";
-    // std::cout << this << " " << finished << " -" << prev() << ": ";
-    for (Cluster::iterator v_it = node->load.begin(); v_it != node->load.end(); v_it++) {
-        std::cout << graph[*v_it].name << " ";
-    }
-    std::cout << std::endl;
+
+    print_cluster(graph, node->load);
 
     DRP_Node *fc = node->first_child();
     DRP_Node *n  = node->next();
@@ -118,13 +112,13 @@ void erase_and_delete_all_subseteqs(std::set<Cluster*> &super, std::set<Cluster*
 
 
 // get all wellconstrained vertex-maximal subgraphs
-std::set<Cluster*> DR_Plan::get_all_wcvmps(Subgraph *subgraph) {
-    Pebbled_Graph pg(subgraph);
+std::set<Cluster*> DR_Plan::get_all_wcvmps(Mapped_Graph_Copy *mgc) {
+    Pebbled_Graph pg(mgc);
 
     std::set<Cluster*> current_clusters;
 
-    std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = subgraph->vertices();
-    for (Sg_Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++)
+    std::pair<Vertex_Iterator, Vertex_Iterator> vs = mgc->vertices();
+    for (Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++)
     {
         Vertex_ID vid = *v_it;
         std::set<Cluster*> potential_clusters = pg.component_pebble_game_2D(&vid);
@@ -166,12 +160,13 @@ std::set<Cluster*> DR_Plan::get_all_wcvmps(Subgraph *subgraph) {
 void DR_Plan::_DRP_2D_linear_aux(DRP_Node *node) {
     std::cout<< "BEGIN" << std::endl;
 
-    Subgraph in_subgraph(&graph);
-    in_subgraph.induce(node->load);
+    Mapped_Graph_Copy mgc(&graph, node->load);
+    // Subgraph in_subgraph(&graph);
+    // in_subgraph.induce(node->load);
 
 
 
-    unsigned int num_vertices = in_subgraph.num_vertices();
+    unsigned int num_vertices = mgc.num_vertices();
     assert(num_vertices > 1);
 
 
@@ -179,7 +174,7 @@ void DR_Plan::_DRP_2D_linear_aux(DRP_Node *node) {
     // trivial subgraph case
     if (num_vertices == 2) {
         // should have 1 edge between the vertices
-        assert(in_subgraph.num_edges() == 1);
+        assert(mgc.num_edges() == 1);
 
         std::cout<< "END - single edge" << std::endl;
 
@@ -188,13 +183,17 @@ void DR_Plan::_DRP_2D_linear_aux(DRP_Node *node) {
 
 
 
-    Pebbled_Graph pg(&in_subgraph);
+    Pebbled_Graph pg(&mgc);
     unsigned int dofs = pg.pebble_game_2D();
 
     // < implies that the graph is overconstrained
     assert(dofs >= Pebbled_Graph::l);
 
-    std::set<Cluster*> current_clusters = get_all_wcvmps(&in_subgraph);
+    std::set<Cluster*> current_clusters = get_all_wcvmps(&mgc);
+    // get original Vertex_ID's
+    for (std::set<Cluster*>::iterator c_it = current_clusters.begin(); c_it != current_clusters.end(); c_it++) {
+        **c_it = mgc.original_vertices(**c_it);
+    }
 
 
     // the system is underconstrained
@@ -230,11 +229,11 @@ void DR_Plan::_DRP_2D_linear_aux(DRP_Node *node) {
         if (intersection.size() > 1) {
 
             // fill up d with everything first
-            Cluster d;
-            std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> c_verts = in_subgraph.vertices();
-            for (; c_verts.first != c_verts.second; c_verts.first++) {
-                d.insert(*c_verts.first);
-            }
+            Cluster d = node->load;
+            // std::pair<Vertex_Iterator, Vertex_Iterator> c_verts = mgc.vertices();
+            // for (; c_verts.first != c_verts.second; c_verts.first++) {
+            //     d.insert(*c_verts.first);
+            // }
 
             DRP_Node *dummy_original_parent = new DRP_Node(Cluster()); // just going to delete in the end
             DRP_Node *parent = dummy_original_parent;
@@ -262,36 +261,73 @@ void DR_Plan::_DRP_2D_linear_aux(DRP_Node *node) {
 
                 // get the edges between the subgraph and the rest of the graph
                 // there won't be any edges between different Ris, so you can use the whole subgraph
-                std::vector<std::set<Vertex_ID> > edges_between_d_and_Ri
-                    = in_subgraph.edges_between(Ri, d);
+                std::set<Edge_ID> edges_between_d_and_Ri = mgc.edges_between(Ri, d);
 
                 // std::cout << "\td:  "; print_cluster(graph, d);
                 // std::cout << "\tRi: "; print_cluster(graph, Ri);
 
 
 
-                // ci, Ri, and edges_between_d_and_Ri are all clusters
-
                 // add d
                 DRP_Node *next_parent = add_uncomputed_child(parent, &d);
                 std::cout << "_DRP_2D_linear_aux: Here 0" << std::endl;
 
-                // add Ri
-                if (Ri.size() > 1) {
-                    DRP_Node *new_node = new DRP_Node(Ri);
-                    _DRP_2D_linear_aux(new_node);
-                    parent->add_children(new_node->make_children_set());
+                // add Ri + edges_between_d_and_Ri
+
+                // !!!!! I need a method for mapped_graph_copy that expands the
+                // subgraph by one edge wherever it can grow... Doing this to an
+                // induced subgraph won;t necessarily make another induced subgraph
+                // this method could be a lot more effecient than the current mess
+
+                Mapped_Graph_Copy mgc_d_Ri(&graph, Ri);
+                // mgc_d_Ri.expand();
+                mgc_d_Ri.grow_into(d);
+
+                // for (std::set<Edge_ID>::iterator e_it = edges_between_d_and_Ri.begin();
+                //     e_it != edges_between_d_and_Ri.end(); e_it++)
+                // {
+                //     std::pair<Vertex_ID, Vertex_ID> vs = graph.verts_on_edge(*e_it);
+                //     if (Ri.find(vs.first) == Ri.end()) {
+                //         mgc_d_Ri.add_original_vertex(vs.first);
+                //         std::cout << "Added " << mgc_d_Ri[vs.first].name << std::endl;
+                //     } else {
+                //         mgc_d_Ri.add_original_vertex(vs.second);
+                //         std::cout << "Added " << mgc_d_Ri[vs.second].name << std::endl;
+                //     }
+
+                //     mgc_d_Ri.add_original_edge(*e_it);
+                // }
+
+                std::set<Cluster*> d_Ri_clusters = get_all_wcvmps(&mgc_d_Ri);
+                // get original Vertex_ID's
+                for (std::set<Cluster*>::iterator c_it = d_Ri_clusters.begin(); c_it != d_Ri_clusters.end(); c_it++) {
+                    Cluster temp = mgc_d_Ri.original_vertices(**c_it);
+                    add_and_compute_child(parent, &temp);
                 }
 
-                std::cout << "_DRP_2D_linear_aux: Here 1" << std::endl;
-                // add the edges_between_d_and_Ri
-                for (std::vector<std::set<Vertex_ID> >::iterator vset_it = edges_between_d_and_Ri.begin();
-                    vset_it != edges_between_d_and_Ri.end();
-                    vset_it++)
-                {
-                    // don't need to compute because we know it's an edge
-                    add_uncomputed_child(parent, &(*vset_it));
-                }
+
+
+
+
+                // if (Ri.size() > 1) {
+                //     DRP_Node *new_node = new DRP_Node(Ri);
+                //     _DRP_2D_linear_aux(new_node);
+                //     parent->add_children(new_node->make_children_set());
+                // }
+
+                // std::cout << "_DRP_2D_linear_aux: Here 1" << std::endl;
+                // // add the edges_between_d_and_Ri
+                // for (std::vector<std::set<Vertex_ID> >::iterator vset_it = edges_between_d_and_Ri.begin();
+                //     vset_it != edges_between_d_and_Ri.end();
+                //     vset_it++)
+                // {
+                //     // don't need to compute because we know it's an edge
+                //     add_uncomputed_child(parent, &(*vset_it));
+                // }
+
+
+
+
 
                 // iterate
                 parent = next_parent;

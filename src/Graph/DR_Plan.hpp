@@ -47,7 +47,7 @@ private:
     // DR_Plan(Cluster vertices);
 
     // finds all wellconstrained, vertex-maximal proper subgraphs
-    std::set<Cluster*> get_all_wcvmps(Subgraph *subgraph);
+    std::set<Cluster*> get_all_wcvmps(Mapped_Graph_Copy *mgc);
 
 
     // generates a DR_Plan from this node

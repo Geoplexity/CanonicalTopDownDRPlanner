@@ -435,6 +435,27 @@ std::set<Vertex_ID> Graph::vertices_adjacent(std::set<Vertex_ID> &v_set) const {
     return ret;
 }
 
+// assumes they're disjoint
+std::set<Edge_ID> Graph::edges_between(
+    std::set<Vertex_ID> &v_set_1,
+    std::set<Vertex_ID> &v_set_2) const
+{
+    std::set<Edge_ID> ret;
+    for (std::set<Vertex_ID>::iterator set_v = v_set_1.begin(); set_v != v_set_1.end(); set_v++) {
+        std::set<Vertex_ID> adjacent_vs;
+        boost::graph_traits<Graph>::adjacency_iterator v, v_end;
+        for (boost::tie(v, v_end) = boost::adjacent_vertices(*set_v, *this);
+            v != v_end; v++)
+        {
+            if (v_set_2.find(*v) != v_set_2.end()) {
+                ret.insert(edge(*v, *set_v));
+            }
+        }
+    }
+
+    return ret;
+}
+
 Vertex_Iterator Graph::find_vertex(const char *name) const {
     Vertex_Iterator v, v_end;
     for (boost::tie(v, v_end) = this->vertices(); v != v_end; v++) {
@@ -846,31 +867,19 @@ void Graph::print_edges(unsigned int indent) const {
 
 
 
-Mapped_Graph_Copy::Mapped_Graph_Copy(const Graph *g) {
-    orig = g;
-
+Mapped_Graph_Copy::Mapped_Graph_Copy(const Graph *g) : orig(g) {
     Vertex_Iterator v, v_end;
     for (boost::tie(v, v_end) = orig->vertices(); v != v_end; v++) {
-        // Vertex_ID new_v = copy.add_vertex();
-        Vertex_ID new_v = add_vertex((*orig)[*v]);
-        orig_to_copy[*v] = new_v;
-        copy_to_orig[new_v] = *v;
+        add_original_vertex(*v);
     }
-
-    // std::cout << "========graph_copy:" <<std::endl;
-    // print_copy_to_orig(1);
-    // print_vertices(2);
 
     Edge_Iterator e, e_end;
     for (boost::tie(e, e_end) = orig->edges(); e != e_end; e++) {
-        std::pair<Vertex_ID, Vertex_ID> vs = orig->verts_on_edge(*e);
-        add_edge(orig_to_copy[vs.first], orig_to_copy[vs.second], (*orig)[*e].length);
+        add_original_edge(*e);
     }
 }
 
-Mapped_Graph_Copy::Mapped_Graph_Copy(const Mapped_Graph_Copy &g) {
-    orig = g.orig;
-
+Mapped_Graph_Copy::Mapped_Graph_Copy(const Mapped_Graph_Copy &g) : orig(g.orig) {
     Vertex_Iterator v, v_end;
     for (boost::tie(v, v_end) = g.vertices(); v != v_end; v++) {
         Vertex_ID orig_v = g.original_vertex(*v);
@@ -889,8 +898,127 @@ Mapped_Graph_Copy::Mapped_Graph_Copy(const Mapped_Graph_Copy &g) {
     }
 }
 
+Mapped_Graph_Copy::Mapped_Graph_Copy(const Graph *g, std::set<Vertex_ID> &vertices) : orig(g) {
+    for (std::set<Vertex_ID>::iterator v_it = vertices.begin(); v_it != vertices.end(); v_it++) {
+        add_original_vertex(*v_it);
+    }
+
+    Edge_Iterator e, e_end;
+    for (boost::tie(e, e_end) = orig->edges(); e != e_end; e++) {
+        std::pair<Vertex_ID, Vertex_ID> vs = orig->verts_on_edge(*e);
+        if (vertices.find(vs.first) != vertices.end() && vertices.find(vs.second) != vertices.end())
+            add_edge(orig_to_copy[vs.first], orig_to_copy[vs.second], (*orig)[*e].length);
+    }
+}
+
+
+void Mapped_Graph_Copy::add_original_vertex(Vertex_ID orig_v) {
+    Vertex_ID new_v = add_vertex((*orig)[orig_v]);
+    orig_to_copy[orig_v] = new_v;
+    copy_to_orig[new_v] = orig_v;
+}
+
+void Mapped_Graph_Copy::add_original_edge(Edge_ID orig_e) {
+    std::pair<Vertex_ID, Vertex_ID> vs = orig->verts_on_edge(orig_e);
+    add_edge(orig_to_copy[vs.first], orig_to_copy[vs.second], (*orig)[orig_e].length);
+}
+
+
 Vertex_ID Mapped_Graph_Copy::original_vertex(Vertex_ID v) const {
     return copy_to_orig.at(v);
+}
+
+std::set<Vertex_ID> Mapped_Graph_Copy::original_vertices(const std::set<Vertex_ID> &vs) const {
+    std::set<Vertex_ID> ret;
+    for (std::set<Vertex_ID>::iterator v_it = vs.begin(); v_it != vs.end(); v_it++)
+        ret.insert(copy_to_orig.at(*v_it));
+    return ret;
+}
+
+// adds every edge incident to the current subgraph, and the associated vertices
+void Mapped_Graph_Copy::expand() {
+    std::set<Vertex_ID> vs_to_add;
+    std::set<Edge_ID>   es_to_add;
+
+    std::pair<Vertex_Iterator, Vertex_Iterator> vs = vertices();
+    for (Vertex_Iterator sub_v_it = vs.first; sub_v_it != vs.second; sub_v_it++) {
+        Vertex_ID v_copy = *sub_v_it;
+        Vertex_ID v_orig = original_vertex(v_copy);
+
+        boost::graph_traits<Graph>::adjacency_iterator adj_v_it, v_end;
+        for (boost::tie(adj_v_it, v_end) = boost::adjacent_vertices(v_orig, *orig);
+            adj_v_it != v_end; adj_v_it++)
+        {
+            Vertex_ID v_orig_adj = *adj_v_it;
+            Edge_ID e_orig = orig->edge(v_orig, v_orig_adj);
+
+            if (orig_to_copy.find(v_orig_adj) == orig_to_copy.end()) {
+                vs_to_add.insert(v_orig_adj);
+                es_to_add.insert(e_orig);
+            } else {
+                Vertex_ID v_copy_adj = copy_vertex(v_orig_adj);
+                std::pair<Edge_ID, bool> edge_p = boost::edge(v_copy, v_copy_adj, *this);
+
+                if (!edge_p.second) {
+                    es_to_add.insert(e_orig);
+                }
+            }
+        }
+    }
+
+    for (std::set<Vertex_ID>::iterator v_it = vs_to_add.begin(); v_it != vs_to_add.end(); v_it++) {
+        add_original_vertex(*v_it);
+    }
+
+    for (std::set<Edge_ID>::iterator e_it = es_to_add.begin(); e_it != es_to_add.end(); e_it++) {
+        add_original_edge(*e_it);
+    }
+}
+
+// input is a set of original vertices. If they are adjacent to any vertices
+// in the copy, the vertex and the incident edges will be added into the copy
+void Mapped_Graph_Copy::grow_into(std::set<Vertex_ID> orig_vs) {
+    std::set<Vertex_ID> vs_to_add;
+    std::set<Edge_ID>   es_to_add;
+
+    std::pair<Vertex_Iterator, Vertex_Iterator> vs = vertices();
+    for (Vertex_Iterator sub_v_it = vs.first; sub_v_it != vs.second; sub_v_it++) {
+        Vertex_ID v_copy = *sub_v_it;
+        Vertex_ID v_orig = original_vertex(v_copy);
+
+        boost::graph_traits<Graph>::adjacency_iterator adj_v_it, v_end;
+        for (boost::tie(adj_v_it, v_end) = boost::adjacent_vertices(v_orig, *orig);
+            adj_v_it != v_end; adj_v_it++)
+        {
+            Vertex_ID v_orig_adj = *adj_v_it;
+
+            if (orig_vs.find(v_orig_adj) == orig_vs.end())
+                continue;
+
+            Edge_ID e_orig = orig->edge(v_orig, v_orig_adj);
+
+            if (orig_to_copy.find(v_orig_adj) == orig_to_copy.end()) {
+                vs_to_add.insert(v_orig_adj);
+                es_to_add.insert(e_orig);
+            } else {
+                Vertex_ID v_copy_adj = copy_vertex(v_orig_adj);
+                std::pair<Edge_ID, bool> edge_p = boost::edge(v_copy, v_copy_adj, *this);
+
+                if (!edge_p.second) {
+                    es_to_add.insert(e_orig);
+                }
+            }
+        }
+    }
+
+    for (std::set<Vertex_ID>::iterator v_it = vs_to_add.begin(); v_it != vs_to_add.end(); v_it++) {
+        add_original_vertex(*v_it);
+    }
+
+    for (std::set<Edge_ID>::iterator e_it = es_to_add.begin(); e_it != es_to_add.end(); e_it++) {
+        add_original_edge(*e_it);
+    }
+
 }
 
 Vertex_ID Mapped_Graph_Copy::copy_vertex(Vertex_ID v) const {

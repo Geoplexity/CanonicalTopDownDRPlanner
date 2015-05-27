@@ -8,8 +8,8 @@
 
 
 
-Isostatic_Graph_Realizer::Isostatic_Graph_Realizer(const Graph *g) {
-    this->in_graph = g;
+Isostatic_Graph_Realizer::Isostatic_Graph_Realizer(const Graph *g) : in_graph(g) {
+    // this->in_graph = g;
     this->working_copy = new Mapped_Graph_Copy(g);
 }
 
@@ -823,7 +823,7 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::sample(
 
     // int steps = 500;
     // double eps = 1e-1;
-    int steps = 500;
+    int steps = 20;
     double eps = 1e-2;
     // int steps = 100;
     // double eps = 6;

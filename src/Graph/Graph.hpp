@@ -124,6 +124,11 @@ public:
     std::set<Vertex_ID> vertices_adjacent(Vertex_ID v) const;
     std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set) const;
 
+    // assumes they're disjoint
+    std::set<Edge_ID> edges_between(
+        std::set<Vertex_ID> &v_set_1,
+        std::set<Vertex_ID> &v_set_2) const;
+
     Vertex_Iterator find_vertex(const char *name) const;
 
     unsigned int num_vertices() const;
@@ -155,11 +160,31 @@ public:
     // but instead of mapping to 'g' it maps to 'g.orig'
     Mapped_Graph_Copy(const Mapped_Graph_Copy &g);
 
+    // Creates an induced subgraph on g
+    Mapped_Graph_Copy(const Graph *g, std::set<Vertex_ID> &vertices);
+
+
+    void add_original_vertex(Vertex_ID orig_v);
+    void add_original_edge(Edge_ID orig_e);
+
 
     // input is a copy Vertex_ID
     Vertex_ID original_vertex(Vertex_ID v) const;
+    std::set<Vertex_ID> original_vertices(const std::set<Vertex_ID> &vs) const;
     // input is an input Vertex_ID
     Vertex_ID copy_vertex(Vertex_ID v) const;
+
+    // Adds every edge incident to the current subgraph, and the associated vertices.
+    // Not really used anywhere, remade into grow_into, but left b/c it might
+    // be useful in some other future context.
+    void expand();
+
+    // Input is a set of original vertices. If they are adjacent to any vertices
+    // in the copy, the vertex and the incident edges will be added into the copy.
+    // Behaves the same as expand if the input is a super set of the vertex set
+    // of the orig graph diff the vertex set of the copy vertex set.
+    // Of particular use in DR-planning.
+    void grow_into(std::set<Vertex_ID> orig_vs);
 
     void print_copy_to_orig(unsigned int indent = 0);
 private:
