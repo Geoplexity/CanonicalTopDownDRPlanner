@@ -2,6 +2,7 @@
 #define GRAPH_DISPLAY_WINDOW_HPP
 
 #include "../Graph/Graph.hpp"
+#include "../Graph/DR_Plan.hpp"
 #include "../Graph/Pebbled_Graph.hpp"
 
 #include "App_Window_2D.hpp"
@@ -23,8 +24,8 @@ public:
     std::vector<gl_obj::pos_vec> vertices, vertices_highlight;
     std::vector<std::string> vertices_names, vertices_highlight_names;
     std::vector<gl_obj::pos_vec> edges;
-    Cluster* drp;
-    Cluster* current_drp_node;
+    DR_Plan* drp;
+    DRP_Node* current_drp_node;
 
     // std::set<unsigned int> highlight_vertices;
 
@@ -57,7 +58,7 @@ public:
             vs.first++)
         {
             gl_obj::pos_vec pos((*graph)[*vs.first].x, (*graph)[*vs.first].y);
-            if (current_drp_node != NULL && current_drp_node->vertices.find(*vs.first) != current_drp_node->vertices.end()) {
+            if (current_drp_node != NULL && current_drp_node->load.find(*vs.first) != current_drp_node->load.end()) {
                 vertices_highlight.push_back(pos);
                 vertices_highlight_names.push_back((*graph)[*vs.first].name);
             } else {
@@ -80,17 +81,22 @@ public:
     }
 
     void get_drp() {
-        Subgraph sg(graph);
-        std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
-        sg.induce(vs.first, vs.second);
-
-        // sg.remove_vertex(*(g.find_vertex("7")));
+        this->drp = new DR_Plan(*graph);
 
 
-        Pebbled_Graph pg(&sg);
+        // Subgraph sg(graph);
+        // std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
+        // sg.induce(vs.first, vs.second);
 
-        this->drp = pg.DRP_2D();
-        this->drp->print_tree(graph);
+        // // sg.remove_vertex(*(g.find_vertex("7")));
+
+
+        // Pebbled_Graph pg(&sg);
+
+        // this->drp = pg.DRP_2D();
+
+
+        this->drp->print_depth_first(this->drp->root());
         // cout << "Height: " << this->drp->height() << endl;
         // cout << "Width: " << this->drp->width() << endl;
 
@@ -99,15 +105,15 @@ public:
         // cout << "Num vertices " << g.num_vertices() << endl;
         // myWindow.update_graph_positions();
 
-        this->current_drp_node = drp;
+        this->current_drp_node = drp->root();
 
         update_graph_positions();
         update_display();
     }
 
-    void highlight_cluster(Cluster* c) {
-        if (c) {
-            this->current_drp_node = c;
+    void highlight_drp_node(DRP_Node* node) {
+        if (node) {
+            this->current_drp_node = node;
             update_graph_positions();
             update_display();
         }
@@ -123,19 +129,19 @@ public:
                 this->close_window();
             } else if (key == GLFW_KEY_UP) {
                 if (this->current_drp_node != NULL) {
-                    highlight_cluster(current_drp_node->parent());
+                    highlight_drp_node(current_drp_node->parent());
                 }
             } else if (key == GLFW_KEY_DOWN) {
                 if (this->current_drp_node != NULL) {
-                    highlight_cluster(current_drp_node->first_child());
+                    highlight_drp_node(current_drp_node->first_child());
                 }
             } else if (key == GLFW_KEY_RIGHT) {
                 if (this->current_drp_node != NULL) {
-                    highlight_cluster(current_drp_node->next());
+                    highlight_drp_node(current_drp_node->next());
                 }
             } else if (key == GLFW_KEY_LEFT) {
                 if (this->current_drp_node != NULL) {
-                    highlight_cluster(current_drp_node->prev());
+                    highlight_drp_node(current_drp_node->prev());
                 }
             } else if (key == GLFW_KEY_SPACE) {
                 if (drp_display_window == NULL) {

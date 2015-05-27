@@ -84,14 +84,16 @@ endif
 
 
 
-_DEPS = Graph/Graph.hpp Graph/Pebbled_Graph.hpp Graph/Isostatic_Graph_Realizer.hpp Graph/Min_Priority_Queue.hpp \
+_DEPS = Graph/Graph.hpp Graph/DR_Plan.hpp \
+	Graph/Pebbled_Graph.hpp Graph/Isostatic_Graph_Realizer.hpp \
+	Graph/Tree.hpp Graph/Min_Priority_Queue.hpp \
 	GUI/Main_GUI_Manager.hpp GUI/Vision_Handler_2D.hpp GUI/Program.hpp GUI/gl_objects.hpp GUI/easy_font.hpp GUI/utils.h \
 	Application/App_Window_2D.hpp Application/Graph_Display_Window.hpp Application/DRP_Display_Window.hpp
 DEPS = $(patsubst %,$(SOURCE_DIRECTORY)/%,$(_DEPS))
 
 
 _OBJ = main.o \
-	Graph/Graph.o Graph/Pebbled_Graph.o Graph/Isostatic_Graph_Realizer.o \
+	Graph/Graph.o Graph/DR_Plan.o Graph/Pebbled_Graph.o Graph/Isostatic_Graph_Realizer.o \
 	GUI/Main_GUI_Manager.o GUI/Vision_Handler_2D.o GUI/Program.o GUI/utils.o
 OBJ = $(patsubst %,$(OBJECT_DIRECTORY)/%,$(_OBJ))
 

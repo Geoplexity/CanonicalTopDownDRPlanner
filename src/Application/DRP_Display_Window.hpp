@@ -3,6 +3,7 @@
 
 
 #include "../Graph/Graph.hpp"
+#include "../Graph/DR_Plan.hpp"
 #include "../Graph/Pebbled_Graph.hpp"
 
 #include "App_Window_2D.hpp"
@@ -10,14 +11,14 @@
 
 class DRP_Display_Window : public App_Window_2D {
 public:
-    Cluster *drp;
+    DR_Plan *drp;
     std::vector<gl_obj::pos_vec> vertices, vertices_highlight;
     std::vector<gl_obj::pos_vec> edges;
 
     // unsigned int height;
     // std::vector<unsigned int> width_per_level;
 
-    DRP_Display_Window(Cluster *drp) {
+    DRP_Display_Window(DR_Plan *drp) {
         this->drp = drp;
 
 
@@ -35,14 +36,14 @@ public:
         edges.clear();
 
 
-        std::vector<unsigned int> width_per_level = drp->width_per_level();
+        std::vector<unsigned int> width_per_level = drp->root()->width_per_level();
         unsigned int height = width_per_level.size();
 
-        std::map<Cluster*, gl_obj::pos_vec> node_position;
+        std::map<DRP_Node*, gl_obj::pos_vec> node_position;
 
 
-        std::vector<Cluster*> this_level, next_level;
-        this_level.push_back(drp);
+        std::vector<DRP_Node*> this_level, next_level;
+        this_level.push_back(drp->root());
 
         gl_obj::pos_vec parent(0, 1);
 
@@ -52,7 +53,7 @@ public:
             position[i] = 0;
             float y = (height == 1)? 0 : 1 - ((float)i)/(height-1)*2;
 
-            for (std::vector<Cluster*>::iterator c = this_level.begin(); c != this_level.end(); c++) {
+            for (std::vector<DRP_Node*>::iterator c = this_level.begin(); c != this_level.end(); c++) {
                 float x = (width_per_level[i] == 1)? 0 : ((float)position[i])/(width_per_level[i]-1)*2 - 1;
                 position[i]++;
 
@@ -65,7 +66,7 @@ public:
                     edges.push_back(pos);
                 }
 
-                for (Cluster *child = (*c)->first_child(); child != NULL; child = child->next()) {
+                for (DRP_Node *child = (*c)->first_child(); child != NULL; child = child->next()) {
                     next_level.push_back(child);
                 }
             }

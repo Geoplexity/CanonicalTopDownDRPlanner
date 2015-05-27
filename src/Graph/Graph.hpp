@@ -183,28 +183,28 @@ public:
     Subgraph(const Graph *g);
 
     void induce(Vertex_Iterator begin, Vertex_Iterator end);
-    void induce(std::set<Vertex_ID> *vertices);
+    void induce(const std::set<Vertex_ID> &vertices);
 
     void add_vertex(Vertex_ID vertex);
     void remove_vertex(Vertex_ID vertex);
 
-    const Graph* graph();
-    std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vertices();
-    std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> edges();
+    const Graph* graph() const;
+    std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vertices() const;
+    std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> edges() const;
 
-    std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set);
+    std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set) const;
 
     // assumes they're disjoint
     std::vector<std::set<Vertex_ID> > edges_between(
         std::set<Vertex_ID> &v_set_1,
-        std::set<Vertex_ID> &v_set_2);
+        std::set<Vertex_ID> &v_set_2) const;
 
-    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e);
+    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e) const;
 
-    unsigned int num_vertices();
-    unsigned int num_edges();
+    unsigned int num_vertices() const;
+    unsigned int num_edges() const;
 
-    const Vertex_Properties& operator[](Vertex_ID vertex);
+    const Vertex_Properties& operator[](Vertex_ID vertex) const;
 private:
     const Graph *_graph;
 

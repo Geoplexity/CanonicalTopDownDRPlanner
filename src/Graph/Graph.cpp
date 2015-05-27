@@ -928,7 +928,7 @@ Subgraph::Subgraph(const Graph *g) {
     _graph = g;
 }
 
-const Graph* Subgraph::graph() {
+const Graph* Subgraph::graph() const {
     return _graph;
 }
 
@@ -971,9 +971,9 @@ void Subgraph::induce(Vertex_Iterator begin, Vertex_Iterator end) {
         add_vertex(*v_it);
 }
 
-void Subgraph::induce(std::set<Vertex_ID> *vertices) {
-    for (std::set<Vertex_ID>::iterator v_it = vertices->begin();
-        v_it != vertices->end(); v_it++)
+void Subgraph::induce(const std::set<Vertex_ID> &vertices) {
+    for (std::set<Vertex_ID>::iterator v_it = vertices.begin();
+        v_it != vertices.end(); v_it++)
     {
         add_vertex(*v_it);
     }
@@ -1022,15 +1022,15 @@ void Subgraph::remove_vertex(Vertex_ID vertex) {
 // }
 
 
-std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> Subgraph::vertices() {
+std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> Subgraph::vertices() const {
     return std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator>(_vertices.begin(), _vertices.end());
 }
 
-std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> Subgraph::edges() {
+std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> Subgraph::edges() const {
     return std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator>(_edges.begin(), _edges.end());
 }
 
-std::set<Vertex_ID> Subgraph::vertices_adjacent(std::set<Vertex_ID> &v_set) {
+std::set<Vertex_ID> Subgraph::vertices_adjacent(std::set<Vertex_ID> &v_set) const {
     std::set<Vertex_ID> ret;
     for (std::set<Vertex_ID>::iterator set_v = v_set.begin(); set_v != v_set.end(); set_v++) {
         boost::graph_traits<Graph>::adjacency_iterator v, v_end;
@@ -1047,7 +1047,7 @@ std::set<Vertex_ID> Subgraph::vertices_adjacent(std::set<Vertex_ID> &v_set) {
 // assumes they're disjoint
 std::vector<std::set<Vertex_ID> > Subgraph::edges_between(
         std::set<Vertex_ID> &v_set_1,
-        std::set<Vertex_ID> &v_set_2)
+        std::set<Vertex_ID> &v_set_2) const
 {
     std::vector<std::set<Vertex_ID> > ret;
     for (std::set<Vertex_ID>::iterator set_v = v_set_1.begin(); set_v != v_set_1.end(); set_v++) {
@@ -1072,20 +1072,20 @@ std::vector<std::set<Vertex_ID> > Subgraph::edges_between(
 // const std::set<Vertex_ID>* Subgraph::vertices() {return &_vertices; }
 // const std::set<Edge_ID>* Subgraph::edges() {return &_edges; }
 
-std::pair<Vertex_ID, Vertex_ID> Subgraph::verts_on_edge(Edge_ID e) {
+std::pair<Vertex_ID, Vertex_ID> Subgraph::verts_on_edge(Edge_ID e) const {
     return _graph->verts_on_edge(e);
 }
 
 
-unsigned int Subgraph::num_vertices() {
+unsigned int Subgraph::num_vertices() const {
     return _vertices.size();
 }
 
-unsigned int Subgraph::num_edges() {
+unsigned int Subgraph::num_edges() const {
     return _edges.size();
 }
 
 
-const Vertex_Properties& Subgraph::operator[](Vertex_ID vertex) {
+const Vertex_Properties& Subgraph::operator[](Vertex_ID vertex) const {
     return (*_graph)[vertex];
 }

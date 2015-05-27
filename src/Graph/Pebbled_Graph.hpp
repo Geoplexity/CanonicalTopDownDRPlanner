@@ -2,6 +2,7 @@
 #define PEBBLED_GRAPH_HPP
 
 #include "Graph.hpp"
+#include "DR_Plan.hpp"
 
 #include <map>
 #include <vector>
@@ -9,64 +10,13 @@
 #include <set>
 
 
-struct Cluster {
-    std::set<Vertex_ID> vertices;
-    bool finished;
-
-    // std::set<Cluster*> _children;
-
-    Cluster(bool f=false);
-    Cluster(std::set<Vertex_ID> vs, bool f=false);
-    Cluster(std::set<Vertex_ID> vs, std::set<Cluster*> cs, bool f=false);
-
-    std::set<Cluster*> make_children_set();
-
-    Cluster* parent() const;
-
-    // std::set<Cluster*> children();
-
-    Cluster* first_child() const;
-    Cluster* next() const;
-    Cluster* prev() const;
-
-
-    void add_vertex(Vertex_ID v);
-
-
-    void add_child(Cluster* c);
-    void add_children(std::set<Cluster*> cs);
-
-
-    unsigned int height();
-    unsigned int width(); // of the largest level
-    std::vector<unsigned int> width_per_level();
-
-    void print_tree(const Graph *g, unsigned int tabs=0);
-private:
-    Cluster
-        *_parent,
-        *_first_child,
-        *_last_child,
-        *_next,
-        *_prev;
-};
-
-
 class Pebbled_Graph {
 public:
-    Pebbled_Graph(Graph *g);
-    Pebbled_Graph(Subgraph *g);
-
-    // if there are exactly 2 pebbles free in the end, the graph is rigid
-    unsigned int pebble_game_2D();
-    // if there is exactly 1 cluster, the graph is rigid
-    std::set<Cluster*> component_pebble_game_2D(Vertex_ID *exclude = NULL);
-
-    // If optimal is false, you find completeDRP
-    Cluster* DRP_2D();
+    Pebbled_Graph(const Graph *g);
+    Pebbled_Graph(Subgraph *sg);
 
 
-private:
+
     // pebbles per node = k = 2
     // pebbles for sparsity/tightness = l = 3
     // solving for (k, l)-sparse graphs
@@ -76,8 +26,19 @@ private:
 
 
 
+    // if there are exactly 2 pebbles free in the end, the graph is rigid
+    unsigned int pebble_game_2D();
+    // if there is exactly 1 DR_Plan, the graph is rigid
+    std::set<Cluster*> component_pebble_game_2D(Vertex_ID *exclude = NULL);
+
+    // can only be called if pebble_game_2D has been called
+    bool independent();
+
+    // // If optimal is false, you find completeDRP
+    // DR_Plan* DRP_2D();
 
 
+private:
     // the graph we're playing the game on
     Subgraph *in_subgraph;
 
@@ -106,17 +67,17 @@ private:
     };
 
 
-    // std::set<Cluster*> _DRP_2D_aux(
-    //     Cluster* known_cluster,
-    //     bool optimalDRP);
+    // // std::set<DR_Plan*> _DRP_2D_aux(
+    // //     DR_Plan* known_DR_Plan,
+    // //     bool optimalDRP);
 
-    // The linear decomposition version of the DR-plan. It will be optimal,
-    // but it isn't the vertex-maximal decomposition. It's equivalent.
-    std::set<Cluster*> _DRP_2D_linear_aux();
+    // // The linear decomposition version of the DR-plan. It will be optimal,
+    // // but it isn't the vertex-maximal decomposition. It's equivalent.
+    // std::set<DR_Plan*> _DRP_2D_linear_aux();
 
 
-    // get all wellconstrained vertex-maximal subgraphs
-    std::set<Cluster*> get_all_wcvmps();
+    // // get all wellconstrained vertex-maximal subgraphs
+    // std::set<Cluster*> get_all_wcvmps();
 
 
 
@@ -127,7 +88,6 @@ private:
     unsigned int num_pebbles_on_vert(Vertex_ID v);
 
 
-    void print_verts(std::set<Vertex_ID> &v);
     void print_all_verts_with_pebbles();
 
 
@@ -177,7 +137,7 @@ private:
 
     void reset_pebbles();
 
-    std::set<Cluster*> pebble_game_2D_exclude(Vertex_ID excluded_vert);
+    std::set<DR_Plan*> pebble_game_2D_exclude(Vertex_ID excluded_vert);
 };
 
 
