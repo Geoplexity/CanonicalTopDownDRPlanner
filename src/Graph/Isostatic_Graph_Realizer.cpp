@@ -125,7 +125,7 @@ std::vector<std::pair<Vertex_ID, Vertex_ID> > Isostatic_Graph_Realizer::make_par
     while (!is_partial_2_tree(*mgc)) {
         Edge_Iterator e, e_end;
         for (boost::tie(e, e_end) = mgc->edges(); e != e_end; e++) {
-            std::pair<Vertex_ID, Vertex_ID> vs = mgc->verts_on_edge(*e);
+            std::pair<Vertex_ID, Vertex_ID> vs = mgc->vertices_incident(*e);
             Vertex_ID v0 = mgc->original_vertex(vs.first);
             Vertex_ID v1 = mgc->original_vertex(vs.second);
             // Vertex_ID v0_orig = working_copy->original_vertex(v0);
@@ -772,9 +772,9 @@ std::pair<double, double> Isostatic_Graph_Realizer::interval_of_nonedge(
     Edge_ID e)
 {
     Vertex_ID v0, v1;
-    boost::tie(v0, v1) = working_copy->verts_on_edge(e);
+    boost::tie(v0, v1) = working_copy->vertices_incident(e);
     // Vertex_ID v0 = .first;
-    // Vertex_ID v1 = working_copy->verts_on_edge(e).second;
+    // Vertex_ID v1 = working_copy->vertices_incident(e).second;
     Edge_ID e01 = e;
 
     std::pair<double, double> ret;
@@ -818,7 +818,7 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::sample(
     std::list<Mapped_Graph_Copy*> ret;
 
     // Vertex_ID v0, v1;
-    // boost::tie(v0, v1) = working_copy->verts_on_edge(e);
+    // boost::tie(v0, v1) = working_copy->vertices_incident(e);
     // std::cout << "sample: Edge (" << (*working_copy)[v0].name << ", " << (*working_copy)[v1].name << ")" << std::endl;
 
     // int steps = 500;

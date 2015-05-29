@@ -24,7 +24,7 @@ namespace Render_Mode {
 namespace parameters {
   const float vertex_radius_base = 0.05;
   const float vertex_radius_highlight = vertex_radius_base*1.5;
-  const float edge_width = 0.004f;
+  const float edge_width = 0.004f, edge_width_highlight = edge_width*3;
   const float base_text_height = vertex_radius_base*0.9;
 }
 
@@ -40,7 +40,8 @@ namespace color {
   const gl_obj::color_vec h_vert = gl_obj::color_vec(0.2f, 0.6f, 0.2f, 0.f);
   const gl_obj::color_vec vert = gl_obj::color_vec(0.6f, 0.2f, 0.2f, 0.f);
   // const gl_obj::color_vec vert = gl_obj::color_vec(0.6f, 0.2f, 0.6f, 0.f);
-  const gl_obj::color_vec edge = gl_obj::color_vec(0.f, 0.f, 0.f, 0.f);
+  const gl_obj::color_vec edge = gl_obj::color_vec(0.1f, 0.1f, 0.1f, 0.f);
+  const gl_obj::color_vec h_edge = gl_obj::color_vec(0.f, 0.f, 0.f, 0.f);
   const gl_obj::color_vec text = gl_obj::color_vec(0.f, 0.f, 1.f, 0.f);
 
   // black/green/white
@@ -369,10 +370,10 @@ void Program::draw_graph_vertices(
 // }
 
 
-
-// TODO: draw a line also, so width never goes below 1 pixel
-void Program::draw_graph_edges(
-  vector<gl_obj::pos_vec> &e)
+void Program::_draw_graph_edges_aux(
+    std::vector<gl_obj::pos_vec> &e,
+    float width,
+    gl_obj::color_vec color)
 {
     check_for_GL_errors("Program::draw_graph_edges - 0");
 
@@ -381,7 +382,7 @@ void Program::draw_graph_edges(
 
   // prepare edges
   for (int i = 0; i < e.size(); i+=2) {
-    gl_obj::WideLine wl = gl_obj::WideLine(e[i], e[i+1], parameters::edge_width, color::edge);
+    gl_obj::WideLine wl = gl_obj::WideLine(e[i], e[i+1], width, color);
     gl_obj::VertexGroup *vg = &(wl.tf->vg);
 
 
@@ -402,6 +403,16 @@ void Program::draw_graph_edges(
 
     check_for_GL_errors("Program::draw_graph_edges");
   }
+}
+
+
+// TODO: draw a line also, so width never goes below 1 pixel
+void Program::draw_graph_edges(
+  vector<gl_obj::pos_vec> &e,
+  vector<gl_obj::pos_vec> &highlight)
+{
+  _draw_graph_edges_aux(e,         parameters::edge_width,           color::edge);
+  _draw_graph_edges_aux(highlight, parameters::edge_width_highlight, color::h_edge);
 }
 
 

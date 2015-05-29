@@ -65,7 +65,7 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
     std::pair<Sg_Edge_Iterator, Sg_Edge_Iterator> es = this->in_subgraph->edges();
     for (Sg_Edge_Iterator it = es.first; it != es.second; it++)
     {
-        std::pair<Vertex_ID, Vertex_ID> vs_on_e = in_subgraph->verts_on_edge(*it);
+        std::pair<Vertex_ID, Vertex_ID> vs_on_e = in_subgraph->vertices_incident(*it);
         Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
 
         // std::cout << "Edge ("<< (*g)[v1].name << "--" << (*g)[v2].name << "): " << std::endl;;
@@ -453,7 +453,7 @@ bool Pebbled_Graph::enlarge_cover(
     Vertex_ID *exclude)
 {
     // initialize
-    std::pair<Vertex_ID, Vertex_ID> vs_on_e = in_subgraph->verts_on_edge(e);
+    std::pair<Vertex_ID, Vertex_ID> vs_on_e = in_subgraph->vertices_incident(e);
     Vertex_ID v1 = vs_on_e.first, v2 = vs_on_e.second;
 
     if (exclude != NULL && (v1 == *exclude || v2 == *exclude))

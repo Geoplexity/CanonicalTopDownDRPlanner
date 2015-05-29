@@ -83,7 +83,7 @@ public:
   //// BEGIN DRAWING FUNCTIONS
 
   void draw_graph_vertices(std::vector<gl_obj::pos_vec> &p, std::vector<gl_obj::pos_vec> &highlight);
-  void draw_graph_edges(std::vector<gl_obj::pos_vec> &p);
+  void draw_graph_edges(std::vector<gl_obj::pos_vec> &e, std::vector<gl_obj::pos_vec> &highlight);
   void draw_graph_vertices_names(
     std::vector<std::string> &p_names,
     std::vector<gl_obj::pos_vec> &p,
@@ -142,6 +142,11 @@ private:
     float radius,
     gl_obj::color_vec color,
     bool border = true);
+
+  void _draw_graph_edges_aux(
+    std::vector<gl_obj::pos_vec> &e,
+    float width,
+    gl_obj::color_vec color);
 
   void _draw_graph_vertices_names_aux(
     std::vector<std::string> &p_names,

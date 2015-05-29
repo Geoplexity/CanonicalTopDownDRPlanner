@@ -12,15 +12,16 @@
 typedef std::set<Vertex_ID> Cluster;
 typedef Tree<Cluster> DRP_Node;
 
+// std::ostream& operator<<(std::ostream& os, const Cluster &obj);
+// bool operator<(const Cluster &c0, const Cluster &c1);
+
+inline bool operator<(const Cluster &c0, const Cluster &c1) {
+    return c0.size() < c1.size();
+}
 
 
 
-// class Cluster : public std::set<Vertex_ID> {
-//     Cluster &difference(Cluster &other);
-// };
 
-
-// A simple tree, where each node stores a cluster and a flag as to whether or not it is finished
 class DR_Plan {
 public:
     // TODO: return a forest if input is underconstrained. Currently just returns
@@ -28,16 +29,18 @@ public:
 
     // input graph must be independent
     DR_Plan(const Graph &graph); // uses all vertices in the graph
-    // DR_Plan(const Graph &graph, Cluster vertices); // uses induced subgraph on vertices
 
     DRP_Node* root();
 
+    // returns whether or not the input graph was rigid
+    bool rigid();
 
     void print_depth_first(DRP_Node *node, unsigned int tabs = 0);
     static void print_cluster(const Graph &g, Cluster &c);
 private:
     const Graph &graph;
     DRP_Node _root;
+    bool _rigid;
 
     DRP_Node* add_uncomputed_child(DRP_Node *parent, Cluster *child);
     void add_and_compute_child(DRP_Node *parent, Cluster *child);

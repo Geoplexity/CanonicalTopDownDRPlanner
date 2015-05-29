@@ -124,6 +124,13 @@ public:
     std::set<Vertex_ID> vertices_adjacent(Vertex_ID v) const;
     std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set) const;
 
+    std::pair<Vertex_ID, Vertex_ID> vertices_incident(Edge_ID e) const;
+
+    std::set<Edge_ID> edges_incident(Vertex_ID v) const;
+    std::set<Edge_ID> edges_incident(std::set<Vertex_ID> vs) const;
+
+    std::set<Edge_ID> edges_in_induced_subgraph(std::set<Vertex_ID> vs) const;
+
     // assumes they're disjoint
     std::set<Edge_ID> edges_between(
         std::set<Vertex_ID> &v_set_1,
@@ -133,8 +140,6 @@ public:
 
     unsigned int num_vertices() const;
     unsigned int num_edges() const;
-
-    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e) const;
 
     void set_layout();
     void get_graph_in_range(float x_min, float x_max, float y_min, float y_max);
@@ -219,12 +224,12 @@ public:
 
     std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set) const;
 
+    std::pair<Vertex_ID, Vertex_ID> vertices_incident(Edge_ID e) const;
+
     // assumes they're disjoint
     std::vector<std::set<Vertex_ID> > edges_between(
         std::set<Vertex_ID> &v_set_1,
         std::set<Vertex_ID> &v_set_2) const;
-
-    std::pair<Vertex_ID, Vertex_ID> verts_on_edge(Edge_ID e) const;
 
     unsigned int num_vertices() const;
     unsigned int num_edges() const;

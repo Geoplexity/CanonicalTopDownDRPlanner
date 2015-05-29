@@ -74,7 +74,7 @@
 //     std::pair<Edge_Iterator, Edge_Iterator> es = other.edges();
 //     for (Edge_Iterator it = es.first; it != es.second; it++)
 //     {
-//         std::pair<Vertex_ID, Vertex_ID> vs_on_e = verts_on_edge(it);
+//         std::pair<Vertex_ID, Vertex_ID> vs_on_e = vertices_incident(it);
 //         this->add_edge(vs_on_e.first, vs_on_e.second, other[*it]);
 //     }
 // }
@@ -435,6 +435,47 @@ std::set<Vertex_ID> Graph::vertices_adjacent(std::set<Vertex_ID> &v_set) const {
     return ret;
 }
 
+std::pair<Vertex_ID, Vertex_ID> Graph::vertices_incident(Edge_ID e) const {
+    return std::make_pair(boost::source(e, *this), boost::target(e, *this));
+}
+
+std::set<Edge_ID> Graph::edges_incident(Vertex_ID v) const {
+    std::set<Edge_ID> ret;
+    std::pair<in_edge_iterator, in_edge_iterator> es = boost::in_edges(v, *this);
+    for (in_edge_iterator e_it = es.first; e_it != es.second; e_it++) {
+        ret.insert(*e_it);
+    }
+    return ret;
+}
+
+std::set<Edge_ID> Graph::edges_incident(std::set<Vertex_ID> vs) const {
+    std::set<Edge_ID> ret;
+    for (std::set<Vertex_ID>::iterator v_it = vs.begin(); v_it != vs.end(); v_it++) {
+        std::pair<in_edge_iterator, in_edge_iterator> es = boost::in_edges(*v_it, *this);
+        for (in_edge_iterator e_it = es.first; e_it != es.second; e_it++) {
+            ret.insert(*e_it);
+        }
+    }
+    return ret;
+}
+
+// this!!!
+std::set<Edge_ID> Graph::edges_in_induced_subgraph(std::set<Vertex_ID> vs) const {
+    std::set<Edge_ID> ret;
+    for (std::set<Vertex_ID>::iterator v_it = vs.begin(); v_it != vs.end(); v_it++) {
+        boost::graph_traits<Graph>::adjacency_iterator v_adj_it, v_end;
+        for (boost::tie(v_adj_it, v_end) = boost::adjacent_vertices(*v_it, *this);
+            v_adj_it != v_end; v_adj_it++)
+        {
+            if (vs.find(*v_adj_it) != vs.end()) {
+                Edge_ID e = boost::edge(*v_it, *v_adj_it, *this).first;
+                ret.insert(e);
+            }
+        }
+    }
+    return ret;
+}
+
 // assumes they're disjoint
 std::set<Edge_ID> Graph::edges_between(
     std::set<Vertex_ID> &v_set_1,
@@ -475,12 +516,6 @@ unsigned int Graph::num_vertices() const {
 unsigned int Graph::num_edges() const {
     return boost::num_edges(*this);
 }
-
-std::pair<Vertex_ID, Vertex_ID> Graph::verts_on_edge(Edge_ID e) const {
-    return std::make_pair(boost::source(e, *this), boost::target(e, *this));
-}
-
-
 
 
 void Graph::set_layout() {
@@ -651,7 +686,7 @@ void Graph::print_edges(unsigned int indent) const {
     tabs += "\t";
     for (std::pair<Edge_Iterator, Edge_Iterator> es = edges(); es.first != es.second; es.first++) {
         Edge_ID e = *(es.first);
-        std::pair<Vertex_ID, Vertex_ID> vs = verts_on_edge(e);
+        std::pair<Vertex_ID, Vertex_ID> vs = vertices_incident(e);
 
         std::cout << tabs
             << "ID: " << e << " | "
@@ -890,7 +925,7 @@ Mapped_Graph_Copy::Mapped_Graph_Copy(const Mapped_Graph_Copy &g) : orig(g.orig) 
 
     Edge_Iterator e, e_end;
     for (boost::tie(e, e_end) = g.edges(); e != e_end; e++) {
-        std::pair<Vertex_ID, Vertex_ID> vs = g.verts_on_edge(*e);
+        std::pair<Vertex_ID, Vertex_ID> vs = g.vertices_incident(*e);
         add_edge(
             orig_to_copy[g.original_vertex(vs.first)],
             orig_to_copy[g.original_vertex(vs.second)],
@@ -905,7 +940,7 @@ Mapped_Graph_Copy::Mapped_Graph_Copy(const Graph *g, std::set<Vertex_ID> &vertic
 
     Edge_Iterator e, e_end;
     for (boost::tie(e, e_end) = orig->edges(); e != e_end; e++) {
-        std::pair<Vertex_ID, Vertex_ID> vs = orig->verts_on_edge(*e);
+        std::pair<Vertex_ID, Vertex_ID> vs = orig->vertices_incident(*e);
         if (vertices.find(vs.first) != vertices.end() && vertices.find(vs.second) != vertices.end())
             add_edge(orig_to_copy[vs.first], orig_to_copy[vs.second], (*orig)[*e].length);
     }
@@ -919,7 +954,7 @@ void Mapped_Graph_Copy::add_original_vertex(Vertex_ID orig_v) {
 }
 
 void Mapped_Graph_Copy::add_original_edge(Edge_ID orig_e) {
-    std::pair<Vertex_ID, Vertex_ID> vs = orig->verts_on_edge(orig_e);
+    std::pair<Vertex_ID, Vertex_ID> vs = orig->vertices_incident(orig_e);
     add_edge(orig_to_copy[vs.first], orig_to_copy[vs.second], (*orig)[orig_e].length);
 }
 
@@ -1068,7 +1103,7 @@ const Graph* Subgraph::graph() const {
 
 //     std::pair<Edge_Iterator, Edge_Iterator> es = _graph->edges();
 //     for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++) {
-//         std::pair<Vertex_ID, Vertex_ID> vs = _graph->verts_on_edge(e_it);
+//         std::pair<Vertex_ID, Vertex_ID> vs = _graph->vertices_incident(e_it);
 //         if (_vertices.find(vs.first) != _vertices.end()
 //             && _vertices.find(vs.second) != _vertices.end())
 //         {
@@ -1085,7 +1120,7 @@ const Graph* Subgraph::graph() const {
 
 //     std::pair<Edge_Iterator, Edge_Iterator> es = _graph->edges();
 //     for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++) {
-//         std::pair<Vertex_ID, Vertex_ID> vs = _graph->verts_on_edge(e_it);
+//         std::pair<Vertex_ID, Vertex_ID> vs = _graph->vertices_incident(e_it);
 //         if (_vertices.find(vs.first) != _vertices.end()
 //             && _vertices.find(vs.second) != _vertices.end())
 //         {
@@ -1141,7 +1176,7 @@ void Subgraph::remove_vertex(Vertex_ID vertex) {
 //     boost::graph_traits<Graph>::out_edge_iterator e, e_end;
 //     boost::tie(e, e_end) = boost::out_edges(vertex, *_graph);
 //     for (; e != e_end; e++) {
-//         std::pair<Vertex_ID, Vertex_ID> vs = _graph->verts_on_edge(*e);
+//         std::pair<Vertex_ID, Vertex_ID> vs = _graph->vertices_incident(*e);
 //         Vertex_ID v = (vs.first==vertex)? vs.first: vs.second;
 //         if (_vertices.find(v) != _vertices.end()) {
 //             _edges.insert(*e);
@@ -1200,8 +1235,8 @@ std::vector<std::set<Vertex_ID> > Subgraph::edges_between(
 // const std::set<Vertex_ID>* Subgraph::vertices() {return &_vertices; }
 // const std::set<Edge_ID>* Subgraph::edges() {return &_edges; }
 
-std::pair<Vertex_ID, Vertex_ID> Subgraph::verts_on_edge(Edge_ID e) const {
-    return _graph->verts_on_edge(e);
+std::pair<Vertex_ID, Vertex_ID> Subgraph::vertices_incident(Edge_ID e) const {
+    return _graph->vertices_incident(e);
 }
 
 

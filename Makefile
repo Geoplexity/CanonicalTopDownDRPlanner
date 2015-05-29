@@ -93,8 +93,10 @@ DEPS = $(patsubst %,$(SOURCE_DIRECTORY)/%,$(_DEPS))
 
 
 _OBJ = main.o \
-	Graph/Graph.o Graph/DR_Plan.o Graph/Pebbled_Graph.o Graph/Isostatic_Graph_Realizer.o \
-	GUI/Main_GUI_Manager.o GUI/Vision_Handler_2D.o GUI/Program.o GUI/utils.o
+	Graph/Graph.o Graph/DR_Plan.o \
+	Graph/Pebbled_Graph.o Graph/Isostatic_Graph_Realizer.o \
+	GUI/Main_GUI_Manager.o GUI/Vision_Handler_2D.o GUI/Program.o GUI/utils.o \
+	Application/Graph_Display_Window.o Application/DRP_Display_Window.o
 OBJ = $(patsubst %,$(OBJECT_DIRECTORY)/%,$(_OBJ))
 
 EXEC = drp
