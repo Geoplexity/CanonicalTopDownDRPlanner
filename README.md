@@ -24,6 +24,8 @@ Command line flags (subject to change, check `main.cpp`):
 
 This software recognizes dot files with vertex properties `x` and `y` and edge property `length`. All graphs are interpreted as 2D bar-joint graphs.
 
+Sample dot files are available in the `test_files` directory.
+
 ##Publications
 "Optimal Decomposition and Recombination of Isostatic Geometric Constraint Systems for Designing Layered Materials"
 
