@@ -2,19 +2,20 @@
 
 
 
-DRP_Display_Window::DRP_Display_Window(DR_Plan *drp) {
-    this->drp = drp;
-
-
-    // this->graph = graph;
-    // this->current_drp_node = NULL;
-
+DRP_Display_Window::DRP_Display_Window(
+    Main_GUI_Manager *mgm,
+    DR_Plan *drp) :
+        App_Window_2D(mgm),
+        drp(drp)
+{
     update_graph_positions();
-    // update_display();
 }
 
-void DRP_Display_Window::highlight_drp_node(DRP_Node *node) {
-    highlight = node;
+void DRP_Display_Window::highlight_drp_node(DRP_Node *node, std::set<DRP_Node*> ancestors) {
+    current_drp_node = node;
+    current_and_ancestors = ancestors;
+    // current_and_ancestors = current_drp_node->ancestors();
+    current_and_ancestors.insert(current_drp_node);
 }
 
 void DRP_Display_Window::update_graph_positions() {
@@ -23,12 +24,6 @@ void DRP_Display_Window::update_graph_positions() {
     vertices_highlight.clear();
     edges.clear();
     edges_highlight.clear();
-
-    std::set<DRP_Node*> path_to_selected;
-    if (highlight) {
-        path_to_selected = highlight->all_forefathers();
-        path_to_selected.insert(highlight);
-    }
 
 
     std::vector<unsigned int> width_per_level = drp->root()->width_per_level();
@@ -53,7 +48,7 @@ void DRP_Display_Window::update_graph_positions() {
             position[i]++;
 
             gl_obj::pos_vec pos(x*.95, y*.95);
-            if (path_to_selected.find(*c) != path_to_selected.end()) {
+            if (current_and_ancestors.find(*c) != current_and_ancestors.end()) {
                 vertices_highlight.push_back(pos);
             } else {
                 vertices.push_back(pos);
@@ -61,7 +56,7 @@ void DRP_Display_Window::update_graph_positions() {
             node_position[*c] = pos;
 
             if (i != 0) {
-                if (path_to_selected.find(*c) != path_to_selected.end() && path_to_selected.find((*c)->parent()) != path_to_selected.end()) {
+                if (current_and_ancestors.find(*c) != current_and_ancestors.end() && current_and_ancestors.find((*c)->parent()) != current_and_ancestors.end()) {
                     edges_highlight.push_back(node_position[(*c)->parent()]);
                     edges_highlight.push_back(pos);
                 } else {
@@ -99,7 +94,7 @@ void DRP_Display_Window::update_display() {
 
     // cout << "DISPLAY: Number of verts = " << vertices.size() << endl;
     // cout << "DISPLAY: Number of edges = " << edges.size() << endl;
-    program->draw_graph_edges(edges, edges_highlight);
+    program->draw_graph_edges(edges, edges_highlight, std::vector<gl_obj::pos_vec>());
     program->draw_graph_vertices(vertices, vertices_highlight);
     // cout << "DDW, display: Here 6" << endl;
 

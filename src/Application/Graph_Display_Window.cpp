@@ -4,31 +4,60 @@
 
 
 
-Graph_Display_Window::Graph_Display_Window(Main_GUI_Manager *mgm, Graph *graph) {
-    this->mgm = mgm;
-
+Graph_Display_Window::Graph_Display_Window(Main_GUI_Manager *mgm, Graph *graph) :
+    App_Window_2D(mgm),
+    // original_graph(graph),
+    graph(graph),
+    _context(dc_none)
+{
     this->left_mouse_clicking = false;
 
     this->drp_display_window = NULL;
-
-    this->graph = graph;
     this->drp = NULL;
     this->current_drp_node = NULL;
+
+    this->igr = NULL;
 
     update_graph_positions();
 }
 
-void Graph_Display_Window::update_graph_positions() {
-    vertices.clear();
-    vertices_highlight.clear();
-    vertices_names.clear();
-    vertices_highlight_names.clear();
+Graph_Display_Window::~Graph_Display_Window() {
+    if (drp) delete(drp); // also deletes current_drp_node
+    if (igr) delete(igr);
+}
+
+
+void Graph_Display_Window::_update_graph_positions_none() {
+    //vertices
     for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
         vs.first != vs.second;
         vs.first++)
     {
         gl_obj::pos_vec pos((*graph)[*vs.first].x, (*graph)[*vs.first].y);
-        if (current_drp_node != NULL && current_drp_node->load.find(*vs.first) != current_drp_node->load.end()) {
+        vertices.push_back(pos);
+        vertices_names.push_back((*graph)[*vs.first].name);
+    }
+
+    // edges
+    for (std::pair<Edge_Iterator, Edge_Iterator> es = graph->edges();
+        es.first != es.second;
+        es.first++)
+    {
+        std::pair<Vertex_ID, Vertex_ID> uv = graph->vertices_incident(*es.first);
+        edges.push_back(gl_obj::pos_vec((*graph)[uv.first].x, (*graph)[uv.first].y));
+        edges.push_back(gl_obj::pos_vec((*graph)[uv.second].x, (*graph)[uv.second].y));
+    }
+}
+
+void Graph_Display_Window::_update_graph_positions_drp() {
+    assert(current_drp_node);
+
+    for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
+        vs.first != vs.second;
+        vs.first++)
+    {
+        gl_obj::pos_vec pos((*graph)[*vs.first].x, (*graph)[*vs.first].y);
+        if (current_drp_node->load.find(*vs.first) != current_drp_node->load.end()) {
             vertices_highlight.push_back(pos);
             vertices_highlight_names.push_back((*graph)[*vs.first].name);
         } else {
@@ -37,19 +66,14 @@ void Graph_Display_Window::update_graph_positions() {
         }
     }
 
-    std::set<Edge_ID> highlight_es;
-    if (current_drp_node) {
-        highlight_es = this->graph->edges_in_induced_subgraph(current_drp_node->load);
-    }
+    std::set<Edge_ID> highlight_es = this->graph->edges_in_induced_subgraph(current_drp_node->load);
 
-    edges.clear();
-    edges_highlight.clear();
     for (std::pair<Edge_Iterator, Edge_Iterator> es = graph->edges();
         es.first != es.second;
         es.first++)
     {
         std::pair<Vertex_ID, Vertex_ID> uv = graph->vertices_incident(*es.first);
-        if (current_drp_node && highlight_es.find(*(es.first)) != highlight_es.end()) {
+        if (highlight_es.find(*(es.first)) != highlight_es.end()) {
             edges_highlight.push_back(gl_obj::pos_vec((*graph)[uv.first].x, (*graph)[uv.first].y));
             edges_highlight.push_back(gl_obj::pos_vec((*graph)[uv.second].x, (*graph)[uv.second].y));
         } else {
@@ -57,88 +81,148 @@ void Graph_Display_Window::update_graph_positions() {
             edges.push_back(gl_obj::pos_vec((*graph)[uv.second].x, (*graph)[uv.second].y));
         }
     }
+
 }
 
+void Graph_Display_Window::_update_graph_positions_omd() {
+    assert(igr);
+
+    //vertices
+    for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
+        vs.first != vs.second;
+        vs.first++)
+    {
+        gl_obj::pos_vec pos((*graph)[*vs.first].x, (*graph)[*vs.first].y);
+        vertices.push_back(pos);
+        vertices_names.push_back((*graph)[*vs.first].name);
+    }
+
+
+    // regular and dropped edges
+    std::set<Edge_ID> dropped = igr->list_of_dropped();
+
+    for (std::pair<Edge_Iterator, Edge_Iterator> es = graph->edges();
+        es.first != es.second;
+        es.first++)
+    {
+        std::pair<Vertex_ID, Vertex_ID> uv = graph->vertices_incident(*es.first);
+        if (dropped.find(*(es.first)) != dropped.end()) {
+            edges_dashed.push_back(gl_obj::pos_vec((*graph)[uv.first].x, (*graph)[uv.first].y));
+            edges_dashed.push_back(gl_obj::pos_vec((*graph)[uv.second].x, (*graph)[uv.second].y));
+        } else {
+            edges.push_back(gl_obj::pos_vec((*graph)[uv.first].x, (*graph)[uv.first].y));
+            edges.push_back(gl_obj::pos_vec((*graph)[uv.second].x, (*graph)[uv.second].y));
+        }
+    }
+
+
+    // added edges
+    std::vector<std::pair<Vertex_ID, Vertex_ID> > added = igr->list_of_added();
+
+    for (std::vector<std::pair<Vertex_ID, Vertex_ID> >::iterator es = added.begin();
+        es != added.end();
+        es++)
+    {
+        edges_highlight.push_back(gl_obj::pos_vec((*graph)[es->first].x,  (*graph)[es->first].y));
+        edges_highlight.push_back(gl_obj::pos_vec((*graph)[es->second].x, (*graph)[es->second].y));
+    }
+}
+
+
+void Graph_Display_Window::update_graph_positions() {
+    vertices.clear();
+    vertices_highlight.clear();
+    vertices_names.clear();
+    vertices_highlight_names.clear();
+    edges.clear();
+    edges_highlight.clear();
+    edges_dashed.clear();
+    // non_edges.clear();
+
+    switch (_context) {
+        case dc_none: _update_graph_positions_none(); break;
+        case dc_drp:  _update_graph_positions_drp();  break;
+        case dc_omd:  _update_graph_positions_omd();  break;
+    }
+}
+
+void Graph_Display_Window::highlight_drp_node(DRP_Node* node) {
+    assert(node);
+
+    this->current_drp_node = node;
+    update_graph_positions();
+    update_display();
+
+    if (drp_display_window) {
+        drp_display_window->highlight_drp_node(node, node->ancestors());
+        drp_display_window->update_graph_positions();
+        drp_display_window->update_display();
+    }
+}
+
+
 void Graph_Display_Window::get_drp() {
+    _context = dc_drp;
+
     this->drp = new DR_Plan(*graph);
 
+    // highlight root
+    // this->current_drp_node = drp->root();
+    highlight_drp_node(drp->root());
 
-    // Subgraph sg(graph);
-    // std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
-    // sg.induce(vs.first, vs.second);
+    // Graphical output
+    update_graph_positions();
+    update_display();
 
-    // // sg.remove_vertex(*(g.find_vertex("7")));
-
-
-    // Pebbled_Graph pg(&sg);
-
-    // this->drp = pg.DRP_2D();
-
+    // text output
     std::cout << "Rigid? " << (this->drp->rigid()? "Yes": "No") << std::endl;
     this->drp->print_depth_first(this->drp->root());
-    // cout << "Height: " << this->drp->height() << endl;
-    // cout << "Width: " << this->drp->width() << endl;
+}
 
-    // this->highlight_vertices = this->current_drp_node->vertices;
+void Graph_Display_Window::do_omd() {
+    _context = dc_omd;
 
-    // cout << "Num vertices " << g.num_vertices() << endl;
-    // myWindow.update_graph_positions();
-
-    this->current_drp_node = drp->root();
+    igr = new Isostatic_Graph_Realizer(graph);
+    igr->realize();
 
     update_graph_positions();
     update_display();
 }
 
-void Graph_Display_Window::highlight_drp_node(DRP_Node* node) {
-    if (node) {
-        this->current_drp_node = node;
-        update_graph_positions();
-        update_display();
-
-        if (drp_display_window) {
-            drp_display_window->highlight_drp_node(node);
-            drp_display_window->update_graph_positions();
-            drp_display_window->update_display();
-        }
-    }
-}
-
-
-
 void Graph_Display_Window::key_callback(int key, int scancode, int action, int mods) {
-    // cout << "Key" << endl;
+    // std::cout << "Graph_Display_Window::key_callback: begin" << std::endl;
     if (action == GLFW_PRESS) {
         // cout << "\tPressed" << endl;
         if (key == GLFW_KEY_ESCAPE) {
             this->close_window();
         } else if (key == GLFW_KEY_UP) {
-            if (this->current_drp_node != NULL) {
+            if (current_drp_node && current_drp_node->parent())
                 highlight_drp_node(current_drp_node->parent());
-            }
         } else if (key == GLFW_KEY_DOWN) {
-            if (this->current_drp_node != NULL) {
+            if (current_drp_node && current_drp_node->first_child())
                 highlight_drp_node(current_drp_node->first_child());
-            }
         } else if (key == GLFW_KEY_RIGHT) {
             if (this->current_drp_node != NULL) {
                 DRP_Node *next = current_drp_node->next();
-                if (next == NULL) next = current_drp_node->parent()->first_child();
+                if (!next) next = current_drp_node->first_sibling();
                 highlight_drp_node(next);
             }
         } else if (key == GLFW_KEY_LEFT) {
             if (this->current_drp_node != NULL) {
                 DRP_Node *prev = current_drp_node->prev();
-                if (prev == NULL) prev = current_drp_node->parent()->last_child();
+                if (!prev) prev = current_drp_node->last_sibling();
                 highlight_drp_node(prev);
             }
         } else if (key == GLFW_KEY_SPACE) {
             if (drp_display_window == NULL) {
-                drp_display_window = new DRP_Display_Window(drp);
+                // std::cout << "key_callback: Here 0" << std::endl;
+                drp_display_window = new DRP_Display_Window(mgm, drp);
+                // std::cout << "key_callback: Here 1" << std::endl;
 
                 float scale = 3;
                 int width_screen_coords, height_screen_coords;
                 get_window_size_in_screen_coords(&width_screen_coords, &height_screen_coords);
+                // std::cout << "key_callback: Here 2" << std::endl;
 
                 mgm->create_window(
                     drp_display_window,
@@ -148,17 +232,20 @@ void Graph_Display_Window::key_callback(int key, int scancode, int action, int m
                     3,
                     2);
                 drp_display_window->init_program();
+                // std::cout << "key_callback: Here 3" << std::endl;
 
                 if (current_drp_node)
-                    drp_display_window->highlight_drp_node(current_drp_node);
+                    drp_display_window->highlight_drp_node(current_drp_node, current_drp_node->ancestors());
+                // std::cout << "key_callback: Here 4" << std::endl;
 
                 drp_display_window->update_graph_positions();
-                // cout << "GDW: Here 0" << endl;
+                // std::cout << "key_callback: Here 5" << std::endl;
                 drp_display_window->update_display();
-                // cout << "GDW: Here 1" << endl;
+                // std::cout << "key_callback: Here 6" << std::endl;
             }
         }
     }
+    // std::cout << "Graph_Display_Window::key_callback: end" << std::endl;
 };
 
 
@@ -276,9 +363,9 @@ void Graph_Display_Window::update_display() {
     // print_string(0,0,printthis.c_str(),0,0,0);
     // cout << "DISPLAY: Number of verts = " << vertices.size() << endl;
     // cout << "DISPLAY: Number of edges = " << edges.size() << endl;
-    program->draw_graph_vertices_names(vertices_names, vertices, vertices_highlight_names, vertices_highlight);
-    program->draw_graph_edges(edges, edges_highlight);
+    program->draw_graph_edges(edges, edges_highlight, edges_dashed);
     program->draw_graph_vertices(vertices, vertices_highlight);
+    program->draw_graph_vertices_names(vertices_names, vertices, vertices_highlight_names, vertices_highlight);
 
     // myProg->draw_colorpicking_scene();
     program->flush();

@@ -33,9 +33,9 @@ public:
     DRP_Node* root();
 
     // returns whether or not the input graph was rigid
-    bool rigid();
+    bool rigid() const;
 
-    void print_depth_first(DRP_Node *node, unsigned int tabs = 0);
+    void print_depth_first(DRP_Node *node, unsigned int tabs = 0) const;
     static void print_cluster(const Graph &g, Cluster &c);
 private:
     const Graph &graph;

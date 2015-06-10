@@ -157,7 +157,7 @@ unsigned char stb_easy_font_vseg[253] = {
 // } stb_easy_font_color;
 
 static void stb_easy_font_draw_segs(
-    gl_obj::VertexGroup *vg,
+    gl_obj::Vertex_Array *vg,
     float x, float y,
     unsigned char *segs,
     int num_segs,
@@ -193,7 +193,7 @@ static void stb_easy_font_draw_segs(
 //    stb_easy_font_spacing_val = spacing;
 // }
 
-static gl_obj::VertexGroup stb_easy_font_print(
+static gl_obj::Vertex_Array stb_easy_font_print(
     const char *text,
     // float x, float y,
     gl_obj::color_vec color,
@@ -203,7 +203,7 @@ static gl_obj::VertexGroup stb_easy_font_print(
 {
     float x=0, y=0;
 
-    gl_obj::VertexGroup vg;
+    gl_obj::Vertex_Array vg;
 
     float start_x = x;
 

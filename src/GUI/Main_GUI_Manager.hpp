@@ -107,13 +107,15 @@ public:
 
 private:
     static bool instance_exists;
-    // static Window *current_window_context;
+
     static GLFWwindow *current_window_context;
     static std::map<GLFWwindow*, Window*> window_mapper;
 
+    static Window* get_window(GLFWwindow *window);
+
     // typedef void(*  GLFWerrorfun )(int, const char *) The function signature for error callbacks. More...
     // typedef void(*  GLFWwindowposfun )(GLFWwindow *, int, int) The function signature for window position callbacks. More...
-    static void window_resize_callback_wrapper (GLFWwindow *window, int width, int height);
+    static void window_resize_callback_wrapper  (GLFWwindow *window, int width, int height);
     // static void window_close_callback_wrapper   (GLFWwindow *window);
     // static void window_refresh_callback_wrapper (GLFWwindow *window);
     // typedef void(*  GLFWwindowfocusfun )(GLFWwindow *, int) The function signature for window focus/defocus callbacks. More...
@@ -127,7 +129,6 @@ private:
     // typedef void(*  GLFWcharfun )(GLFWwindow *, unsigned int) The function signature for Unicode character callbacks. More...
     // typedef void(*  GLFWmonitorfun )(GLFWmonitor *, int) The function signature for monitor configuration callbacks. More...
 };
-
 
 
 class ex_instance_exists: public std::exception {

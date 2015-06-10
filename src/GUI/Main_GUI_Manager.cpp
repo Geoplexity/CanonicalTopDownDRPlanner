@@ -1,6 +1,7 @@
 #include "Main_GUI_Manager.hpp"
 
 #include <iostream>
+#include <cassert>
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -89,7 +90,8 @@ void print_info() {
 }
 
 
-static void error_callback(int error, const char* description)
+// static void error_callback(int error, const char* description)
+void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
 }
@@ -241,6 +243,7 @@ void Main_GUI_Manager::wait_for_events(){
     // std::cout << "\tAbout to wait." << std::endl;
     glfwWaitEvents();
     // std::cout << "\tHandled." << std::endl;
+
     // try {
     //     glfwWaitEvents();
     // } catch(...) {
@@ -251,44 +254,46 @@ void Main_GUI_Manager::wait_for_events(){
 
 
 
-
+Window* Main_GUI_Manager::get_window(GLFWwindow *window) {
+    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
+    assert(win != Main_GUI_Manager::window_mapper.end());
+    return win->second;
+}
 
 void Main_GUI_Manager::window_resize_callback_wrapper(GLFWwindow *window, int width, int height) {
-    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
-    if (win != Main_GUI_Manager::window_mapper.end()) {
-        win->second->width_screen_coords = width;
-        win->second->height_screen_coords = height;
-        win->second->window_resize_callback(width, height);
-    }
+    // std::cout << "mgm::resize: begin: " << window << std::endl;
+    Window* selected = get_window(window);
+    selected->width_screen_coords = width;
+    selected->height_screen_coords = height;
+    selected->window_resize_callback(width, height);
+    // std::cout << "mgm::resize: end: " << window << std::endl;
 }
 
 void Main_GUI_Manager::mouse_button_callback_wrapper(GLFWwindow *window, int button, int action, int mods) {
-    // Main_GUI_Manager::current_window_context->mouse_button_callback(button, action, mods);
-
-    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
-    if (win != Main_GUI_Manager::window_mapper.end()) {
-        // if (win->second->mouse_button_callback != NULL)
-        win->second->mouse_button_callback(button, action, mods);
-    }
+    // std::cout << "mgm::mouse: begin: " << window << std::endl;
+    Window* selected = get_window(window);
+    selected->mouse_button_callback(button, action, mods);
+    // std::cout << "mgm::mouse: end: " << window << std::endl;
 }
 
 void Main_GUI_Manager::cursor_pos_callback_wrapper(GLFWwindow *window, double xpos, double ypos) {
-    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
-    if (win != Main_GUI_Manager::window_mapper.end()) {
-        win->second->cursor_pos_callback(xpos, ypos);
-    }
+    // std::cout << "mgm::cursor: begin: " << window << std::endl;
+    Window* selected = get_window(window);
+    selected->cursor_pos_callback(xpos, ypos);
+    // std::cout << "mgm::cursor: end: " << window << std::endl;
 }
 
 void Main_GUI_Manager::scroll_callback_wrapper(GLFWwindow *window, double x_offset, double y_offset) {
-    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
-    if (win != Main_GUI_Manager::window_mapper.end()) {
-        win->second->scroll_callback(x_offset, y_offset);
-    }
+    // std::cout << "mgm::scroll: begin: " << window << std::endl;
+    Window* selected = get_window(window);
+    selected->scroll_callback(x_offset, y_offset);
+    // std::cout << "mgm::scroll: end: " << window << std::endl;
 }
 
 void Main_GUI_Manager::key_callback_wrapper(GLFWwindow* window, int key, int scancode, int action, int mods) {
-    std::map<GLFWwindow*, Window*>::iterator win = Main_GUI_Manager::window_mapper.find(window);
-    if (win != Main_GUI_Manager::window_mapper.end()) {
-        win->second->key_callback(key, scancode, action, mods);
-    }
+    // std::cout << "mgm::key: begin: " << window << std::endl;
+    Window* selected = get_window(window);
+    // std::cout << "mgm::key: 1 " << window << std::endl;
+    selected->key_callback(key, scancode, action, mods);
+    // std::cout << "mgm::key: end: " << window << std::endl;
 }

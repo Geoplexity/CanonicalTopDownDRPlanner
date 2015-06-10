@@ -17,12 +17,9 @@
     #include <GL/gl.h>
     #include <GL/glu.h>
     // #include <GL/freeglut.h>
-
-
-
 #else
-  #include <GL/glew.h>
-  #include <GL/freeglut.h>
+    #include <GL/glew.h>
+    #include <GL/freeglut.h>
 #endif
 
 #include <GLFW/glfw3.h>
@@ -43,116 +40,126 @@
 
 template <typename T>
 struct uniform_with_location {
-  T uniform;
-  GLuint location;
+    T uniform;
+    GLuint location;
 };
 
 
 
 class Program {
 public:
-  Program(std::string vs_file, std::string fs_file);
+    Program(std::string vs_file, std::string fs_file);
 
-  ~Program();
+    ~Program();
 
-  ////
-  //// BEGIN INITIALIZATION FUNCTIONS
+    ////
+    //// BEGIN INITIALIZATION FUNCTIONS
 
-  void init_graphics();
-  void init_shaders();
-  void init_attributes();
-  void init_uniforms();
+    void init_graphics();
+    void init_shaders();
+    void init_attributes();
+    void init_uniforms();
 
-  //// END INITIALIZATION FUNCTIONS
-  ////
-
-
-
-
-  ////
-  //// BEGIN UNIFORM SETTERS
-  void setUniform_ViewMatrix(glm::mat4 view_matrix);
-  void setUniform_ProjectionMatrix(glm::mat4 projection_matrix);
-  //// END UNIFORM SETTERS
-  ////
+    //// END INITIALIZATION FUNCTIONS
+    ////
 
 
 
 
-  ////
-  //// BEGIN DRAWING FUNCTIONS
-
-  void draw_graph_vertices(std::vector<gl_obj::pos_vec> &p, std::vector<gl_obj::pos_vec> &highlight);
-  void draw_graph_edges(std::vector<gl_obj::pos_vec> &e, std::vector<gl_obj::pos_vec> &highlight);
-  void draw_graph_vertices_names(
-    std::vector<std::string> &p_names,
-    std::vector<gl_obj::pos_vec> &p,
-    std::vector<std::string> &highlight_names,
-    std::vector<gl_obj::pos_vec> &highlight);
-
-  // void draw_easy_font(gl_obj::VertexGroup &vg);
-  void draw_letter(const GLfloat pos[4], const GLfloat tex_coord[4], GLuint tex_id);
-
-  //// END DRAWING FUNCTIONS
-  ////
+    ////
+    //// BEGIN UNIFORM SETTERS
+    void setUniform_ViewMatrix(glm::mat4 view_matrix);
+    void setUniform_ProjectionMatrix(glm::mat4 projection_matrix);
+    //// END UNIFORM SETTERS
+    ////
 
 
-  void check_for_GL_errors(const char* from);
 
-  void clearViewport();
-  void flush();
-  glm::vec4 colorAtPixel(int x, int y);
+
+    ////
+    //// BEGIN DRAWING FUNCTIONS
+
+    void draw_graph_vertices(
+        const std::vector<gl_obj::pos_vec> &p,
+        const std::vector<gl_obj::pos_vec> &highlight);
+    void draw_graph_edges(
+        const std::vector<gl_obj::pos_vec> &e,
+        const std::vector<gl_obj::pos_vec> &highlight,
+        const std::vector<gl_obj::pos_vec> &dashed);
+    void draw_graph_vertices_names(
+        const std::vector<std::string> &p_names,
+        const std::vector<gl_obj::pos_vec> &p,
+        const std::vector<std::string> &highlight_names,
+        const std::vector<gl_obj::pos_vec> &highlight);
+
+    // void draw_easy_font(gl_obj::VertexGroup &vg);
+    void draw_letter(const GLfloat pos[4], const GLfloat tex_coord[4], GLuint tex_id);
+
+    //// END DRAWING FUNCTIONS
+    ////
+
+
+    void check_for_GL_errors(const char* from);
+
+    void clearViewport();
+    void flush();
+    glm::vec4 colorAtPixel(int x, int y);
 
 private:
-  struct shaders {
-    GLuint vertex;
-    std::string v_file;
+    struct shaders {
+        GLuint vertex;
+        std::string v_file;
 
-    GLuint fragment;
-    std::string f_file;
-  };
-
-
-
-  // program info
-  GLuint program;
-  shaders sh;
+        GLuint fragment;
+        std::string f_file;
+    };
 
 
-  // attribute locations
-  GLuint vao;
-  GLuint vbo;
-  GLuint vbo_indices;
-  GLuint position_location,
-         color_location,
-         texCoord_location;
+
+    // program info
+    GLuint program;
+    shaders sh;
 
 
-  //uniforms
-  GLuint translate_location,
-         render_mode_location,
-         tex_sampler_location;
+    // attribute locations
+    GLuint vao;
+    GLuint vbo;
+    GLuint vbo_indices;
+    GLuint position_location,
+    color_location,
+    texCoord_location;
 
-  uniform_with_location<glm::mat4> _view_matrix;
-  uniform_with_location<glm::mat4> _projection_matrix;
+
+    //uniforms
+    GLuint translate_location,
+    render_mode_location,
+    tex_sampler_location;
+
+    uniform_with_location<glm::mat4> _view_matrix;
+    uniform_with_location<glm::mat4> _projection_matrix;
 
 
-  void _draw_graph_vertices_aux(
-    std::vector<gl_obj::pos_vec> &p,
-    float radius,
-    gl_obj::color_vec color,
-    bool border = true);
+    void _draw_graph_vertices_aux(
+        const std::vector<gl_obj::pos_vec> &p,
+        float radius,
+        gl_obj::color_vec color,
+        bool border = true);
 
-  void _draw_graph_edges_aux(
-    std::vector<gl_obj::pos_vec> &e,
-    float width,
-    gl_obj::color_vec color);
+    void _draw_graph_edges_aux(
+        const std::vector<gl_obj::pos_vec> &e,
+        float width,
+        gl_obj::color_vec color);
 
-  void _draw_graph_vertices_names_aux(
-    std::vector<std::string> &p_names,
-    std::vector<gl_obj::pos_vec> &p,
-    float radius,
-    gl_obj::color_vec color);
+    void _draw_graph_edges_dashed_aux(
+        const std::vector<gl_obj::pos_vec> &e,
+        float width, float dash_length, float undash_length,
+        gl_obj::color_vec color);
+
+    void _draw_graph_vertices_names_aux(
+        const std::vector<std::string> &p_names,
+        const std::vector<gl_obj::pos_vec> &p,
+        float radius,
+        gl_obj::color_vec color);
 };
 
 

@@ -14,8 +14,10 @@ public:
         _parent(NULL),
         _first_child(NULL), _last_child(NULL),
         _next(NULL), _prev(NULL),
+        _num_children(0),
         load(load)
         {}
+    ~Tree();
 
     T load;
 
@@ -25,15 +27,23 @@ public:
     Tree* next() const        {return _next;}
     Tree* prev() const        {return _prev;}
 
+    Tree* first_sibling();
+    Tree* last_sibling();
+
+    unsigned int num_children() const {return _num_children;}
+
     void add_child(Tree* node);
     void add_children(std::set<Tree*> nodes);
 
-    unsigned int height();
-    unsigned int width(); // of the largest level
-    std::vector<unsigned int> width_per_level();
+    // removes children from node, and appends them to this
+    void move_children_from(Tree* node);
 
-    std::set<Tree*> make_children_set();
-    std::set<Tree*> all_forefathers();
+    unsigned int height() const;
+    unsigned int width() const; // of the largest level
+    std::vector<unsigned int> width_per_level() const;
+
+    std::set<Tree*> children() const;
+    std::set<Tree*> ancestors() const;
 
     // A simple insertion sort. Need overloaded < operator
     void sort_children_descending_recursively();
@@ -49,24 +59,56 @@ private:
         *_next,
         *_prev;
 
+    unsigned int _num_children;
+
     void swap_children(Tree* n0, Tree* n1);
 
     void _sort_children_descending_recursively_aux(Tree* start_node, Tree* end_node);
 };
 
 template<typename T>
+Tree<T>::~Tree() {
+    Tree<T> *node, *next_node;
+    for (Tree<T>* node = first_child(); node != NULL; node = next_node) {
+        next_node = node->next();
+        delete(node);
+    }
+}
+
+template<typename T>
+Tree<T>* Tree<T>::first_sibling() {
+    if (parent()) return parent()->first_child();
+
+    Tree<T>* ret;
+    for (ret = this; ret->prev() != NULL; ret = ret->prev()) {}
+    return ret;
+}
+
+template<typename T>
+Tree<T>* Tree<T>::last_sibling() {
+    if (parent()) return parent()->last_child();
+
+    Tree<T>* ret;
+    for (ret = this; ret->next() != NULL; ret = ret->next()) {}
+    return ret;
+}
+
+template<typename T>
 void Tree<T>::add_child(Tree<T>* node) {
     node->_parent = this;
-    node->_next = NULL; node->_prev = NULL;
+    node->_next = NULL;
 
-    if (_first_child == NULL) {
+    if (!first_child()) {
+        node->_prev = NULL;
         _first_child = node;
     } else {
-        _last_child->_next = node;
         node->_prev = _last_child;
+        last_child()->_next = node;
     }
 
     _last_child = node;
+
+    _num_children++;
 }
 
 
@@ -74,11 +116,40 @@ template<typename T>
 void Tree<T>::add_children(std::set<Tree<T>*> nodes) {
     for (typename std::set<Tree<T>*>::iterator n_it = nodes.begin(); n_it != nodes.end(); n_it++) {
         add_child(*n_it);
+        _num_children++;
     }
 }
 
+// removes children from node, and appends them to this
 template<typename T>
-unsigned int Tree<T>::height() {
+void Tree<T>::move_children_from(Tree<T>* node) {
+    if (!node->first_child())
+        return;
+
+    // append
+    if (this->first_child()) {
+        this->last_child()->_next = node->first_child();
+        node->first_child()->_prev = this->last_child();
+    } else {
+        this->_first_child = node->first_child();
+    }
+
+    // change parents
+    for (Tree<T>* n = node->first_child(); n != NULL; n = n->next())
+        n->_parent = this;
+
+    // change this and nodes child pointers
+    this->_last_child  = node->last_child();
+    node->_first_child = NULL;
+    node->_last_child  = NULL;
+
+    // change children count
+    this->_num_children += node->num_children();
+    node->_num_children = 0;
+}
+
+template<typename T>
+unsigned int Tree<T>::height() const {
     unsigned int max = 1;
     for (Tree<T> *child = first_child(); child != NULL; child = child->next()) {
         unsigned int child_depth = child->height() + 1;
@@ -89,7 +160,7 @@ unsigned int Tree<T>::height() {
 
 // of the largest level
 template<typename T>
-unsigned int Tree<T>::width() {
+unsigned int Tree<T>::width() const {
     std::vector<Tree<T>*> this_level, next_level;
     unsigned int
         // this_width = 0,
@@ -120,13 +191,16 @@ unsigned int Tree<T>::width() {
 }
 
 template<typename T>
-std::vector<unsigned int> Tree<T>::width_per_level() {
-    std::vector<Tree<T>*> this_level, next_level;
-    this_level.push_back(this);
-
+std::vector<unsigned int> Tree<T>::width_per_level() const {
     std::vector<unsigned int> ret(height());
     unsigned int i = 0;
     ret[i++] = 1;
+
+    std::vector<Tree<T>*> this_level, next_level;
+    for (Tree<T> *child = first_child(); child != NULL; child = child->next()) {
+        this_level.push_back(child);
+    }
+    ret[i++] = this_level.size();
 
     while (this_level.size() != 0) {
         unsigned int next_width = 0;
@@ -138,9 +212,7 @@ std::vector<unsigned int> Tree<T>::width_per_level() {
         }
 
         ret[i++] = next_width;
-
         this_level = next_level;
-
         next_level.clear();
     }
 
@@ -148,18 +220,20 @@ std::vector<unsigned int> Tree<T>::width_per_level() {
 }
 
 template<typename T>
-std::set<Tree<T>*> Tree<T>::make_children_set() {
+std::set<Tree<T>*> Tree<T>::children() const {
     std::set<Tree*> ret;
     for (Tree* node = _first_child; node != NULL; node = node->next())
         ret.insert(node);
     return ret;
 }
 
+#include <iostream>
 template<typename T>
-std::set<Tree<T>*> Tree<T>::all_forefathers() {
-    std::set<Tree*> ret;
-    for (Tree* node = parent(); node != NULL; node = node->parent())
+std::set<Tree<T>*> Tree<T>::ancestors() const {
+    std::set<Tree<T>*> ret;
+    for (Tree<T>* node = parent(); node != NULL; node = node->parent()) {
         ret.insert(node);
+    }
     return ret;
 }
 

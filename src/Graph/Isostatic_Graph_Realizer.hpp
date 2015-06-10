@@ -17,17 +17,18 @@ public:
 
     std::list<Mapped_Graph_Copy*> realize();
 
+    // in terms of the input graph
+    const std::set<Edge_ID>& list_of_dropped() const;
+    const std::vector<std::pair<Vertex_ID, Vertex_ID> >& list_of_added() const;
 
     Mapped_Graph_Copy *working_copy;
-
 private:
     const Graph *in_graph;
 
-    // used by methods
-    // std::vector<std::pair<Vertex_ID, Vertex_ID> > contractions;
-    // std::map<Edge_ID, bool> is_nonedge;
-    // std::map<Edge_ID, std::pair<double, double> > nonedge_interval;
-    // std::map<Vertex_ID, bool> realized;
+    // for caller... may want to know these things
+    std::set<Edge_ID> in_graph_dropped;
+    std::vector<std::pair<Vertex_ID, Vertex_ID> > in_graph_added;
+
 
     // destructively determines if gc.copy is a partial 2-tree (series parallel, k4 minor avoiding...)
     static bool is_partial_2_tree(Mapped_Graph_Copy &gc);
@@ -44,11 +45,6 @@ private:
     // uses edge lengths and directly edits vertex properties (x and y)
     // returns true if it can be realized, false otherwise
     std::list<Mapped_Graph_Copy*> realize_2_tree();
-    // std::list<Mapped_Graph_Copy*> _realize_2_tree_aux(
-    //     Mapped_Graph_Copy *g,
-    //     Vertex_ID v0,
-    //     Vertex_ID v1,
-    //     std::map<Vertex_ID, bool> &already_realized);
     void _realize_2_tree_aux(
         std::list<Mapped_Graph_Copy*> &already_made,
         Vertex_ID orig_v0, Vertex_ID orig_v1, Vertex_ID orig_v_ignore);

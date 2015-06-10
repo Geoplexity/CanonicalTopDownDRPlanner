@@ -22,7 +22,7 @@ DRP_Node* DR_Plan::root() {
     return &_root;
 }
 
-bool DR_Plan::rigid() {
+bool DR_Plan::rigid() const {
     return _rigid;
 }
 
@@ -34,7 +34,7 @@ void DR_Plan::print_cluster(const Graph &g, Cluster &c) {
 }
 
 
-void DR_Plan::print_depth_first(DRP_Node *node, unsigned int tabs) {
+void DR_Plan::print_depth_first(DRP_Node *node, unsigned int tabs) const {
     for (int i = 0; i < tabs; i++) std::cout << "\t";
     std::cout << "Node: ";
 
@@ -276,8 +276,9 @@ void DR_Plan::_DRP_2D_linear_aux(DRP_Node *node) {
             _DRP_2D_linear_aux(parent);
 
             // add the children to the input node and delete the dummy parent
-            node->add_children(dummy_original_parent->make_children_set());
+            node->move_children_from(dummy_original_parent);
             delete dummy_original_parent;
+            // node->add_children(dummy_original_parent->children());
         }
         // if it's trivial intersection... same as when it's underconstrained
         else {

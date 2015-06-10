@@ -21,6 +21,26 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::realize() {
     std::vector<std::pair<Vertex_ID, Vertex_ID> > dropped = make_partial_2_tree();
     std::list<Edge_ID> nonedges_ordered = make_2_tree();
 
+
+
+    // fill up the set of dropped edges in terms of the input graph
+    in_graph_dropped.clear();
+    for (std::vector<std::pair<Vertex_ID, Vertex_ID> >::iterator v_p_it = dropped.begin(); v_p_it != dropped.end(); v_p_it++) {
+        Vertex_ID orig0 = working_copy->original_vertex(v_p_it->first);
+        Vertex_ID orig1 = working_copy->original_vertex(v_p_it->second);
+        in_graph_dropped.insert(in_graph->edge(orig0, orig1));
+    }
+
+    // fill up the vector of added edges in terms of the input graph
+    in_graph_added.clear();
+    for (std::list<Edge_ID>::iterator e_it = nonedges_ordered.begin(); e_it != nonedges_ordered.end(); e_it++) {
+        std::pair<Vertex_ID, Vertex_ID> vs = working_copy->vertices_incident(*e_it);
+        in_graph_added.push_back(std::make_pair(working_copy->original_vertex(vs.first), working_copy->original_vertex(vs.second)));
+    }
+
+
+
+
     std::set<Edge_ID> nonedges;
     for (std::list<Edge_ID>::iterator es = nonedges_ordered.begin(); es != nonedges_ordered.end(); es++) {
         nonedges.insert(*es);
@@ -45,9 +65,24 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::realize() {
         }
     }
 
-    // working_copy->get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+
+
 
     return realize_2_tree();
+
+
+
+
+}
+
+// in terms of the input graph
+const std::set<Edge_ID>& Isostatic_Graph_Realizer::list_of_dropped() const {
+    return in_graph_dropped;
+}
+
+// in terms of the input graph
+const std::vector<std::pair<Vertex_ID, Vertex_ID> >& Isostatic_Graph_Realizer::list_of_added() const {
+    return in_graph_added;
 }
 
 bool Isostatic_Graph_Realizer::is_partial_2_tree(Mapped_Graph_Copy &mgc) {
@@ -823,7 +858,7 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::sample(
 
     // int steps = 500;
     // double eps = 1e-1;
-    int steps = 20;
+    int steps = 2;
     double eps = 1e-2;
     // int steps = 100;
     // double eps = 6;

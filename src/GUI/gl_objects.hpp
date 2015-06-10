@@ -18,207 +18,250 @@
 #define PI 3.14159265359
 
 namespace gl_obj {
-  typedef glm::vec2 pos_vec;
-  typedef glm::vec4 color_vec;
-  typedef glm::vec2 texc_vec;
+    typedef glm::vec2 pos_vec;
+    typedef glm::vec4 color_vec;
+    typedef glm::vec2 texc_vec;
 
-  class Vertex {
-  public:
-    pos_vec   pos;
-    color_vec color;
-    texc_vec  texCoord;
+    class Vertex {
+    public:
+        pos_vec   _pos;
+        color_vec _color;
+        texc_vec  _tex_coord;
 
-    Vertex(pos_vec p, color_vec c) {
-      pos = p; color = c; texCoord = texc_vec(0.f, 0.f);
-    }
+        Vertex(pos_vec p, color_vec c) :
+            _pos(p),
+            _color(c),
+            _tex_coord(texc_vec(0.f, 0.f))
+        { }
 
-    Vertex(pos_vec p, texc_vec t) {
-      pos = p; color = color_vec(0.f,0.f,0.f,0.f); texCoord = t;
-    }
+        Vertex(pos_vec p, texc_vec t) :
+            _pos(p),
+            _color(color_vec(0.f,0.f,0.f,0.f)),
+            _tex_coord(t)
+        { }
 
-    ~Vertex() {}
+        ~Vertex() {}
 
-    void setColor(color_vec c) {
-      color = c;
-    }
-  };
-
-
-  class VertexGroup : public std::vector<Vertex> {
-  public:
-    VertexGroup() {}
-
-    void setAllColor(color_vec color) {
-      for (int i = 0; i < this->size(); i++) {
-        at(i).setColor(color);
-      }
-    }
-  };
-
-
-
-  class TriangleFan {
-  public:
-    // GLuint type;
-    VertexGroup vg;
-
-    // BEGIN: CONSTRUCTORS
-    //////////////////////
-    TriangleFan(Vertex hub, Vertex first, Vertex second) {
-      // type = GL_TRIANGLE_FAN;
-      vg.push_back(hub);
-      vg.push_back(first);
-      vg.push_back(second);
-    }
-
-    ~TriangleFan () {}
-    //////////////////////
-    // END:   CONSTRUCTORS
-
-
-
-    void setAllColor(color_vec color) {
-      vg.setAllColor(color);
-    }
-
-    void addVertex(Vertex v) {
-      vg.push_back(v);
-    }
-  };
-
-
-
-  // a polygon inscribed in a circle of given radius
-  class Circle {
-  public:
-    TriangleFan *tf;
-
-    float radius;
-    color_vec color;
-    // color_vec black = color_vec(0.f, 0.f, 0.f, 0.f);
-
-
-    Circle(float radius, color_vec color) {
-      this->radius = radius;
-      this->color = color;
-
-
-      unsigned int edges = 2000*radius;
-      if (edges < 3) edges = 3;
-      if (edges > 200) edges = 200;
-
-      pos_vec vhub = pos_vec(0.f, 0.f);
-      pos_vec v0 = t_2_xy(0.f);
-      pos_vec v1 = t_2_xy(1.f/edges);
-      tf = new TriangleFan(Vertex(vhub, color),
-        Vertex(v0, color),
-        Vertex(v1, color));
-
-      for (int i = 2; i < edges; i++) {
-        pos_vec vnew= t_2_xy(float(i)/edges);
-        tf->addVertex(Vertex(vnew, color));
-      }
-
-      tf->addVertex(Vertex(v0, color));
-
+        void color(const color_vec &c) {_color = c;}
     };
-  private:
-    pos_vec t_2_xy(float t) {
-      return pos_vec(radius*sin(t*2*PI), radius*cos(t*2*PI));
-    }
-  };
 
 
+    class Vertex_Array : public std::vector<Vertex> {
+    public:
+        Vertex_Array() {}
 
-  // a line with width
-  class WideLine {
-  public:
-    TriangleFan *tf;
+        void add_vertex(Vertex v) {
+            push_back(v);
+        }
 
-    float width;
-    color_vec color;
-    // color_vec black = color_vec(0.f, 0.f, 0.f, 0.f);
-
-
-    WideLine(pos_vec from, pos_vec to, float width, color_vec color) {
-      this->width = width;
-      this->color = color;
-
-      float wo2 = width/2.f;
-      float length = glm::distance(from, to);
-      pos_vec
-        bl = pos_vec(0.f,    -wo2),
-        br = pos_vec(0.f,     wo2),
-        tl = pos_vec(length, -wo2),
-        tr = pos_vec(length,  wo2);
-      // add length to topleft and right. give width. rotate.
-
-      float dx = (to.x - from.x);
-      float dy = (to.y - from.y);
-      float angle = atan(dy/dx); // gives [-pi/2, pi/2]
-      if (dx < 0) angle += PI;
-
-      // std::cout
-      //   << "(" << from.x << ", " << from.y << ") "
-      //   << "(" << to.x << ", " << to.y << ") "
-      //   << "= " << angle
-      //   << std::endl;
-      bl = glm::rotate(bl, angle);
-      br = glm::rotate(br, angle);
-      tl = glm::rotate(tl, angle);
-      tr = glm::rotate(tr, angle);
-
-      // glm::mat2 rot = glm::mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
-      // bl = rot * bl;
-      // br = rot * br;
-      // tl = rot * tl;
-      // tr = rot * tr;
-
-      // std::cout
-      //   << "(" << bl.x << ", " << bl.y << ") "
-      //   << "(" << br.x << ", " << br.y << ") "
-      //   << "(" << tr.x << ", " << tr.y << ") "
-      //   << "(" << tl.x << ", " << tl.y << ") "
-      //   << std::endl;
-
-
-      tf = new TriangleFan(Vertex(bl, color),
-        Vertex(br, color),
-        Vertex(tr, color));
-      tf->addVertex(Vertex(tl, color));
-
+        void set_color_all(color_vec color) {
+            for (int i = 0; i < this->size(); i++) {
+                at(i).color(color);
+            }
+        }
     };
-  };
 
+    class Triangles : public Vertex_Array {
+    public:
+        // BEGIN: CONSTRUCTORS
+        //////////////////////
+        Triangles() {}
 
+        ~Triangles () {}
+        //////////////////////
+        // END:   CONSTRUCTORS
 
-  // a quad with tex_coords
-  // print at 0, do not translate
-  class TexQuad {
-  public:
-    TriangleFan *tf;
-
-    TexQuad(float pos_l, float pos_r, float pos_t, float pos_b,
-      float texc_l, float texc_r, float texc_t, float texc_b)
-    {
-      pos_vec
-        pbl = pos_vec(pos_l, pos_b),
-        pbr = pos_vec(pos_r, pos_b),
-        ptl = pos_vec(pos_l, pos_t),
-        ptr = pos_vec(pos_r, pos_t);
-      texc_vec
-        tbl = texc_vec(texc_l, texc_b),
-        tbr = texc_vec(texc_r, texc_b),
-        ttl = texc_vec(texc_l, texc_t),
-        ttr = texc_vec(texc_r, texc_t);
-
-      tf = new TriangleFan(Vertex(pbl, tbl),
-        Vertex(pbr, tbr),
-        Vertex(ptr, ttr));
-      tf->addVertex(Vertex(ptl, ttl));
-
+        void add_triangle(Vertex v0, Vertex v1, Vertex v2) {
+            add_vertex(v0); add_vertex(v1); add_vertex(v2);
+        }
     };
-  };
+
+    class Triangle_Fan : public Vertex_Array {
+    public:
+        // BEGIN: CONSTRUCTORS
+        //////////////////////
+        Triangle_Fan(Vertex hub, Vertex first, Vertex second) {
+            // type = GL_TRIANGLE_FAN;
+            add_vertex(hub);
+            add_vertex(first);
+            add_vertex(second);
+        }
+
+        ~Triangle_Fan () {}
+        //////////////////////
+        // END:   CONSTRUCTORS
+    protected:
+        Triangle_Fan() {}
+    };
+
+
+
+    // a polygon inscribed in a circle of given radius
+    class Circle : public Triangle_Fan {
+    public:
+        static const unsigned int edges_to_radius_ratio = 2000;
+        static const unsigned int edges_max = 3;
+        static const unsigned int edges_min = 200;
+
+        float radius;
+        color_vec color;
+
+        Circle(float radius, color_vec color) :
+            radius(radius),
+            color(color)
+        {
+            unsigned int edges = edges_to_radius_ratio*radius;
+            if (edges < edges_max) edges = edges_max;
+            if (edges > edges_min) edges = edges_min;
+
+            pos_vec vhub = pos_vec(0.f, 0.f);
+            pos_vec v0 = t_2_xy(0.f);
+            pos_vec v1 = t_2_xy(1.f/edges);
+
+            add_vertex(Vertex(vhub, color));
+            add_vertex(Vertex(v0, color));
+            add_vertex(Vertex(v1, color));
+
+            for (int i = 2; i < edges; i++) {
+                pos_vec vnew= t_2_xy(float(i)/edges);
+                add_vertex(Vertex(vnew, color));
+            }
+
+            add_vertex(Vertex(v0, color));
+        };
+    private:
+        pos_vec t_2_xy(float t) {
+            return pos_vec(radius*sin(t*2*PI), radius*cos(t*2*PI));
+        }
+    };
+
+
+
+    // a line with width
+    class Wide_Line : public Triangle_Fan {
+    public:
+        float width;
+        color_vec color;
+
+        Wide_Line(pos_vec from, pos_vec to, float width, color_vec color) :
+            width(width),
+            color(color)
+        {
+            float wo2 = width/2.f;
+            float length = glm::distance(from, to);
+            pos_vec
+                bl = pos_vec(0.f,    -wo2),
+                br = pos_vec(0.f,     wo2),
+                tl = pos_vec(length, -wo2),
+                tr = pos_vec(length,  wo2);
+            // add length to topleft and right. give width. rotate.
+
+            float dx = (to.x - from.x);
+            float dy = (to.y - from.y);
+            float angle = atan(dy/dx); // gives [-pi/2, pi/2]
+            if (dx < 0) angle += PI;
+
+            bl = glm::rotate(bl, angle);
+            br = glm::rotate(br, angle);
+            tl = glm::rotate(tl, angle);
+            tr = glm::rotate(tr, angle);
+
+            add_vertex(Vertex(bl, color));
+            add_vertex(Vertex(br, color));
+            add_vertex(Vertex(tr, color));
+            add_vertex(Vertex(tl, color));
+
+        };
+    };
+
+
+    // A dashed line with width
+    class Dashed_Wide_Line : public Triangles {
+    public:
+        float width, dash_length, undash_length;
+        color_vec color;
+
+        Dashed_Wide_Line(
+            pos_vec from, pos_vec to,
+            float width, float dash_length, float undash_length,
+            color_vec color) :
+                width(width),
+                dash_length(dash_length),
+                undash_length(undash_length),
+                color(color)
+        {
+            float wo2 = width/2.f;
+            float length = glm::distance(from, to);
+            // add length to topleft and right. give width. rotate.
+
+            float dx = (to.x - from.x);
+            float dy = (to.y - from.y);
+            float angle = atan(dy/dx); // gives [-pi/2, pi/2]
+            if (dx < 0) angle += PI;
+
+            float begin, end;
+            bool dash = true;
+            for (begin = 0.f; begin < length; begin = end) {
+                end = begin + (dash? dash_length: undash_length);
+                dash = !dash;
+
+                // check if dash, since we just negated
+                if (dash) continue;
+
+                if (end > length) end = length;
+
+                pos_vec
+                    bl = pos_vec(begin, -wo2),
+                    br = pos_vec(begin,  wo2),
+                    tl = pos_vec(end,   -wo2),
+                    tr = pos_vec(end,    wo2);
+
+                bl = glm::rotate(bl, angle);
+                br = glm::rotate(br, angle);
+                tl = glm::rotate(tl, angle);
+                tr = glm::rotate(tr, angle);
+
+                add_triangle(
+                    Vertex(bl, color),
+                    Vertex(br, color),
+                    Vertex(tl, color));
+
+                add_triangle(
+                    Vertex(br, color),
+                    Vertex(tr, color),
+                    Vertex(tl, color));
+            }
+        };
+    };
+
+
+
+    // a quad with tex_coords
+    // print at 0, do not translate
+    class Tex_Quad : public Triangle_Fan {
+    public:
+        Tex_Quad(
+            float pos_l, float pos_r, float pos_t, float pos_b,
+            float texc_l, float texc_r, float texc_t, float texc_b)
+        {
+            pos_vec
+                pbl = pos_vec(pos_l, pos_b),
+                pbr = pos_vec(pos_r, pos_b),
+                ptl = pos_vec(pos_l, pos_t),
+                ptr = pos_vec(pos_r, pos_t);
+            texc_vec
+                tbl = texc_vec(texc_l, texc_b),
+                tbr = texc_vec(texc_r, texc_b),
+                ttl = texc_vec(texc_l, texc_t),
+                ttr = texc_vec(texc_r, texc_t);
+
+            add_vertex(Vertex(pbl, tbl));
+            add_vertex(Vertex(pbr, tbr));
+            add_vertex(Vertex(ptr, ttr));
+            add_vertex(Vertex(ptl, ttl));
+
+        };
+    };
 }
 
 

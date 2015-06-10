@@ -13,7 +13,7 @@ public:
     Program *program;
     Vision_Handler_2D *vh;
 
-    App_Window_2D() {}
+    App_Window_2D(Main_GUI_Manager *mgm) : mgm(mgm) {}
 
     void init_program() {
         set_as_context();
