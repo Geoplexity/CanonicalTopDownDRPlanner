@@ -3,8 +3,11 @@
 #include "Graph/Isostatic_Graph_Realizer.hpp"
 
 #include "Application/Graph_Display_Window.hpp"
+#include "Application/Animated_Graph_Realization_Window.hpp"
 
 #include <iostream>
+#include <thread>
+#include <chrono>
 using namespace std;
 
 
@@ -17,6 +20,12 @@ enum runtime_options {
     ro_omd = 3,
     ro_test = 4
 };
+
+void drp_2d(const string& dot_file);
+void display_linkage(const string& dot_file);
+void display_framework(const string& dot_file);
+void omd(const string& dot_file);
+void test(const string& dot_file);
 
 
 
@@ -83,6 +92,8 @@ int main(int argc, char **argv) {
             } else if (!val.compare("2")) {
                 runtime_option = ro_display_framework;
             } else if (!val.compare("3")) {
+                runtime_option = ro_omd;
+            } else if (!val.compare("4")) {
                 runtime_option = ro_test;
             } else {
                 cerr << "Invalid value for flag " << flag << "." << endl;
@@ -105,6 +116,154 @@ int main(int argc, char **argv) {
         }
     }
 
+    switch (runtime_option) {
+        case ro_drp_2d: drp_2d(dot_file); break;
+        case ro_display_linkage: display_linkage(dot_file); break;
+        case ro_display_framework: display_framework(dot_file); break;
+        case ro_omd: omd(dot_file); break;
+        case ro_test: test(dot_file); break;
+    }
+
+
+    return 0;
+}
+
+void drp_2d(const string& dot_file) {
+    cout << "Running DRP_2D on \"" << dot_file << "\"." << endl;
+
+    // read in
+    Graph g;
+    g.read_from_file(dot_file.c_str());
+
+    g.set_layout();
+    g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+
+    Main_GUI_Manager mgm;
+    Graph_Display_Window myWindow(&mgm, &g);
+
+    mgm.create_window(
+        &myWindow,
+        global::window::width_screen_coords,
+        global::window::height_screen_coords,
+        "Graph Drawer",
+        3,
+        2,
+        true);
+    myWindow.init_program();
+
+    myWindow.update_display();
+
+    myWindow.get_drp();
+
+    while (!myWindow.should_close()) {
+        // mgm.poll_for_events();
+        // cout << "About to wait." << endl;
+        mgm.wait_for_events();
+        // cout << "Handled." << endl;
+    }
+}
+
+void display_linkage(const string& dot_file) {
+    cout << "Displaying linkage \"" << dot_file << "\"." << endl;
+
+    // read in
+    Graph g;
+    g.read_from_file(dot_file.c_str());
+
+    g.set_layout();
+    g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+
+    Main_GUI_Manager mgm;
+    Graph_Display_Window myWindow(&mgm, &g);
+
+    mgm.create_window(
+        &myWindow,
+        global::window::width_screen_coords,
+        global::window::height_screen_coords,
+        "Graph Drawer",
+        3,
+        2,
+        true);
+    myWindow.init_program();
+
+    myWindow.update_display();
+
+
+    while (!myWindow.should_close()) {
+        mgm.wait_for_events();
+    }
+}
+
+void display_framework(const string& dot_file) {
+    cout << "Displaying framework \"" << dot_file << "\"." << endl;
+
+    // read in
+    Graph g;
+    g.read_from_file(dot_file.c_str());
+
+    g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+
+    Main_GUI_Manager mgm;
+    Graph_Display_Window myWindow(&mgm, &g);
+
+    mgm.create_window(
+        &myWindow,
+        global::window::width_screen_coords,
+        global::window::height_screen_coords,
+        "Graph Drawer",
+        3,
+        2,
+        true);
+    myWindow.init_program();
+
+    myWindow.update_display();
+
+    while (!myWindow.should_close()) {
+        // mgm.poll_for_events();
+        // cout << "About to wait." << endl;
+        mgm.wait_for_events();
+        // cout << "Handled." << endl;
+    }
+}
+
+void omd(const string& dot_file) {
+    cout << "Testing OMD on \"" << dot_file << "\"" << endl;
+
+    // read in
+    Graph g;
+    g.read_from_file(dot_file.c_str());
+
+    // get layout... x/y coords
+    g.set_layout();
+    g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+
+
+    Main_GUI_Manager mgm;
+    Animated_Graph_Realization_Window myWindow(&mgm, &g);
+
+    mgm.create_window(
+        &myWindow,
+        global::window::width_screen_coords,
+        global::window::height_screen_coords,
+        "Graph Drawer",
+        3,
+        2,
+        true);
+    myWindow.init_program();
+
+    myWindow.update_display();
+
+    while (myWindow.step()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    while (!myWindow.should_close()) {
+        mgm.wait_for_events();
+    }
+}
+
+void test(const string& dot_file) {
+    cout << "Testing code." << endl;
 
     // read in
     Graph g;
@@ -115,12 +274,8 @@ int main(int argc, char **argv) {
     // copy.write_to_file("test_files/out.dot");
 
     // get layout... x/y coords
-    if (runtime_option != ro_display_framework) {
-        g.set_layout();
-        g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
-    } else {
-        g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
-    }
+    g.set_layout();
+    g.get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
 
 
     Main_GUI_Manager mgm;
@@ -139,32 +294,10 @@ int main(int argc, char **argv) {
     myWindow.update_display();
 
 
-
-
-    if (runtime_option == ro_drp_2d) {
-        cout << "Running DRP_2D on \"" << dot_file << "\"." << endl;
-        myWindow.get_drp();
-    } else if (runtime_option == ro_display_linkage) {
-        cout << "Displaying linkage \"" << dot_file << "\"." << endl;
-    } else if (runtime_option == ro_display_framework) {
-        cout << "Displaying framework \"" << dot_file << "\"." << endl;
-    } else if (runtime_option == ro_test) {
-        cout << "Testing OMD on \"" << dot_file << "\"" << endl;
-        myWindow.do_omd();
-    } else if  (runtime_option == ro_test) {
-        cout << "Testing code." << endl;
-    }
-
-
     while (!myWindow.should_close()) {
         // mgm.poll_for_events();
         // cout << "About to wait." << endl;
         mgm.wait_for_events();
         // cout << "Handled." << endl;
     }
-
-
-
-
-    return 0;
 }

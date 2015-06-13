@@ -5,25 +5,18 @@
 
 
 Graph_Display_Window::Graph_Display_Window(Main_GUI_Manager *mgm, Graph *graph) :
-    App_Window_2D(mgm),
-    // original_graph(graph),
-    graph(graph),
-    _context(dc_none)
+    Movable_App_Window_2D(mgm),
+    graph(graph)
 {
-    this->left_mouse_clicking = false;
-
     this->drp_display_window = NULL;
     this->drp = NULL;
     this->current_drp_node = NULL;
-
-    this->igr = NULL;
 
     update_graph_positions();
 }
 
 Graph_Display_Window::~Graph_Display_Window() {
     if (drp) delete(drp); // also deletes current_drp_node
-    if (igr) delete(igr);
 }
 
 
@@ -84,51 +77,6 @@ void Graph_Display_Window::_update_graph_positions_drp() {
 
 }
 
-void Graph_Display_Window::_update_graph_positions_omd() {
-    assert(igr);
-
-    //vertices
-    for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
-        vs.first != vs.second;
-        vs.first++)
-    {
-        gl_obj::pos_vec pos((*graph)[*vs.first].x, (*graph)[*vs.first].y);
-        vertices.push_back(pos);
-        vertices_names.push_back((*graph)[*vs.first].name);
-    }
-
-
-    // regular and dropped edges
-    std::set<Edge_ID> dropped = igr->list_of_dropped();
-
-    for (std::pair<Edge_Iterator, Edge_Iterator> es = graph->edges();
-        es.first != es.second;
-        es.first++)
-    {
-        std::pair<Vertex_ID, Vertex_ID> uv = graph->vertices_incident(*es.first);
-        if (dropped.find(*(es.first)) != dropped.end()) {
-            edges_dashed.push_back(gl_obj::pos_vec((*graph)[uv.first].x, (*graph)[uv.first].y));
-            edges_dashed.push_back(gl_obj::pos_vec((*graph)[uv.second].x, (*graph)[uv.second].y));
-        } else {
-            edges.push_back(gl_obj::pos_vec((*graph)[uv.first].x, (*graph)[uv.first].y));
-            edges.push_back(gl_obj::pos_vec((*graph)[uv.second].x, (*graph)[uv.second].y));
-        }
-    }
-
-
-    // added edges
-    std::vector<std::pair<Vertex_ID, Vertex_ID> > added = igr->list_of_added();
-
-    for (std::vector<std::pair<Vertex_ID, Vertex_ID> >::iterator es = added.begin();
-        es != added.end();
-        es++)
-    {
-        edges_highlight.push_back(gl_obj::pos_vec((*graph)[es->first].x,  (*graph)[es->first].y));
-        edges_highlight.push_back(gl_obj::pos_vec((*graph)[es->second].x, (*graph)[es->second].y));
-    }
-}
-
-
 void Graph_Display_Window::update_graph_positions() {
     vertices.clear();
     vertices_highlight.clear();
@@ -139,11 +87,10 @@ void Graph_Display_Window::update_graph_positions() {
     edges_dashed.clear();
     // non_edges.clear();
 
-    switch (_context) {
-        case dc_none: _update_graph_positions_none(); break;
-        case dc_drp:  _update_graph_positions_drp();  break;
-        case dc_omd:  _update_graph_positions_omd();  break;
-    }
+    if (drp)
+        _update_graph_positions_drp();
+    else
+        _update_graph_positions_none();
 }
 
 void Graph_Display_Window::highlight_drp_node(DRP_Node* node) {
@@ -162,7 +109,7 @@ void Graph_Display_Window::highlight_drp_node(DRP_Node* node) {
 
 
 void Graph_Display_Window::get_drp() {
-    _context = dc_drp;
+    if (drp) delete(drp);
 
     this->drp = new DR_Plan(*graph);
 
@@ -177,16 +124,6 @@ void Graph_Display_Window::get_drp() {
     // text output
     std::cout << "Rigid? " << (this->drp->rigid()? "Yes": "No") << std::endl;
     this->drp->print_depth_first(this->drp->root());
-}
-
-void Graph_Display_Window::do_omd() {
-    _context = dc_omd;
-
-    igr = new Isostatic_Graph_Realizer(graph);
-    igr->realize();
-
-    update_graph_positions();
-    update_display();
 }
 
 void Graph_Display_Window::key_callback(int key, int scancode, int action, int mods) {
@@ -247,82 +184,6 @@ void Graph_Display_Window::key_callback(int key, int scancode, int action, int m
     }
     // std::cout << "Graph_Display_Window::key_callback: end" << std::endl;
 };
-
-
-void Graph_Display_Window::mouse_button_callback(int button, int action, int mods) {
-    if (button == GLFW_MOUSE_BUTTON_1) {
-        if (action == GLFW_PRESS) {
-            this->left_mouse_clicking = true;
-            this->get_cursor_position_pixels(&mouse_xpos_previous, &mouse_ypos_previous);
-        } else if (action == GLFW_RELEASE) {
-            this->left_mouse_clicking = false;
-        }
-    }
-}
-
-void Graph_Display_Window::cursor_pos_callback(double xpos, double ypos) {
-    // if (this->left_mouse_clicking) {
-    //     this->get_cursor_position(&xpos, &ypos);
-    //     cout << "Position: " << xpos << " " << ypos << endl;
-
-    //     double diff_x = xpos - mouse_xpos_previous;
-    //     double diff_y = ypos - mouse_ypos_previous;
-
-    //     cout << "\tChange: "  << diff_x << " " << diff_y << endl;
-    //     vh->translate(diff_x, diff_y);
-
-    //     mouse_xpos_previous = xpos;
-    //     mouse_ypos_previous = ypos;
-
-    //     // this->program->setUniform_ViewMatrix(vh->get_view_matrix());
-    //     update_view_matrix();
-    //     update_display();
-    // }
-    if (this->left_mouse_clicking) {
-        int x, y;
-        this->get_cursor_position_pixels(&x, &y);
-        // cout << x << " " << y << endl;
-
-        int width, height;
-        this->get_window_size_in_pixels(&width, &height);
-
-        float dx,dy;
-        dx = 2*((float)(mouse_xpos_previous - x))/width;
-        dy = 2*((float)(mouse_ypos_previous - y))/height;
-        // cout << "\tChange: "  << dx << " " << dy << endl;
-
-        float ar = vh->aspect_ratio();
-        if (ar > 1)
-            dx *= ar;
-        else
-            dy /= ar;
-
-        vh->translate(dx, dy);
-
-        mouse_xpos_previous = x;
-        mouse_ypos_previous = y;
-
-        update_view_matrix();
-        update_display();
-    }
-}
-
-
-
-
-void Graph_Display_Window::scroll_callback(double x_offset, double y_offset) {
-    // cout << "scroll_callback " << vh->zoom() << " ";
-    if (y_offset > 0) {
-        //scroll up
-        vh->scale_zoom(0.95, 0.01f, 50.f);
-    } else {
-        //scroll down
-        vh->scale_zoom(1/0.95, 0.01f, 50.f);
-    }
-    // cout << vh->zoom() << endl;
-    update_view_matrix();
-    update_display();
-}
 
 
 

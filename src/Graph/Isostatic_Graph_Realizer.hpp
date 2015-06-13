@@ -9,25 +9,88 @@
 #include <utility>
 
 
+
 class Isostatic_Graph_Realizer {
 public:
     // assumes that input is isostatic
-    Isostatic_Graph_Realizer(const Graph *g);
+    Isostatic_Graph_Realizer(Graph *g);
     ~Isostatic_Graph_Realizer();
 
-    std::list<Mapped_Graph_Copy*> realize();
+    const Mapped_Graph_Copy* get_working_copy() {return working_copy;}
+    const Mapped_Graph_Copy* get_display_graph() {return display_graph;}
+
+    // samples based on the current configuration of working_copy
+    void sample();
+
+    // returns true until it can take no further steps
+    bool step();
+
+    std::list<Mapped_Graph_Copy*>& realizations();
 
     // in terms of the input graph
     const std::set<Edge_ID>& list_of_dropped() const;
     const std::vector<std::pair<Vertex_ID, Vertex_ID> >& list_of_added() const;
-
-    Mapped_Graph_Copy *working_copy;
 private:
-    const Graph *in_graph;
+    Graph *in_graph;
+    Mapped_Graph_Copy *working_copy;
 
-    // for caller... may want to know these things
+    Mapped_Graph_Copy *display_graph;
+    bool save_display_graph; // i.e. it got put in _realizations
+
+    // in terms of the original... for caller, may want to know these things
     std::set<Edge_ID> in_graph_dropped;
     std::vector<std::pair<Vertex_ID, Vertex_ID> > in_graph_added;
+
+    // in terms of the working_copy
+    std::vector<std::pair<Vertex_ID, Vertex_ID> > wc_graph_dropped;
+    std::set<Edge_ID> wc_graph_added;
+    std::list<Edge_ID> wc_graph_added_ordered;
+
+
+    std::list<Mapped_Graph_Copy*> _realizations;
+
+
+    const double EPS = 1e-2;
+    class IGR_Context {
+    public:
+        IGR_Context(
+            Edge_ID copy_e,
+            Edge_ID orig_e_paired,
+            std::pair<Vertex_ID, Vertex_ID> orig_e_paired_as_copy_vs,
+            std::pair<double, double> interval,
+            unsigned int steps);
+
+        // step goes to 0, sets new interval
+        void reset(const double begin, const double end);
+
+        // have we sampled the entire interval?
+        bool done() {return (_step < steps)? false: true;}
+
+        // increments to the next step
+        void step() {_step++;}
+
+        // returns the value at this step
+        double point();
+
+        //
+        void add_solution(double solution);
+    // private:
+
+        // id for edge in copy
+        Edge_ID copy_e;
+        // dropped edge in original graph, arbitrarily paired with this edge
+        Edge_ID orig_e_paired;
+        // vertices of paired dropped edge, in terms of copy vertices
+        std::pair<Vertex_ID, Vertex_ID> orig_e_paired_as_copy_vs;
+
+        std::pair<double, double> _interval;
+        unsigned int _step, steps;
+
+        std::vector<double> solutions;
+    };
+
+    std::list<IGR_Context>           igr_contexts;
+    std::list<IGR_Context>::iterator igr_context_current;
 
 
     // destructively determines if gc.copy is a partial 2-tree (series parallel, k4 minor avoiding...)
@@ -53,11 +116,15 @@ private:
         std::set<Edge_ID> &nonedges,
         Edge_ID e);
 
-    std::list<Mapped_Graph_Copy*> sample(
-        std::set<Edge_ID> &nonedges,
-        std::list<Edge_ID> &nonedges_ordered,
-        std::vector<std::pair<Vertex_ID, Vertex_ID> > &dropped_edges,
-        Edge_ID e);
+    bool check_realization_lengths(const Mapped_Graph_Copy& g);
+
+    void init_sampling();
+
+    // std::list<Mapped_Graph_Copy*> sample(
+    //     std::set<Edge_ID> &nonedges,
+    //     std::list<Edge_ID> &nonedges_ordered,
+    //     std::vector<std::pair<Vertex_ID, Vertex_ID> > &dropped_edges,
+    //     Edge_ID e);
 };
 
 #endif
