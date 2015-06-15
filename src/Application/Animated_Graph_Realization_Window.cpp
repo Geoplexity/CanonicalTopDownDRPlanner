@@ -19,8 +19,11 @@ Animated_Graph_Realization_Window::~Animated_Graph_Realization_Window() {
 bool Animated_Graph_Realization_Window::step() {
     assert(igr);
     if (igr->step()) {
+        // std::cout << "Animated_Graph_Realization_Window::step: Here 0" << std::endl;
         igr->sample();
+        // std::cout << "Animated_Graph_Realization_Window::step: Here 1" << std::endl;
         update_graph_positions();
+        // std::cout << "Animated_Graph_Realization_Window::step: Here 2" << std::endl;
         update_display();
         return true;
     }

@@ -47,6 +47,13 @@ private:
     std::list<Edge_ID> wc_graph_added_ordered;
 
 
+    // realization stuff
+    struct realization_triplet {
+        Vertex_ID v, v_parent_0, v_parent_1;
+        realization_triplet(Vertex_ID v, Vertex_ID vp0, Vertex_ID vp1) :
+            v(v), v_parent_0(vp0), v_parent_1(vp1) {}
+    };
+    std::vector<realization_triplet> realization_order;
     std::list<Mapped_Graph_Copy*> _realizations;
 
 
@@ -103,6 +110,12 @@ private:
     // returns a list of added edges in working_copy
     // std::vector<Edge_ID> make_2_tree();
     std::list<Edge_ID> make_2_tree();
+
+    // determines a consistent order in which to realize a 2-tree
+    std::vector<realization_triplet> realize_2_tree_order();
+    void _realize_2_tree_order_aux(
+        std::vector<realization_triplet> &already_ordered,
+        Vertex_ID v0, Vertex_ID v1, Vertex_ID v_ignore);
 
     // assumes working_copy is a 2 tree
     // uses edge lengths and directly edits vertex properties (x and y)
