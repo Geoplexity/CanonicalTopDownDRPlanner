@@ -22,7 +22,7 @@ public:
 
     void update_graph_positions();
 
-    // void key_callback(int key, int scancode, int action, int mods);
+    void key_callback(int key, int scancode, int action, int mods);
 
     void update_display();
 private:

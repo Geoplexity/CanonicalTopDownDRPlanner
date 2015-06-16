@@ -1,5 +1,9 @@
 #include "Animated_Graph_Realization_Window.hpp"
 
+#include <thread>
+#include <chrono>
+
+
 #include <iostream>
 
 Animated_Graph_Realization_Window::Animated_Graph_Realization_Window(Main_GUI_Manager *mgm, Graph *graph) :
@@ -20,7 +24,7 @@ bool Animated_Graph_Realization_Window::step() {
     assert(igr);
     if (igr->step()) {
         // std::cout << "Animated_Graph_Realization_Window::step: Here 0" << std::endl;
-        igr->sample();
+        igr->sample(true);
         // std::cout << "Animated_Graph_Realization_Window::step: Here 1" << std::endl;
         update_graph_positions();
         // std::cout << "Animated_Graph_Realization_Window::step: Here 2" << std::endl;
@@ -186,64 +190,18 @@ void Animated_Graph_Realization_Window::update_graph_positions() {
         _update_graph_positions_omd();
 }
 
-// void Animated_Graph_Realization_Window::key_callback(int key, int scancode, int action, int mods) {
-//     // std::cout << "Animated_Graph_Realization_Window::key_callback: begin" << std::endl;
-//     if (action == GLFW_PRESS) {
-//         // cout << "\tPressed" << endl;
-//         if (key == GLFW_KEY_ESCAPE) {
-//             this->close_window();
-//         } else if (key == GLFW_KEY_UP) {
-//             if (current_drp_node && current_drp_node->parent())
-//                 highlight_drp_node(current_drp_node->parent());
-//         } else if (key == GLFW_KEY_DOWN) {
-//             if (current_drp_node && current_drp_node->first_child())
-//                 highlight_drp_node(current_drp_node->first_child());
-//         } else if (key == GLFW_KEY_RIGHT) {
-//             if (this->current_drp_node != NULL) {
-//                 DRP_Node *next = current_drp_node->next();
-//                 if (!next) next = current_drp_node->first_sibling();
-//                 highlight_drp_node(next);
-//             }
-//         } else if (key == GLFW_KEY_LEFT) {
-//             if (this->current_drp_node != NULL) {
-//                 DRP_Node *prev = current_drp_node->prev();
-//                 if (!prev) prev = current_drp_node->last_sibling();
-//                 highlight_drp_node(prev);
-//             }
-//         } else if (key == GLFW_KEY_SPACE) {
-//             if (drp_display_window == NULL) {
-//                 // std::cout << "key_callback: Here 0" << std::endl;
-//                 drp_display_window = new DRP_Display_Window(mgm, drp);
-//                 // std::cout << "key_callback: Here 1" << std::endl;
-
-//                 float scale = 3;
-//                 int width_screen_coords, height_screen_coords;
-//                 get_window_size_in_screen_coords(&width_screen_coords, &height_screen_coords);
-//                 // std::cout << "key_callback: Here 2" << std::endl;
-
-//                 mgm->create_window(
-//                     drp_display_window,
-//                     width_screen_coords/scale,
-//                     height_screen_coords/scale,
-//                     "DR-Plan",
-//                     3,
-//                     2);
-//                 drp_display_window->init_program();
-//                 // std::cout << "key_callback: Here 3" << std::endl;
-
-//                 if (current_drp_node)
-//                     drp_display_window->highlight_drp_node(current_drp_node, current_drp_node->ancestors());
-//                 // std::cout << "key_callback: Here 4" << std::endl;
-
-//                 drp_display_window->update_graph_positions();
-//                 // std::cout << "key_callback: Here 5" << std::endl;
-//                 drp_display_window->update_display();
-//                 // std::cout << "key_callback: Here 6" << std::endl;
-//             }
-//         }
-//     }
-//     // std::cout << "Animated_Graph_Realization_Window::key_callback: end" << std::endl;
-// };
+void Animated_Graph_Realization_Window::key_callback(int key, int scancode, int action, int mods) {
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_ESCAPE) {
+            this->close_window();
+        } else if (key == GLFW_KEY_SPACE) {
+            recenter();
+            while (step()) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
+        }
+    }
+};
 
 
 void Animated_Graph_Realization_Window::update_display() {

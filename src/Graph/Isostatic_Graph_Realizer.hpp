@@ -16,11 +16,10 @@ public:
     Isostatic_Graph_Realizer(Graph *g);
     ~Isostatic_Graph_Realizer();
 
-    const Mapped_Graph_Copy* get_working_copy() {return working_copy;}
-    const Mapped_Graph_Copy* get_display_graph() {return display_graph;}
+    // const Mapped_Graph_Copy* get_working_copy() {return working_copy;}
 
     // samples based on the current configuration of working_copy
-    void sample();
+    void sample(bool change_input_vertex_positions = false);
 
     // returns true until it can take no further steps
     bool step();
@@ -33,9 +32,6 @@ public:
 private:
     Graph *in_graph;
     Mapped_Graph_Copy *working_copy;
-
-    Mapped_Graph_Copy *display_graph;
-    bool save_display_graph; // i.e. it got put in _realizations
 
     // in terms of the original... for caller, may want to know these things
     std::set<Edge_ID> in_graph_dropped;
@@ -100,44 +96,58 @@ private:
     std::list<IGR_Context>::iterator igr_context_current;
 
 
-    // destructively determines if gc.copy is a partial 2-tree (series parallel, k4 minor avoiding...)
-    static bool is_partial_2_tree(Mapped_Graph_Copy &gc);
+    // destructively determines if graph is a partial 2-tree (series parallel, k4 minor avoiding...)
+    static bool is_partial_2_tree(Graph* graph);
 
-    // returns a list of dropped edges from in_graph, in terms of working_copy vertex_id's
-    std::vector<std::pair<Vertex_ID, Vertex_ID> > make_partial_2_tree();
+    // Returns a list of edges dropped from graph, such that it is now a partial 2-tree
+    static std::vector<std::pair<Vertex_ID, Vertex_ID> > make_partial_2_tree(Graph* graph);
 
-    // assumes working_copy is now a partial 2 tree
-    // returns a list of added edges in working_copy
-    // std::vector<Edge_ID> make_2_tree();
-    std::list<Edge_ID> make_2_tree();
+    // Assumes the input graph is a partial 2 tree
+    // Returns a list of added edges in graph
+    static std::list<Edge_ID> make_2_tree(Graph* graph);
+
+
+    // returns a list of vertices that are incident to both v0 and v1 in graph g
+    static std::vector<Vertex_ID> all_triangles_with_edge(
+        const Graph &g,
+        Vertex_ID v0,
+        Vertex_ID v1);
+    static std::vector<Vertex_ID> all_triangles_with_edge(
+        const Graph &g,
+        Vertex_ID v0,
+        Vertex_ID v1,
+        const std::set<Edge_ID>& edges_to_ignore);
 
     // determines a consistent order in which to realize a 2-tree
-    std::vector<realization_triplet> realize_2_tree_order();
-    void _realize_2_tree_order_aux(
+    static std::vector<realization_triplet> realize_2_tree_order(const Graph& graph);
+    static void _realize_2_tree_order_aux(
+        const Graph& graph,
         std::vector<realization_triplet> &already_ordered,
         Vertex_ID v0, Vertex_ID v1, Vertex_ID v_ignore);
 
-    // assumes working_copy is a 2 tree
+    // Returns true if the solution is real, and false otherwise. If true, the
+    // solutions are stored in (v2x0, v2y0) and (v2x1, v2y1).
+    static bool triangulate(
+        double v0x, double v0y,
+        double v1x, double v1y,
+        double e01, double e02, double e12,
+        double *v2x0, double *v2y0,
+        double *v2x1, double *v2y1);
+
+    // assumes working_copy is now a 2 tree
     // uses edge lengths and directly edits vertex properties (x and y)
-    // returns true if it can be realized, false otherwise
     std::list<Mapped_Graph_Copy*> realize_2_tree();
-    void _realize_2_tree_aux(
-        std::list<Mapped_Graph_Copy*> &already_made,
-        Vertex_ID orig_v0, Vertex_ID orig_v1, Vertex_ID orig_v_ignore);
 
-    std::pair<double, double> interval_of_nonedge(
-        std::set<Edge_ID> &nonedges,
-        Edge_ID e);
+    // returns the minimum and maximum value edge e could take, given the lengths
+    // of all the other edges in the graph (excluding those in edges_to_ignore)
+    static std::pair<double, double> interval_of_edge(
+        const Graph& graph,
+        Edge_ID e,
+        const std::set<Edge_ID>& edges_to_ignore);
 
-    bool check_realization_lengths(const Mapped_Graph_Copy& g);
+    bool check_realization_lengths(const Mapped_Graph_Copy& g, const double epsilon);
 
     void init_sampling();
-
-    // std::list<Mapped_Graph_Copy*> sample(
-    //     std::set<Edge_ID> &nonedges,
-    //     std::list<Edge_ID> &nonedges_ordered,
-    //     std::vector<std::pair<Vertex_ID, Vertex_ID> > &dropped_edges,
-    //     Edge_ID e);
 };
 
 #endif

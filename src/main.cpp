@@ -6,8 +6,6 @@
 #include "Application/Animated_Graph_Realization_Window.hpp"
 
 #include <iostream>
-#include <thread>
-#include <chrono>
 using namespace std;
 
 
@@ -252,10 +250,6 @@ void omd(const string& dot_file) {
     myWindow.init_program();
 
     myWindow.update_display();
-
-    while (myWindow.step()) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    }
 
     while (!myWindow.should_close()) {
         mgm.wait_for_events();
