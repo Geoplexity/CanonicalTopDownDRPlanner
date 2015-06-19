@@ -1,5 +1,5 @@
-#ifndef ISOSTATIC_GRAPH_REALIZER_HPP
-#define ISOSTATIC_GRAPH_REALIZER_HPP
+#ifndef TWO_TREE_MANIPULATOR_HPP
+#define TWO_TREE_MANIPULATOR_HPP
 
 #include "Graph.hpp"
 
@@ -9,30 +9,19 @@
 #include <utility>
 
 
-
-class Isostatic_Graph_Realizer {
+// invalidated if you add or delete edges or vertices in the input graph
+class Two_Tree_Manipulator {
 public:
     // assumes that input is isostatic
-    Isostatic_Graph_Realizer(Graph *g);
-    ~Isostatic_Graph_Realizer();
+    Two_Tree_Manipulator(const Graph& graph);
+    ~Two_Tree_Manipulator();
 
-    // const Mapped_Graph_Copy* get_working_copy() {return working_copy;}
-
-    // samples based on the current configuration of working_copy
-    void sample_uniform(bool change_input_vertex_positions = false);
-    void sample(bool change_input_vertex_positions = false);
-
-    // returns true until it can take no further steps
-    bool step_uniform();
-    bool step();
-
-    std::list<Mapped_Graph_Copy*>& realizations();
 
     // in terms of the input graph
     const std::set<Edge_ID>& list_of_dropped() const;
     const std::vector<std::pair<Vertex_ID, Vertex_ID> >& list_of_added() const;
 private:
-    Graph *in_graph;
+    const Graph& in_graph;
     Mapped_Graph_Copy *working_copy;
 
     // in terms of the original... for caller, may want to know these things
@@ -54,50 +43,6 @@ private:
     std::vector<realization_triplet> realization_order;
     std::list<Mapped_Graph_Copy*> _realizations;
 
-
-    const double EPS = 1e-2;
-    const double SAMPLES = 35;
-    class IGR_Context {
-    public:
-        IGR_Context(
-            Edge_ID copy_e,
-            Edge_ID orig_e_paired,
-            std::pair<Vertex_ID, Vertex_ID> orig_e_paired_as_copy_vs,
-            std::pair<double, double> interval,
-            unsigned int steps);
-
-        // step goes to 0, sets new interval
-        void reset(const double begin, const double end);
-
-        // have we sampled the entire interval?
-        bool done() {return (_step < steps)? false: true;}
-
-        // increments to the next step
-        void step() {_step++;}
-
-        // returns the value at this step
-        double point();
-
-        //
-        void add_solution() { add_solution(point()); }
-        void add_solution(double solution);
-    // private:
-
-        // id for edge in copy
-        Edge_ID copy_e;
-        // dropped edge in original graph, arbitrarily paired with this edge
-        Edge_ID orig_e_paired;
-        // vertices of paired dropped edge, in terms of copy vertices
-        std::pair<Vertex_ID, Vertex_ID> orig_e_paired_as_copy_vs;
-
-        std::pair<double, double> _interval;
-        unsigned int _step, steps;
-
-        std::vector<double> solutions;
-    };
-
-    std::list<IGR_Context>           igr_contexts;
-    std::list<IGR_Context>::iterator igr_context_current;
 
 
     // destructively determines if graph is a partial 2-tree (series parallel, k4 minor avoiding...)
@@ -143,25 +88,6 @@ private:
     static std::list<Mapped_Graph_Copy*> realize_2_tree(
         const Mapped_Graph_Copy& graph,
         std::vector<realization_triplet> realization_order);
-
-    // returns the minimum and maximum value edge e could take, given the lengths
-    // of all the other edges in the graph (excluding those in edges_to_ignore)
-    static std::pair<double, double> interval_of_edge(
-        const Graph& graph,
-        Edge_ID e,
-        const std::set<Edge_ID>& edges_to_ignore);
-
-    static double length(double v0x, double v0y, double v1x, double v1y);
-
-    bool check_realization_lengths(const Mapped_Graph_Copy& g, const double epsilon);
-    bool check_realization_length(
-        const IGR_Context& context_to_check,
-        const Mapped_Graph_Copy& graph_copy,
-        const Graph& graph_orig,
-        const double epsilon);
-
-    void init_sampling_uniform();
-    void init_sampling();
 };
 
 #endif

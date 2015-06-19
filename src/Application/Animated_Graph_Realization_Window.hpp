@@ -18,7 +18,8 @@ public:
     Animated_Graph_Realization_Window(Main_GUI_Manager *mgm, Graph *graph);
     ~Animated_Graph_Realization_Window();
 
-    bool step();
+    void perform_sampling();
+    void perform_animated_sampling();
 
     void update_graph_positions();
 

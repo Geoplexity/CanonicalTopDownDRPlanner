@@ -2,9 +2,17 @@
 
 #include <thread>
 #include <chrono>
-
+#include <ctime>
 
 #include <iostream>
+
+class Timer {
+public:
+    Timer() { _time = std::clock(); }
+    double elapsed_time_seconds() { return (std::clock() - _time) / ((double) CLOCKS_PER_SEC); }
+private:
+    std::clock_t _time;
+};
 
 Animated_Graph_Realization_Window::Animated_Graph_Realization_Window(Main_GUI_Manager *mgm, Graph *graph) :
     Movable_App_Window_2D(mgm),
@@ -20,18 +28,28 @@ Animated_Graph_Realization_Window::~Animated_Graph_Realization_Window() {
     if (igr) delete(igr);
 }
 
-bool Animated_Graph_Realization_Window::step() {
-    assert(igr);
-    if (igr->step()) {
-        // std::cout << "Animated_Graph_Realization_Window::step: Here 0" << std::endl;
-        igr->sample(true);
-        // std::cout << "Animated_Graph_Realization_Window::step: Here 1" << std::endl;
-        update_graph_positions();
-        // std::cout << "Animated_Graph_Realization_Window::step: Here 2" << std::endl;
-        update_display();
-        return true;
+void Animated_Graph_Realization_Window::perform_sampling() {
+    Timer timer;
+    while (igr->step_uniform()) {
+        igr->sample_uniform(false);
     }
-    return false;
+
+    std::cout
+        << "Found " << igr->realizations().size() << " realizations in "
+        << timer.elapsed_time_seconds() << " seconds."
+        << std::endl;
+}
+
+void Animated_Graph_Realization_Window::perform_animated_sampling() {
+    recenter();
+    while (igr->step_uniform()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+        igr->sample_uniform(true);
+
+        update_graph_positions();
+        update_display();
+    }
 }
 
 void Animated_Graph_Realization_Window::_update_graph_positions_none() {
@@ -195,10 +213,9 @@ void Animated_Graph_Realization_Window::key_callback(int key, int scancode, int 
         if (key == GLFW_KEY_ESCAPE) {
             this->close_window();
         } else if (key == GLFW_KEY_SPACE) {
-            recenter();
-            while (step()) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(50));
-            }
+            perform_animated_sampling();
+        } else if (key == GLFW_KEY_ENTER) {
+            perform_sampling();
         }
     }
 };
