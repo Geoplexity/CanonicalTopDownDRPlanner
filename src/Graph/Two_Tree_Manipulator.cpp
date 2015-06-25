@@ -9,40 +9,39 @@
 
 
 Two_Tree_Manipulator::Two_Tree_Manipulator(const Graph& graph) :
-    in_graph(graph),
-    working_copy(new Mapped_Graph_Copy(&graph))
+    Mapped_Graph_Copy(&graph)
 {
     // // make a copy to work with
-    // this->working_copy = new Mapped_Graph_Copy(g);
+    // this->this = new Mapped_Graph_Copy(g);
 
     // drop original edges to get partial 2-tree
-    wc_graph_dropped = make_partial_2_tree(working_copy);
+    wc_graph_dropped = make_partial_2_tree(this);
     // fill up the set of dropped edges in terms of the input graph
     in_graph_dropped.clear();
     for (std::vector<std::pair<Vertex_ID, Vertex_ID> >::iterator v_p_it = wc_graph_dropped.begin(); v_p_it != wc_graph_dropped.end(); v_p_it++) {
-        Vertex_ID orig0 = working_copy->original_vertex(v_p_it->first);
-        Vertex_ID orig1 = working_copy->original_vertex(v_p_it->second);
-        in_graph_dropped.insert(in_graph.edge(orig0, orig1));
+        Vertex_ID orig0 = this->original_vertex(v_p_it->first);
+        Vertex_ID orig1 = this->original_vertex(v_p_it->second);
+        in_graph_dropped.insert(orig->edge(orig0, orig1));
     }
 
     // add back in new edges to get 2-tree
-    wc_graph_added_ordered = make_2_tree(working_copy);
+    wc_graph_added_ordered = make_2_tree(this);
     // fill up the vector of added edges in terms of the input graph
     // fill up the set of added edges in terms of copy graph
     in_graph_added.clear();
     wc_graph_added.clear();
     for (std::list<Edge_ID>::iterator e_it = wc_graph_added_ordered.begin(); e_it != wc_graph_added_ordered.end(); e_it++) {
-        std::pair<Vertex_ID, Vertex_ID> vs = working_copy->vertices_incident(*e_it);
-        in_graph_added.push_back(std::make_pair(working_copy->original_vertex(vs.first), working_copy->original_vertex(vs.second)));
+        std::pair<Vertex_ID, Vertex_ID> vs = this->vertices_incident(*e_it);
+        in_graph_added.push_back(std::make_pair(this->original_vertex(vs.first), this->original_vertex(vs.second)));
         wc_graph_added.insert(*e_it);
     }
 
 
-    realization_order = realize_2_tree_order(*working_copy);
+    realization_order = realize_2_tree_order(*this);
 }
 
 Two_Tree_Manipulator::~Two_Tree_Manipulator() {
-    delete(working_copy);
+    delete(this);
     for (std::list<Mapped_Graph_Copy*>::iterator r_it = _realizations.begin(); r_it != _realizations.end(); r_it++) {
         delete(*r_it);
     }
@@ -419,23 +418,20 @@ bool Two_Tree_Manipulator::triangulate(
 
 
 // result is a list of realized 2-tree, which are mapped copies of in_graph
-std::list<Mapped_Graph_Copy*> Two_Tree_Manipulator::realize_2_tree(
-    const Mapped_Graph_Copy& graph,
-    std::vector<Two_Tree_Manipulator::realization_triplet> realization_order)
-{
+std::list<Mapped_Graph_Copy*> Two_Tree_Manipulator::realize_2_tree() {
     std::list<Mapped_Graph_Copy*> ret;
 
     // std::cout << "Two_Tree_Manipulator::realize_2_tree: Here 0" << std::endl;
-    Mapped_Graph_Copy *g = new Mapped_Graph_Copy(graph);
+    Mapped_Graph_Copy *g = new Mapped_Graph_Copy((const Mapped_Graph_Copy &) *this);
 
     // v0
     Vertex_ID v0_wkcp = realization_order[0].v;
-    Vertex_ID v0_orig = graph.original_vertex(v0_wkcp);
+    Vertex_ID v0_orig = this->original_vertex(v0_wkcp);
     Vertex_ID v0_newg = g->copy_vertex(v0_orig);
 
     // v1
     Vertex_ID v1_wkcp = realization_order[1].v;
-    Vertex_ID v1_orig = graph.original_vertex(v1_wkcp);
+    Vertex_ID v1_orig = this->original_vertex(v1_wkcp);
     Vertex_ID v1_newg = g->copy_vertex(v1_orig);
 
     // set position of v0 and v1
@@ -464,18 +460,18 @@ std::list<Mapped_Graph_Copy*> Two_Tree_Manipulator::realize_2_tree(
             // std::cout << "Two_Tree_Manipulator::realize_2_tree: loop2: start " << std::endl;
             // vi
             Vertex_ID vi_wkcp = realization_order[i].v;
-            Vertex_ID vi_orig = graph.original_vertex(vi_wkcp);
+            Vertex_ID vi_orig = this->original_vertex(vi_wkcp);
             Vertex_ID vi_newg = (*mgc_it)->copy_vertex(vi_orig);
             // std::cout << "Two_Tree_Manipulator::realize_2_tree: loop2: here 0 " << std::endl;
 
             // vi_parent_0
             Vertex_ID vip0_wkcp = realization_order[i].v_parent_0;
-            Vertex_ID vip0_orig = graph.original_vertex(vip0_wkcp);
+            Vertex_ID vip0_orig = this->original_vertex(vip0_wkcp);
             Vertex_ID vip0_newg = (*mgc_it)->copy_vertex(vip0_orig);
 
             // vi_parent_1
             Vertex_ID vip1_wkcp = realization_order[i].v_parent_1;
-            Vertex_ID vip1_orig = graph.original_vertex(vip1_wkcp);
+            Vertex_ID vip1_orig = this->original_vertex(vip1_wkcp);
             Vertex_ID vip1_newg = (*mgc_it)->copy_vertex(vip1_orig);
 
             // edges
@@ -540,3 +536,49 @@ std::list<Mapped_Graph_Copy*> Two_Tree_Manipulator::realize_2_tree(
 
     return ret;
 }
+
+
+
+
+
+std::pair<double, double> Two_Tree_Manipulator::interval_of_edge(
+    const Graph& graph,
+    Edge_ID e,
+    const std::set<Edge_ID>& edges_to_ignore)
+{
+    Vertex_ID v0, v1;
+    boost::tie(v0, v1) = graph.vertices_incident(e);
+    // Vertex_ID v0 = .first;
+    // Vertex_ID v1 = graph.vertices_incident(e).second;
+    Edge_ID e01 = e;
+
+    std::pair<double, double> ret;
+    std::vector<Vertex_ID> triangles = all_triangles_with_edge(graph, v0, v1, edges_to_ignore);
+
+    bool unassigned = true;
+    for (std::vector<Vertex_ID>::iterator v2 = triangles.begin(); v2 != triangles.end(); v2++) {
+        Edge_ID e02 = graph.edge(v0, *v2);
+        Edge_ID e12 = graph.edge(v1, *v2);
+
+        double mn, mx;
+
+        // both are normal edges
+        mn = graph[e02].length - graph[e12].length;
+        mx = graph[e02].length + graph[e12].length;
+        if (mn < 0) mn = -mn;
+
+        if (unassigned) {
+            ret.first  = mn;
+            ret.second = mx;
+            unassigned = false;
+        } else {
+            if (mn > ret.first)  ret.first  = mn;
+            if (mx < ret.second) ret.second = mx;
+        }
+    }
+
+    assert(ret.second > ret.first);
+
+    return ret;
+}
+

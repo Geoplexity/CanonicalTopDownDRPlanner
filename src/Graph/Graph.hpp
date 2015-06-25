@@ -192,9 +192,9 @@ public:
     void grow_into(std::set<Vertex_ID> orig_vs);
 
     void print_copy_to_orig(unsigned int indent = 0);
-private:
+protected:
     const Graph *orig;
-
+private:
     std::map<Vertex_ID, Vertex_ID> orig_to_copy, copy_to_orig;
 };
 

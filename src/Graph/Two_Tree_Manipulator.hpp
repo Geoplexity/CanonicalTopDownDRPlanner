@@ -10,20 +10,30 @@
 
 
 // invalidated if you add or delete edges or vertices in the input graph
-class Two_Tree_Manipulator {
+class Two_Tree_Manipulator : public Mapped_Graph_Copy {
 public:
     // assumes that input is isostatic
     Two_Tree_Manipulator(const Graph& graph);
     ~Two_Tree_Manipulator();
 
-
     // in terms of the input graph
     const std::set<Edge_ID>& list_of_dropped() const;
     const std::vector<std::pair<Vertex_ID, Vertex_ID> >& list_of_added() const;
-private:
-    const Graph& in_graph;
-    Mapped_Graph_Copy *working_copy;
 
+    // // in terms of this
+    // const std::set<Edge_ID>& list_of_dropped() const;
+    // const std::vector<std::pair<Vertex_ID, Vertex_ID> >& list_of_added() const;
+
+    // assumes working_copy is now a 2 tree
+    // uses edge lengths and directly edits vertex properties (x and y)
+    std::list<Mapped_Graph_Copy*> realize_2_tree();
+
+    // in terms of input graph
+    bool check_dropped_edge_length(Edge_ID e);
+
+    // checks all of them
+    bool check_all_dropped_edge_lengths();
+private:
     // in terms of the original... for caller, may want to know these things
     std::set<Edge_ID> in_graph_dropped;
     std::vector<std::pair<Vertex_ID, Vertex_ID> > in_graph_added;
@@ -34,6 +44,7 @@ private:
     std::list<Edge_ID> wc_graph_added_ordered;
 
 
+
     // realization stuff
     struct realization_triplet {
         Vertex_ID v, v_parent_0, v_parent_1;
@@ -41,8 +52,6 @@ private:
             v(v), v_parent_0(vp0), v_parent_1(vp1) {}
     };
     std::vector<realization_triplet> realization_order;
-    std::list<Mapped_Graph_Copy*> _realizations;
-
 
 
     // destructively determines if graph is a partial 2-tree (series parallel, k4 minor avoiding...)
@@ -83,11 +92,12 @@ private:
         double *v2x0, double *v2y0,
         double *v2x1, double *v2y1);
 
-    // assumes working_copy is now a 2 tree
-    // uses edge lengths and directly edits vertex properties (x and y)
-    static std::list<Mapped_Graph_Copy*> realize_2_tree(
-        const Mapped_Graph_Copy& graph,
-        std::vector<realization_triplet> realization_order);
+    // returns the minimum and maximum value edge e could take, given the lengths
+    // of all the other edges in the graph (excluding those in edges_to_ignore)
+    static std::pair<double, double> interval_of_edge(
+        const Graph& graph,
+        Edge_ID e,
+        const std::set<Edge_ID>& edges_to_ignore);
 };
 
 #endif

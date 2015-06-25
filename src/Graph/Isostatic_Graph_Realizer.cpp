@@ -427,13 +427,14 @@ bool Isostatic_Graph_Realizer::triangulate(
 
 
 // result is a list of realized 2-tree, which are mapped copies of in_graph
+// TODO: technically, if I only change one vertex position, I only need to update the positions
+//// of the vertices occuring after it in the realization_order (and not even all of them)
 std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::realize_2_tree(
     const Mapped_Graph_Copy& graph,
-    std::vector<Isostatic_Graph_Realizer::realization_triplet> realization_order)
+    std::vector<realization_triplet>& realization_order)
 {
     std::list<Mapped_Graph_Copy*> ret;
 
-    // std::cout << "Isostatic_Graph_Realizer::realize_2_tree: Here 0" << std::endl;
     Mapped_Graph_Copy *g = new Mapped_Graph_Copy(graph);
 
     // v0
@@ -453,14 +454,10 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::realize_2_tree(
 
     // add to return
     ret.push_back(g);
-    // std::cout << "Isostatic_Graph_Realizer::realize_2_tree: Here 1" << std::endl;
 
     // iterate through the rest of the vertices
     for (unsigned int i = 2; i < realization_order.size(); i++) {
 
-        // bool found_a_realization = false;
-
-        // std::cout << "Isostatic_Graph_Realizer::realize_2_tree: loop1: start, i = " << i << std::endl;
         // iterate through the realizations (going to have to double the size of the list)
         std::list<Mapped_Graph_Copy*>::iterator
             mgc_it = ret.begin(),
@@ -469,12 +466,10 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::realize_2_tree(
         while (true) {
             // assert(*mgc_it != NULL);
 
-            // std::cout << "Isostatic_Graph_Realizer::realize_2_tree: loop2: start " << std::endl;
             // vi
             Vertex_ID vi_wkcp = realization_order[i].v;
             Vertex_ID vi_orig = graph.original_vertex(vi_wkcp);
             Vertex_ID vi_newg = (*mgc_it)->copy_vertex(vi_orig);
-            // std::cout << "Isostatic_Graph_Realizer::realize_2_tree: loop2: here 0 " << std::endl;
 
             // vi_parent_0
             Vertex_ID vip0_wkcp = realization_order[i].v_parent_0;
@@ -509,7 +504,6 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::realize_2_tree(
                 e_vi_p0_length,
                 e_vi_p1_length,
                 &v2x0, &v2y0, &v2x1, &v2y1);
-            // std::cout << "Isostatic_Graph_Realizer::realize_2_tree: loop2: here 1 " << std::endl;
 
             if (success) {
                 // give first value, duplicate, and add to list
@@ -529,26 +523,239 @@ std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::realize_2_tree(
             } else {
                 // delete this one and exit if size of list is 0
                 if (mgc_it == mgc_end) {
+                    delete(*mgc_it);
                     ret.erase(mgc_it);
                     break;
                 } else {
                     std::list<Mapped_Graph_Copy*>::iterator mgc_current = mgc_it;
                     mgc_it++;
+                    delete(*mgc_current);
                     ret.erase(mgc_current);
                 }
             }
-
-            // std::cout << "Isostatic_Graph_Realizer::realize_2_tree: loop2: end " << std::endl;
         }
 
         if (ret.size() == 0)
             break;
-        // std::cout << "Isostatic_Graph_Realizer::realize_2_tree: loop1: end" << std::endl;
     }
 
     return ret;
 }
 
+
+// std::list<Mapped_Graph_Copy*> Isostatic_Graph_Realizer::realize_2_tree(
+//     const Mapped_Graph_Copy& graph,
+//     std::vector<realization_triplet>& realization_order)
+// {
+//     std::list<Mapped_Graph_Copy*> ret;
+
+//     std::list<Isostatic_Graph_Realizer::Oriented_Framework> r = realize_2_tree_solutions(graph, realization_order);
+//     for (auto r_it = r.begin(); r_it != r.end(); r_it++) {
+//         ret.push_back(r_it->graph);
+//     }
+
+//     return ret;
+// }
+
+// same as above, only it uses Solution class
+std::list<Isostatic_Graph_Realizer::Oriented_Framework> Isostatic_Graph_Realizer::realize_2_tree_solutions(
+    const Mapped_Graph_Copy& graph,
+    std::vector<realization_triplet>& realization_order)
+{
+    std::list<Oriented_Framework> ret;
+
+    Oriented_Framework s;
+    s.graph = new Mapped_Graph_Copy(graph);
+    Mapped_Graph_Copy* g = s.graph;
+
+    // v0
+    Vertex_ID v0_wkcp = realization_order[0].v;
+    Vertex_ID v0_orig = graph.original_vertex(v0_wkcp);
+    Vertex_ID v0_newg = g->copy_vertex(v0_orig);
+
+    // v1
+    Vertex_ID v1_wkcp = realization_order[1].v;
+    Vertex_ID v1_orig = graph.original_vertex(v1_wkcp);
+    Vertex_ID v1_newg = g->copy_vertex(v1_orig);
+
+    // set position of v0 and v1
+    double e01_length = (*g)[g->edge(v0_newg, v1_newg)].length;
+    (*g)[v0_newg].set_position(0, 0);
+    (*g)[v1_newg].set_position(0, e01_length); // if you reorder here, reorder below
+
+    // add to return
+    ret.push_back(s);
+
+    // iterate through the rest of the vertices
+    for (unsigned int i = 2; i < realization_order.size(); i++) {
+
+        // iterate through the realizations (going to have to double the size of the list)
+        std::list<Oriented_Framework>::iterator
+            orf_it = ret.begin(),
+            orf_end = ret.end();
+        orf_end--;
+        while (true) {
+            Mapped_Graph_Copy* g_copy = orf_it->graph;
+
+            // vi
+            Vertex_ID vi_wkcp = realization_order[i].v;
+            Vertex_ID vi_orig = graph.original_vertex(vi_wkcp);
+            Vertex_ID vi_newg = g_copy->copy_vertex(vi_orig);
+
+            // vi_parent_0
+            Vertex_ID vip0_wkcp = realization_order[i].v_parent_0;
+            Vertex_ID vip0_orig = graph.original_vertex(vip0_wkcp);
+            Vertex_ID vip0_newg = g_copy->copy_vertex(vip0_orig);
+
+            // vi_parent_1
+            Vertex_ID vip1_wkcp = realization_order[i].v_parent_1;
+            Vertex_ID vip1_orig = graph.original_vertex(vip1_wkcp);
+            Vertex_ID vip1_newg = g_copy->copy_vertex(vip1_orig);
+
+            // edges
+            Edge_ID e_p0_p1 = g_copy->edge(vip0_newg, vip1_newg);
+            Edge_ID e_vi_p0 = g_copy->edge(vi_newg,   vip0_newg);
+            Edge_ID e_vi_p1 = g_copy->edge(vi_newg,   vip1_newg);
+
+            // get lengths and stuff
+            double vip0_x = (*g_copy)[vip0_newg].x;
+            double vip0_y = (*g_copy)[vip0_newg].y;
+            double vip1_x = (*g_copy)[vip1_newg].x;
+            double vip1_y = (*g_copy)[vip1_newg].y;
+            double e_p0_p1_length = (*g_copy)[e_p0_p1].length;
+            double e_vi_p0_length = (*g_copy)[e_vi_p0].length;
+            double e_vi_p1_length = (*g_copy)[e_vi_p1].length;
+
+            // get and set position of v2
+            double v2x0, v2y0, v2x1, v2y1;
+            bool success = triangulate(
+                vip0_x, vip0_y,
+                vip1_x, vip1_y,
+                e_p0_p1_length,
+                e_vi_p0_length,
+                e_vi_p1_length,
+                &v2x0, &v2y0, &v2x1, &v2y1);
+
+            if (success) {
+                // give first value, duplicate, and add to list
+                (*g_copy)[vi_newg].set_position(v2x0, v2y0);
+                ret.emplace_back();
+                ret.back().graph = new Mapped_Graph_Copy(*g_copy);
+                ret.back().orientation = orf_it->orientation;
+                ret.back().orientation.push_back(Oriented_Framework::ot_0);
+
+                // reassign with second value
+                (*g_copy)[vi_newg].set_position(v2x1, v2y1);
+                ret.back().orientation.push_back(Oriented_Framework::ot_1);
+
+                // exit condition
+                if (orf_it == orf_end) {
+                    break;
+                } else {
+                    orf_it++;
+                }
+            } else {
+                // delete this one and exit if size of list is 0
+                if (orf_it == orf_end) {
+                    delete(orf_it->graph);
+                    ret.erase(orf_it);
+                    break;
+                } else {
+                    std::list<Oriented_Framework>::iterator orf_current = orf_it;
+                    orf_it++;
+                    delete(orf_current->graph);
+                    ret.erase(orf_current);
+                }
+            }
+        }
+
+        if (ret.size() == 0)
+            break;
+    }
+
+    return ret;
+}
+
+Mapped_Graph_Copy* Isostatic_Graph_Realizer::realize_2_tree_with_orientation(
+    const Mapped_Graph_Copy& graph,
+    std::vector<realization_triplet>& realization_order,
+    std::vector<Oriented_Framework::orientation_types>& orientation)
+{
+    assert(realization_order.size() == orientation.size() + 2);
+
+    Mapped_Graph_Copy *g = new Mapped_Graph_Copy(graph);
+
+    // v0
+    Vertex_ID v0_wkcp = realization_order[0].v;
+    Vertex_ID v0_orig = graph.original_vertex(v0_wkcp);
+    Vertex_ID v0_newg = g->copy_vertex(v0_orig);
+
+    // v1
+    Vertex_ID v1_wkcp = realization_order[1].v;
+    Vertex_ID v1_orig = graph.original_vertex(v1_wkcp);
+    Vertex_ID v1_newg = g->copy_vertex(v1_orig);
+
+    // set position of v0 and v1
+    double e01_length = (*g)[g->edge(v0_newg, v1_newg)].length;
+    (*g)[v0_newg].set_position(0, 0);
+    (*g)[v1_newg].set_position(0, e01_length); // if you reorder here, reorder below
+
+    // iterate through the rest of the vertices
+    for (unsigned int i = 2; i < realization_order.size(); i++) {
+        // vi
+        Vertex_ID vi_wkcp = realization_order[i].v;
+        Vertex_ID vi_orig = graph.original_vertex(vi_wkcp);
+        Vertex_ID vi_newg = g->copy_vertex(vi_orig);
+
+        // vi_parent_0
+        Vertex_ID vip0_wkcp = realization_order[i].v_parent_0;
+        Vertex_ID vip0_orig = graph.original_vertex(vip0_wkcp);
+        Vertex_ID vip0_newg = g->copy_vertex(vip0_orig);
+
+        // vi_parent_1
+        Vertex_ID vip1_wkcp = realization_order[i].v_parent_1;
+        Vertex_ID vip1_orig = graph.original_vertex(vip1_wkcp);
+        Vertex_ID vip1_newg = g->copy_vertex(vip1_orig);
+
+        // edges
+        Edge_ID e_p0_p1 = g->edge(vip0_newg, vip1_newg);
+        Edge_ID e_vi_p0 = g->edge(vi_newg,   vip0_newg);
+        Edge_ID e_vi_p1 = g->edge(vi_newg,   vip1_newg);
+
+        // get lengths and stuff
+        double vip0_x = (*g)[vip0_newg].x;
+        double vip0_y = (*g)[vip0_newg].y;
+        double vip1_x = (*g)[vip1_newg].x;
+        double vip1_y = (*g)[vip1_newg].y;
+        double e_p0_p1_length = (*g)[e_p0_p1].length;
+        double e_vi_p0_length = (*g)[e_vi_p0].length;
+        double e_vi_p1_length = (*g)[e_vi_p1].length;
+
+        // get and set position of v2
+        double v2x0, v2y0, v2x1, v2y1;
+        bool success = triangulate(
+            vip0_x, vip0_y,
+            vip1_x, vip1_y,
+            e_p0_p1_length,
+            e_vi_p0_length,
+            e_vi_p1_length,
+            &v2x0, &v2y0, &v2x1, &v2y1);
+
+        if (success) {
+            if (orientation[i-2] == Oriented_Framework::ot_0) {
+                (*g)[vi_newg].set_position(v2x0, v2y0);
+            } else { // orientation[i-2] == Oriented_Framework::ot_1
+                (*g)[vi_newg].set_position(v2x1, v2y1);
+            }
+        } else {
+            delete(g);
+            g = NULL;
+        }
+    }
+
+    return g;
+
+}
 
 std::pair<double, double> Isostatic_Graph_Realizer::interval_of_edge(
     const Graph& graph,
@@ -591,36 +798,6 @@ std::pair<double, double> Isostatic_Graph_Realizer::interval_of_edge(
     return ret;
 }
 
-
-Isostatic_Graph_Realizer::IGR_Context::IGR_Context(
-    Edge_ID copy_e,
-    Edge_ID orig_e_paired,
-    std::pair<Vertex_ID, Vertex_ID> orig_e_paired_as_copy_vs,
-    std::pair<double, double> interval,
-    unsigned int steps) :
-        copy_e(copy_e),
-        orig_e_paired(orig_e_paired),
-        orig_e_paired_as_copy_vs(orig_e_paired_as_copy_vs),
-        _interval(interval),
-        _step(0), steps(steps)
-{
-    assert(steps > 1);
-}
-
-void Isostatic_Graph_Realizer::IGR_Context::reset(const double begin, const double end) {
-    _step = 0;
-    _interval.first = begin; _interval.second = end;
-}
-
-double Isostatic_Graph_Realizer::IGR_Context::point() {
-    return _interval.first + (_interval.second - _interval.first) * ((double) _step / (steps-1));
-}
-
-void Isostatic_Graph_Realizer::IGR_Context::add_solution(double solution) {
-    solutions.push_back(solution);
-}
-
-// TODO: untested
 double Isostatic_Graph_Realizer::length(
     double v0x, double v0y, double v1x, double v1y)
 {
@@ -628,6 +805,68 @@ double Isostatic_Graph_Realizer::length(
         pow((v0x - v1x), 2) +
         pow((v0y - v1y), 2));
 }
+
+void Isostatic_Graph_Realizer::copy_vertex_positions(
+    const Mapped_Graph_Copy& from,
+    Graph* to)
+{
+    // copy over vertex positions
+    for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = to->vertices(); vs.first != vs.second; vs.first++) {
+        Vertex_ID v_orig = *(vs.first);
+        Vertex_ID v_disp = from.copy_vertex(v_orig);
+
+        (*to)[v_orig].x = from[v_disp].x;
+        (*to)[v_orig].y = from[v_disp].y;
+    }
+
+    to->get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+}
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+Isostatic_Graph_Realizer::IGR_Context_Uniform::IGR_Context_Uniform(
+    Edge_ID copy_e,
+    std::pair<double, double> interval,
+    unsigned int steps) :
+        copy_e(copy_e),
+        _interval(interval),
+        _step(0), steps(steps)
+{
+    assert(steps > 1);
+}
+
+void Isostatic_Graph_Realizer::IGR_Context_Uniform::reset(const double begin, const double end) {
+    _step = 0;
+    _interval.first = begin; _interval.second = end;
+}
+
+double Isostatic_Graph_Realizer::IGR_Context_Uniform::point() {
+    return _interval.first + (_interval.second - _interval.first) * ((double) _step / (steps-1));
+}
+
+
 
 
 bool Isostatic_Graph_Realizer::check_realization_lengths(
@@ -673,17 +912,15 @@ void Isostatic_Graph_Realizer::init_sampling_uniform() {
         e_it++, vp_it++, e_orig_it++)
     {
         wc_graph_added_copy.erase(*e_it);
-        igr_contexts.emplace_back(
+        igr_contexts_uniform.emplace_back(
             *e_it,
-            *e_orig_it,
-            *vp_it,
             interval_of_edge(*working_copy, *e_it, wc_graph_added_copy),
             SAMPLES);
-        (*working_copy)[*e_it].length = igr_contexts.back().point();
+        (*working_copy)[*e_it].length = igr_contexts_uniform.back().point();
     }
 
-    igr_context_current = igr_contexts.end();
-    igr_context_current--;
+    igr_context_current_uniform = igr_contexts_uniform.end();
+    igr_context_current_uniform--;
 
     // TODO: Doesn't sample the very first point
 }
@@ -694,21 +931,12 @@ void Isostatic_Graph_Realizer::sample_uniform(bool change_input_vertex_positions
     std::list<Mapped_Graph_Copy*> realized = realize_2_tree(*working_copy, realization_order);
     // std::cout << "realizations: " << realized.size() << std::endl;
 
+    // copy positions if wanted
     if (change_input_vertex_positions && realized.size() != 0) {
-        Mapped_Graph_Copy *display_graph = realized.back();
-
-        // copy over vertex positions
-        for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = in_graph->vertices(); vs.first != vs.second; vs.first++) {
-            Vertex_ID v_orig = *(vs.first);
-            Vertex_ID v_disp = display_graph->copy_vertex(v_orig);
-
-            (*in_graph)[v_orig].x = (*display_graph)[v_disp].x;
-            (*in_graph)[v_orig].y = (*display_graph)[v_disp].y;
-        }
-
-        in_graph->get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+        copy_vertex_positions(*(realized.back()), in_graph);
     }
 
+    // check realizations
     for (std::list<Mapped_Graph_Copy*>::iterator g_it = realized.begin(); g_it != realized.end(); g_it++) {
         if (check_realization_lengths(**g_it, EPS)) {
             _realizations.push_back(*g_it);
@@ -720,67 +948,133 @@ void Isostatic_Graph_Realizer::sample_uniform(bool change_input_vertex_positions
 
 bool Isostatic_Graph_Realizer::step_uniform() {
     // go back up until not done
-    while (igr_context_current->done()) {
-        if (igr_context_current == igr_contexts.begin()) {
+    while (igr_context_current_uniform->done()) {
+        if (igr_context_current_uniform == igr_contexts_uniform.begin()) {
             return false;
         }
-        igr_context_current--;
+        igr_context_current_uniform--;
     }
 
-    igr_context_current->step();
-    (*working_copy)[igr_context_current->copy_e].length = igr_context_current->point();
+    igr_context_current_uniform->step();
+    (*working_copy)[igr_context_current_uniform->copy_e].length = igr_context_current_uniform->point();
 
     // get missing edges (edges after this one) for next part
     std::set<Edge_ID> missing_edges;
-    std::list<IGR_Context>::iterator c_it = igr_context_current;
+    std::list<IGR_Context_Uniform>::iterator c_it = igr_context_current_uniform;
     c_it++;
-    for (; c_it != igr_contexts.end(); c_it++)
+    for (; c_it != igr_contexts_uniform.end(); c_it++)
         missing_edges.insert(c_it->copy_e);
 
     // go until you reach end
-    igr_context_current++;
-    while (igr_context_current != igr_contexts.end()) {
-        missing_edges.erase(igr_context_current->copy_e);
-        std::pair<double, double> p = interval_of_edge(*working_copy, igr_context_current->copy_e, missing_edges);
-        igr_context_current->reset(p.first, p.second);
+    igr_context_current_uniform++;
+    while (igr_context_current_uniform != igr_contexts_uniform.end()) {
+        missing_edges.erase(igr_context_current_uniform->copy_e);
+        std::pair<double, double> p = interval_of_edge(*working_copy, igr_context_current_uniform->copy_e, missing_edges);
+        igr_context_current_uniform->reset(p.first, p.second);
 
-        (*working_copy)[igr_context_current->copy_e].length = igr_context_current->point();
+        (*working_copy)[igr_context_current_uniform->copy_e].length = igr_context_current_uniform->point();
 
-        igr_context_current++;
+        igr_context_current_uniform++;
     }
-    igr_context_current--;
+    igr_context_current_uniform--;
 
     return true;
 }
 
 
-void Isostatic_Graph_Realizer::init_sampling() {
-    std::set<Edge_ID> wc_graph_added_copy = wc_graph_added;
 
-    std::list<Edge_ID>::iterator e_it = wc_graph_added_ordered.begin();
-    std::vector<std::pair<Vertex_ID, Vertex_ID> >::iterator vp_it = wc_graph_dropped.begin();
-    std::set<Edge_ID>::iterator e_orig_it = in_graph_dropped.begin();
-    for (;
-        e_it != wc_graph_added_ordered.end();
-        e_it++, vp_it++, e_orig_it++)
-    {
-        wc_graph_added_copy.erase(*e_it);
-        igr_contexts.emplace_back(
-            *e_it,
-            *e_orig_it,
-            *vp_it,
-            interval_of_edge(*working_copy, *e_it, wc_graph_added_copy),
-            SAMPLES);
-        (*working_copy)[*e_it].length = igr_contexts.back().point();
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+Isostatic_Graph_Realizer::IGR_Context::IGR_Context(
+    Edge_ID copy_e,
+    Edge_ID orig_e_paired,
+    std::pair<Vertex_ID, Vertex_ID> orig_e_paired_as_copy_vs,
+    double desired_length,
+    std::pair<double, double> interval,
+    unsigned int steps) :
+        copy_e(copy_e),
+        orig_e_paired(orig_e_paired),
+        orig_e_paired_as_copy_vs(orig_e_paired_as_copy_vs),
+        _desired_length(desired_length),
+        _interval(interval),
+        steps(steps),
+        _done_binary(false),
+        _done_solutions(false),
+        current_range_index(0),
+        current_solution_index(0),
+        has_input_nonedge_length_for_current_point(false)
+{
+    assert(steps > 1);
+
+    for (unsigned int i = 0; i < steps; i++) {
+        ranges_to_explore.push_back(
+            _interval.first + (_interval.second - _interval.first) * ((double) i / (steps-1)));
     }
 
-    igr_context_current = igr_contexts.end();
-    igr_context_current--;
+}
 
-    // TODO: Doesn't sample the very first point
+void Isostatic_Graph_Realizer::IGR_Context::reset(const double begin, const double end) {
+    _interval.first = begin; _interval.second = end;
+}
+
+// TODO: hmm
+void Isostatic_Graph_Realizer::IGR_Context::step() {
+    if (!_done_binary) {
+        length_of_paired_edge_previous = 0;
+
+        //
+
+        if (ranges_to_explore.size() == 1)
+            _done_binary = true;
+    } else if (!_done_solutions) {
+        current_solution_index++;
+
+        if (current_solution_index == solutions.size())
+            _done_solutions = true;
+    }
+}
+
+double Isostatic_Graph_Realizer::IGR_Context::point() {
+    if (!_done_binary)
+        return ranges_to_explore[current_range_index];
+    else
+        return solutions[current_solution_index];
+}
+
+void Isostatic_Graph_Realizer::IGR_Context::input_nonedge_length_for_current_point(
+    double length)
+{
+    assert(!_done_binary);
+    has_input_nonedge_length_for_current_point = true;
+}
+
+void Isostatic_Graph_Realizer::IGR_Context::add_solution(double solution) {
+    solutions.push_back(solution);
 }
 
 
+// TODO: untested, i think it uses the wrong Vertex_IDs
 bool Isostatic_Graph_Realizer::check_realization_length(
     const IGR_Context& context_to_check,
     const Mapped_Graph_Copy& graph_copy,
@@ -795,46 +1089,333 @@ bool Isostatic_Graph_Realizer::check_realization_length(
         v1x = graph_copy[v1].x,
         v1y = graph_copy[v1].y;
     double length = this->length(v0x, v0y, v1x, v1y);
-    double desired_length = graph_orig[context_to_check.orig_e_paired].length;
-    return fabs(length - desired_length) < epsilon;
+    // double desired_length = graph_orig[context_to_check.orig_e_paired].length;
+    return fabs(length - context_to_check._desired_length) < epsilon;
 }
 
+
+// void Isostatic_Graph_Realizer::init_sampling() {
+//     // set up contexts
+//     std::set<Edge_ID> wc_graph_added_copy = wc_graph_added;
+
+//     std::list<Edge_ID>::iterator e_it = wc_graph_added_ordered.begin();
+//     std::vector<std::pair<Vertex_ID, Vertex_ID> >::iterator vp_it = wc_graph_dropped.begin();
+//     std::set<Edge_ID>::iterator e_orig_it = in_graph_dropped.begin();
+//     for (;
+//         e_it != wc_graph_added_ordered.end();
+//         e_it++, vp_it++, e_orig_it++)
+//     {
+//         wc_graph_added_copy.erase(*e_it);
+//         igr_contexts.emplace_back(
+//             *e_it,
+//             *e_orig_it,
+//             *vp_it,
+//             (*in_graph)[*e_orig_it].length,
+//             interval_of_edge(*working_copy, *e_it, wc_graph_added_copy),
+//             SAMPLES);
+//         (*working_copy)[*e_it].length = igr_contexts.back().point();
+//     }
+
+//     igr_context_current = igr_contexts.end();
+//     igr_context_current--;
+
+//     // TODO: Doesn't sample the very first point
+// }
+
+
+// // does a binary search on the current context to find satisfying realizations
+// // TODO: realize_2_tree should return NULL in places where the orientation type cannot be realized...
+// //// not actually a big deal here, since we're using 2-trees... if one works, the other will too
+// void Isostatic_Graph_Realizer::sample(bool change_input_vertex_positions) {
+//     double
+//         l_min = igr_context_current->_interval.first  - EPS,
+//         l_max = igr_context_current->_interval.second + EPS,
+//         l_mid;
+
+//     std::list<Mapped_Graph_Copy*> realized_min, realized_max, realized_mid;
+
+//     // min
+//     do {
+//         l_min += EPS;
+//         (*working_copy)[igr_context_current->copy_e].length = l_min;
+//         realized_min = realize_2_tree(*working_copy, realization_order);
+//     } while (realized_min.size() == 0);
+
+//     // max
+//     do {
+//         l_max -= EPS;
+//         (*working_copy)[igr_context_current->copy_e].length = l_max;
+//         realized_max = realize_2_tree(*working_copy, realization_order);
+//     } while (realized_max.size() == 0);
+
+//     // mid
+//     l_mid = (l_max - l_min) / 2;
+//     (*working_copy)[igr_context_current->copy_e].length = l_mid;
+//     realized_mid = realize_2_tree(*working_copy, realization_order);
+
+//     // should be true for 2-trees....
+//     assert(realized_min.size() == realized_mid.size());
+//     assert(realized_mid.size() == realized_max.size());
+
+
+
+//     // original length
+//     double desired_length = (*in_graph)[igr_context_current->orig_e_paired].length;
+
+//     // Vertex_ID
+//     Vertex_ID v0_wkcp = igr_context_current->orig_e_paired_as_copy_vs.first;
+//     Vertex_ID v1_wkcp = igr_context_current->orig_e_paired_as_copy_vs.second;
+//     Vertex_ID v0_orig = working_copy->original_vertex(v0_wkcp);
+//     Vertex_ID v1_orig = working_copy->original_vertex(v1_wkcp);
+
+//     std::list<double> length_of_e_min, length_of_e_max, length_of_e_mid;
+//     std::list<Mapped_Graph_Copy*>::iterator
+//         mgc_min = realized_min.begin(),
+//         mgc_max = realized_max.begin(),
+//         mgc_mid = realized_mid.begin();
+//     for (unsigned int i = 0; i < realized_min.size(); i++) {
+
+//         double
+//             v0x = (**mgc_min)[(*mgc_min)->copy_vertex(v0_orig)].x,
+//             v0y = (**mgc_min)[(*mgc_min)->copy_vertex(v0_orig)].y,
+//             v1x = (**mgc_min)[(*mgc_min)->copy_vertex(v1_orig)].x,
+//             v1y = (**mgc_min)[(*mgc_min)->copy_vertex(v1_orig)].y;
+//         length_of_e_min.push_back(length(v0x, v0y, v1x, v1y));
+
+
+//             v0x = (**mgc_max)[(*mgc_max)->copy_vertex(v0_orig)].x;
+//             v0y = (**mgc_max)[(*mgc_max)->copy_vertex(v0_orig)].y;
+//             v1x = (**mgc_max)[(*mgc_max)->copy_vertex(v1_orig)].x;
+//             v1y = (**mgc_max)[(*mgc_max)->copy_vertex(v1_orig)].y;
+//         length_of_e_max.push_back(length(v0x, v0y, v1x, v1y));
+
+
+//             v0x = (**mgc_mid)[(*mgc_mid)->copy_vertex(v0_orig)].x;
+//             v0y = (**mgc_mid)[(*mgc_mid)->copy_vertex(v0_orig)].y;
+//             v1x = (**mgc_mid)[(*mgc_mid)->copy_vertex(v1_orig)].x;
+//             v1y = (**mgc_mid)[(*mgc_mid)->copy_vertex(v1_orig)].y;
+//         length_of_e_mid.push_back(length(v0x, v0y, v1x, v1y));
+
+//         mgc_min++;
+//         mgc_max++;
+//         mgc_mid++;
+//     }
+
+
+//     // // check realizations
+//     // for (std::list<Mapped_Graph_Copy*>::iterator g_it = realized.begin(); g_it != realized.end(); g_it++) {
+//     //     if (check_realization_length(*igr_context_current, **g_it, *in_graph, EPS)) {
+//     //         igr_context_current->add_solution();
+//     //     }
+
+//     //     if (igr_context_current == igr_contexts.begin()) {
+//     //         _realizations.push_back(*g_it);
+//     //     } else {
+//     //         delete(*g_it);
+//     //     }
+//     // }
+// }
+
+// bool Isostatic_Graph_Realizer::step() {
+//     (*working_copy)[igr_context_current->copy_e].length = igr_context_current->_interval.first;
+//     (*working_copy)[igr_context_current->copy_e].length = igr_context_current->_interval.second;
+
+
+
+
+//     // go back up until not done
+//     while (igr_context_current->done()) {
+//         if (igr_context_current == igr_contexts.begin()) {
+//             return false;
+//         }
+//         igr_context_current--;
+//     }
+
+//     igr_context_current->step();
+//     (*working_copy)[igr_context_current->copy_e].length = igr_context_current->point();
+
+//     // get missing edges (edges after this one) for next part
+//     std::set<Edge_ID> missing_edges;
+//     std::list<IGR_Context>::iterator c_it = igr_context_current;
+//     c_it++;
+//     for (; c_it != igr_contexts.end(); c_it++)
+//         missing_edges.insert(c_it->copy_e);
+
+//     // go until you reach end
+//     igr_context_current++;
+//     while (igr_context_current != igr_contexts.end()) {
+//         missing_edges.erase(igr_context_current->copy_e);
+//         std::pair<double, double> p = interval_of_edge(*working_copy, igr_context_current->copy_e, missing_edges);
+//         igr_context_current->reset(p.first, p.second);
+
+//         (*working_copy)[igr_context_current->copy_e].length = igr_context_current->point();
+
+//         igr_context_current++;
+//     }
+//     igr_context_current--;
+
+//     return true;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Isostatic_Graph_Realizer::init_sampling() {
+    // set up contexts
+    std::set<Edge_ID> wc_graph_added_copy = wc_graph_added;
+
+    std::list<Edge_ID>::iterator e_it = wc_graph_added_ordered.begin();
+    std::vector<std::pair<Vertex_ID, Vertex_ID> >::iterator vp_it = wc_graph_dropped.begin();
+    std::set<Edge_ID>::iterator e_orig_it = in_graph_dropped.begin();
+    for (;
+        e_it != wc_graph_added_ordered.end();
+        e_it++, vp_it++, e_orig_it++)
+    {
+        wc_graph_added_copy.erase(*e_it);
+        igr_contexts.emplace_back(
+            *e_it,
+            *e_orig_it,
+            *vp_it,
+            (*in_graph)[*e_orig_it].length,
+            interval_of_edge(*working_copy, *e_it, wc_graph_added_copy),
+            SAMPLES);
+        (*working_copy)[*e_it].length = igr_contexts.back().point();
+    }
+
+    igr_context_current = igr_contexts.end();
+    igr_context_current--;
+
+    // set up oriented framework
+    working_copy_orf.graph = working_copy;
+    for (unsigned int i = 0; i < realization_order.size()-2; i++) {
+        working_copy_orf.orientation.push_back(Oriented_Framework::ot_0);
+    }
+
+    // TODO: Doesn't sample the very first point
+}
+
+
+// does a binary search on the current context to find satisfying realizations
+// TODO: realize_2_tree should return NULL in places where the orientation type cannot be realized...
+//// not actually a big deal here, since we're using 2-trees... if one works, the other will too
 void Isostatic_Graph_Realizer::sample(bool change_input_vertex_positions) {
-    // check the realizations
-    std::list<Mapped_Graph_Copy*> realized = realize_2_tree(*working_copy, realization_order);
-    // std::cout << "realizations: " << realized.size() << std::endl;
+    double
+        l_min = igr_context_current->_interval.first  - EPS,
+        l_max = igr_context_current->_interval.second + EPS,
+        l_mid;
 
-    if (change_input_vertex_positions && realized.size() != 0) {
-        Mapped_Graph_Copy *display_graph = realized.back();
+    std::list<Mapped_Graph_Copy*> realized_min, realized_max, realized_mid;
 
-        // copy over vertex positions
-        for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = in_graph->vertices(); vs.first != vs.second; vs.first++) {
-            Vertex_ID v_orig = *(vs.first);
-            Vertex_ID v_disp = display_graph->copy_vertex(v_orig);
+    // min
+    do {
+        l_min += EPS;
+        (*working_copy)[igr_context_current->copy_e].length = l_min;
+        realized_min = realize_2_tree(*working_copy, realization_order);
+    } while (realized_min.size() == 0);
 
-            (*in_graph)[v_orig].x = (*display_graph)[v_disp].x;
-            (*in_graph)[v_orig].y = (*display_graph)[v_disp].y;
-        }
+    // max
+    do {
+        l_max -= EPS;
+        (*working_copy)[igr_context_current->copy_e].length = l_max;
+        realized_max = realize_2_tree(*working_copy, realization_order);
+    } while (realized_max.size() == 0);
 
-        in_graph->get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+    // mid
+    l_mid = (l_max - l_min) / 2;
+    (*working_copy)[igr_context_current->copy_e].length = l_mid;
+    realized_mid = realize_2_tree(*working_copy, realization_order);
+
+    // should be true for 2-trees....
+    assert(realized_min.size() == realized_mid.size());
+    assert(realized_mid.size() == realized_max.size());
+
+
+
+    // original length
+    double desired_length = (*in_graph)[igr_context_current->orig_e_paired].length;
+
+    // Vertex_ID
+    Vertex_ID v0_wkcp = igr_context_current->orig_e_paired_as_copy_vs.first;
+    Vertex_ID v1_wkcp = igr_context_current->orig_e_paired_as_copy_vs.second;
+    Vertex_ID v0_orig = working_copy->original_vertex(v0_wkcp);
+    Vertex_ID v1_orig = working_copy->original_vertex(v1_wkcp);
+
+    std::list<double> length_of_e_min, length_of_e_max, length_of_e_mid;
+    std::list<Mapped_Graph_Copy*>::iterator
+        mgc_min = realized_min.begin(),
+        mgc_max = realized_max.begin(),
+        mgc_mid = realized_mid.begin();
+    for (unsigned int i = 0; i < realized_min.size(); i++) {
+
+        double
+            v0x = (**mgc_min)[(*mgc_min)->copy_vertex(v0_orig)].x,
+            v0y = (**mgc_min)[(*mgc_min)->copy_vertex(v0_orig)].y,
+            v1x = (**mgc_min)[(*mgc_min)->copy_vertex(v1_orig)].x,
+            v1y = (**mgc_min)[(*mgc_min)->copy_vertex(v1_orig)].y;
+        length_of_e_min.push_back(length(v0x, v0y, v1x, v1y));
+
+
+            v0x = (**mgc_max)[(*mgc_max)->copy_vertex(v0_orig)].x;
+            v0y = (**mgc_max)[(*mgc_max)->copy_vertex(v0_orig)].y;
+            v1x = (**mgc_max)[(*mgc_max)->copy_vertex(v1_orig)].x;
+            v1y = (**mgc_max)[(*mgc_max)->copy_vertex(v1_orig)].y;
+        length_of_e_max.push_back(length(v0x, v0y, v1x, v1y));
+
+
+            v0x = (**mgc_mid)[(*mgc_mid)->copy_vertex(v0_orig)].x;
+            v0y = (**mgc_mid)[(*mgc_mid)->copy_vertex(v0_orig)].y;
+            v1x = (**mgc_mid)[(*mgc_mid)->copy_vertex(v1_orig)].x;
+            v1y = (**mgc_mid)[(*mgc_mid)->copy_vertex(v1_orig)].y;
+        length_of_e_mid.push_back(length(v0x, v0y, v1x, v1y));
+
+        mgc_min++;
+        mgc_max++;
+        mgc_mid++;
     }
 
-    for (std::list<Mapped_Graph_Copy*>::iterator g_it = realized.begin(); g_it != realized.end(); g_it++) {
-        if (check_realization_length(*igr_context_current, **g_it, *in_graph, EPS)) {
-            igr_context_current->add_solution();
-        }
 
-        if (igr_context_current == igr_contexts.begin()) {
-            _realizations.push_back(*g_it);
-        } else {
-            delete(*g_it);
-        }
-    }
+    // // check realizations
+    // for (std::list<Mapped_Graph_Copy*>::iterator g_it = realized.begin(); g_it != realized.end(); g_it++) {
+    //     if (check_realization_length(*igr_context_current, **g_it, *in_graph, EPS)) {
+    //         igr_context_current->add_solution();
+    //     }
+
+    //     if (igr_context_current == igr_contexts.begin()) {
+    //         _realizations.push_back(*g_it);
+    //     } else {
+    //         delete(*g_it);
+    //     }
+    // }
 }
 
 bool Isostatic_Graph_Realizer::step() {
+    (*working_copy)[igr_context_current->copy_e].length = igr_context_current->_interval.first;
+    (*working_copy)[igr_context_current->copy_e].length = igr_context_current->_interval.second;
+
+
+
+
     // go back up until not done
-    while (igr_context_current->done()) {
+    while (igr_context_current->done_binary()) {
         if (igr_context_current == igr_contexts.begin()) {
             return false;
         }
