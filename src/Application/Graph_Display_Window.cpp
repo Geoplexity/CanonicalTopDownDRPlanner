@@ -168,7 +168,7 @@ void Graph_Display_Window::key_callback(int key, int scancode, int action, int m
                     "DR-Plan",
                     3,
                     2);
-                drp_display_window->init_program();
+                drp_display_window->init_drawer();
                 // std::cout << "key_callback: Here 3" << std::endl;
 
                 if (current_drp_node)
@@ -203,7 +203,7 @@ void Graph_Display_Window::key_callback(int key, int scancode, int action, int m
 // void print_string(float x, float y, const char *text, float r, float g, float b) {
 //     gl_obj::VertexGroup vg = stb_easy_font_print(text, x, y, gl_obj::color_vec(0.f, 0.f, 1.f, 0.f), 0.03, 0.005);
 //     // gl_obj::VertexGroup vg = stb_easy_font_print(text, x, y, gl_obj::color_vec(0.f, 0.f, 0.f, 0.f), 0.1, 0.2);
-//     program->draw_easy_font(vg);
+//     drawer->draw_easy_font(vg);
 // }
 
 
@@ -217,19 +217,19 @@ void Graph_Display_Window::update_display() {
     glViewport(0, 0, width, height);
 
 
-    program->clearViewport();
+    drawer->clearViewport();
     // do_font_stuff();
 
     // string printthis = "Hello,\nthis\nis\na\nfont\ntest!";
     // print_string(0,0,printthis.c_str(),0,0,0);
     // cout << "DISPLAY: Number of verts = " << vertices.size() << endl;
     // cout << "DISPLAY: Number of edges = " << edges.size() << endl;
-    program->draw_graph_edges(edges, edges_highlight, edges_dashed);
-    program->draw_graph_vertices(vertices, vertices_highlight);
-    program->draw_graph_vertices_names(vertices_names, vertices, vertices_highlight_names, vertices_highlight);
+    drawer->draw_graph_edges(edges, edges_highlight, edges_dashed);
+    drawer->draw_graph_vertices(vertices, vertices_highlight);
+    drawer->draw_graph_vertices_names(vertices_names, vertices, vertices_highlight_names, vertices_highlight);
 
     // myProg->draw_colorpicking_scene();
-    program->flush();
+    drawer->flush();
 
     swap_buffers();
 }

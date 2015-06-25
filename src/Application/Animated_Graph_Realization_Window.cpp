@@ -229,13 +229,13 @@ void Animated_Graph_Realization_Window::update_display() {
     get_window_size_in_pixels(&width, &height);
     glViewport(0, 0, width, height);
 
-    program->clearViewport();
+    drawer->clearViewport();
 
-    program->draw_graph_edges(edges, edges_highlight, edges_dashed);
-    program->draw_graph_vertices(vertices, vertices_highlight);
-    program->draw_graph_vertices_names(vertices_names, vertices, vertices_highlight_names, vertices_highlight);
+    drawer->draw_graph_edges(edges, edges_highlight, edges_dashed);
+    drawer->draw_graph_vertices(vertices, vertices_highlight);
+    drawer->draw_graph_vertices_names(vertices_names, vertices, vertices_highlight_names, vertices_highlight);
 
-    program->flush();
+    drawer->flush();
 
     swap_buffers();
 }

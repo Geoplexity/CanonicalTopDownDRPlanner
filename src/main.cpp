@@ -147,7 +147,7 @@ void drp_2d(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_program();
+    myWindow.init_drawer();
 
     myWindow.update_display();
 
@@ -182,7 +182,7 @@ void display_linkage(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_program();
+    myWindow.init_drawer();
 
     myWindow.update_display();
 
@@ -212,7 +212,7 @@ void display_framework(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_program();
+    myWindow.init_drawer();
 
     myWindow.update_display();
 
@@ -247,7 +247,7 @@ void omd(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_program();
+    myWindow.init_drawer();
 
     myWindow.update_display();
 
@@ -283,7 +283,7 @@ void test(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_program();
+    myWindow.init_drawer();
 
     myWindow.update_display();
 

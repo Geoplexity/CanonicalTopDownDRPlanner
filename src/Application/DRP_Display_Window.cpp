@@ -88,18 +88,18 @@ void DRP_Display_Window::update_display() {
     // cout << "DDW, display: Here 4" << endl;
 
 
-    program->clearViewport();
+    drawer->clearViewport();
     // do_font_stuff();
     // cout << "DDW, display: Here 5" << endl;
 
     // cout << "DISPLAY: Number of verts = " << vertices.size() << endl;
     // cout << "DISPLAY: Number of edges = " << edges.size() << endl;
-    program->draw_graph_edges(edges, edges_highlight, std::vector<gl_obj::pos_vec>());
-    program->draw_graph_vertices(vertices, vertices_highlight);
+    drawer->draw_graph_edges(edges, edges_highlight, std::vector<gl_obj::pos_vec>());
+    drawer->draw_graph_vertices(vertices, vertices_highlight);
     // cout << "DDW, display: Here 6" << endl;
 
     // myProg->draw_colorpicking_scene();
-    program->flush();
+    drawer->flush();
     // cout << "DDW, display: Here 7" << endl;
 
     swap_buffers();

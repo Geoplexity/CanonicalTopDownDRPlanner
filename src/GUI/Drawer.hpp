@@ -1,7 +1,8 @@
-#ifndef PROGRAM_HPP
-#define PROGRAM_HPP
+#ifndef DRAWER_HPP
+#define DRAWER_HPP
 
 
+#include "Shader_Program.hpp"
 #include "gl_objects.hpp"
 
 
@@ -38,28 +39,23 @@
 
 
 
+
 template <typename T>
 struct uniform_with_location {
     T uniform;
     GLuint location;
 };
 
-
-
-class Program {
+class Drawer {
 public:
-    Program(std::string vs_file, std::string fs_file);
+    Drawer(std::string vs_file, std::string fs_file);
 
-    ~Program();
+    ~Drawer();
 
     ////
     //// BEGIN INITIALIZATION FUNCTIONS
-
-    void init_graphics();
-    void init_shaders();
+    void init_shaders(const char* vs_file_name, const char* fs_file_name);
     void init_attributes();
-    void init_uniforms();
-
     //// END INITIALIZATION FUNCTIONS
     ////
 
@@ -99,44 +95,36 @@ public:
     ////
 
 
-    void check_for_GL_errors(const char* from);
 
     void clearViewport();
     void flush();
     glm::vec4 colorAtPixel(int x, int y);
 
 private:
-    struct shaders {
-        GLuint vertex;
-        std::string v_file;
-
-        GLuint fragment;
-        std::string f_file;
-    };
-
-
-
     // program info
-    GLuint program;
-    shaders sh;
+    Shader_Program shader_program;
 
 
-    // attribute locations
+    // vao, vbo, ebo locations
     GLuint vao;
     GLuint vbo;
     GLuint vbo_indices;
+
+
+
+    // attribute locations
     GLuint position_location,
-    color_location,
-    texCoord_location;
+        color_location,
+        texCoord_location;
 
-
-    //uniforms
+    //uniform location
     GLuint translate_location,
-    render_mode_location,
-    tex_sampler_location;
+        render_mode_location,
+        tex_sampler_location;
 
     uniform_with_location<glm::mat4> _view_matrix;
     uniform_with_location<glm::mat4> _projection_matrix;
+
 
 
     void _draw_graph_vertices_aux(

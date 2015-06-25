@@ -4,7 +4,7 @@
 
 #include "../GUI/Main_GUI_Manager.hpp"
 #include "../GUI/Vision_Handler_2D.hpp"
-#include "../GUI/program.hpp"
+#include "../GUI/Drawer.hpp"
 
 
 class App_Window_2D : public Window {
@@ -12,7 +12,7 @@ public:
     App_Window_2D(Main_GUI_Manager *mgm);
     ~App_Window_2D();
 
-    void init_program();
+    void init_drawer();
     void init_vision_handler();
 
     void update_view_matrix();
@@ -25,7 +25,7 @@ public:
     void window_resize_callback(int width, int height);
 protected:
     Main_GUI_Manager *mgm;
-    Program *program;
+    Drawer *drawer;
     Vision_Handler_2D *vh;
 };
 

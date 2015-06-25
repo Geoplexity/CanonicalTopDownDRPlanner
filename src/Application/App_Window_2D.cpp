@@ -5,13 +5,13 @@ App_Window_2D::App_Window_2D(Main_GUI_Manager *mgm) :
     mgm(mgm) {}
 
 App_Window_2D::~App_Window_2D() {
-    delete(program);
+    delete(drawer);
     delete(vh);
 }
 
-void App_Window_2D::init_program() {
+void App_Window_2D::init_drawer() {
     set_as_context();
-    this->program = new Program("src/GUI/shaders/vs.glsl", "src/GUI/shaders/fs.glsl");
+    this->drawer = new Drawer("src/GUI/shaders/vs.glsl", "src/GUI/shaders/fs.glsl");
 
     init_vision_handler();
 }
@@ -26,11 +26,11 @@ void App_Window_2D::init_vision_handler() {
 }
 
 void App_Window_2D::update_view_matrix() {
-    this->program->setUniform_ViewMatrix(vh->get_view_matrix());
+    this->drawer->setUniform_ViewMatrix(vh->get_view_matrix());
 }
 
 void App_Window_2D::update_projection_matrix() {
-    this->program->setUniform_ProjectionMatrix(vh->get_projection_matrix());
+    this->drawer->setUniform_ProjectionMatrix(vh->get_projection_matrix());
 }
 
 void App_Window_2D::recenter() {

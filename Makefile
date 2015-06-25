@@ -87,7 +87,7 @@ endif
 _DEPS = Graph/Graph.hpp Graph/DR_Plan.hpp \
 	Graph/Pebbled_Graph.hpp Graph/Isostatic_Graph_Realizer.hpp \
 	Graph/Tree.hpp Graph/Min_Priority_Queue.hpp \
-	GUI/Main_GUI_Manager.hpp GUI/Vision_Handler_2D.hpp GUI/Program.hpp GUI/gl_objects.hpp GUI/easy_font.hpp GUI/utils.h \
+	GUI/Main_GUI_Manager.hpp GUI/Vision_Handler_2D.hpp GUI/Shader_Program.hpp GUI/gl_objects.hpp GUI/easy_font.hpp GUI/utils.h GUI/Drawer.hpp \
 	Application/App_Window_2D.hpp Application/Graph_Display_Window.hpp Application/DRP_Display_Window.hpp  Application/Animated_Graph_Realization_Window.hpp
 DEPS = $(patsubst %,$(SOURCE_DIRECTORY)/%,$(_DEPS))
 
@@ -95,7 +95,7 @@ DEPS = $(patsubst %,$(SOURCE_DIRECTORY)/%,$(_DEPS))
 _OBJ = main.o \
 	Graph/Graph.o Graph/DR_Plan.o \
 	Graph/Pebbled_Graph.o Graph/Isostatic_Graph_Realizer.o \
-	GUI/Main_GUI_Manager.o GUI/Vision_Handler_2D.o GUI/Program.o GUI/utils.o \
+	GUI/Main_GUI_Manager.o GUI/Vision_Handler_2D.o GUI/Shader_Program.o GUI/utils.o GUI/Drawer.o \
 	Application/App_Window_2D.o Application/Graph_Display_Window.o Application/DRP_Display_Window.o Application/Animated_Graph_Realization_Window.o
 OBJ = $(patsubst %,$(OBJECT_DIRECTORY)/%,$(_OBJ))
 
