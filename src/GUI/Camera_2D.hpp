@@ -1,5 +1,5 @@
-#ifndef VISION_HANDLER_2D_HPP
-#define VISION_HANDLER_2D_HPP
+#ifndef CAMERA_2D_HPP
+#define CAMERA_2D_HPP
 
 
 #include "../../ext/glm/glm.hpp"
@@ -13,7 +13,7 @@
 
 
 
-namespace VisionHandlerNS {
+namespace Camera_2D_NS {
     enum directions {
         LEFT,
         RIGHT,
@@ -23,24 +23,24 @@ namespace VisionHandlerNS {
 }
 
 
-class Vision_Handler_2D {
+class Camera_2D {
 public:
-    // Vision_Handler_2D(glm::vec2 center, glm::vec2 up, float aspectRatio);
-    Vision_Handler_2D(float aspect_ratio);
+    // Camera_2D(glm::vec2 center, glm::vec2 up, float aspectRatio);
+    Camera_2D(float aspect_ratio);
 
     // BEGIN: Getters and Setters
     /////////////////////////////
-    void aspect_ratio(float r);
-    float aspect_ratio();
+    void aspect_ratio(const float r);
+    float aspect_ratio() const;
 
-    void center(glm::vec2 c);
-    glm::vec2 center();
+    void center(const glm::vec2 c);
+    glm::vec2 center() const;
 
-    void up(glm::vec2 u);
-    glm::vec2 up();
+    void up(const glm::vec2 u);
+    glm::vec2 up() const;
 
-    void zoom(float z);
-    float zoom();
+    void zoom(const float z);
+    float zoom() const;
     /////////////////////////////
     // END:   Getters and Setters
 
@@ -50,6 +50,7 @@ public:
 
     glm::mat4 get_view_matrix();
     glm::mat4 get_projection_matrix();
+    glm::mat4 get_projection_view_matrix();
 
 
 

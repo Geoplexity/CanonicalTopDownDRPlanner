@@ -1,5 +1,5 @@
-#ifndef VISIONHANDLER_HPP
-#define VISIONHANDLER_HPP
+#ifndef CAMERA_3D_HPP
+#define CAMERA_3D_HPP
 
 
 #include "../ext/glm/glm.hpp"
@@ -7,7 +7,7 @@
 // #include "../ext/glm/gtx/vector_angle.hpp"
 
 
-namespace VisionHandlerNS {
+namespace Camera_3D_NS {
     enum projType {
         ORTHOGRAPHIC,
         PERSPECTIVE
@@ -28,9 +28,9 @@ namespace VisionHandlerNS {
 }
 
 
-class VisionHandler {
+class Camera_3D {
 public:
-    VisionHandler(glm::vec3 eye, glm::vec3 center, glm::vec3 up, VisionHandlerNS::projType proj, float aspectRatio) {
+    Camera_3D(glm::vec3 eye, glm::vec3 center, glm::vec3 up, Camera_3D_NS::projType proj, float aspectRatio) {
         _eye_default    = eye;    _eye    = eye;
         _center_default = center; _center = center;
         _up_default     = up;     _up     = up;
@@ -54,8 +54,8 @@ public:
         eye(e); center(c); up(u);
     }
 
-    void proj(VisionHandlerNS::projType p) {_proj = p;}
-    VisionHandlerNS::projType proj() {return _proj;}
+    void proj(Camera_3D_NS::projType p) {_proj = p;}
+    Camera_3D_NS::projType proj() {return _proj;}
     /////////////////////////////
     // END:   Getters and Setters
 
@@ -74,7 +74,7 @@ public:
     }
 
     // glm::mat4 getProjectionMatrix() {
-    //     if (proj() == VisionHandlerNS::ORTHOGRAPHIC) {
+    //     if (proj() == Camera_3D_NS::ORTHOGRAPHIC) {
     //         return glm::ortho(
     //             ortho_left_default,
     //             ortho_right_default,
@@ -82,7 +82,7 @@ public:
     //             ortho_top_default,
     //             0.1f, 100.f
     //         );
-    //     } else if (proj() == VisionHandlerNS::PERSPECTIVE) {
+    //     } else if (proj() == Camera_3D_NS::PERSPECTIVE) {
     //         return glm::perspective(
     //             perspective_fovy_default,
     //             _aspect_ratio,
@@ -92,19 +92,19 @@ public:
     // }
 
     glm::mat4 getProjectionMatrix() {
-        if (proj() == VisionHandlerNS::ORTHOGRAPHIC) {
+        if (proj() == Camera_3D_NS::ORTHOGRAPHIC) {
             return glm::ortho(
-                VisionHandlerNS::ortho_left_default,
-                VisionHandlerNS::ortho_right_default,
-                VisionHandlerNS::ortho_bottom_default,
-                VisionHandlerNS::ortho_top_default,
+                Camera_3D_NS::ortho_left_default,
+                Camera_3D_NS::ortho_right_default,
+                Camera_3D_NS::ortho_bottom_default,
+                Camera_3D_NS::ortho_top_default,
                 0.1f, 100.f
             );
-        } else {// if (proj() == VisionHandlerNS::PERSPECTIVE) {
+        } else {// if (proj() == Camera_3D_NS::PERSPECTIVE) {
 
             // default to persepctive
             return glm::perspective(
-                VisionHandlerNS::perspective_fovy_default,
+                Camera_3D_NS::perspective_fovy_default,
                 _aspect_ratio,
                 0.1f, 100.f
             );
@@ -201,7 +201,7 @@ private:
     glm::vec3 _up_default,     _up;
 
     // for the projection
-    VisionHandlerNS::projType _proj_default, _proj;
+    Camera_3D_NS::projType _proj_default, _proj;
     float _aspect_ratio;
 
     // // ortho

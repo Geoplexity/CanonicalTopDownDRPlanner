@@ -45,6 +45,17 @@ namespace gl_obj {
         void color(const color_vec &c) {_color = c;}
     };
 
+    // class Vertex {
+    // public:
+    //     pos_vec _pos;
+
+    //     Vertex(pos_vec p) :
+    //         _pos(p)
+    //     { }
+
+    //     ~Vertex() {}
+    // };
+
 
     class Vertex_Array : public std::vector<Vertex> {
     public:
@@ -148,30 +159,39 @@ namespace gl_obj {
             color(color)
         {
             float wo2 = width/2.f;
-            float length = glm::distance(from, to);
+            float _distance = distance(from, to);
+            float _angle = angle(from, to);
+
             pos_vec
                 bl = pos_vec(0.f,    -wo2),
                 br = pos_vec(0.f,     wo2),
-                tl = pos_vec(length, -wo2),
-                tr = pos_vec(length,  wo2);
-            // add length to topleft and right. give width. rotate.
+                tl = pos_vec(_distance, -wo2),
+                tr = pos_vec(_distance,  wo2);
+            // add _distance to topleft and right. give width. rotate.
 
-            float dx = (to.x - from.x);
-            float dy = (to.y - from.y);
-            float angle = atan(dy/dx); // gives [-pi/2, pi/2]
-            if (dx < 0) angle += PI;
-
-            bl = glm::rotate(bl, angle);
-            br = glm::rotate(br, angle);
-            tl = glm::rotate(tl, angle);
-            tr = glm::rotate(tr, angle);
+            bl = glm::rotate(bl, _angle);
+            br = glm::rotate(br, _angle);
+            tl = glm::rotate(tl, _angle);
+            tr = glm::rotate(tr, _angle);
 
             add_vertex(Vertex(bl, color));
             add_vertex(Vertex(br, color));
             add_vertex(Vertex(tr, color));
             add_vertex(Vertex(tl, color));
-
         };
+
+        static float distance(const pos_vec& a, const pos_vec& b) {
+            return glm::distance(a, b);
+        }
+
+        // gives [0, 2*pi]
+        static float angle(const pos_vec& a, const pos_vec& b) {
+            float dx = (b.x - a.x);
+            float dy = (b.y - a.y);
+            float _angle = atan(dy/dx); // gives [-pi/2, pi/2]
+            if (dx < 0) _angle += PI;
+            return _angle;
+        }
     };
 
 
@@ -191,13 +211,9 @@ namespace gl_obj {
                 color(color)
         {
             float wo2 = width/2.f;
-            float length = glm::distance(from, to);
+            float length = Wide_Line::distance(from, to);
+            float _angle = Wide_Line::angle(from, to);
             // add length to topleft and right. give width. rotate.
-
-            float dx = (to.x - from.x);
-            float dy = (to.y - from.y);
-            float angle = atan(dy/dx); // gives [-pi/2, pi/2]
-            if (dx < 0) angle += PI;
 
             float begin, end;
             bool dash = true;
@@ -216,10 +232,10 @@ namespace gl_obj {
                     tl = pos_vec(end,   -wo2),
                     tr = pos_vec(end,    wo2);
 
-                bl = glm::rotate(bl, angle);
-                br = glm::rotate(br, angle);
-                tl = glm::rotate(tl, angle);
-                tr = glm::rotate(tr, angle);
+                bl = glm::rotate(bl, _angle);
+                br = glm::rotate(br, _angle);
+                tl = glm::rotate(tl, _angle);
+                tr = glm::rotate(tr, _angle);
 
                 add_triangle(
                     Vertex(bl, color),

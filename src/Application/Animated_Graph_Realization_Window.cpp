@@ -41,7 +41,7 @@ void Animated_Graph_Realization_Window::perform_sampling() {
 }
 
 void Animated_Graph_Realization_Window::perform_animated_sampling() {
-    recenter();
+    recenter_camera();
     while (igr->step_uniform()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
@@ -227,9 +227,7 @@ void Animated_Graph_Realization_Window::update_display() {
     // Clip the view port to match our ratio
     int width, height;
     get_window_size_in_pixels(&width, &height);
-    glViewport(0, 0, width, height);
-
-    drawer->clearViewport();
+    drawer->clear_viewport(width, height);
 
     drawer->draw_graph_edges(edges, edges_highlight, edges_dashed);
     drawer->draw_graph_vertices(vertices, vertices_highlight);

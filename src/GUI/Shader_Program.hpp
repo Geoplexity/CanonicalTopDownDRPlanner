@@ -27,8 +27,20 @@
 
 
 
+
+
+
+
 void check_for_GL_errors(const char* from);
 
+void read_shader_source_code(const char* filename, char *buf, int buf_size);
+void check_shader_compile_error(GLuint shader);
+void check_program_linking_error(GLuint program);
+
+
+
+// typedef GLuint attribute_loc;
+// typedef GLuint uniform_loc;
 
 
 class Shader_Program {

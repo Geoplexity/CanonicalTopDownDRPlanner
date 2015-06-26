@@ -55,6 +55,7 @@ public:
     ////
     //// BEGIN INITIALIZATION FUNCTIONS
     void init_shaders(const char* vs_file_name, const char* fs_file_name);
+    void init_basic_2d_shaders();
     void init_attributes();
     //// END INITIALIZATION FUNCTIONS
     ////
@@ -64,8 +65,11 @@ public:
 
     ////
     //// BEGIN UNIFORM SETTERS
-    void setUniform_ViewMatrix(glm::mat4 view_matrix);
-    void setUniform_ProjectionMatrix(glm::mat4 projection_matrix);
+    // void set_uniform__view_matrix(glm::mat4 view_matrix);
+    // void set_uniform__projection_matrix(glm::mat4 projection_matrix);
+    void set_uniform__projection_view_matrix(glm::mat4 projection_view_matrix);
+    void set_uniform__model_matrix(glm::mat4 model_matrix);
+    void set_uniform__color(glm::vec4 color);
     //// END UNIFORM SETTERS
     ////
 
@@ -74,7 +78,6 @@ public:
 
     ////
     //// BEGIN DRAWING FUNCTIONS
-
     void draw_graph_vertices(
         const std::vector<gl_obj::pos_vec> &p,
         const std::vector<gl_obj::pos_vec> &highlight);
@@ -89,16 +92,19 @@ public:
         const std::vector<gl_obj::pos_vec> &highlight);
 
     // void draw_easy_font(gl_obj::VertexGroup &vg);
-    void draw_letter(const GLfloat pos[4], const GLfloat tex_coord[4], GLuint tex_id);
+    // void draw_letter(const GLfloat pos[4], const GLfloat tex_coord[4], GLuint tex_id);
 
     //// END DRAWING FUNCTIONS
     ////
 
+    static glm::mat4 translation_matrix(const glm::vec2& translation);
+    static glm::mat4 scale_matrix(const float scaling);
 
-
-    void clearViewport();
+    void clear_viewport(int width, int height);
     void flush();
-    glm::vec4 colorAtPixel(int x, int y);
+
+    glm::vec4 color_at_pixel(int x, int y);
+    int stencil_at_pixel(int x, int y); // -1 if background
 
 private:
     // program info
@@ -112,18 +118,18 @@ private:
 
 
 
-    // attribute locations
-    GLuint position_location,
-        color_location,
-        texCoord_location;
+    // // attribute locations
+    // GLuint position_location,
+    //     color_location,
+    //     texCoord_location;
 
-    //uniform location
-    GLuint translate_location,
-        render_mode_location,
-        tex_sampler_location;
+    // //uniform location
+    // GLuint translate_location,
+    //     render_mode_location,
+    //     tex_sampler_location;
 
-    uniform_with_location<glm::mat4> _view_matrix;
-    uniform_with_location<glm::mat4> _projection_matrix;
+    // uniform_with_location<glm::mat4> _view_matrix;
+    // uniform_with_location<glm::mat4> _projection_matrix;
 
 
 

@@ -23,6 +23,8 @@ public:
 
     void get_drp();
 
+    void mouse_button_callback(int button, int action, int mods);
+    void cursor_pos_callback(double xpos, double ypos);
     void key_callback(int key, int scancode, int action, int mods);
 
     // void print_string(float x, float y, char *text, float r, float g, float b);
@@ -47,6 +49,8 @@ private:
     std::vector<gl_obj::pos_vec>
         edges_dashed;
 
+    int vertex_clicked_index;
+    Vertex_ID vertex_clicked;
 
     // enum display_context {
     //     dc_none, dc_drp, dc_omd
@@ -57,6 +61,11 @@ private:
     DR_Plan* drp;
     DRP_Node* current_drp_node;
 
+    bool vertex_drag() const;
+    void vertex_drag_begin(int index);
+    void vertex_drag_end();
+
+    void rescale_graph();
 
     void _update_graph_positions_none();
     void _update_graph_positions_drp();

@@ -6,12 +6,12 @@
 
 Graph_Display_Window::Graph_Display_Window(Main_GUI_Manager *mgm, Graph *graph) :
     Movable_App_Window_2D(mgm),
-    graph(graph)
+    graph(graph),
+    vertex_clicked_index(-1),
+    drp_display_window(NULL),
+    drp(NULL),
+    current_drp_node(NULL)
 {
-    this->drp_display_window = NULL;
-    this->drp = NULL;
-    this->current_drp_node = NULL;
-
     update_graph_positions();
 }
 
@@ -126,6 +126,68 @@ void Graph_Display_Window::get_drp() {
     this->drp->print_depth_first(this->drp->root());
 }
 
+void Graph_Display_Window::mouse_button_callback(int button, int action, int mods) {
+    if (button == GLFW_MOUSE_BUTTON_1) {
+        if (action == GLFW_PRESS) {
+            int x, y;
+            get_cursor_position_pixels(&x, &y);
+            int stencil_buffer_value = drawer->stencil_at_pixel(x, y);
+
+            if (stencil_buffer_value == -1) {
+                drag_camera_begin();
+            } else {
+                vertex_drag_begin(stencil_buffer_value);
+            }
+        } else if (action == GLFW_RELEASE) {
+            if (!vertex_drag()) {
+                drag_camera_end();
+            } else {
+                vertex_drag_end();
+            }
+        }
+    }
+}
+
+void Graph_Display_Window::cursor_pos_callback(double xpos, double ypos) {
+    if (!vertex_drag()) {
+        Movable_App_Window_2D::cursor_pos_callback(xpos, ypos);
+    } else {
+        update_mouse_pos_world_coords();
+        (*graph)[vertex_clicked].x += dx;
+        (*graph)[vertex_clicked].y += dy;
+
+        update_graph_positions();
+        update_display();
+    }
+}
+
+bool Graph_Display_Window::vertex_drag() const {
+    return vertex_clicked_index != -1;
+}
+
+void Graph_Display_Window::vertex_drag_begin(int index) {
+    vertex_clicked_index = index;
+
+    int i = 0;
+    for (std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph->vertices();
+        vs.first != vs.second;
+        vs.first++, i++)
+    {
+        if (i == index) {
+            vertex_clicked = *vs.first;
+            std::cout << vertex_clicked << ": " << (*graph)[vertex_clicked].name << std::endl;
+            break;
+        }
+    }
+
+    get_cursor_position_pixels(&mouse_xpos_previous, &mouse_ypos_previous);
+}
+
+void Graph_Display_Window::vertex_drag_end() {
+    vertex_clicked_index = -1;
+}
+
+
 void Graph_Display_Window::key_callback(int key, int scancode, int action, int mods) {
     // std::cout << "Graph_Display_Window::key_callback: begin" << std::endl;
     if (action == GLFW_PRESS) {
@@ -150,7 +212,11 @@ void Graph_Display_Window::key_callback(int key, int scancode, int action, int m
                 if (!prev) prev = current_drp_node->last_sibling();
                 highlight_drp_node(prev);
             }
+        } else if (key == GLFW_KEY_ENTER) {
+            rescale_graph();
         } else if (key == GLFW_KEY_SPACE) {
+            recenter_camera();
+        } else if (key == GLFW_KEY_Q) {
             if (drp_display_window == NULL) {
                 // std::cout << "key_callback: Here 0" << std::endl;
                 drp_display_window = new DRP_Display_Window(mgm, drp);
@@ -206,6 +272,11 @@ void Graph_Display_Window::key_callback(int key, int scancode, int action, int m
 //     drawer->draw_easy_font(vg);
 // }
 
+void Graph_Display_Window::rescale_graph() {
+    graph->get_graph_in_range(-0.87, 0.87, -0.87, 0.87);
+    update_graph_positions();
+    update_display();
+}
 
 void Graph_Display_Window::update_display() {
     set_as_context();
@@ -214,10 +285,8 @@ void Graph_Display_Window::update_display() {
     // Clip the view port to match our ratio
     int width, height;
     get_window_size_in_pixels(&width, &height);
-    glViewport(0, 0, width, height);
+    drawer->clear_viewport(width, height);
 
-
-    drawer->clearViewport();
     // do_font_stuff();
 
     // string printthis = "Hello,\nthis\nis\na\nfont\ntest!";

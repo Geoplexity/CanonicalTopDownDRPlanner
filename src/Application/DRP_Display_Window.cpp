@@ -82,13 +82,8 @@ void DRP_Display_Window::update_display() {
     // Clip the view port to match our ratio
     int width, height;
     get_window_size_in_pixels(&width, &height);
-    // width /= 10.f; height /= 10.f;
-    // cout << "DDW, display: Here 3" << endl;
-    glViewport(0, 0, width, height);
-    // cout << "DDW, display: Here 4" << endl;
+    drawer->clear_viewport(width, height);
 
-
-    drawer->clearViewport();
     // do_font_stuff();
     // cout << "DDW, display: Here 5" << endl;
 
