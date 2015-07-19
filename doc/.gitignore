@@ -2,7 +2,7 @@
 *.aux
 *.fdb_latexmk
 *.log
-*.gz
+*.synctex.gz
 *.spl
 *.pdf
 
@@ -10,3 +10,10 @@
 *.bbl
 *.blg
 *.out
+
+# Beamer
+*-blx.bib
+*.nav
+*.run.xml
+*.snm
+*.toc

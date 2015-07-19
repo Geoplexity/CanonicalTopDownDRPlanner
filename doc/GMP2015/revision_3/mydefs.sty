@@ -1,0 +1,292 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% From gmp2015.cls
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%
+%% hyperref settings
+%%
+\RequirePackage[colorlinks,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+%%
+%% stick to ams math style
+%%
+\RequirePackage{amsmath,amsthm,amssymb}
+
+%%
+%% commonly uses blackboard letters
+%%
+\def\NN{\mathbb{N}}
+\def\ZZ{\mathbb{Z}}
+\def\QQ{\mathbb{Q}}
+\def\RR{\mathbb{R}}
+\def\CC{\mathbb{C}}
+
+%%
+%% Theorems, Lemmas, etc.
+%%
+\newtheorem{theorem}{\sffamily Theorem}
+\newtheorem{lemma}[theorem]{\sffamily Lemma}
+\newtheorem{corollary}[theorem]{\sffamily Corollary}
+\newtheorem{proposition}[theorem]{\sffamily Proposition}
+\newtheorem{definition}[theorem]{\sffamily Definition}
+\newtheorem{remark}[theorem]{\sffamily Remark}
+\newtheorem{example}[theorem]{\sffamily Example}
+
+\newtheorem{theorem*}[theorem]{\sffamily Theorem*}
+\newtheorem{lemma*}[theorem]{\sffamily Lemma*}
+\newtheorem{remark*}[theorem]{\sffamily Remark*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Personal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
+
+% \usepackage{ulem} % This was breaking emph!
+% \usepackage[normalem]{ulem}
+\usepackage{soul}
+\usepackage{caption}
+\usepackage{subcaption}
+% \usepackage{floatrow}
+
+% \usepackage{atbeginend}
+
+
+\newtheorem{observation}[theorem]{\sffamily Observation}
+% \newtheorem{openproblem}[theorem]{\sffamily Open Problem}
+\newtheorem{conjecture}[theorem]{\sffamily Conjecture}
+
+\newtheorem{observation*}[theorem]{\sffamily Observation*}
+
+\theoremstyle{definition}
+\newtheorem{openproblem}{\sffamily Open Problem}
+% \theoremstyle{theorem}
+% \newenvironment{openproblem}{
+%     % \begin{samepage}
+%     \begin{trivlist}
+%         \item[\hskip \labelsep \textbf{Open Problem:}]
+% }
+% {
+%     \end{trivlist}
+%     % \end{samepage}
+% }
+
+\newcommand{\dfn}[1]{\textit{#1}} % definition of a word
+\newcommand{\vemph}[1]{\textsl{#1}} % verbal emphasis
+% \newcommand{\header}[1]{\underbar{\textsl{#1}}}
+\newcommand{\header}[1]{\ul{\textsl{#1}}}
+\newcommand{\problemstatement}[1]{\medskip\noindent\textbf{#1}}
+\newcommand{\myexample}{\medskip\noindent\textbf{Example.} }
+
+\newcommand{\note}{\textbf{Note: }}
+\newcommand{\sidenote}[1]{\medskip\noindent\textbf{Note: }#1\medskip}
+
+\newcommand{\todo}[1]{\textsc{{\color{green}#1}}}
+%\renewcommand{\todo}[1]{}
+\newcommand{\uncited}{\textsc{{\bf\color{red}[??]}}}
+
+
+\newcommand{\drp}[1]{\text{DRP}(#1)}
+\newcommand{\comdrp}[1]{\text{ComDRP}(#1)}
+\newcommand{\optdrp}[1]{\text{OptDRP}(#1)}
+\newcommand{\candrp}[1]{\text{CanDRP}(#1)}
+
+\newcommand{\candrpcomplexity}{$O(n^3)$}
+\newcommand{\candrpcomplexityv}{$O(|V|^3)$}
+
+\newcommand{\frontier}{Frontier}
+
+
+\newcommand{\usestwod}{\todo{Uses 2D requirement:}}
+\renewcommand{\usestwod}{}
+
+
+% editing macros
+\newcommand{\cutout}[1]{{\color{red}\st{#1}}}
+\newcommand{\addin}[1]{{\color{red}#1}}
+\newcommand{\notetoreviewer}[1]{\textsc{{\color{red}#1}}}
+%\renewcommand{\cutout}[1]{}
+%\renewcommand{\addin}[1]{#1}
+%\renewcommand{\notetoreviewer}[1]{}
+
+
+\newcommand{\nameit}{\todo{NAMEIT!}}
+
+
+
+% \def\FigInitCaption{} \def\FigInitLabel{}
+
+% \newcommand\FigInit[2]{% Caption, Label
+%     \def\FigInitCaption{#1}%
+%     \def\FigInitLabel{#2}%
+% }
+
+
+
+% \newsavebox\IBoxA \newsavebox\IBoxB \newsavebox\IBoxC \newsavebox\IBoxD \newsavebox\IBoxE
+% \newlength\IHeight
+
+% \newcommand\FigTwoSubfig[6]{% Image1 Caption1 Label1 Image2 ...
+%   \sbox\IBoxA{\includegraphics[width=0.45\linewidth]{#1}}
+%   \sbox\IBoxB{\includegraphics[width=0.45\linewidth]{#4}}%
+%   %
+%   \setlength\IHeight{\ht\IBoxA}%
+%   \ifdim\ht\IBoxB<\IHeight
+%     \setlength\IHeight{\ht\IBoxB}\fi%
+%   %
+%   \begin{figure*}[!htb]\centering%
+%     %
+%     \begin{subfigure}{0.45\linewidth}\centering
+%       \includegraphics[height=\IHeight]{#1}
+%       \caption{#2}\label{#3}
+%     \end{subfigure}%
+%     %
+%     \hfill
+%     \begin{subfigure}{0.45\linewidth}\centering
+%       \includegraphics[height=\IHeight]{#4}
+%       \caption{#5}\label{#6}
+%     \end{subfigure}%
+%     %
+%     \caption{\FigInitCaption\ignorespaces}\label{\FigInitLabel}
+%   \end{figure*}%
+% }
+
+% \newcommand\FigTwoSubfigWithWidth[8]{% Width1 Image1 Caption1 Label1 Width2 Image2 ...
+%   \sbox\IBoxA{\includegraphics[width=#1\linewidth]{#2}}
+%   \sbox\IBoxB{\includegraphics[width=#5\linewidth]{#6}}%
+%   %
+%   \setlength\IHeight{\ht\IBoxA}%
+%   \ifdim\ht\IBoxB<\IHeight
+%     \setlength\IHeight{\ht\IBoxB}\fi%
+%   %
+%   \begin{figure*}[!htb]\centering%
+%     %
+%     \begin{subfigure}{#1\linewidth}\centering
+%       \includegraphics[height=\IHeight]{#2}
+%       \caption{#3}\label{#4}
+%     \end{subfigure}%
+%     %
+%     \hfill
+%     \begin{subfigure}{#5\linewidth}\centering
+%       \includegraphics[height=\IHeight]{#6}
+%       \caption{#7}\label{#8}
+%     \end{subfigure}%
+%     %
+%     \caption{\FigInitCaption\ignorespaces}\label{\FigInitLabel}
+%   \end{figure*}%
+% }
+
+% \newcommand\FigThreeSubfig[9]{% Image1 Caption1 Label1 Image2 ...
+%   \sbox\IBoxA{\includegraphics[width=0.3\linewidth]{#1}}
+%   \sbox\IBoxB{\includegraphics[width=0.3\linewidth]{#4}}
+%   \sbox\IBoxC{\includegraphics[width=0.3\linewidth]{#7}}%
+%   %
+%   \setlength\IHeight{\ht\IBoxA}%
+%   \ifdim\ht\IBoxB<\IHeight
+%     \setlength\IHeight{\ht\IBoxB}\fi%
+%   \ifdim\ht\IBoxC<\IHeight
+%     \setlength\IHeight{\ht\IBoxC}\fi%
+%   %
+%   \begin{figure*}[!htb]\centering%
+%     %
+%     \begin{subfigure}{0.3\linewidth}\centering
+%       \includegraphics[height=\IHeight]{#1}
+%       \caption{#2}\label{#3}
+%     \end{subfigure}%
+%     %
+%     \hfill
+%     \begin{subfigure}{0.3\linewidth}\centering
+%       \includegraphics[height=\IHeight]{#4}
+%       \caption{#5}\label{#6}
+%     \end{subfigure}%
+%     %
+%     \hfill
+%     \begin{subfigure}{0.3\linewidth}\centering
+%       \includegraphics[height=\IHeight]{#7}
+%       \caption{#8}\label{#9}
+%     \end{subfigure}%
+%     %
+%     \caption{\FigInitCaption\ignorespaces}\label{\FigInitLabel}
+%   \end{figure*}%
+% }
+
+
+
+
+\newlength\myMinHeight
+\setlength\myMinHeight{0pt}
+\newsavebox\mySubfigsTempSaveBox
+
+\newcommand\ClearMyMinHeight{\setlength\myMinHeight{0pt}}
+\newcommand\SetMyMinHeight[2]{%width, filename
+    \sbox\mySubfigsTempSaveBox{\includegraphics[width=#1\linewidth]{#2}}%
+    \ifdim\ht\mySubfigsTempSaveBox<\myMinHeight
+        \setlength\myMinHeight{\ht\mySubfigsTempSaveBox}\fi%
+    \ifdim\myMinHeight=0pt
+        \setlength\myMinHeight{\ht\mySubfigsTempSaveBox}\fi%
+}
+
+
+
+% \usepackage{arrayjob}
+% \usepackage{forloop}
+
+% \newarray\mySubfigsWidth
+% \newarray\mySubfigsFile
+% \newarray\mySubfigsCaption
+% \newarray\mySubfigsLabel
+% \newcounter{FigAddedSubfigs}
+% \setcounter{FigAddedSubfigs}{0}
+% \newcounter{FigLooper}
+% \newsavebox\mySubfigsTempSaveBox
+% \newlength\mySubfigsMinHeight
+
+% \newcommand\FigAddSubfig[4]{% width, file, caption, label
+%     \stepcounter{FigAddedSubfigs}%
+%     \mySubfigsWidth(\value{FigAddedSubfigs})={#1}%
+%     \mySubfigsFile(\value{FigAddedSubfigs})={#2}%
+%     \mySubfigsCaption(\value{FigAddedSubfigs})={#3}%
+%     \mySubfigsLabel(\value{FigAddedSubfigs})={#4}%
+% }
+
+% \newcommand\FigDisplay[2]{% caption, label
+%     \sbox\mySubfigsTempSaveBox{\includegraphics[width=\mySubfigsWidth(1)\linewidth]{\mySubfigsFile(1)}}%
+%     %
+%     \setlength\mySubfigsMinHeight{\ht\mySubfigsTempSaveBox}%
+%     %
+%     \forLoop{1}{2}{\value{FigAddedSubfigs}}{\FigLooper}{
+%         \sbox\mySubfigsTempSaveBox{\includegraphics[width=\mySubfigsWidth(\value{FigLooper})\linewidth]{\mySubfigsFile(\value{FigLooper})}}%
+%         %
+%         \ifdim\ht\mySubfigsTempSaveBox<\mySubfigsMinHeight
+%             \setlength\mySubfigsMinHeight{\ht\mySubfigsTempSaveBox}\fi%
+%     }%
+%     %
+%     \begin{figure*}[!htb]\centering%
+%         %
+%         \begin{subfigure}{\mySubfigsWidth(1)\linewidth}\centering
+%             \includegraphics[height=\mySubfigsMinHeight]{\mySubfigsFile(1))}
+%             \caption{\mySubfigsCaption(1)}\label{\mySubfigsLabel(1)}
+%         \end{subfigure}%
+%         %
+%         \forLoop{1}{2}{\value{FigAddedSubfigs}}{\FigLooper}{
+%             \hfill
+%             \begin{subfigure}{\mySubfigsWidth(\value{FigLooper})\linewidth}\centering
+%                 \includegraphics[height=\mySubfigsMinHeight]{\mySubfigsFile(\value{FigLooper}))}
+%                 \caption{\mySubfigsCaption(\value{FigLooper})}\label{\mySubfigsLabel(\value{FigLooper})}
+%             \end{subfigure}%
+%         }%
+%         %
+%         \caption{#1}\label{#2}
+%     \end{figure*}%
+%     %
+%     \setcounter{FigAddedSubfigs}{0}%
+% }
+
+

@@ -1,0 +1,9 @@
+- Every canonical decomposition is optimal for isostatic or underconstrained graphs.
+
+- An O(n^3) algorithm to find a canonical and optimal decomposition-recombination plan.
+
+- An efficient technique for optimally modifying large indecomposable systems.
+
+- Applications of the theory to modeling materials.
+
+- A collection of open problems in the area.
