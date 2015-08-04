@@ -10,14 +10,24 @@
 
 
 \subsection{Canonical DR-Plan}
-In this section, we define a \dfn{canonical} plan to capture those aspects of an optimal DR-plan that mimic the  uniqueness of a complete DR-plan, and we show that the nonunique aspects do not affect optimality for independent (underconstrained or isostatic) graphs. Furthermore, we give an efficient \candrpcomplexity\ algorithm to find the canonical DR-plan of any independent graph. The definition is as follows:
+In this section, we define a \dfn{canonical} plan to capture those aspects of an optimal DR-plan that mimic the  uniqueness of a complete DR-plan, and we show that the nonunique aspects do not affect optimality for independent (underconstrained or isostatic) graphs. Furthermore, we give an efficient \ComplexityCanDRP\ algorithm to find the canonical DR-plan of any independent graph. The definition is as follows:
+
+
+% \begin{definition}\label{def:canonical_drplan}
+%     The \dfn{canonical DR-plan} of a graph $G$ satisfies the following three properties:
+%     (1) it is a DR-plan of $G$;
+%     (2) children are rigid vertex-maximal proper subgraphs of the parent; and
+%     (3) if all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise exactly two that intersect non-trivially are children.
+% \end{definition}
 
 \begin{definition}\label{def:canonical_drplan}
-    The \dfn{canonical DR-plan} of a graph $G$ satisfies the following three properties:
-    (1) it is a DR-plan of $G$;
-    (2) children are rigid vertex-maximal proper subgraphs of the parent; and
-    (3) if all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise exactly two that intersect non-trivially are children.
+    A \dfn{canonical DR-plan} is a DR-plan that satisfies the additional two properties:
+    \begin{enumerate}
+        \item Children are rigid vertex-maximal proper subgraphs of the parent.
+        \item If all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise exactly two that intersect non-trivially are children.
+    \end{enumerate}
 \end{definition}
+
 
 In this section and in section~\ref{sec:recomb}, any reference to a graph $G$ is assumed to be isostatic (i.e.\ well-constrained or $(k,l)$-tight).
 % \sidenote{In this section, $G$ is always assumed to be isostatic.}
@@ -322,6 +332,32 @@ The self-similar nature of this graph is evident in the canonical DR-plan. Many 
 %   \caption{The sequential canonical DR-plan of $G_{\Delta}$ from Figure~\ref{fig:demo_graph:graph}, which is optimal (as explained in the proof of Theorem~\ref{theorem:algo_complexity}). The children of the triangle are omitted. Compare to to the typical canonical DR-plan shown in Figure~\ref{fig:demo_graph:candrp}. Also, note that the bottom-left node, the triangle $bce$, is the intersection of the 3 children of $G_{\Delta}$ in $ComDRP(G_{\Delta})$, shown in Figure~\ref{fig:demo_graph:comdrp}.}
 %   \label{fig:demo_graph:candrpseq}
 % \end{figure*}%
+
+
+To find the canonical DR-plan of an isostatic graph, we first need the following subroutine.
+
+% \begin{theorem}\label{theorem:algo_find_wcvmps_complexity}
+%     There exists an $O(|V|^2)$ time complexity algorithm to find the set of isostatic vertex-maximal proper subgraphs (the \dfn{clusters}) of an isostatic input graph.
+% \end{theorem}
+
+% \begin{proof}
+%     Call the input graph $G=(V,E)$.
+%     % If the input is not isostatic (i.e.\ does not satisfy $|E| = 2|V|-3$), run the component pebble game algorithm
+%     Take an arbitrary edge $e\in E$. Run the component pebble game algorithm \cite{Jacobs:1997:PG} on the subgraph $G\setminus e$, which takes time $O(|V|^2)$. The output of this will be all of the maximal isostatic components of $G\setminus e$, which we will call the list of candidate-clusters, or $CC$. It will contain at most $|E|-1 = O(|V|)$ elements.
+
+%     The next step is to isolate the set of true-clusters. Begin by initializing the list true-clusters, or $TC$, as an empty list. Then, for each subgraph $C\in CC$, run the \frontier\ algorithm \cite{hoffman2001decompositionII} \cite{lomonosov2004graph} on $C+e$ to find $D$ (which is the minimal isostatic subgraph containing $C+e$.) In case 1, where $D=G$, $C$ is removed from $CC$ and added to $TC$. In case 2, where $D\subsetneq G$, for all $H\in CC$ that are subgraphs of $D$, $H$ is removed from $CC$; then $D$ is added to $TC$. If every element in $CC$ results in case 1, add $e$ to $TC$. Thus, we do $O(|V|)$ work on $O(|V|)$ subgraphs for a total time of $O(|V|^2)$.
+% \end{proof}
+
+\begin{theorem}\label{theorem:algo_find_wcvmps_complexity}
+    There exists an \complexityAllClustersV\ time complexity algorithm to find the set of isostatic vertex-maximal proper subgraphs (the \dfn{clusters}) of an isostatic input graph.
+\end{theorem}
+
+\begin{proof}
+    Call the input graph $G=(V,E)$. Initialize the empty list of current-clusters, or $CC$. For each edge $e\in E$, run the component pebble game algorithm \cite{Jacobs:1997:PG} on the subgraph $G\setminus e$. The output of this will be all of the maximal isostatic components of $G\setminus e$, which we will call potential-clusters, or $PC$. Remove any element from $PC$ that is a subgraph of an element in $CC$, then remove any element from $CC$ that is a subgraph of an element in $PC$. Add all remaining elements of $PC$ to $CC$. Return $CC$ after running all edges.
+
+    The time complexity is $O(|V|^3)$. For each edge, of which there are $O(|V|)$, we run the component pebble game, which takes $O(|V|^2)$, and then check its $PC$ against the $CC$, which also takes $O(|V|^2)$. This subgraph comparison can be done by labeling each edge in $E$ with a pointer to the element that contains it in $PC$ and $CC$ while running the component pebble games. Then, traverse edge set $E$ and check if the corresponding elements of $PC$ and $CC$ are subgraphs.
+\end{proof}
+
 \begin{figure*}\centering%
   %
   \includegraphics[width=0.3\linewidth]{../../img/svg/3xc2c3_candrp_seq}
@@ -330,30 +366,137 @@ The self-similar nature of this graph is evident in the canonical DR-plan. Many 
 \end{figure*}%
 
 \begin{theorem}\label{theorem:algo_complexity}
-    There exists an \candrpcomplexityv\ algorithm to find a canonical DR-plan for an input graph.
+    There exists an \ComplexityCanDRPV\ algorithm to find a canonical DR-plan for an independent input graph.
 \end{theorem}
 
 \begin{proof}
-We first describe the algorithm.
-The first step of the algorithm, which we call $CanDRP(G)$, is finding the isostatic vertex-maximal proper subgraphs (clusters) of the input isostatic graph $G$. One of many ways to do this is  by first dropping arbitrary edge $e$ from the edge set and running the pebble game algorithm \cite{Jacobs:1997:PG} on this subgraph, which is $O(|V|^2)$. The output of this will be a list of cluster-candidates. The next step is to isolate the set of true-clusters by running the \frontier\ algorithm \cite{hoffman2001decompositionII} \cite{lomonosov2004graph} ($O(|V|)$) on each candidate along with edge $e$, to find the minimal subgraph $D$ that contains the candidate and $e$. If $D=G$, the candidate is moved (before adding $e$) to the true-cluster list and removed from the candidate-cluster list. If $D\subsetneq G$, all candidates that are subgraphs of $D$ are removed from the candidate-cluster list and $D$ is added back to the list.  The next candidate is considered until all candidates are exhausted.
+    Call the input graph $G=(V,E)$. We will call the result of the algorithm $CanDRP(G)$.
 
-The next step is to check the intersection of any two of the true-components. If the intersection is trivial, the entire list becomes the children, and the algorithm is recursively applied to each child. If the intersection is non-trivial (necessarily isostatic), the  decomposition is computed down to $I=\bigcap_{k=1}^{N}{C_k}$. (This is discussed in detail in the proof of Theorem \ref{theorem:main}). We construct a DR-plan whose node set is that of a canonical/optimal DR-plan. Begin with the parent $C$. Its children are $S_1$ and $CanDRP(T_1)$, where $S_1=C\setminus R_1$ and $T_1$ is $R_1$, together with all incident edges. Observe that these edges are incident on vertices from $I$ and that $T_1$ is underconstrained so its DR-plan is a forest where each root becomes a child of $C$. The children of $S_1$ are $S_2$ and $CanDRP(T_2)$, where $S_2=C\setminus (R_1\cup R_2)$ and $T_2$ is $R_2$ together with all incident edges. The process iterates. At $N$ levels down, the children are  $S_N=I$ and $CanDRP(T_N)$, where $T_N$ is $R_N$ together with all incident edges. Apply the algorithm recursively to both children.
-Thus we obtain an efficient method for the case of DR-plan nodes whose rigid proper vertex-maximal subgraphs have non-trivial intersections, avoiding recomputation of the isostatic components of $C$.
-See Figure~\ref{fig:demo_graph:candrpseq} for an example.
+    If $G$ is a single edge, return $G$.
 
-To summarize the above step of the algorithm:
-if the intersection is trivial, recursively apply $CanDRP$ to the entire list of true-components and set the resulting trees as the children. Else, the intersection is non-trivial, and the children of the node are $CanDRP(C_1)$ and $CanDRP(T)$, where $C_1$ is the first true-component of the parent $C$ (chosen arbitrarily, could be any child) and $T$ is the underconstrained graph formed by $C\setminus C_1$ together with all incident edges  and the associated nodes in $C_1$.
+    % Either $G$ is isostatic (i.e.\ satisfies $|E|=2|V|-3$)
+    If $G$ is not isostatic (i.e.\ does not satisfy $|E|=2|V|-3$), run the component pebble game on $G$ to get the set of isostatic vertex-maximal subgraphs. Return the forest formed by recursively running $CanDRP$ on each element.
 
-% Although the nodes containing $R_1,\ldots,R_N$ are underconstrained, simply take the children to be the roots of the forest
+    If $G$ is isostatic, run the isostatic vertex-maximal proper subgraph detection algorithm (Theorem \ref{theorem:algo_find_wcvmps_complexity}) on $G$ to get what we call the list of clusters. This can be done in \complexityAllClustersV\ time. Choose two arbitrary clusters, called $C_1$ and $C_2$. If $C_1\cap C_2$ is trivial (a single vertex), recursively apply $CanDRP$ on all clusters and set the results as the children of $G$; return $G$. Else if $C_1\cap C_2$ is non-trivial (an isostatic subgraph), apply $CanDRP$ to $C_1$ (note that this choice is still arbitrary, any cluster will suffice) and $T$ (the underconstrained graph formed by $C\setminus C_1$ together with all incident edges and the associated vertices in $C$) and set the results as the children of $G$; return $G$.
 
-The DR-plan  output by this algorithm is a tree where each node is a distinct subgraph. The leaves of this tree are the edges of the starting graph $G$. Therefore, the number of nodes in the tree is $O(|E|)$ which, for isostatic input graphs, is $O(|V|)$ and the complexity of the algorithm is $O(|V|^3)$.
-%
-% \note In the best case, this can be $O(V^2)$ if the graph is a 2-tree
+    For the sake of increased clarity (and performance in implementation), we expand on the case of isostatic input with clusters that intersect non-trivially. Instead of immediate recursive application of $CanDRP$, we propose an equivalent method to first compute the decomposition down to $I=\bigcap_{k=1}^{N}{C_k}$. (The rationale and nomenclature is discussed in detail in the proof of Theorem \ref{theorem:main}.) Let $R_i= C\setminus C_i$; note that each $R_i$ is pairwise disjoint. Let $T_i$ be $R_i$ plus all incident edges; note that these edges are incident on vertices in $I$ and that $T_i$ is underconstrained. Let $S_i = C\setminus \bigcup_{j=1}^{i}{R_j}$. Set the children of $G$ as $S_1=C\setminus R_1=C_1$ and $CanDRP(T_1)$. Set the children of $S_1$ as $S_2=C\setminus (R_1\cup R_2)$ and $CanDRP(T_2)$. Etc. At step $N$, set the children of $S_{N-1}$ as $CanDRP(S_N)$ and $CanDRP(T_N)$. Thus we can avoid the $N$ recomputations of the isostatic components of $G$.
+
+    We call this intermediate result of the algorithm the ``sequential'' canonical DR-plan. See Figure~\ref{fig:demo_graph:candrpseq} for an example. This plan is a tree, where each node is a distinct subgraph, each is smaller than its parent, and the leaves comprise the edge set of $G$. Therefore, the number of nodes in the tree is $O(|E|)$ which, for independent input graphs, is $O(|V|)$. The cluster finding algorithm is run on each internal node, resulting in an overall time complexity of \ComplexityCanDRPV.
+
+    The sequential canonical DR-plan can then be used to find the canonical DR-plan in
+    % sub-cubic
+    sub-quartic
+    time. Simply alter any subtree that is the result of non-trivial intersection in the obvious way (adding nodes for the clusters implied by the decomposition) to get the canonical DAG. Although, in practice, the sequential plan may be sufficient.
+    %
+    % \note In the best case, this can be $O(V^2)$ if the graph is a 2-tree
 \end{proof}
 
 
+% Note that in the case of each stage of decomposition resulting in trivial intersections, this algorithm can be run in time $O(|V|^3)$. We can find all clusters in time $O(|V|^2)$, because we only have to look at a constant number of edges. Take two arbitrary edges to get the two sets of potential-clusters, $PC_1$ and $PC_2$.
+
+
+
 % \begin{proof}
-% The first step of the algorithm is finding the isostatic vertex-maximal proper subgraphs of the input isostatic graph $G$. Do this by first dropping arbitrary edge $e$ from the edge set and running the pebble game algorithm \cite{Jacobs:1997:PG} on this subgraph, which is $O(|V|^2)$. The output of this will be a list of component-candidates. Then run the \frontier\ algorithm \cite{hoffman2001decompositionII} \cite{lomonosov2004graph} ($O(|V|)$) on each candidate along with edge $e$, which will find the minimal subgraph $D$ that contains the candidate and $e$. If $D=G$, move $D$ to the true-component list and remove the candidate from the candidate-component list. If $D\subsetneq G$, check the union of $D$ with the all items in the true-component list; if the union is isostatic, halt and output just these two components as children. Otherwise, remove all candidates that are subgraphs of $D$ from the candidate-component list and add $D$. Continue with the next candidate. If you exhaust the candidates, output the entire true-component list.
+%     Choose an arbitrary ordering of the edges, such that $e_i$ is the $i^\text{th}$ edge in the sequence.
+
+%     Run component pebble game on each edge to get the map $M$ that takes an edge, $e$, and returns a set of subgraphs that are the output of the component pebble game on $G\setminus e$. On each run of the pebble game, also attach a pointer to each edge that points to the subgraph containing the edge.
+%     Call this map $P$, where $P(i, j)$ (which is not defined where $i=j$) returns a pointer to the element containing $e_i$ from $M(e_j)$.
+%     This is $O(|V|^3)$.
+
+%     Dropping an edge will never result in some other edge being in some new cluster, the other edge will only ever be in a subset of its true cluster. Therefore, we can look at each edge in $E$ and find the proper maximal subgraph containing it by following all the cluster pointers and comparing the cardinality of the vertex sets, taking the largest. This can be done in $O(|V|^2)$. Save any subgraph found in this manner.
+%     HAVE TO CHECK FOR DUPLICATES... CAN BE ROLLED INTO NEXT STEP, DIFFERENT BASED ON INTERSECTION TYPE. JUST DO AN EDGE FROM THE COMPLEMENT ($G\setminus C$) SECOND.
+
+%     Now check the intersections between clusters (pick an arbitrary two).
+
+%     In the case of trivial intersections, all of the found clusters will be edge-disjoint.
+%     For each cluster $C$, take the submatrix of $P$ only on the intersections of elements in $C$. That is, if $C$ contains $i$ and $j$, keep element $P(i,j)$. Delete any element in $M$ whose pointer is lost from $P$ after this operation.
+%     % For each edge $e_i$, for every edge $e_j$ not in the cluster to which $e_i$ belongs, delete $P(i, j)$ and the element it points to in $M(e_j)$ (if it isn't already deleted).
+%     This can be done in $O(|V|^2)$ time.
+%     The result will be a new $P$ and $M$ for each cluster, containing only the edges in the cluster. Furthermore, all clusters from this stage will be removed from $M(e_i)$ (for all $i$).
+%     % Divide the edges into sets based on their containing cluster (one edge is contained in only one cluster) and repeat the previous step.
+%     Recursively run the algorithm on these clusters, but we can now skip the first step, avoiding $O(|V|^3)$ work at each node... So with an initial step of $O(|V|^3)$ and then $O(|V|^2)$ work at $O(|V|)$ nodes we get an overall complexity of $O(|V|^3)$.
+
+%     In the case of isostatic intersections, you will find 2 clusters (the one with the most vertices, $C_1$, and the largest one containing the vertex set omitted from the first, $C_2$). You will also need to be careful of different clusters with the same size (just be aware it might happen, shouldn't affect anything, we'll want them later). Go to an arbitrary edge not in $C_1$. Look at the clusters containing the edge with the largest cardinality. The largest will be $C_2$, ignore it. Keep going to the next largest, adding it to the list of found clusters if it has an isostatic intersection with the $C_1$. This will take $O(|V|^2)$. Now we have all of the isostatic vertex-maximal proper subgraphs, which we call $C_1, C_2, \ldots , C_N$. Compute the intersection of all of these, which we call the ``core'' or $I$. Let $R_i = G\setminus C_i$.
+
+%     Choose an arbitrary edge $e\in I$. Take the set $M(e)$, remove all elements that are subgraphs of $I$. Of the remainder, the elements that are subgraphs of $R_i$ are the first level of decomposition of $R_i$ and we call this subset $T_i$. Now we are ready to build the ``sequential'' canonical DR-plan of $G$ down to node $I$.
+
+%     Set the children of $G$ as $S_1=C\setminus R_1=C_1$ and the elements of $T_1$. Set the children of $S_1$ as $S_2=C\setminus (R_1\cup R_2)$ and the elements of $T_2$. Etc. At step $N$, set the children of $S_{N-1}$ as $S_N=I$ and the elements of $T_N$.
+
+%     For node $I$ and each element of $T_1, T_2, \ldots , T_N$ in the DR-plan, get the submatrix of $P$ using the edges of the subgraph in the node, and update $M$ accordingly.
+%     % For each edge $e_i$ in the core, for every edge $e_j$ not in the core, delete $P(e_i, j)$ and the element it points to in $M(e_j)$ (if it isn't already deleted).
+
+%     The sequential canonical DR-plan can then be used to find the canonical DR-plan in
+%     sub-cubic
+%     % sub-quartic
+%     time. Simply alter any subtree that is the result of non-trivial intersection in the obvious way (adding nodes for the clusters implied by the decomposition) to get the canonical DAG. Although, in practice, the sequential plan may be sufficient.
+% \end{proof}
+
+First, we remind the reader of the component pebble game~\cite{Jacobs:1997:PG}. Given an independent input graph $G$ with vertex weight 2 and edge weight 1, the output will be all of the 2D maximal isostatic subgraphs. We will denote this algorithm with $COMPONENTS(G)$. For independent input, this runs in time $O(|V|^2)$.
+
+We also introduce the term \dfn{clusters} of graph $G$ to refer to the set of isostatic vertex-maximal proper subgraphs of $G$.
+
+Next, we define an operation called \dfn{modularization}. The function $MZ(M, I)$ takes a square matrix $M$ and a set of indices $I$ and returns $(M', A)$. $M'$ is the square matrix formed by keeping all elements $M_{ij}$ if $i,j\in I$. $A$ is the set of elements $M_{ij}$ and $M_{ji}$ where $i\in I$ and $j\notin I$.
+% This operation takes $O(|I|^2)$.
+
+% Next, we make the observation that dropping an edge will only cause other edges in the graph to be in components (as found by pebble games) that are subgraphs of their cluster ()
+
+% Consider dropping edge $e_i$ and looking at the effect on $e_j$. In the case that all clusters intersect trivially, no edge is in multiple clusters. Therefore, $e_i$ could come from a different cluster than $e_j$, in which case dropping $e_i$ only affects its own cluster. Or $e_i$ could come from the same cluster as $e_j$, in which case all other clusters are found as components, but additionally edge-disjoint subgraphs of this cluster will be found as components.
+% In the case that clusters intersect non-trivially, edges do com from multiple clusters.
+
+\begin{proof}
+    %% INITIALIZATION
+    Let the input be $G=(E,V)$. If the input is an edge, terminate. If the input is not isostatic, set the roots of the forest as $COMPONENTS(G)$ then recursively call the algorithm on each root. Otherwise, do the following.
+
+    Choose an arbitrary ordering of the edges, such that $e_i$ is the $i^\text{th}$ edge in the sequence.
+    Initialize a map $M$ and a map $P$. For each $i$, set $M(e_i)=COMPONENTS(G\setminus e_i)$ and, for all $j\neq i$, set $P(i,j)$ as a pointer to the element in $M(e_i)$ whose subgraph contains $e_j$. This initialization takes time $O(|V|^3)$.
+
+
+    %% STEP 1: Find the clusters
+    % Choose some $i\leq |E|$, then find the
+    Now we want to find the clusters of $G$.
+    For each $i$, if we have not already found a cluster containing $e_i$, then find the $j$ such that $P(j,i)$ points to the component with the largest cardinality and add it to the list of clusters. This takes time $O(|V|^2)$. In the case that the clusters intersect trivially, we will find all of the clusters. In the case that they intersect non-trivially, we will find exactly two clusters. We will return to the latter case after continuing the proof for the former.
+
+    %% STEP 2a: Trivial intersections
+    In the case of trivial intersections, all of the found clusters will be edge-disjoint. For each cluster edge set $C_i$, compute $MZ(P, C_i)=(P_i, A_i)$. For element in each $A_i$, delete the component it points to in $M$. This can be done in $O(|V|^2)$ time.
+    Note that, for any $i$, $M(e_i)$ contained only subgraphs of the cluster containing $e_i$ and the other clusters. By doing the deletions, we have removed all of the clusters found in this stage. This means $M$ can now be broken into an $M_i$ for each $C_i$, where $M_i$ contains only proper subgraphs of $C_i$. Now the algorithm can be run recursively on each $C_i$, while avoiding the recomputation of $M$ and $P$ by using the $M_i$ and $P_i$ we found.
+
+    %% STEP 2b: Non-trivial intersections
+    In the case of non-trivial intersections, we have only found 2 clusters (the one with the most vertices, $C_1$, and the largest one containing the vertex set omitted from the first, $C_2$) and we need to find the remainder. Go to an arbitrary edge $e_i\notin C_1$. For all $j\neq i$, if the component pointed to by $P(j,i)$ intersects non-trivially with $C_1$ add it to the list of clusters (ignore duplicates). This will take $O(|V|^2)$. Now we have all of the isostatic vertex-maximal proper subgraphs, which we call $C_1, C_2, \ldots , C_N$. Let $I=\bigcap_{k=1}^{N}{C_k}$. Let $R_i = G\setminus C_i$.
+    Let $T_i = COMPONENTS(R_i)$. All of these can be computed in $O(|V|^2)$.
+
+    % Choose an arbitrary edge $e\in I$. Take the set $A=M(e)$, remove all elements from $A$ that are subgraphs of $I$. For each $R_i$, find the set $T_i$ which contains the elements of $A$ that are subgraphs of $R_i$. Note that $T_i=COMPONENTS(R_i)$, and will be the first level of decomposition of $R_i$ since it is underconstrained.
+    % COULD WE JUST RUN $COMPONENTS$???
+
+    Now we build the ``sequential'' canonical DR-plan of $G$ down to node $I$.
+    Set the children of $G$ as $S_1=C\setminus R_1=C_1$ and the elements of $T_1$. Set the children of $S_1$ as $S_2=C\setminus (R_1\cup R_2)$ and the elements of $T_2$. Etc. At step $N$, set the children of $S_{N-1}$ as $S_N=I$ and the elements of $T_N$.
+    For each node $N$ of the DR-plan in the set $\{I\}\cup T_1\cup T_2\cup \cdots\cup T_N$, compute $MZ(P, N)=(P', A')$ and update $M$ by deleting all elements pointed to by $A'$. Then, for each $N$, run the algorithm recursively on (avoiding recomputation of $M$ and $P$).
+    % For node $I$ and each element of $T_1, T_2, \ldots , T_N$ in the DR-plan, compute $MZ(P, \cdot)$, update $M$ in the same fashion as above, and run the algorithm recursively on $(\cdot)$ (avoiding recomputation of $M$ and $P$).
+
+    %% Proof of complexity
+    The decomposition will ultimately terminate as a tree with $|E|$ leaves, each containing a unique edge. With an initial step of $O(|V|^3)$ and then $O(|V|^2)$ work at $O(|V|)$ nodes we get an overall complexity of $O(|V|^3)$.
+
+    The sequential canonical DR-plan can then be used to find the canonical DR-plan in
+    sub-cubic
+    % sub-quartic
+    time. Simply alter any subtree that is the result of non-trivial intersection in the obvious way (adding nodes for the clusters implied by the decomposition) to get the canonical DAG. Although, in practice, the sequential plan may be sufficient.
+\end{proof}
+
+
+
+
+% In the case of trivial intersections, all of the found clusters will be unique. If the cardinality is greater than 2, we can save computation by not checking the other edges in the found cluster. But we can only know that they are trivial intersections after finding 2 different clusters. So do that first...
+
+% In the case of isostatic intersections, if we begin with an edge in the core, there are several clusters containing this edge (and the algo will pick the largest among them). We could only safely skip the other edges in the core, but we don't know what it is yet. So after finding the first cluster, go to an edge not in it and find the next cluster. Check the intersection. Now we can skip the others in the core. WAIT.... THIS WILL ONLY PICK THE LARGEST, AND ITS ``COMPLEMENT'', SO TO SPEAK. WHICH TECHNICALLY WORKS....
+
+% For each found cluster $c$, for each edge $e$ \emph{not in} $c$, delete $c$ from $M(e)$ and delete the pointer to $M(e)$ from the pointer list of $e$.
+
+
+
+
+
+
+% \begin{proof}
+% The first step of the algorithm is finding the isostatic vertex-maximal proper subgraphs of the input isostatic graph $G$. Do this by first dropping arbitrary edge $e$ from the edge set and running the pebble game algorithm \cite{Jacobs:1997:PG} on this subgraph, which is $O(|V|^2)$. The output of this will be a list of component-candidates. Then run the \frontier\ algorithm \cite{hoffman2001decompositionII} \cite{lomonosov2004graph} ($O(|V|)$) on each candidate along with edge $e$, which will find the minimal subgraph $D$ that contains the candidate and $e$. If $D=G$, move $D$ to the true-cluster list and remove the candidate from the candidate-component list. If $D\subsetneq G$, check the union of $D$ with the all items in the true-cluster list; if the union is isostatic, halt and output just these two components as children. Otherwise, remove all candidates that are subgraphs of $D$ from the candidate-component list and add $D$. Continue with the next candidate. If you exhaust the candidates, output the entire true-cluster list.
 
 % %on the children
 % This is run recursively on each node. If you use dynamic programming to store the decompositions of each component, it prevents repetition of work (done by using the DAG representation of the DR-plan). In this case you will have to do work on no more than $O(|V|)$ nodes that get smaller at each level.

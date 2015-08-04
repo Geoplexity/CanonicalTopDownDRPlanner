@@ -254,32 +254,61 @@ We note that  the remainder of this section and Sections~\ref{sec:DRP} and \ref{
 
 
 
-\begin{definition}\label{def:drp}
-    The \dfn{decomposition-recombination \mbox{(DR-)} plan} \cite{hoffman2001decompositionI} of graph $G$, $\drp{G}$, is defined as a forest that has the following properties:
-    \begin{enumerate}
-        \item Each node represents/contains/is a rigid subgraph of $G$.
-        % \item For a node, $C$, that is  a non-trivial graph, its $N$
-        % children, $C_1, \ldots, C_N$, are rigid vertex-maximal proper
-        % subgraphs of $C$.
-        \item The children $C_1,\ldots,C_N$ of a node $C$ satisfy $\bigcup_{i=1}^N{C_i}=C$.
-        \item A leaf node is a single edge. A \dfn{trivial} graph is empty or a single vertex. Note that a trivial graph is not isostatic.
-        \item A root node is a vertex-maximal rigid subgraph of $G$.
-    \end{enumerate}
-%
-    % It can also be described recursively as: the root is $G$, its children are the trivial subgraphs and the DR-plans of its wellconstrained vertex-maximal proper subgraphs whose union is $G$ itself.
-%
-    A DR-plan is \dfn{complete} if it satisfies an additional property: for a non-leaf node $C$, its children are all of the rigid vertex-maximal proper subgraphs of $C$. This makes Property 2 implicit.
-  %and in fact, $C$ contains all the edges in the union of its children as well.
-  We denote a complete DR-plan of $G$ as $\comdrp{G}$.
+% \begin{definition}\label{def:drp}
+%     The \dfn{decomposition-recombination \mbox{(DR-)} plan} \cite{hoffman2001decompositionI} of graph $G$, $\drp{G}$, is defined as a forest that has the following properties:
+%     \begin{enumerate}
+%         \item Each node represents/contains/is a rigid subgraph of $G$.
+%         % \item For a node, $C$, that is  a non-trivial graph, its $N$
+%         % children, $C_1, \ldots, C_N$, are rigid vertex-maximal proper
+%         % subgraphs of $C$.
+%         \item The children $C_1,\ldots,C_N$ of a node $C$ satisfy $\bigcup_{i=1}^N{C_i}=C$.
+%         \item A leaf node is a single edge. A \dfn{trivial} graph is empty or a single vertex. Note that a trivial graph is not isostatic.
+%         \item A root node is a vertex-maximal rigid subgraph of $G$.
+%     \end{enumerate}
+% %
+%     % It can also be described recursively as: the root is $G$, its children are the trivial subgraphs and the DR-plans of its wellconstrained vertex-maximal proper subgraphs whose union is $G$ itself.
+% %
+%     A DR-plan is \dfn{complete} if it satisfies an additional property: for a non-leaf node $C$, its children are all of the rigid vertex-maximal proper subgraphs of $C$. This makes Property 2 implicit.
+%   %and in fact, $C$ contains all the edges in the union of its children as well.
+%   We denote a complete DR-plan of $G$ as $\comdrp{G}$.
 
-  A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the tree. The maximum  fan-in is called the \dfn{size} of the DR-plan. We denote an optimal DR-plan of $G$ as $\optdrp{G}$.
-%
-%In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$.
-%$C_i$ is the $i^{\text{th}}$ child of $C$. It is implied that $C_i$ is
-%an isostatic vertex-maximal proper subgraph.
-    %Note that nodes will be referred to interchangeably as ``the node that
-    %represents or contains the (sub)graph $C$'' and as simply ``$C$''.
+%   A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the forest. The maximum  fan-in is called the \dfn{size} of the DR-plan. We denote an optimal DR-plan of $G$ as $\optdrp{G}$.
+% %
+% %In general, $C$ is the graph in an arbitrary node in $CompleteDRP(G)$.
+% %$C_i$ is the $i^{\text{th}}$ child of $C$. It is implied that $C_i$ is
+% %an isostatic vertex-maximal proper subgraph.
+%     %Note that nodes will be referred to interchangeably as ``the node that
+%     %represents or contains the (sub)graph $C$'' and as simply ``$C$''.
+% \end{definition}
+
+
+
+% We begin with the definition of a general DR-plan and also introduce two specific kinds of DR-plans.
+
+\begin{definition}\label{def:drp}
+    A \dfn{decomposition-recombination \mbox{(DR-)} plan}~\cite{hoffman2001decompositionI} of graph $G$ is defined as a forest that has the following properties:
+    \begin{enumerate}
+        \item Each node represents a rigid subgraph of $G$.
+        \item A root node is a vertex-maximal rigid subgraph of $G$.
+        \item A node is the subgraph of $G$ induced by the union of its children.
+        \item A leaf node is a single edge.
+    \end{enumerate}
 \end{definition}
+
+\begin{definition}
+    A DR-plan is \dfn{complete} if it satisfies an additional property: for a non-leaf node $C$, its children are all of the rigid vertex-maximal proper subgraphs of $C$ (which makes Property 3 of a DR-plan implicit.)
+\end{definition}
+
+\begin{definition}
+    A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the forest. The maximum fan-in is called the \dfn{size} of the DR-plan.
+\end{definition}
+
+We denote these different kinds of DR-plans as $\drp{G}$, $\comdrp{G}$, and $\optdrp{G}$, respectively. Note that nodes will be referred to interchangeably as ``the node that represents or contains the (sub)graph $C$'' and as simply ``$C$''.
+
+
+
+
+
 %
 % \todo{This was labeled as both begin(remark) and end(observation), what was your intent?}
 \begin{remark}
@@ -318,7 +347,7 @@ While polynomial time algorithms were given to generate DR-plans meeting the clu
 % \end{definition}
 
 % \begin{definition}
-%     The \textbf{optimal DR-plan} of graph $G$, $OptimalDRP(G)$, is the DR-plan that minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
+%     The \textbf{optimal DR-plan} of graph $G$, $OptimalDRP(G)$, is the DR-plan that minimizes the maximum fan-in over all nodes in the forest. It is not necessarily unique.
 % \end{definition}
 
 
@@ -407,7 +436,7 @@ While polynomial time algorithms were given to generate DR-plans meeting the clu
 %
 %    A DR-plan is \textbf{complete} if it satisfies the modified rule number 2: the children are \emph{all} of the trivial or wellconstrained vertex-maximal proper subgraphs of that node $C$. This makes rule 3 implicit. The complete DR-plan is unique.
 %
-%    A DR-plan is \textbf{optimal} if it minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
+%    A DR-plan is \textbf{optimal} if it minimizes the maximum fan-in over all nodes in the forest. It is not necessarily unique.
 %\end{definition}
 %
 %% \begin{definition}
@@ -415,7 +444,7 @@ While polynomial time algorithms were given to generate DR-plans meeting the clu
 %% \end{definition}
 %
 %% \begin{definition}
-%%     The \textbf{optimal DR-plan} of graph $G$, $OptimalDRP(G)$, is the DR-plan that minimizes the maximum fan-in over all nodes in the tree. It is not necessarily unique.
+%%     The \textbf{optimal DR-plan} of graph $G$, $OptimalDRP(G)$, is the DR-plan that minimizes the maximum fan-in over all nodes in the forest. It is not necessarily unique.
 %% \end{definition}
 %
 %

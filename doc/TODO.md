@@ -1,3 +1,14 @@
+Major changes for v3
+=============
+- p5: DR-plan defs (split them up and reworded 1)
+- p6: Canonical DR-plan (new def)
+- p9: Algorithm: Split into 2 theorems and reworded theorem/proof
+- p17: Body-hyperpin (reworded def)
+- p18: Pinned line-incidence (put in def environment)
+
+
+
+
 Paper
 ============
 - Put \notes into footnotes
@@ -13,22 +24,19 @@ Elsevier Paper
 - Check for final corrections that need to be made
     - Redefine DRP (clarity), CanDRP, and OptDRP (tree -> forest)
 
-Revision 3
-============
-- p16 "qusecs' " -> "qusecs"
-- p16 Definition 15 rewording
-- p17 "i.e.,"
-- p17 Def 19 -> "sub-graph"
-- p17 Rem 24 -> commas around parantheses
-- p18 Pinned line -> put in def environment
-- p19 remove "Note:"
-- Maybe redo k33 figs to match style and not flip things around
+
+
 
 Tibor
 ============
 - Algorithm complexity is difficult to understand. Frontier runs at most O(V) times. MAybe don't even mention Frontier (or just explain)
-- say we can get the true canonical plan form the end result (sequential)
-- add in edge if it doesn't addin with frontier to any of the candidtates
+
+
+Still Want to Change
+=============
+- Maybe redo k33 figs to match style of earlier figs and not flip vertices around
+- Point out that the plan contains the minimal and maximal subgraphs (NP-hard to find in general)
+- Conjecture 31: O(n^3)
 
 
 

@@ -23,7 +23,7 @@
 
 We can use qusecs DR-plans to design materials such as disordered graphene and silica bi-layers \cite{silica_bilayers} \cite{sructure_of_2d_glass}. We investigate a more specific problem in a somewhat more general setting: the problem of finding boundary conditions (additional constraints) to add to an underconstrained monolayer to make it isostatic. This can be done in a number of ways: (1) pin together 2 underconstrained monolayers in such a way that the resulting bi-layer becomes isostatic (see Figure \ref{fig:silica_glass}); (2) pin the boundary of (or in general, add constraints to) a layer (possibly a genus 0 monolayer) so that it becomes isostatic; or (3) design a broader class of structures to ensure they are isostatic, self-similar (via some subdivision rule) and in addition isostatic at each level of the subdivision (see Figure \ref{fig:subdivision}).
 
-In all cases, we are specifically interested in how to add additional constraints such that the resulting isostatic structure has a small DR-plan; this way a realization can be found, allowing efficient stress, flex and other property design related to the rigidity matrix. To answer these questions, we first introduce the qusecs' that are used to model these materials. In this section, we discuss Item (2) in detail.
+In all cases, we are specifically interested in how to add additional constraints such that the resulting isostatic structure has a small DR-plan; this way a realization can be found, allowing efficient stress, flex and other property design related to the rigidity matrix. To answer these questions, we first introduce the qusecs that are used to model these materials. In this section, we discuss Item (2) in detail.
 
 % \begin{figure}\centering
 %     (a)
@@ -67,8 +67,12 @@ In all cases, we are specifically interested in how to add additional constraint
 \subsection{Body-Hyperpin Qusecs}
 
 
+% \begin{definition}
+%     A \dfn{body-hyperpin qusecs} is a constraint system where the objects are rigid bodies, subsets of which are pinned together by pins (i.e.\ they are incident at a common point.)
+% \end{definition}
+
 \begin{definition}
-    A \dfn{body-hyperpin qusecs} is a constraint system where the objects are rigid bodies,  subsets of which are pinned together by pins; i.e, are incident at a common point.
+    A \dfn{body-hyperpin qusecs} is a constraint system where the objects are rigid bodies and the constraints are incidences of object subsets at a common point, i.e.\ a pinning of bodies.
 \end{definition}
 
 \begin{remark*}\label{rem:bodypin_is_barjoint}
@@ -87,34 +91,34 @@ For the remainder of this section, we deal only with the DR-plan of such qusecs.
 \end{definition}
 
 \begin{definition}
-    A \dfn{triangle-hyperpin graph} is a body-hyperpin graph where each body is a triangle, i.e., it shares  pins with at most 3 other bodies. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hypergraphs, {\em 1 and 2-dof} can be characterized by $(2,4)$ and $(2,5)$-tightness respectively \cite{Lee:2007:PGA} \cite{streinu2009sparse}.
+    A \dfn{triangle-hyperpin graph} is a body-hyperpin graph where each body is a triangle, i.e.\ it shares  pins with at most 3 other bodies. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hypergraphs, {\em 1 and 2-dof} can be characterized by $(2,4)$ and $(2,5)$-tightness respectively \cite{Lee:2007:PGA} \cite{streinu2009sparse}.
 \end{definition}
 
 Body-pin graphs are of particular interest to us in the context of Example 4 in Section \ref{sec:intro}. Triangle-multipin graphs can be used to represent the silica bi-layers and glassy structures described in Example 5 of Section \ref{sec:intro}, where each triangle is the junction of ``disks'' in the plane (see Figure \ref{fig:silica_glass}). Typically, these systems are not isostatic, so to relate the work of this paper to the systems, we define a slightly different kind of DR-plan using the notion of $(k,l)$-sparsity and tightness.
 
 \begin{definition}
-    A \dfn{$(k,l)$-tight DR-plan} is one in which each child node is either a vertex maximal proper $(k,l)$-tight sub-graph of the parent node or it is trivial. In our case, the trivial nodes are the bodies.
+    A \dfn{$(k,l)$-tight DR-plan} is one in which each child node is either a vertex maximal proper $(k,l)$-tight subgraph of the parent node or it is trivial. In our case, the trivial nodes are the bodies.
 \end{definition}
 
 Provided such $(k,l)$-sparse graphs are matroidal (conditions given in \cite{Lee:2007:PGA}),
-the notion of a canonical DR-plan extends directly to the case when the hypergraph is $(k,l)$-sparse (i.e., independent) using the straightforward notion of trivial and non-trivial intersections and $(k,l)$-tightness conditions as in Section \ref{sec:DRP}. In particular, we define canonical DR-plans with similar properties for the 1 and 2-dof body-pin and triangle-hyperpin systems defined above.
+the notion of a canonical DR-plan extends directly to the case when the hypergraph is $(k,l)$-sparse (i.e.\ independent) using the straightforward notion of trivial and non-trivial intersections and $(k,l)$-tightness conditions as in Section \ref{sec:DRP}. In particular, we define canonical DR-plans with similar properties for the 1 and 2-dof body-pin and triangle-hyperpin systems defined above.
 
 \begin{observation*}
 \label{obs:bodypin_drp}
-For the 1-dof body-pin graphs described above that are $(3,4)$-sparse, a $(3,4)$-tight canonical DR-plan exists where every node of a $(3,4)$-sparse graph satisfies one of the following: (1) its children are 2 proper vertex-maximal 1-dof graphs that intersect on another 1-dof graph; or (2) its children are all of the proper maximal 1-dof sub-graphs, pairwise sharing at most one body.
+For the 1-dof body-pin graphs described above that are $(3,4)$-sparse, a $(3,4)$-tight canonical DR-plan exists where every node of a $(3,4)$-sparse graph satisfies one of the following: (1) its children are 2 proper vertex-maximal 1-dof graphs that intersect on another 1-dof graph; or (2) its children are all of the proper maximal 1-dof subgraphs, pairwise sharing at most one body.
 \end{observation*}
 
 % \begin{observation}
 % \label{obs:bodypin_drp}
 %     For the 1-dof body-pin graphs described above, $(3,4)$-sparsity corresponds to a canonical DR-plan whose nodes satisfy one of the following, either
 %     (a) the children are 2 proper vertex maximal 1-dof graphs that intersect on another 1-dof graph, or
-%     (b) the children are a number of proper maximal 1-dof sub-graphs, sharing at most one body.
+%     (b) the children are a number of proper maximal 1-dof subgraphs, sharing at most one body.
 % \end{observation}
 
 % \begin{proof}
 %     \todo{Item 1 Follows from paper?}
 
-%     For item 2, consider the case where we have more than 2 proper vertex maximal 1-dof sub-graphs $s_1, ..., s_k, k > 2$. Then, if $k_i$ and $k_j$ are joined by $2$ pins, $k_i \cup k_j$ would be $(3,4)$-tight and hence $k_i$ and $k_j$ are not vertex maximal.
+%     For item 2, consider the case where we have more than 2 proper vertex maximal 1-dof subgraphs $s_1, ..., s_k, k > 2$. Then, if $k_i$ and $k_j$ are joined by $2$ pins, $k_i \cup k_j$ would be $(3,4)$-tight and hence $k_i$ and $k_j$ are not vertex maximal.
 % \end{proof}
 
 As in Section \ref{sec:DRP},  a strong Church-Rosser property holds, making all canonical DR-plans optimal:
@@ -167,9 +171,9 @@ The above discussion leads to the main theorem:
 \end{theorem*}
 
 % \begin{proof}
-%     Suppose we are given a body-pin graph and its corresponding body-bar graph $G$ and have obtained the 1-dof DR-plan $T$. Each node of $T$ will then be a vertex maximal proper 1-dof sub-graph of $G$.
+%     Suppose we are given a body-pin graph and its corresponding body-bar graph $G$ and have obtained the 1-dof DR-plan $T$. Each node of $T$ will then be a vertex maximal proper 1-dof subgraph of $G$.
 
-%     To make the graph isostatic, we need only add one body and pin it to 2 other bodies. Doing so will cause $G$ to become $(3,3)$-tight. We choose the 2 bodies to pin to by choosing a node $b$ in $T$ and looking at its children. From Observation \ref{rem:1dofcanon}, we know that the children can only be joined by a single pin or a sub-graph. We pin the new body to bodies in two separate children. Doing so will ensure that all children of $b$ will have 1-dof and all ancestors of $b$ (including $b$) will now be isostatic.
+%     To make the graph isostatic, we need only add one body and pin it to 2 other bodies. Doing so will cause $G$ to become $(3,3)$-tight. We choose the 2 bodies to pin to by choosing a node $b$ in $T$ and looking at its children. From Observation \ref{rem:1dofcanon}, we know that the children can only be joined by a single pin or a subgraph. We pin the new body to bodies in two separate children. Doing so will ensure that all children of $b$ will have 1-dof and all ancestors of $b$ (including $b$) will now be isostatic.
 
 %     % Then, we can form a valid isostatic DR-plan $T_b$ from $T$. In $T_b$, $fanin(b)$is the number of leaves in the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $fanin(w)$ is the the number leaf nodes in the tree rooted at $w$, excluding the subtree constaining $b$, plus 1 (for the node leading to $b$).  Then, for any node $b$ that we choose, $T_b$ is a valid DR-plan. The size of $T_b$ will just be the maximum fanin of all nodes in $T_b$. Thus, if we want to minimize the size of our DR-plan, we simply need to take the $b$ that has the $T_b$ of smallest size.
 
@@ -203,7 +207,7 @@ The above discussion leads to the main theorem:
 
 \begin{remark}
 \label{obs:algebraic_completion}
-    While the proof for Theorem \ref{thm:1dofcase} gives us a DR-plan for the isostatic completion with minimum fan-in, (a reasonable measure of algebraic complexity), a more nuanced measure that treats solutions of 1-dof and 2-dof systems as 1 or 2 parameter families would no longer be optimized by the algorithm given in that proof. In particular, the complexity of the standard algorithm in the $k$-dof case would be exponential in $k$ (even if the case were matroidal and an optimal DR-plan is known).
+    While the proof for Theorem \ref{thm:1dofcase} gives us a DR-plan for the isostatic completion with minimum fan-in (a reasonable measure of algebraic complexity), a more nuanced measure that treats solutions of 1-dof and 2-dof systems as 1 or 2 parameter families would no longer be optimized by the algorithm given in that proof. In particular, the complexity of the standard algorithm in the $k$-dof case would be exponential in $k$ (even if the case were matroidal and an optimal DR-plan is known).
 \end{remark}
 
 % \begin{proof}

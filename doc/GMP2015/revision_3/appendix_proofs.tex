@@ -148,7 +148,7 @@ Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Observation 
 
     To make the graph isostatic, we need only add one body and pin it to 2 other bodies. Doing so will cause $G$ to become $(3,3)$-tight.
 
-We adopt the following algorithm. Choose the 2 bodies to pin to by choosing a node $b$ in $T$ and looking at its children. From Observation \ref{rem:1dofcanon}, we know that the children can only share  a single pin or a sub-graph. Pin the new body to bodies in two separate children. Doing so will ensure that all children of $b$ will have 1-dof and all ancestors of $b$ (including $b$) will now be isostatic.
+We adopt the following algorithm. Choose the 2 bodies to pin to by choosing a node $b$ in $T$ and looking at its children. From Observation \ref{rem:1dofcanon}, we know that the children can only share  a single pin or a subgraph. Pin the new body to bodies in two separate children. Doing so will ensure that all children of $b$ will have 1-dof and all ancestors of $b$ (including $b$) will now be isostatic.
 
     % Then, we can form a valid isostatic DR-plan $T_b$ from $T$. In $T_b$, $fanin(b)$is the number of leaves in the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $fanin(w)$ is the the number leaf nodes in the tree rooted at $w$, excluding the subtree constaining $b$, plus 1 (for the node leading to $b$).  Then, for any node $b$ that we choose, $T_b$ is a valid DR-plan. The size of $T_b$ will just be the maximum fanin of all nodes in $T_b$. Thus, if we want to minimize the size of our DR-plan, we simply need to take the $b$ that has the $T_b$ of smallest size.
 

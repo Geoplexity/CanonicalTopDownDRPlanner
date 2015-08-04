@@ -75,7 +75,11 @@ each of which is cross-linked at 2 places with usually 3 other fibrils, where th
 
 The cross-linking microfibrils can be modeled as a pinned line-incidence constraint system in $\mathbb{R}^2$, where incidence constraints are used instead of distance constraints.
 
-A \dfn{pinned line-incidence system} $(G,\delta)$ is a graph $G=(V,E)$ together with parameters $\delta$ specifying $|E|$ \textbf{pins} with fixed positions in $\mathbb{R}^2$, such that each edge is constrained to lie on a line passing through the corresponding pin, i.e.\ $\delta: E \rightarrow \mathbb{R}^2$.
+\begin{definition}
+    A \dfn{pinned line-incidence system} $(G,\delta)$ is a graph $G=(V,E)$ together with parameters $\delta$ specifying $|E|$ \dfn{pins} with fixed positions in $\mathbb{R}^2$, such that each edge is constrained to lie on a line passing through the corresponding pin, i.e.\ $\delta: E \rightarrow \mathbb{R}^2$.
+\end{definition}
+
+
 %
 % $G=(V,E, w_V, w_E)$
 %%is a \textbf{2-dimensional pinned line-incidence graph},
@@ -217,9 +221,8 @@ Thus it is straightforward to adapt the proof of Theorem~\ref{theorem:main} to  
 %
 Consequently, we can efficiently find the optimal DR-plan for  pinned line-incidence graphs using basically the same algorithm as for  bar-joint graphs.
 
-% \noindent
-% \note The recombination problem for  pinned line-incidence systems is trivial. Since the pins are given fixed positions in the plane, the solutions of a isostatic sub-system will automatically be consistent with solutions of the remaining of the system.
-
-\sidenote{The recombination problem for  pinned line-incidence systems is trivial. Since the pins are given fixed positions in the plane, the solutions of a isostatic sub-system will automatically be consistent with solutions of the remaining of the system.}
+% \sidenote{
+Note that the recombination problem for pinned line-incidence systems is trivial. Since the pins are given fixed positions in the plane, the solutions of an isostatic subsystem will automatically be consistent with the solutions of the other subsystems.
+% }
 
 
