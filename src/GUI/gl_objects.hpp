@@ -1,10 +1,10 @@
 #ifndef GL_OBJECTS_HPP
 #define GL_OBJECTS_HPP
 
+#define GLM_FORCE_RADIANS
 
 #include "../../ext/glm/glm.hpp"
 
-#define GLM_FORCE_RADIANS
 #include "../../ext/glm/gtx/rotate_vector.hpp"
 
 // #include <GLFW/glfw3.h>

@@ -3,7 +3,6 @@
 #include "../Graph/Pebbled_Graph.hpp"
 
 
-
 Graph_Display_Window::Graph_Display_Window(Main_GUI_Manager *mgm, Graph *graph) :
     Movable_App_Window_2D(mgm),
     graph(graph),
@@ -86,6 +85,7 @@ void Graph_Display_Window::update_graph_positions() {
     edges_highlight.clear();
     edges_dashed.clear();
     // non_edges.clear();
+    
 
     if (drp)
         _update_graph_positions_drp();
@@ -291,8 +291,8 @@ void Graph_Display_Window::update_display() {
 
     // string printthis = "Hello,\nthis\nis\na\nfont\ntest!";
     // print_string(0,0,printthis.c_str(),0,0,0);
-    // cout << "DISPLAY: Number of verts = " << vertices.size() << endl;
-    // cout << "DISPLAY: Number of edges = " << edges.size() << endl;
+    // std::cout << "DISPLAY: Number of verts = " << vertices.size() << std::endl;
+    // std::cout << "DISPLAY: Number of edges = " << edges.size() << std::endl;
     drawer->draw_graph_edges(edges, edges_highlight, edges_dashed);
     drawer->draw_graph_vertices(vertices, vertices_highlight);
     drawer->draw_graph_vertices_names(vertices_names, vertices, vertices_highlight_names, vertices_highlight);

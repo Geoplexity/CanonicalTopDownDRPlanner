@@ -1,7 +1,7 @@
 #ifndef CAMERA_2D_HPP
 #define CAMERA_2D_HPP
 
-
+#define GLM_FORCE_RADIANS
 #include "../../ext/glm/glm.hpp"
 #include "../../ext/glm/gtc/matrix_transform.hpp"
 #include "../../ext/glm/gtx/rotate_vector.hpp"

@@ -8,6 +8,9 @@ drp
 # external libraries
 ext/
 
+# editor
+*.sublime*
+
 
 
 # Compiled Object files
