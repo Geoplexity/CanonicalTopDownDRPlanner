@@ -72,17 +72,21 @@ In all cases, we are specifically interested in how to add additional constraint
 % \end{definition}
 
 \begin{definition}
+[Body-hyperpin qusecs]
     A \dfn{body-hyperpin qusecs} is a constraint system where the objects are rigid bodies and the constraints are incidences of object subsets at a common point, i.e.\ a pinning of bodies.
 \end{definition}
 
-\begin{remark*}\label{rem:bodypin_is_barjoint}
+\begin{remark*}
+\label{rem:bodypin_is_barjoint}
     A body-hyperpin qusecs is a special case of bar-joint qusecs of the previous sections of the paper. As such, the DR-planning for isostatic systems discussed in Section \ref{sec:DRP} is unchanged and the results of Section \ref{sec:recomb} still go through with minor modifications.
 \end{remark*}
 
 For the remainder of this section, we deal only with the DR-plan of such qusecs. Hence, we refer only to the combinatorics or underlying hypergraph of the qusecs. We now introduce 2 sub-classes of body-hyperpin graphs for modeling Examples 4 and 5 in Section \ref{sec:intro}, for which the optimal completion problem is significantly easier.
 
-\begin{definition}\label{def:body-pin}
-    A body-pin graph is a body-hyperpin graph with the following conditions:
+\begin{definition}
+[Body-pin graph]
+\label{def:body-pin}
+    A \dfn{body-pin graph} is a body-hyperpin graph with the following conditions:
     (1) each pin is shared by at most two bodies; and
     (2) no two bodies share more than one pin
 
@@ -91,12 +95,14 @@ For the remainder of this section, we deal only with the DR-plan of such qusecs.
 \end{definition}
 
 \begin{definition}
+[Triangle-hyperpin graph]
     A \dfn{triangle-hyperpin graph} is a body-hyperpin graph where each body is a triangle, i.e.\ it shares  pins with at most 3 other bodies. This is also represented as a hyper-graph where each pin is a vertex and each triangle represents a tri-hyperedge. For such hypergraphs, {\em 1 and 2-dof} can be characterized by $(2,4)$ and $(2,5)$-tightness respectively \cite{Lee:2007:PGA} \cite{streinu2009sparse}.
 \end{definition}
 
 Body-pin graphs are of particular interest to us in the context of Example 4 in Section \ref{sec:intro}. Triangle-multipin graphs can be used to represent the silica bi-layers and glassy structures described in Example 5 of Section \ref{sec:intro}, where each triangle is the junction of ``disks'' in the plane (see Figure \ref{fig:silica_glass}). Typically, these systems are not isostatic, so to relate the work of this paper to the systems, we define a slightly different kind of DR-plan using the notion of $(k,l)$-sparsity and tightness.
 
 \begin{definition}
+[$(k,l)$-tight DR-plan]
     A \dfn{$(k,l)$-tight DR-plan} is one in which each child node is either a vertex maximal proper $(k,l)$-tight subgraph of the parent node or it is trivial. In our case, the trivial nodes are the bodies.
 \end{definition}
 
@@ -105,7 +111,7 @@ the notion of a canonical DR-plan extends directly to the case when the hypergra
 
 \begin{observation*}
 \label{obs:bodypin_drp}
-For the 1-dof body-pin graphs described above that are $(3,4)$-sparse, a $(3,4)$-tight canonical DR-plan exists where every node of a $(3,4)$-sparse graph satisfies one of the following: (1) its children are 2 proper vertex-maximal 1-dof graphs that intersect on another 1-dof graph; or (2) its children are all of the proper maximal 1-dof subgraphs, pairwise sharing at most one body.
+    For the 1-dof body-pin graphs described above that are $(3,4)$-sparse, a $(3,4)$-tight canonical DR-plan exists where every node of a $(3,4)$-sparse graph satisfies one of the following: (1) its children are 2 proper vertex-maximal 1-dof graphs that intersect on another 1-dof graph; or (2) its children are all of the proper maximal 1-dof subgraphs, pairwise sharing at most one body.
 \end{observation*}
 
 % \begin{observation}
@@ -123,7 +129,8 @@ For the 1-dof body-pin graphs described above that are $(3,4)$-sparse, a $(3,4)$
 
 As in Section \ref{sec:DRP},  a strong Church-Rosser property holds, making all canonical DR-plans optimal:
 %
-\begin{observation*}\label{rem:1dofcanon}
+\begin{observation*}
+\label{rem:1dofcanon}
     When the input is independent, all $(3,4)$-tight canonical DR-plans are optimal. We can find such a DR-plan in the same time complexity as the $(2,3)$-tight case for bar-joint graphs discussed in Section \ref{sec:DRP}.
 \end{observation*}
 

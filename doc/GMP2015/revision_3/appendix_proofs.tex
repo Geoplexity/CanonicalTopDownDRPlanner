@@ -17,13 +17,13 @@
 \subsubsection{Proof of Observation \ref{lemma:union_intersection}}
 
 \begin{proof}
-For (1), simply note that if $F_i\cup F_j$ were trivial, then, by definition, $F_i$ and $F_j$ must be trivial.
+    For (1), simply note that if $F_i\cup F_j$ were trivial, then, by definition, $F_i$ and $F_j$ must be trivial.
 
-For the next parts, we use the quantity $d(G)=2|V|-|E|$, which we call \dfn{density}.
-For (2), observe that underconstrained subgraphs of isostatic graphs must have density less than 3.
-For (3), observe that, given an isostatic graph, a subgraph with density $3$ must also be isostatic. Then, use the fact that, by definition, $d(F_i)=3$ and $d(F_j)=3$. Then it is straightforward application of the inclusion-exclusion $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
+    For the next parts, we use the quantity $d(G)=2|V|-|E|$, which we call \dfn{density}.
+    For (2), observe that underconstrained subgraphs of isostatic graphs must have density less than 3.
+    For (3), observe that, given an isostatic graph, a subgraph with density $3$ must also be isostatic. Then, use the fact that, by definition, $d(F_i)=3$ and $d(F_j)=3$. Then it is straightforward application of the inclusion-exclusion $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
 
-For (4), because subgraphs of a isostatic graph can only be trivial, underconstrained, or isostatic, all cases have already been exhausted.
+    For (4), because subgraphs of a isostatic graph can only be trivial, underconstrained, or isostatic, all cases have already been exhausted.
 \end{proof}
 
 
@@ -52,65 +52,74 @@ For (4), because subgraphs of a isostatic graph can only be trivial, underconstr
 \subsubsection{Proof of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_is_C}}
 
 \begin{proof}
-Assume $C_i\cup C_j \neq C$. This would contradict the proper vertex-maximality of $C_i,C_j$.
-%
-In the reverse direction, we know $C$ is either a non-leaf node (isostatic by definition of a DR-plan) or $G$ itself (isostatic by definition of the problem). Thus, $C_i\cup C_j=C$ is isostatic.
+    Assume $C_i\cup C_j \neq C$. This would contradict the proper vertex-maximality of $C_i,C_j$.
+    %
+    In the reverse direction, we know $C$ is either a non-leaf node (isostatic by definition of a DR-plan) or $G$ itself (isostatic by definition of the problem). Thus, $C_i\cup C_j=C$ is isostatic.
 \end{proof}
 
 
 \subsubsection{Proof of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc}}
 
-\begin{observation}\label{observation:no_edges_between_diff}
-Take $R_i=C\setminus C_i$ and $R_j=C\setminus C_j$. If $C_i\cup C_j$ is isostatic, then there can be no edges in $C$ between the vertices of $R_i$ and $R_j$.
-\end{observation}
-
 \begin{proof}
-Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_is_C}, shows that $C_i\cup C_j$ must equal the parent graph $C$.
-\end{proof}
+    % (Of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc})
+    %
+    Take two children of node $C$, called $C_i$ and $C_j$. Let $R_i$ be the graph induced in node $C$ by the edge set of $C$ minus the edge set of child $C_i$ ($C\setminus C_i$ for convenience); let $R_j=C\setminus C_j$. Let $D_{i,j}=C_i\cap C_j=C\setminus (R_i\cup R_j)$. Let $R'_i\subset R_i$, $R'_j\subset R_j$, and $D'_{i,j}\subset D_{i,j}$, and take these proper subgraphs to be non-empty.
+
+    If there are two children ($N=2$) then the proof is simple, it follows from the definition of a DR-plan: the union of the children is the parent which is isostatic. Assume that $N>2$ and take a third child, called $C_k$.
+    % Let $R_k=C\setminus C_k$.
+    We want to determine what $C_k$ can be, in terms of $i$ and $j$. $C_k$ can possibly be composed of an element from $\{\emptyset, D'_{i,j}, D_{i,j}\}$, an element from $\{\emptyset, R'_i, R_i\}$, and an element from $\{\emptyset, R'_j, R_j\}$, for a total of 27 cases. We will exhaustively show that it must be $R_i\cup R_j\cup D'_{i,j}$. First, we make the following observation:
+
+    \begin{observation}\label{observation:no_edges_between_diff}
+        If $C_i\cup C_j$ is isostatic, then there can be no edges in $C$ between the vertices of $R_i$ and $R_j$.
+    \end{observation}
+
+    \begin{proof}
+        Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_is_C}, shows that $C_i\cup C_j$ must equal the parent graph $C$.
+    \end{proof}
 
 
-\begin{proof} (Of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc})
 
-The alternative phrasing is as in Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_is_C}.
 
-Take $R_i=C\setminus C_i$, $R_j=C\setminus C_j$, and $D_{i,j}=C_i\cap C_j=(C\setminus R_i)\setminus R_j$ (note that $R_j\subset C_i$, $R_i\subset C_j$ and $D_{i,j}\subset C_i,C_j$). Furthermore, take the proper subgraphs $R'_i\subset R_i$, $R'_j\subset R_j$, and $D'_{i,j}\subset D_{i,j}$ that are non-empty.
 
-Assume that there is a third isostatic vertex-maximal proper subgraph $C_k$ (with $C'_k=C\setminus C_k$). There are $3\times 3\times 3 = 27$ possible cases for what this subgraph could be.
+    % Take $R_i=C\setminus C_i$, $R_j=C\setminus C_j$, and $D_{i,j}=C_i\cap C_j=(C\setminus R_i)\setminus R_j$ (note that $R_j\subset C_i$, $R_i\subset C_j$ and $D_{i,j}\subset C_i,C_j$). Furthermore, take the proper subgraphs $R'_i\subset R_i$, $R'_j\subset R_j$, and $D'_{i,j}\subset D_{i,j}$ that are non-empty.
 
-Without loss of generality, all graphs are the induced subgraphs of $C$.
+    % Assume that there is a third isostatic vertex-maximal proper subgraph $C_k$ (with $C'_k=C\setminus C_k$). There are $3\times 3\times 3 = 27$ possible cases for what this subgraph could be.
 
-% The notation $Idc(G,X)$ is the subgraph of $G$ induced by the vertex set $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
+    % Without loss of generality, all graphs are the induced subgraphs of $C$.
 
-\newcommand{\inducedOnC}[1]{#1}
-% \newcommand{\inducedOnC}[1]{Idc\left(C,#1\right)}
+    % The notation $Idc(G,X)$ is the subgraph of $G$ induced by the vertex set $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
 
-\begin{itemize}
-    \item 3 cases: $C_k$ cannot be $C=\inducedOnC{R_i\cup R_j\cup D_{i,j}}$, $C_i=\inducedOnC{R_j\cup D_{i,j}}$, or $C_j=\inducedOnC{R_i\cup D_{i,j}}$. This is by definition.
+    \newcommand{\inducedOnC}[1]{#1}
+    % \newcommand{\inducedOnC}[1]{Idc\left(C,#1\right)}
 
-    \item 13 cases: $C_k$ cannot be a proper subgraph of $C_i$ and $C_j$ or else $C_k$ would not be vertex-maximal. These are the graphs $\inducedOnC{R'_i\cup D_{i,j}}$, $\inducedOnC{R'_j\cup D_{i,j}}$, $\inducedOnC{ D_{i,j}}$, $\inducedOnC{R_i\cup D'_{i,j}}$, $\inducedOnC{R_j\cup D'_{i,j}}$, $\inducedOnC{R'_i\cup D'_{i,j}}$, $\inducedOnC{R'_j\cup D'_{i,j}}$, $\inducedOnC{ D'_{i,j}}$, $\inducedOnC{R_i}$, $\inducedOnC{R_j}$, $\inducedOnC{R'_i}$, $\inducedOnC{R'_j}$, and $\inducedOnC{\emptyset}$.
+    \begin{itemize}
+        \item 3 cases: $C_k$ cannot be $C=\inducedOnC{R_i\cup R_j\cup D_{i,j}}$, $C_i=\inducedOnC{R_j\cup D_{i,j}}$, or $C_j=\inducedOnC{R_i\cup D_{i,j}}$. This is by definition.
 
-    \item 2 cases: $C_k$ cannot contain $C_i$ or $C_j$ as proper subgraphs, or else they are not vertex-maximal. These are the graphs $\inducedOnC{R'_i\cup R_j\cup D_{i,j}}$ and $\inducedOnC{R_i\cup R'_j\cup D_{i,j}}$ respectively.
+        \item 13 cases: $C_k$ cannot be a proper subgraph of $C_i$ and $C_j$ or else $C_k$ would not be vertex-maximal. These are the graphs $\inducedOnC{R'_i\cup D_{i,j}}$, $\inducedOnC{R'_j\cup D_{i,j}}$, $\inducedOnC{ D_{i,j}}$, $\inducedOnC{R_i\cup D'_{i,j}}$, $\inducedOnC{R_j\cup D'_{i,j}}$, $\inducedOnC{R'_i\cup D'_{i,j}}$, $\inducedOnC{R'_j\cup D'_{i,j}}$, $\inducedOnC{ D'_{i,j}}$, $\inducedOnC{R_i}$, $\inducedOnC{R_j}$, $\inducedOnC{R'_i}$, $\inducedOnC{R'_j}$, and $\inducedOnC{\emptyset}$.
 
-    \item 4 cases: \usestwod $C_k$ cannot be $\inducedOnC{R_i\cup R_j}$, $\inducedOnC{R'_i\cup R_j}$, $\inducedOnC{R_i\cup R'_j}$, or $\inducedOnC{R'_i\cup R'_j}$ because these are all disconnected (Observation \ref{observation:no_edges_between_diff}) and cannot be isostatic.
+        \item 2 cases: $C_k$ cannot contain $C_i$ or $C_j$ as proper subgraphs, or else they are not vertex-maximal. These are the graphs $\inducedOnC{R'_i\cup R_j\cup D_{i,j}}$ and $\inducedOnC{R_i\cup R'_j\cup D_{i,j}}$ respectively.
 
-    \item 1 case: $C_k=\inducedOnC{R'_i\cup R'_j\cup D_{i,j}}$ is not possible. Since $C_i\cup C_k = \inducedOnC{R'_i\cup R_j\cup D_{i,j}}\neq C$ we have from Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_is_C}, that $C_i\cup C_k$ cannot be isostatic. We also know it cannot be trivial because it contains isostatic subgraphs. This means it must be underconstrained. From Observation \ref{lemma:union_intersection}, we know that $C_i\cap C_k=\inducedOnC{R'_j\cup D_{i,j}}$ must then be trivial. This is impossible because $D_{i,j}$ is isostatic, thereby contradicting the assumption that $C_k$ is isostatic.
+        \item 4 cases: \usestwod $C_k$ cannot be $\inducedOnC{R_i\cup R_j}$, $\inducedOnC{R'_i\cup R_j}$, $\inducedOnC{R_i\cup R'_j}$, or $\inducedOnC{R'_i\cup R'_j}$ because these are all disconnected (Observation \ref{observation:no_edges_between_diff}) and cannot be isostatic.
 
-    \item 1 case: \usestwod $C_k=\inducedOnC{R'_i\cup R'_j\cup D'_{i,j}}$ is not possible. Since $C_i\cup C_k\neq C$ (and $C_j\cup C_k\neq C$), we know by the same logic as the previous case that the $C_i\cap C_k$ must be trivial (a single node). However, $C_i\cap C_k=\inducedOnC{R'_j\cup D'_{i,j}}$. This causes a contradiction, the intersection cannot be trivial because $R'_j$ and $D'_{i,j}$ are not empty sets and are disjoint.
+        \item 1 case: $C_k=\inducedOnC{R'_i\cup R'_j\cup D_{i,j}}$ is not possible. Since $C_i\cup C_k = \inducedOnC{R'_i\cup R_j\cup D_{i,j}}\neq C$ we have from Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_is_C}, that $C_i\cup C_k$ cannot be isostatic. We also know it cannot be trivial because it contains isostatic subgraphs. This means it must be underconstrained. From Observation \ref{lemma:union_intersection}, we know that $C_i\cap C_k=\inducedOnC{R'_j\cup D_{i,j}}$ must then be trivial. This is impossible because $D_{i,j}$ is isostatic, thereby contradicting the assumption that $C_k$ is isostatic.
 
-    \item 2 cases: \usestwod $C_k=\inducedOnC{R'_i\cup R_j\cup D'_{i,j}}$ and $C_k=\inducedOnC{R_i\cup R'_j\cup D'_{i,j}}$ are not possible. The proof mirrors the previous case, except here you must choose $C_i$ and $C_j$ respectively.
+        \item 1 case: \usestwod $C_k=\inducedOnC{R'_i\cup R'_j\cup D'_{i,j}}$ is not possible. Since $C_i\cup C_k\neq C$ (and $C_j\cup C_k\neq C$), we know by the same logic as the previous case that the $C_i\cap C_k$ must be trivial (a single node). However, $C_i\cap C_k=\inducedOnC{R'_j\cup D'_{i,j}}$. This causes a contradiction, the intersection cannot be trivial because $R'_j$ and $D'_{i,j}$ are not empty sets and are disjoint.
 
-    \item 1 case: $C_k=\inducedOnC{R_i\cup R_j\cup D'_{i,j}}$ is all that remains.
-\end{itemize}
+        \item 2 cases: \usestwod $C_k=\inducedOnC{R'_i\cup R_j\cup D'_{i,j}}$ and $C_k=\inducedOnC{R_i\cup R'_j\cup D'_{i,j}}$ are not possible. The proof mirrors the previous case, except here you must choose $C_i$ and $C_j$ respectively.
 
-Since $D_{i,j}\subset C_i, C_j$ it means that $C_k\cup C_i = C_k \cup C_j = C$, thus proving the Lemma.
-%
-% \todo{Need a figure?}
+        \item 1 case: $C_k=\inducedOnC{R_i\cup R_j\cup D'_{i,j}}$ is all that remains.
+    \end{itemize}
+
+    Since $D_{i,j}\subset C_i, C_j$ it means that $C_k\cup C_i = C_k \cup C_j = C$, thus proving Point \ref{lemma:wc_intersection_makes_all_wc}.
+    The alternative phrasing of this Point is straightforward from Point \ref{lemma:wc_intersection_is_C}.
+    %
+    % \todo{Need a figure?}
 \end{proof}
 
 \subsubsection{Proof of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:uc_intersection_makes_all_uc}}
 
 \begin{proof}
-Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Observation \ref{lemma:union_intersection}, $C_i\cap C_k$ must be isostatic. Then, by Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_makes_all_wc}, the intersection between any two children must be isostatic. This means that $C_i\cap C_j$ is isostatic. Therefore, such a $k$ cannot exist and all intersections are trivial.
+    Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Observation \ref{lemma:union_intersection}, $C_i\cap C_k$ must be isostatic. Then, by Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_makes_all_wc}, the intersection between any two children must be isostatic. This means that $C_i\cap C_j$ is isostatic. Therefore, such a $k$ cannot exist and all intersections are trivial.
 \end{proof}
 
 

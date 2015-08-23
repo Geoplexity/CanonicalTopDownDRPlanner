@@ -76,6 +76,7 @@ each of which is cross-linked at 2 places with usually 3 other fibrils, where th
 The cross-linking microfibrils can be modeled as a pinned line-incidence constraint system in $\mathbb{R}^2$, where incidence constraints are used instead of distance constraints.
 
 \begin{definition}
+[Pinned line-incidence system]
     A \dfn{pinned line-incidence system} $(G,\delta)$ is a graph $G=(V,E)$ together with parameters $\delta$ specifying $|E|$ \dfn{pins} with fixed positions in $\mathbb{R}^2$, such that each edge is constrained to lie on a line passing through the corresponding pin, i.e.\ $\delta: E \rightarrow \mathbb{R}^2$.
 \end{definition}
 
@@ -157,7 +158,8 @@ We define a \dfn{trivial} graph to be a single vertex and make the following mod
 %\end{itemize}
 
 \begin{definition}
-    The \dfn{DR-plan} of a  pinned line-incidence graph $G$ is one in which (1) each child node of a non-leaf node $C$ is either a \dfn{connected} rigid vertex-induced subgraph of $C$, or an edge not contained in any  proper rigid subgraph of $C$, and (2) a leaf node is a single edge.
+[DR-plans of pinned line-incidence systems]
+    The \dfn{DR-plan} of a pinned line-incidence graph $G$ is one in which (1) each child node of a non-leaf node $C$ is either a \dfn{connected} rigid vertex-induced subgraph of $C$, or an edge not contained in any  proper rigid subgraph of $C$, and (2) a leaf node is a single edge.
     % Definition~\ref{def:drp} with  modified rules number 2 and 4:
     %    The \textbf{decomposition-recombination (DR-) plan} of  a 2-dimensional pinned line-incidence graph $G$, $DRP(G)$, is  a tree that has the following properties:
     %    \begin{enumerate}
@@ -188,7 +190,8 @@ the following modified version of Observation~\ref{lemma:union_intersection},
 which  can be proved using a simple counting based argument.
 
 
-\begin{observation}\label{lem:pinned_union_intersection}
+\begin{observation}
+\label{lem:pinned_union_intersection}
     Let $F_i$ and $F_j$ to be subgraphs of the same isostatic graph $F$, where each of them can be either a single edge or a connected isostatic subgraph. There are only two possible cases:
     (1) at least one of $F_i$, $F_j$ is an edge, if and only if $F_i \cup F_j$ is underconstrained, if and only if $F_i \cap F_j$ is trivial; and (2) both $F_i$ and $F_j$ are isostatic, if and only if $F_i \cup F_j$ is isostatic, if and only if $F_i \cap F_j$ is isostatic.
     %The following table summarizes all bijections:

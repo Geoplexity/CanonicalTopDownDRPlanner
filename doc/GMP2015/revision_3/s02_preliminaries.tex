@@ -191,30 +191,56 @@ We note that  the remainder of this section and Sections~\ref{sec:DRP} and \ref{
 
 
 \ClearMyMinHeight
-\SetMyMinHeight{.4}{../../img/svg/3xc2c3}
-\SetMyMinHeight{.3}{../../img/svg/3xc2c3_comdrp}
-\SetMyMinHeight{.3}{../../img/svg/3xc2c3_candrp}
+\SetMyMinHeight{.4}{../../img/svg/3xc2c3_new}
+\SetMyMinHeight{.3}{../../img/svg/3xc2c3_new_comdrp}
+\SetMyMinHeight{.3}{../../img/svg/3xc2c3_new_candrp}
 
 \begin{figure*}\centering%
-  %
+
   \begin{subfigure}{0.4\linewidth}\centering
-    \includegraphics[height=\myMinHeight]{../../img/svg/3xc2c3}
+    \includegraphics[height=\myMinHeight]{../../img/svg/3xc2c3_new}
     \caption{}\label{fig:demo_graph:graph}
   \end{subfigure}%
   %
   \hfill
   \begin{subfigure}{0.3\linewidth}\centering
-    \includegraphics[height=\myMinHeight]{../../img/svg/3xc2c3_comdrp}
+    \includegraphics[height=\myMinHeight]{../../img/svg/3xc2c3_new_comdrp}
     \caption{}\label{fig:demo_graph:comdrp}
   \end{subfigure}%
   %
   \hfill
   \begin{subfigure}{0.3\linewidth}\centering
-    \includegraphics[height=\myMinHeight]{../../img/svg/3xc2c3_candrp}
+    \includegraphics[height=\myMinHeight]{../../img/svg/3xc2c3_new_candrp}
     \caption{}\label{fig:demo_graph:candrp}
   \end{subfigure}%
   %
-  \caption{(\ref{fig:demo_graph:graph}) A graph, $G_{demo}$, used to illustrate concepts throughout this and the next section. (\ref{fig:demo_graph:comdrp}) The complete DR-plan of $G_{demo}$, i.e.\ $ComDRP(G_{demo})$. Dashed lines indicate that the children repeat the same pattern as the others shown on this level. The children of triangles (3 edges) are omitted. (\ref{fig:demo_graph:candrp}) The canonical DR-plan of $G_{demo}$, which is optimal (see Section~\ref{sec:DRP}), i.e.\ $OptDRP(G_{demo})$. The children of triangles are omitted.}
+  % \begin{subfigure}[c]{0.3\linewidth}\centering
+  %   \includegraphics[width=\linewidth]{../../img/svg/3xc2c3_new}
+  %   \caption{}\label{fig:demo_graph:graph}
+  % \end{subfigure}%
+  % %
+  % \hfill
+  % \begin{subfigure}[t]{0.345\linewidth}\centering
+  %   \includegraphics[width=\linewidth]{../../img/svg/3xc2c3_new_comdrp}
+  %   \caption{}\label{fig:demo_graph:comdrp}
+  % \end{subfigure}%
+  % %
+  % \hfill
+  % \begin{subfigure}[t]{0.345\linewidth}\centering
+  %   \includegraphics[width=\linewidth]{../../img/svg/3xc2c3_new_candrp}
+  %   \caption{}\label{fig:demo_graph:candrp}
+  % \end{subfigure}%
+  %
+  \caption{
+  (\ref{fig:demo_graph:graph}) A graph, $G_{demo}$, used to illustrate concepts throughout this and the next section.
+  %
+  (\ref{fig:demo_graph:comdrp}) The complete DR-plan of $G_{demo}$.
+  % i.e.\ $ComDRP(G_{demo})$.
+  Dashed lines indicate that the children repeat the same pattern as the others shown on this level. The children of triangles (3 edges) are omitted.
+  %
+  (\ref{fig:demo_graph:candrp}) The canonical DR-plan of $G_{demo}$, which is optimal (see Section~\ref{sec:DRP}).
+  % i.e.\ $OptDRP(G_{demo})$.
+  The children of triangles are omitted.}
   \label{fig:demo_graph}
 \end{figure*}%
 
@@ -268,7 +294,7 @@ We note that  the remainder of this section and Sections~\ref{sec:DRP} and \ref{
 % %
 %     % It can also be described recursively as: the root is $G$, its children are the trivial subgraphs and the DR-plans of its wellconstrained vertex-maximal proper subgraphs whose union is $G$ itself.
 % %
-%     A DR-plan is \dfn{complete} if it satisfies an additional property: for a non-leaf node $C$, its children are all of the rigid vertex-maximal proper subgraphs of $C$. This makes Property 2 implicit.
+%     A DR-plan is \dfn{complete} if it satisfies an additional property: for an internal node $C$, its children are all of the rigid vertex-maximal proper subgraphs of $C$. This makes Property 2 implicit.
 %   %and in fact, $C$ contains all the edges in the union of its children as well.
 %   We denote a complete DR-plan of $G$ as $\comdrp{G}$.
 
@@ -283,27 +309,32 @@ We note that  the remainder of this section and Sections~\ref{sec:DRP} and \ref{
 
 
 
-% We begin with the definition of a general DR-plan and also introduce two specific kinds of DR-plans.
-
-\begin{definition}\label{def:drp}
+\begin{definition}
+[DR-plan]
+\label{def:drp}
     A \dfn{decomposition-recombination \mbox{(DR-)} plan}~\cite{hoffman2001decompositionI} of graph $G$ is defined as a forest that has the following properties:
     \begin{enumerate}
-        \item Each node represents a rigid subgraph of $G$.
+        \item Each node represents a rigid subgraph of $G$.\footnote{Nodes will be referred to interchangeably as ``the node that represents or contains the (sub)graph $C$'' and as simply ``$C$''.}
         \item A root node is a vertex-maximal rigid subgraph of $G$.
         \item A node is the subgraph of $G$ induced by the union of its children.
         \item A leaf node is a single edge.
     \end{enumerate}
 \end{definition}
 
+Note that this definition permits the same rigid subgraph to appear in multiple nodes of the DR-plan. Not permitting such duplication would, in general, require the DR-plan to be defined as a directed acyclic graph instead of a forest.
+
 \begin{definition}
-    A DR-plan is \dfn{complete} if it satisfies an additional property: for a non-leaf node $C$, its children are all of the rigid vertex-maximal proper subgraphs of $C$ (which makes Property 3 of a DR-plan implicit.)
+[Complete DR-plan]
+    A DR-plan is \dfn{complete} if it satisfies an additional property: for an internal node $C$, its children are all of the rigid vertex-maximal proper subgraphs of $C$ (which makes Property 3 of a DR-plan implicit).
 \end{definition}
 
 \begin{definition}
-    A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the forest. The maximum fan-in is called the \dfn{size} of the DR-plan.
+[Optimal DR-plan]
+    A DR-plan is \dfn{optimal} if it minimizes the maximum fan-in over all nodes in the forest.
+    % The maximum fan-in is called the \dfn{size} of the DR-plan.
 \end{definition}
 
-We denote these different kinds of DR-plans as $\drp{G}$, $\comdrp{G}$, and $\optdrp{G}$, respectively. Note that nodes will be referred to interchangeably as ``the node that represents or contains the (sub)graph $C$'' and as simply ``$C$''.
+% We denote these different kinds of DR-plans as $\drp{G}$, $\comdrp{G}$, and $\optdrp{G}$, respectively.
 
 
 
@@ -312,11 +343,11 @@ We denote these different kinds of DR-plans as $\drp{G}$, $\comdrp{G}$, and $\op
 %
 % \todo{This was labeled as both begin(remark) and end(observation), what was your intent?}
 \begin{remark}
-More than one node (leaf) in a DR-plan forest may represent the same subgraph (vertex) of $G$.
-For a given graph, there could be exponentially many DR-plans---and even optimal DR-plans---in the size of the graph. A complete DR-plan is unique but may not be (and is usually not) optimal. DR-plans of self-similar graphs are self-similar.
+  More than one node (leaf) in a DR-plan forest may represent the same subgraph (vertex) of $G$.
+  For a given graph, there could be exponentially many DR-plans---and even optimal DR-plans---in the size of the graph. A complete DR-plan is unique but may not be (and is usually not) optimal. DR-plans of self-similar graphs are self-similar.
 \end{remark}
 
-See Figures \ref{fig:demo_graph}, \ref{fig:c2c3ofk33s}, \ref{fig:demo_graph:candrpseq}, \ref{fig:overconstrained}, and \ref{fig:bodypindrp} for examples of DR-plans and how their properties relate to each other.
+See Figures \ref{fig:demo_graph}, \ref{fig:c2c3ofk33s}, \ref{fig:demo_graph:candrpseq}, \todo{we lost this figure, replaced with \ref{fig:seqdrp_nonuniqueness}, should it be cited here now or should the other be added back in somewhere?} \ref{fig:overconstrained}, and \ref{fig:bodypindrp} for examples of DR-plans and how their properties relate to each other.
 
 
 \subsection{Previous Work on DR-Plans}

@@ -59,13 +59,15 @@ To state the theorem, we first have to define the notion of \dfn{2-sums} and \df
 % Let $H_1=(V_1,E_1)$ and $H_2=(V_2,E_2)$ be two graphs on disjoint sets of vertices that contain the edges $(u,v)$ and $(w,x)$ respectively.
 A \dfn{2-sum} of $H_1$ and $H_2$ is a graph $H$ obtained by taking the union of $H_1$ and $H_2$ and identifying $u=w$ and $v=w$. In this case, $H_1$ and $H_2$ are called \dfn{2-sum components} of $H$. A \dfn{minimal 2-sum component} of $H$ is  one that cannot be further split into 2-sum components. A \dfn{2-tree} is recursively obtained by taking a 2-sum of 2-trees, with the base case of a 2-tree being a triangle. A \dfn{partial 2-tree} is a 2-tree minus some edges. Partial 2-trees have an alternate characterization as the graphs that avoid $K_4$ minors, and are also called series-parallel graphs.
 
-\begin{theorem}\label{theorem:convexcayley}
-    \cite{sitharam2010convex} $H$ has a convexifiable Cayley configuration space  with parameters $F$ if and only if for each $f\in F$  all the minimal 2-sum components of $H\cup F$ that contain both endpoints of $f$ are partial 2-trees. The Cayley configuration space $\Phi_F(H,\delta)$ of a bar-joint system or linkage $(H,\delta)$ is a convex polytope. When $H\cup F$ is a 2-tree, the bounding hyperplanes of this polytope are triangle inequalities relating the lengths of edges of the triangles in $H\cup F$.
+\begin{theorem}
+\label{theorem:convexcayley}
+    \cite{sitharam2010convex} $H$ has a convexifiable Cayley configuration space with parameters $F$ if and only if for each $f\in F$ all the minimal 2-sum components of $H\cup F$ that contain both endpoints of $f$ are partial 2-trees. The Cayley configuration space $\Phi_F(H,\delta)$ of a bar-joint system or linkage $(H,\delta)$ is a convex polytope. When $H\cup F$ is a 2-tree, the bounding hyperplanes of this polytope are triangle inequalities relating the lengths of edges of the triangles in $H\cup F$.
 \end{theorem}
 
 The idea of our approach to achieve the criteria (a)--(c) begins with the following simple but useful theorem.
 
-\begin{theorem}\label{theorem:omdk}
+\begin{theorem}
+\label{theorem:omdk}
     Given an indecomposable graph $G$, let $G'$ be a spanning partial 2-tree subgraph in $G$ with $k$ fewer edges than $G$. Then $(G,2)$ belongs in the set OMD$_k$.
 \end{theorem}
 
@@ -84,7 +86,8 @@ The idea of our approach to achieve the criteria (a)--(c) begins with the follow
 
 We refer to such graphs $G$ in short as \dfn{$k$-approximately convexifiable}, where the reduced graphs $G'$ and isostatic completions $H$ are convexifiable. As observed earlier, since graphs such as $G$ are in OMD$_k$, Criteria (a) and (b) are automatically met for small enough $k$. Criterion (c) is addressed as described in the following efficient search procedure which clarifies the dependence of the complexity on the number and ranges  of Cayley parameters $F$.
 
-\begin{theorem*}[Efficient search]
+\begin{theorem*}
+[Efficient search]
 \label{theorem:criterionc}
     % [Efficient search]
     For an indecomposable, $k$-approximately convexifiable graph $G = (V,E)$, let $G' = (V,E' =E\setminus D)$ be a spanning partial 2-tree subgraph where $|D| \le  k$. Let  $F$ be a set of non-edges of $G$ such that $H = (V, E'\cup F)$ is a 2-tree. Each solution $p$ (or connected component of a solution space) of $(G,\delta)$ of an orientation type $\sigma_p$ can be found in time $O(\log(W))$ where $W$ is the number of cells of desired accuracy (discrete volume) of the convex polytope $\Phi_F(G',\delta_E')$. The (discrete) volume $W$ is exponential in $|F|$ and polynomial in the (discrete range) of the parameters in $F$.
@@ -136,34 +139,42 @@ We refer to such graphs $G$ in short as \dfn{$k$-approximately convexifiable}, w
 % \end{figure*}
 
 
+% \ClearMyMinHeight
+% \SetMyMinHeight{.2}{../../img/epsfromtikz/omd_k33_example_new-0}
+% \SetMyMinHeight{.15}{../../img/epsfromtikz/omd_k33_example_new-1}
+% \SetMyMinHeight{.15}{../../img/epsfromtikz/omd_k33_example_new-2}
+% \SetMyMinHeight{.15}{../../img/epsfromtikz/omd_k33_example-1}
+% \SetMyMinHeight{.15}{../../img/epsfromtikz/omd_k33_example-2}
 \ClearMyMinHeight
-\SetMyMinHeight{.2}{../../img/epsfromtikz/omd_k33_example_new-0}
-\SetMyMinHeight{.15}{../../img/epsfromtikz/omd_k33_example_new-1}
-\SetMyMinHeight{.15}{../../img/epsfromtikz/omd_k33_example_new-2}
-\SetMyMinHeight{.15}{../../img/epsfromtikz/omd_k33_example-1}
-\SetMyMinHeight{.15}{../../img/epsfromtikz/omd_k33_example-2}
+\SetMyMinHeight{.08}{../../img/svg/k33_omd_a}
+\SetMyMinHeight{.08}{../../img/svg/k33_omd_b}
+\SetMyMinHeight{.08}{../../img/svg/k33_omd_c}
+\SetMyMinHeight{.08}{../../img/svg/k33_omd_d}
+\SetMyMinHeight{.08}{../../img/svg/k33_omd_e}
 
 \begin{figure*}\centering
-    \begin{subfigure}{.2\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{../../img/epsfromtikz/omd_k33_example_new-0}
+    \hspace{1cm}
+    \begin{subfigure}{.08\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/k33_omd_a}
         \caption{}\label{fig:omd_k33_example:a}
     \end{subfigure}\hfill
-    \begin{subfigure}{.15\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{../../img/epsfromtikz/omd_k33_example_new-1}
+    \begin{subfigure}{.08\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/k33_omd_b}
         \caption{}\label{fig:omd_k33_example:b}
-    \end{subfigure}
-    \begin{subfigure}{.15\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{../../img/epsfromtikz/omd_k33_example_new-2}
+    \end{subfigure}\hspace{1cm}
+    \begin{subfigure}{.08\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/k33_omd_c}
         \caption{}\label{fig:omd_k33_example:c}
     \end{subfigure}\hfill
-    \begin{subfigure}{.15\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{../../img/epsfromtikz/omd_k33_example-1}
+    \begin{subfigure}{.08\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/k33_omd_d}
         \caption{}\label{fig:omd_k33_example:d}
-    \end{subfigure}
-    \begin{subfigure}{.15\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{../../img/epsfromtikz/omd_k33_example-2}
+    \end{subfigure}\hspace{1cm}
+    \begin{subfigure}{.08\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/k33_omd_e}
         \caption{}\label{fig:omd_k33_example:e}
     \end{subfigure}
+    \hspace{1cm}
 
     \caption{
     (\ref{fig:omd_k33_example:a}) The $K_{3,3}$ with two labeled edges, $e_1$ and $e_2$. (\ref{fig:omd_k33_example:b}) The $K_{3,3}$ with $e_1$ and $e_2$ removed (dashed lines) and rearranged to illustrate that it is now a partial 2-tree. (\ref{fig:omd_k33_example:c}) The $K_{3,3}$ with $\{e_1,e_2\}$ removed and $\{f_1,f_2\}$ (bold lines) added to make a 2-tree, showing that the $K_{3,3}$ is at least OMD$_2$. (\ref{fig:omd_k33_example:d}) The $K_{3,3}$ with only $e_2$ removed (dashed line). (\ref{fig:omd_k33_example:e}) The $K_{3,3}$ with $e_2$ removed and $f_3$ (bold line) added to make a low Cayley complexity graph, showing that the $K_{3,3}$ is OMD$_1$.
@@ -171,11 +182,7 @@ We refer to such graphs $G$ in short as \dfn{$k$-approximately convexifiable}, w
     \label{fig:omd_k33_example}
 \end{figure*}
 
-% \noindent
-% \note A major advantage of the convex Cayley method is that it is completely unaffected when $\delta$ are intervals rather than exact values~~\cite{sitharam2010convex}.
-
-\sidenote{A major advantage of the convex Cayley method is that it is completely unaffected when $\delta$ are intervals of values rather than exact values~~\cite{sitharam2010convex}.}
-%cite my paper with Heping!!!
+Note that a major advantage of the convex Cayley method is that it is completely unaffected when $\delta$ are intervals of values rather than exact values~~\cite{sitharam2010convex}.
 
 \begin{example}[Using Cayley configuration space]
 % \myexample
