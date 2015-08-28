@@ -3,6 +3,9 @@
 \newcommand{\candrpx}[1]{P_{#1}^{can}}
 \newcommand{\seqdrpx}[1]{P_{#1}^{seq}}
 
+\newcommand{\pseudosequential}{pseudosequential}
+\newcommand{\Pseudosequential}{Pseudosequential}
+
 % \newcommand{\componentsx}[1]{CMPNTS(#1)}
 % \newcommand{\componentsx}[1]{COMPONENTS(#1)}
 % \newcommand{\componentsx}[1]{\text{\emph{COMPONENTS}}(#1)}
@@ -29,22 +32,23 @@
 % In this section, we discuss 2D bar-joint graphs. All vertex weights are $2$, all edge weights are $1$, and constant $k= -{{3}\choose{2}}=-3$. Trivial graphs are a single vertex and empty set. Furthermore, 2D isostatic graphs must be connected.
 % % The greatest density of a 2D isostatic graph is $-2$ (the vertex). The other disconnected part of the graph would need to have a density of $-1$, which is overconstrained and not possible in a isostatic graph (because there is no trivial graph with that density).
 
+The goal of this section is to develop an \ComplexityCanDRP\ time complexity algorithm for finding an optimal DR-plan.
+To this end, we first introduce a canonical DR-plan to capture those aspects of an optimal DR-plan that mimic the  uniqueness of a complete DR-plan, and we show that the nonunique aspects do not affect optimality for independent (underconstrained or isostatic) graphs.
+While useful for proving optimality, the canonical DR-plan is difficult to work with algorithmically. Therefore, we define the \pseudosequential\ DR-plan which is derived from the canonical and is still optimal.
+However, the \pseudosequential\ DR-plan lacks the essential uniqueness of the complete DR-plan. From the \pseudosequential, we derive the sequential DR-plan, which can be found in the same time complexity and is essentially unique.
+
+In this section and in Section~\ref{sec:recomb}, any reference to a graph $G$ without further specification is assumed to be isostatic (i.e.\ well-constrained or $(k,l)$-tight). Furthermore, we only consider unions and intersections of graphs that are induced subgraphs of a single parent graph $G$. In this case unions and intersections are well defined. For example, the union (resp.\ intersection) of $F_1 = (V_1, E_1)$ and $F_2 = (V_2, E_2)$ is the subgraph of $G$ induced by $V_1\cup V_2$ (resp.\ $V_1\cap V_2$).
+
+
 
 \subsection{Canonical DR-Plan}
-In this section, we define a \dfn{canonical} plan to capture those aspects of an optimal DR-plan that mimic the  uniqueness of a complete DR-plan, and we show that the nonunique aspects do not affect optimality for independent (underconstrained or isostatic) graphs. Furthermore, we give an efficient \ComplexityCanDRP\ algorithm to find an optimal DR-plan of any independent graph.
-% The definition is as follows:
-
-In this section and in section~\ref{sec:recomb}, any reference to a graph $G$ without further specification is assumed to be isostatic (i.e.\ well-constrained or $(k,l)$-tight). Furthermore, we only consider unions and intersections of graphs that are induced subgraphs of a single parent graph $G$. In this case unions and intersections are well defined. For example, the union (resp.\ intersection) of $F_1 = (V_1, E_1)$ and $F_2 = (V_2, E_2)$ is the subgraph of $G$ induced by $V_1\cup V_2$ (resp.\ $V_1\cap V_2$).
-
-% When using intersections and unions of graphs, we are always considering subgraphs of a single parent graph. In this case unions and intersections are well defined. For example, the union of $G_1=(V_1, E_1)$ and $G_2=(V_2, E_2)$ is the subgraph $(V_1\cup V_2, E_1\cup E_2)$; similarly, $G_1\cap G_2$ is the subgraph $(V_1\cap V_2, E_1\cap E_2)$.
 
 
-% \begin{definition}\label{def:canonical_drplan}
-%     The \dfn{canonical DR-plan} of a graph $G$ satisfies the following three properties:
-%     (1) it is a DR-plan of $G$;
-%     (2) children are rigid vertex-maximal proper subgraphs of the parent; and
-%     (3) if all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise exactly two that intersect non-trivially are children.
-% \end{definition}
+% In this section, we define a \dfn{canonical} plan to capture those aspects of an optimal DR-plan that mimic the  uniqueness of a complete DR-plan, and we show that the nonunique aspects do not affect optimality for independent (underconstrained or isostatic) graphs. Furthermore, we give an efficient \ComplexityCanDRP\ algorithm to find an optimal DR-plan of any independent graph.
+% % The definition is as follows:
+
+% In this section and in section~\ref{sec:recomb}, any reference to a graph $G$ without further specification is assumed to be isostatic (i.e.\ well-constrained or $(k,l)$-tight). Furthermore, we only consider unions and intersections of graphs that are induced subgraphs of a single parent graph $G$. In this case unions and intersections are well defined. For example, the union (resp.\ intersection) of $F_1 = (V_1, E_1)$ and $F_2 = (V_2, E_2)$ is the subgraph of $G$ induced by $V_1\cup V_2$ (resp.\ $V_1\cap V_2$).
+
 
 \begin{definition}
 [Canonical DR-plan]
@@ -55,6 +59,14 @@ In this section and in section~\ref{sec:recomb}, any reference to a graph $G$ wi
         \item \label{def:canonical_drplan:prop2} If all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise exactly two that intersect non-trivially are children.
     \end{enumerate}
 \end{definition}
+
+
+% \begin{definition}\label{def:canonical_drplan}
+%     The \dfn{canonical DR-plan} of a graph $G$ satisfies the following three properties:
+%     (1) it is a DR-plan of $G$;
+%     (2) children are rigid vertex-maximal proper subgraphs of the parent; and
+%     (3) if all pairs of rigid vertex-maximal proper subgraphs intersect trivially then all of them are children, otherwise exactly two that intersect non-trivially are children.
+% \end{definition}
 
 Definition~\ref{def:canonical_drplan} gives the canonical DR-plan a surprisingly strong Church-Rosser property, which is made explicit in Theorem~\ref{theorem:main}, the main result of this section.
 
@@ -112,7 +124,7 @@ Definition~\ref{def:canonical_drplan} gives the canonical DR-plan a surprisingly
     Notice that $\candrpx{C}$ contains a canonical DR-plan $\candrpx{C_i}$ for the graphs $C_i$ corresponding to each of $C$'s descendent nodes.
     Thus, from the induction hypothesis, we know that the $\candrpx{C_i}$ is optimal for $C_i$.
 
-    To carry out the induction step, it is sufficient to demonstrate a set of nodes $S$ (of height at most $t$) that must be present in any DR-plan $\drpx{C}$ of graph $C$ that satisfies Property (\ref{def:canonical_drplan:prop1}), including a known optimal one; and furthermore, for any such DR-plan $\drpx{C}$, either (Claim 1) $S$ must be the set of children of $C$; or (Claim 2) for all the ancestors $A$ of $S$, $\drpx{A}$ has the minimum possible fan-in of 2 \todo{Shouldn't it be `node $A$ in $\drpx{C}$ has the minimum...'}.
+    To carry out the induction step, it is sufficient to demonstrate a set of nodes $S$ (of height at most $t$) that must be present in any DR-plan $\drpx{C}$ of graph $C$ that satisfies Property (\ref{def:canonical_drplan:prop1}), including a known optimal one; and furthermore, for any such DR-plan $\drpx{C}$, either (Claim 1) $S$ must be the set of children of $C$; or (Claim 2) all the ancestors $A$ of $S$ that are descendants of $C$ have the minimum possible fan-in of 2.
 
     We show the two claims below.
     The first claim is that for a node $C$ whose clusters have trivial pairwise intersections, any DR-plan of $C$ that satisfies Property (\ref{def:canonical_drplan:prop1}) must also satisfy Property (\ref{def:canonical_drplan:prop2}) at $C$, i.e.\ the set of children $S$ of $C$ consists of all clusters of $C$.
@@ -130,70 +142,75 @@ Definition~\ref{def:canonical_drplan} gives the canonical DR-plan a surprisingly
 
 
 
+    \begin{proof}[Proof of Claim 1]
+        Let the set of clusters of node $C$ be $C_1,\ldots,C_N$. If the pairwise intersection of clusters is trivial, all of the clusters must be children of $C$ in an optimal DR-plan
+        % A set of clusters $C_1,\ldots,C_N$ whose pairwise intersection is trivial must all be children of $C$ in an optimal DR-plan.
 
+        We prove this claim by showing that the union of no subset of the children can be $C$, thereby requiring all of them to be included as children.
 
-    \medskip\noindent
-    \vemph{Claim 1:}
-    Let the set of clusters of node $C$ be $C_1,\ldots,C_N$. If the pairwise intersection of clusters is trivial, all of the clusters must be children of $C$ in an optimal DR-plan
-    % A set of clusters $C_1,\ldots,C_N$ whose pairwise intersection is trivial must all be children of $C$ in an optimal DR-plan.
+        We prove by contradiction.
+        % Assume to the contrary that the strict subset $S\subsetneq \{1,\ldots,N\}$ such that $U=\bigcup_{i\in S}{C_i}$ is isostatic. If $U\neq C$, then we found a larger proper subgraph contradicting vertex-maximality of the $C_i$. So, it must be that $U=C$.
+        % \usestwod
+        % However, since $C_i \cap C_j$ is trivial then for $k\notin S$ we know, by Lemma \ref{lemma:combined_lemma}, Item \ref{lemma:uc_intersection_makes_all_uc}, $U\cap C_k$ must be one or more trivial, i.e.\ disconnected vertices. By definition of a DR-plan, $C_k=C\cap C_k$ and we know that $U=C$ so $C_k=U\cap C_k$. Thus, $C_k$ is (i) a collection of disconnected vertices, and (ii) an isostatic subgraph of $C$, which is impossible. As $C$ is isostatic, this means the union of no proper subset of $C_1,\ldots,C_N$ is isostatic, nor is it equal to $C$, proving Claim 1.
+        Assume to the contrary that there is a strict subset $S$ of the clusters such that $U$, the union of all elements in $S$, is isostatic. If $U\neq C$, then we found a larger proper subgraph contradicting vertex-maximality of the clusters in set $S$. So, it must be that $U=C$.
+        \usestwod
+        However, since $C_i \cap C_j$ is trivial then for $C_k\notin S$ we know, by Lemma \ref{lemma:combined_lemma}, Item \ref{lemma:uc_intersection_makes_all_uc}, $U\cap C_k$ must be one or more vertices, i.e.\ disconnected trivial subgraphs. By definition of a DR-plan, $C_k=C\cap C_k$ and we know that $U=C$ so $C_k=U\cap C_k$. Thus, $C_k$ is (i) a collection of disconnected vertices, and (ii) an isostatic subgraph of $C$, which is impossible. As $C$ is isostatic, this means the union of no proper subset of $C_1,\ldots,C_N$ is isostatic, nor is it equal to $C$, proving Claim 1.
 
-    We prove this claim by showing that the union of no subset of the children can be $C$, thereby requiring all of them to be included as children.
+        Furthermore, since a canonical DR-plan has nodes with proper rigid \vemph{vertex-maximal} subgraphs as children, if, as in this case, their pairwise intersection is trivial, it follows that any node has at most as many children as a DR-plan without this restriction, because the union of the children must contain all edges of the parent. Therefore, the canonical DR-plan is the optimal choice in this case of trivial intersections.
+    \end{proof}
 
-    We prove by contradiction.
-    % Assume to the contrary that the strict subset $S\subsetneq \{1,\ldots,N\}$ such that $U=\bigcup_{i\in S}{C_i}$ is isostatic. If $U\neq C$, then we found a larger proper subgraph contradicting vertex-maximality of the $C_i$. So, it must be that $U=C$.
-    % \usestwod
-    % However, since $C_i \cap C_j$ is trivial then for $k\notin S$ we know, by Lemma \ref{lemma:combined_lemma}, Item \ref{lemma:uc_intersection_makes_all_uc}, $U\cap C_k$ must be one or more trivial, i.e.\ disconnected vertices. By definition of a DR-plan, $C_k=C\cap C_k$ and we know that $U=C$ so $C_k=U\cap C_k$. Thus, $C_k$ is (i) a collection of disconnected vertices, and (ii) an isostatic subgraph of $C$, which is impossible. As $C$ is isostatic, this means the union of no proper subset of $C_1,\ldots,C_N$ is isostatic, nor is it equal to $C$, proving Claim 1.
-    Assume to the contrary that there is a strict subset $S$ of the clusters such that $U$, the union of all elements in $S$, is isostatic. If $U\neq C$, then we found a larger proper subgraph contradicting vertex-maximality of the clusters in set $S$. So, it must be that $U=C$.
-    \usestwod
-    However, since $C_i \cap C_j$ is trivial then for $C_k\notin S$ we know, by Lemma \ref{lemma:combined_lemma}, Item \ref{lemma:uc_intersection_makes_all_uc}, $U\cap C_k$ must be one or more vertices, i.e.\ disconnected trivial subgraphs. By definition of a DR-plan, $C_k=C\cap C_k$ and we know that $U=C$ so $C_k=U\cap C_k$. Thus, $C_k$ is (i) a collection of disconnected vertices, and (ii) an isostatic subgraph of $C$, which is impossible. As $C$ is isostatic, this means the union of no proper subset of $C_1,\ldots,C_N$ is isostatic, nor is it equal to $C$, proving Claim 1.
+    % \medskip\noindent
+    % \vemph{Claim 1:}
 
-    Furthermore, since a canonical DR-plan has nodes with proper rigid \vemph{vertex-maximal} subgraphs as children, if, as in this case, their pairwise intersection is trivial, it follows that any node has at most as many children as a DR-plan without this restriction, because the union of the children must contain all edges of the parent. Therefore, the canonical DR-plan is the optimal choice in this case of trivial intersections.
+    \begin{proof}[Proof of Claim 2]
+        Let the set of clusters of node $C$ be $C_1,\ldots,C_N$. If some pair of clusters
+        % If some pair in the set of clusters $C_1,\ldots,C_N$ of $C$
+        has an isostatic (non-trivial) intersection, then choosing any two as children (minimum possible fan-in) will result in the same maximal antichain of descendants of node $C$.
 
-    \medskip\noindent
-    \vemph{Claim 2:}
-    Let the set of clusters of node $C$ be $C_1,\ldots,C_N$. If some pair of clusters
-    % If some pair in the set of clusters $C_1,\ldots,C_N$ of $C$
-    has an isostatic (non-trivial) intersection, then choosing any two as children (minimum possible fan-in) will result in the same maximal antichain of descendants of node $C$.
+        To prove Claim 2, notice that if $C_i\cap C_j$ is isostatic, then, by Observation \ref{lemma:union_intersection}, $C_i\cup C_j$ is also isostatic. This means that, by Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc}, the union of any two children of $C$ is $C$ itself. Thus, any two children can be chosen to make a canonical DR-plan and that is the minimum fan-in possible for a node of the DR-plan.
 
-    To prove Claim 2, notice that if $C_i\cap C_j$ is isostatic, then, by Observation \ref{lemma:union_intersection}, $C_i\cup C_j$ is also isostatic. This means that, by Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc}, the union of any two children of $C$ is $C$ itself. Thus, any two children can be chosen to make a canonical DR-plan and that is the minimum fan-in possible for a node of the DR-plan.
+        \newcommand{\induceonc}[1]{Idc\left(C,#1\right)}
+        \renewcommand{\induceonc}[1]{#1}
+        \newcommand{\iunion}[1]{\induceonc{I\cup\bigcup_{k\in [N]\setminus\{#1\}}{R_k}}}
 
-    \newcommand{\induceonc}[1]{Idc\left(C,#1\right)}
-    \renewcommand{\induceonc}[1]{#1}
-    \newcommand{\iunion}[1]{\induceonc{I\cup\bigcup_{k\in [N]\setminus\{#1\}}{R_k}}}
+        However, to guarantee that any two are the \vemph{optimal} choice, it must ensure minimum fan-in over all descendants leading up to a common maximal antichain $S$ of subgraphs.
 
-    However, to guarantee that any two are the \vemph{optimal} choice, it must ensure minimum fan-in over all descendants leading up to a common maximal antichain $S$ of subgraphs.
-
-    % To prove this holds, take the set $[N]=\{1,\dots,N\}$, and denote $I=\bigcap_{k\in [N]}{C_k}$ and $R_k=C\setminus C_k$. Suppose  $C_i$ and $C_j$, where $i\neq j$,  are  the children. For convenience, we will assume all subgraphs are induced subgraphs of $C$. We know that $C=\induceonc{I\cup\bigcup_{k\in [N]}{R_k}}$ and $C_i=\iunion{i}$. The isostatic vertex-maximal subgraphs of $C_i$ are $(\iunion{i,1}),\ldots,(\iunion{i,i-1}),(\iunion{i,i+1}),\ldots,(\iunion{i,N})$ all of whose pairwise intersections are isostatic subgraphs. So any two of these are viable children for $C_i$.
-    Let $I$ denote the intersection of all the clusters; we call this the \dfn{core}. Let $R_i$ be the graph induced by the edge set of $C$ minus the edge set of $C_i$; we call these the \dfn{appendages}.\footnote{\dfn{Core} and \dfn{appendage} are used in Section~\ref{sec:DRP:algo} and are more formally defined in Definition~\ref{def:seqdrp}.} Note that $C$ is the core plus all appendages, and cluster $C_i$ is the core plus all appendages except $R_i$.
-    % To prove this holds,
-    Suppose $C_i$ and $C_j$, where $i\neq j$, are taken to be the children of node $C$.
-    % We know that $C=\induceonc{I\cup\bigcup_{k\in [N]}{R_k}}$ and $C_i=\iunion{i}$.
-    The $N-1$ clusters of $C_i$ are the core plus all appendages except $R_i$ and $R_j$, for each $j\neq i$. The pairwise intersection of any of these clusters of $C_i$ will clearly be isostatic, so any two of them are viable children of node $C_i$.
-     % $(\iunion{i,1}),\ldots,(\iunion{i,i-1}),(\iunion{i,i+1}),\ldots,(\iunion{i,N})$ all of whose pairwise intersections are isostatic subgraphs. So any two of these are viable children for $C_i$.
-    % Since
-    % \[C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)\]
-    % the children of $C_i$ will be
-    % \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)\]
-    % and
-    % \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)\]
-    % % $C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)$
-    % % the children of this node will be
-    % % $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)$
-    % % and
-    % % $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)$
-    % for arbitrary $m$ and $n$, where $i,j,m,n$ do not equal each other. \todo{Prove these are valid children? Or is this obvious?}
-    Beginning with node $C$, this pattern repeats for $N-1$ levels. Every node in this subtree rooted at $C$ has a fan-in of two (the minimum possible) up through this level. At level $N-1$, we have a set of nodes where each node is the core plus some appendage (with every appendage appearing at least once).
-    % This continues for $N-1$ levels, always with fan-in of two (the minimum possible), at which point every descendant of $C$ is some $\induceonc{I\cup R_k}$ for $k\in [N]$, with every $k$ appearing at least once.
-    % At the last level, there are exactly two rigid proper vertex-maximal subgraphs, and hence a unique choice of pair of children.
-    Thus, regardless of the sequence of choices of $C_i$ and $C_j$, and of their descendants at each level, the DR-plan has the optimal fan-in of two for every node for $N-1$ levels, and the collection of last level nodes contain the same maximal antichain of subgraphs (for all choices).
+        % To prove this holds, take the set $[N]=\{1,\dots,N\}$, and denote $I=\bigcap_{k\in [N]}{C_k}$ and $R_k=C\setminus C_k$. Suppose  $C_i$ and $C_j$, where $i\neq j$,  are  the children. For convenience, we will assume all subgraphs are induced subgraphs of $C$. We know that $C=\induceonc{I\cup\bigcup_{k\in [N]}{R_k}}$ and $C_i=\iunion{i}$. The isostatic vertex-maximal subgraphs of $C_i$ are $(\iunion{i,1}),\ldots,(\iunion{i,i-1}),(\iunion{i,i+1}),\ldots,(\iunion{i,N})$ all of whose pairwise intersections are isostatic subgraphs. So any two of these are viable children for $C_i$.
+        Let $I$ denote the intersection of all the clusters; we call this the \dfn{core}. Let $R_i$ be the graph induced by the edge set of $C$ minus the edge set of $C_i$; we call these the \dfn{appendages}.\footnote{\dfn{Core} and \dfn{appendage} are used in Section~\ref{sec:DRP:algo} and are more formally defined in Definition~\ref{def:pseudoseqdrp} and~\ref{def:seqdrp}.} Note that $C$ is the core plus all appendages, and cluster $C_i$ is the core plus all appendages except $R_i$.
+        % To prove this holds,
+        Suppose $C_i$ and $C_j$, where $i\neq j$, are taken to be the children of node $C$.
+        % We know that $C=\induceonc{I\cup\bigcup_{k\in [N]}{R_k}}$ and $C_i=\iunion{i}$.
+        The $N-1$ clusters of $C_i$ are the core plus all appendages except $R_i$ and $R_j$, for each $j\neq i$. The pairwise intersection of any of these clusters of $C_i$ will clearly be isostatic, so any two of them are viable children of node $C_i$.
+         % $(\iunion{i,1}),\ldots,(\iunion{i,i-1}),(\iunion{i,i+1}),\ldots,(\iunion{i,N})$ all of whose pairwise intersections are isostatic subgraphs. So any two of these are viable children for $C_i$.
+        % Since
+        % \[C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)\]
+        % the children of $C_i$ will be
+        % \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)\]
+        % and
+        % \[Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)\]
+        % % $C_i=Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i\}}{R_k}\right)$
+        % % the children of this node will be
+        % % $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,m\}}{R_k}\right)$
+        % % and
+        % % $Idc\left(C,I\cup\bigcup_{k\in S_N\setminus\{i,n\}}{R_k}\right)$
+        % for arbitrary $m$ and $n$, where $i,j,m,n$ do not equal each other. \todo{Prove these are valid children? Or is this obvious?}
+        Beginning with node $C$, this pattern repeats for $N-1$ levels. Every node in this subtree rooted at $C$ has a fan-in of two (the minimum possible) up through this level. At level $N-1$, we have a set of nodes where each node is the core plus some appendage (with every appendage appearing at least once).
+        % This continues for $N-1$ levels, always with fan-in of two (the minimum possible), at which point every descendant of $C$ is some $\induceonc{I\cup R_k}$ for $k\in [N]$, with every $k$ appearing at least once.
+        % At the last level, there are exactly two rigid proper vertex-maximal subgraphs, and hence a unique choice of pair of children.
+        Thus, regardless of the sequence of choices of $C_i$ and $C_j$, and of their descendants at each level, the DR-plan has the optimal fan-in of two for every node for $N-1$ levels, and the collection of last level nodes contain the same maximal antichain of subgraphs (for all choices).
+    \end{proof}
+    %
+    % \medskip\noindent
+    % \vemph{Claim 2:}
     %
     % \medskip\noindent
     % This proof then applies to itself recursively to show that the fan-in of the children will also be minimum.
     %
     % -- say this at top `proof is by induction on the level of the dr=plan'
+    % The proofs of Claim 1 and Claim 2 prove the theorem.
 \end{proof}
 
-This proof of this theorem relies on the following crucial observation and lemma. These will be used again in the application sections (\ref{sec:bodypin} and \ref{sec:pinnedline}) of the paper, with modifications to work for other types of qusecs.
+This proof of the theorem relies on the following crucial observation and lemma. These will be used again in the application sections (\ref{sec:bodypin} and \ref{sec:pinnedline}) of the paper, with modifications to work for other types of qusecs.
 
 \begin{observation*}
 \label{lemma:union_intersection}
@@ -221,10 +238,10 @@ The following key properties hold at the nodes of a canonical DR-plan.
         $C_i\cup C_j$ is isostatic if and only if $C_i\cup C_j = C$.
 
         \item\label{lemma:wc_intersection_makes_all_wc}
-        If $C_i\cup C_j$ is isostatic, then $\forall k: C_i\cup C_k$ is isostatic. Alternatively, if $C_i\cup C_j=C$, then $\forall k: C_i\cup C_k=C$.
+        If $C_i\cup C_j$ is isostatic, then for all $k$, $C_i\cup C_k$ is isostatic. Alternatively, if $C_i\cup C_j=C$, then for all $k$, $C_i\cup C_k=C$.
 
         \item\label{lemma:uc_intersection_makes_all_uc}
-        If $C_i\cap C_j$ is trivial, then $\forall k: C_i\cap C_k$ is trivial.
+        If $C_i\cap C_j$ is trivial, then for all $k$, $C_i\cap C_k$ is trivial.
     \end{enumerate}
 \end{lemma*}
 
@@ -336,12 +353,19 @@ The following key properties hold at the nodes of a canonical DR-plan.
 \subsection{Algorithm}
 \label{sec:DRP:algo}
 
-The algorithm for finding an optimal DR-plan relies on key structural properties of canonical DR-plans that are revealed by the proof of Theorem~\ref{theorem:canonical_exists_and_is_optimal}. We list these properties before describing the algorithm. Furthermore, in order to deal with the apparent non-uniqueness of a canonical DR-plan (in the case when the children of a node have non-trivial intersections), and to make the canonical DR-plan more malleable for algorithmic purposes, we define a key notion of a \dfn{sequential DR-plan} that is obtained from a canonical DR-plan, and also turns out to be an optimal DR-plan. A sequential DR-plan further clarifies the essential uniqueness of canonical DR-plans. First, we present a recursive definition of the canonical DR-plan, which is more useful in this section, and make an important observation.
+% The algorithm for finding an optimal DR-plan relies on key structural properties of canonical DR-plans that are revealed by the proof of Theorem~\ref{theorem:canonical_exists_and_is_optimal}. We list these properties before describing the algorithm. Furthermore, in order to deal with the apparent non-uniqueness of a canonical DR-plan (in the case when the children of a node have non-trivial intersections), and to make the canonical DR-plan more malleable for algorithmic purposes, we define a key notion of a \dfn{sequential DR-plan} that is obtained from a canonical DR-plan, and also turns out to be an optimal DR-plan. A sequential DR-plan further clarifies the essential uniqueness of canonical DR-plans. First, we present a recursive definition of the canonical DR-plan, which is more useful in this section, and make an important observation.
+
+The algorithm for finding an optimal DR-plan relies on key structural properties of canonical DR-plans that are revealed by the proof of Theorem~\ref{theorem:canonical_exists_and_is_optimal}. We begin by redefining the canonical DR-plan in a recursive manner and also by recursively defining the new \dfn{\pseudosequential\ DR-plan} to highlight the similarities. We show that this \pseudosequential\ DR-plan is optimal (i.e.\ has the smallest maximum fan-in over all nodes) and has at most the same overall size (i.e.\ number of unique nodes) as a canonical DR-plan, and is in general smaller.
+% By taming the large number of nodes with redundant subgraphs (in the case when the children of a node have non-trivial intersections),
+By ensuring that no two nodes contain the same subgraph,
+the \pseudosequential\ DR-plan is more malleable for algorithmic purposes.
+
+
 
 \begin{definition}
 [Canonical DR-plan]
 \label{def:canonical_drp_rec}
-    A \dfn{canonical DR-plan} of $G$ is recursively defined as follows:
+    A \dfn{canonical DR-plan} of an isostatic $G$ is recursively defined as follows:
     \begin{enumerate}
         \item Base case: When $G$ is a single edge, the canonical DR-plan for $G$ is $G$ itself.
         \item In case the pairwise intersections of the proper vertex-maximal rigid subgraphs $C_i$ of $G$  are all trivial, take the children of $G$ to be the roots of the canonical DR-plans for $C_i$.
@@ -349,14 +373,14 @@ The algorithm for finding an optimal DR-plan relies on key structural properties
     \end{enumerate}
     % When $G$ is a single edge (base case), the canonical DR-plan for $G$ is $G$ itself.
 \end{definition}
-\todo{What if input is not isostatic? What roots?}
+% \todo{What if input is not isostatic? What roots?}
 
-\begin{observation}
-[Canonical DR-plan size]
-    While all canonical DR-plans of independent graphs are optimal, based on the choice of children in Case (3) above they can have varying \dfn{size} (i.e.\ the number of unique nodes). If we want the canonical DR-plan to have small size (linear \todo{or just polynomial?} in the number of vertices) we can choose the children in the following fashion: In Case (3) above, a canonical DR-plan for $C_i$ (resp.\ $C_j$) is further recursively defined by taking the children of $C_i$ (resp.\ $C_j$) to be the roots of a canonical DR-plan of $C_i\cap C_j$ (which is rigid, by Lemma~\ref{lemma:combined_lemma}), and a canonical DR-plan of $C_i\setminus C_j$ (resp. $C_j\setminus C_i$) (which are not rigid, by Observation~\ref{lemma:union_intersection} and Lemma~\ref{lemma:combined_lemma}).
+% \begin{observation}
+% [Canonical DR-plan size]
+%     While all canonical DR-plans of independent graphs are optimal, based on the choice of children in Case (3) above they can have varying \dfn{size} (i.e.\ the number of unique nodes). If we want the canonical DR-plan to have small size (linear \todo{or just polynomial?} in the number of vertices) we can choose the children in the following fashion: In Case (3) above, a canonical DR-plan for $C_i$ (resp.\ $C_j$) is further recursively defined by taking the children of $C_i$ (resp.\ $C_j$) to be the roots of a canonical DR-plan of $C_i\cap C_j$ (which is rigid, by Lemma~\ref{lemma:combined_lemma}), and a canonical DR-plan of $C_i\setminus C_j$ (resp. $C_j\setminus C_i$) (which are not rigid, by Observation~\ref{lemma:union_intersection} and Lemma~\ref{lemma:combined_lemma}).
 
-    Note that a canonical DR-plan can have more than one node representing the same rigid subgraph if and only if Case (3) occurs.
-\end{observation}
+%     Note that a canonical DR-plan can have more than one node representing the same rigid subgraph if and only if Case (3) occurs.
+% \end{observation}
 
 
 % Observation XX[recursive definition of canonical DR-plan]:
@@ -373,22 +397,291 @@ The algorithm for finding an optimal DR-plan relies on key structural properties
 % \end{observation}
 
 
-Now we define the sequential DR-plan in a manner analogous to Definition~\ref{def:canonical_drp_rec}.
+Now we define the \pseudosequential\ DR-plan in a manner analogous to Definition~\ref{def:canonical_drp_rec}.
 
 \begin{definition}
-[(Pseudo-)Sequential DR-plan, appendage, partner, core]
-\label{def:seqdrp}
-    A \dfn{pseudo-sequential DR-plan} of $G$ is recursively defined as follows:
+[\Pseudosequential\ DR-plan, appendage, partner]
+\label{def:pseudoseqdrp}
+    A \dfn{\pseudosequential\ DR-plan} of an isostatic $G$ is recursively defined as follows:
     \begin{enumerate}
-        \item Base case: When $G$ is an edge, the sequential DR-plan for $G$ is $G$ itself.
-        \item In case the pairwise intersections of the proper vertex-maximal rigid subgraphs $C_i$ of $G$  are all trivial, take the children of $G$ to be the roots of the sequential DR-plans for $C_i$.
-        \item In case there are two proper vertex-maximal rigid subgraphs $C_i$ and $C_j$ of $G$ with non-trivial intersection, take the children of $G$ to be the roots of sequential DR-plans for $C_j\setminus C_i$ (called an \dfn{appendage}), and $C_i$ (called its \dfn{partner}).
-        % If the decomposition of the partner $C_i$ results in Case (2), one of the children will be $C_i\cap C_j$, which we call the \dfn{core}.\footnote{Which can be thought of as partner to appendage $C_i\setminus C_j$.}\todo{Is this okay? I don't know how to say this succinctly.}
+        \item Base case: When $G$ is an edge, the \pseudosequential\ DR-plan for $G$ is $G$ itself.
+        \item In case the pairwise intersections of the proper vertex-maximal rigid subgraphs $C_i$ of $G$  are all trivial, take the children of $G$ to be the roots of the \pseudosequential\ DR-plans for $C_i$.
+        \item In case there are two proper vertex-maximal rigid subgraphs $C_i$ and $C_j$ of $G$ with non-trivial intersection, take the children of $G$ to be the roots of \pseudosequential\ DR-plans for $C_j\setminus C_i$ (called an \dfn{appendage}), and $C_i$ (called its \dfn{partner}).
     \end{enumerate}
+\end{definition}
 
-    % DR-plans satisfying Requirements 1,2, and 3 are called \dfn{pseudo-sequential.}
+\begin{remark}
+[Size of \pseudosequential\ DR-plan]
+    Any rigid subgraph appears in at most one node of a \pseudosequential\ DR-plan. Also, if an edge $e$ of $G$ belongs in the rigid subgraph at any two nodes $A$ and $B$ of a \pseudosequential\ DR-plan, then either $A\subset B$ or $B\subset A$. Since the leaves of \pseudosequential\ DR-plan tree are the $O(|V(G)|)$ edges of the independent input graph, this implies the size of the DR-plan is $O(|V(G)|)$.
+\end{remark}
 
-    \dfn{Sequential DR-plans} must satisfy another requirement:
+\begin{observation}
+[Sequential is optimal]
+    Any \pseudosequential\ DR-plan of an independent graph is optimal.
+\end{observation}
+
+\begin{proof}
+    We need to show the statement:
+    (*) the max fan-in (i.e.\ number of children) of any \pseudosequential\ DR-plan for an independent graph $G$ is no larger that of some canonical DR-plan for $G$. By Theorem~\ref{theorem:canonical_is_optimal}, this would imply that the \pseudosequential\ DR-plan is optimal.
+
+    Recall that both \pseudosequential\ and canonical DR-plans are defined recursively. We will prove the statement (*) by induction on the height of a \pseudosequential\ DR-plan for $G$. The base case (height of 0, i.e.\ single edges) trivially holds. Induction hypothesis: (*) holds for independent graphs $G$ with \pseudosequential\ DR-plans of height $h$.
+
+    Induction step: a \pseudosequential\ DR-plan of height $h+1$ rooted at a node $G$ consists of \pseudosequential\ DR-plans (of height at most $h$) rooted at the children of $G$, which we call the set $C$. It is sufficient to show (a) the children $C$ will exist somewhere in some canonical DR-plan, and (b) $|C|$ is less than or equal to the max fan-in of some canonical DR-plan. Given (a), then by the recursive definition of canonical DR-plans, these nodes are the roots of canonical DR-plans, thus the induction hypothesis applies to the nodes in $C$. Additionally given (b), the proof of the induction step of (*) is complete.
+
+    Case (1):
+    When the isostatic vertex-maximal proper subgraphs of $G$ have trivial intersections, the children of $G$ in any canonical DR-plan are the same set $C$ of children in any \pseudosequential\ DR-plan. Thus both conditions (a) and (b) are immediately satisfied.
+
+    Case (2):
+    When the isostatic vertex-maximal proper subgraphs of $G$ have non-trivial intersections, the children $C$ are the isostatic components of some appendage, $A_i$, and its partner. The partner will be a child of $G$ in some canonical DR-plan. Furthermore, in any canonical DR-plan there will be some node $N-1$ levels below $G$ (where $N$ is the number of appendages) containing the core (the common intersection of all the isostatic vertex-maximal proper subgraphs of $G$) plus appendage $A_i$. In some canonical DR-plan, the children of this node will be the components of $A_i$ and the core. This node has the same fan-in as $G$ in the \pseudosequential\ DR-plan, satisfying (b), and, along with the partner (a child of $G$), shows that some canonical DR-plan has all the nodes in $C$, thereby satisfying (a).
+\end{proof}
+
+% \begin{proof}
+%     Any sequential DR-plan, $\seqdrpx{G}$, has maximum fan-in no greater than that of some canonical DR-plan, $\candrpx{G}$, of the same independent graph $G$. By Theorem~\ref{theorem:canonical_is_optimal}, this implies a sequential DR-plan is also optimal. Consider node $C$ that appears in both $\seqdrpx{G}$ and $\candrpx{G}$ with isostatic vertex-maximal proper subgraphs (clusters) $C_1, C_2, \ldots, C_N$.
+%     We prove this recursively by showing that node $C$ in $\seqdrpx{G}$ and any descendant of $C$ that is not in $\candrpx{G}$ has fan-in less than or equal to the maximum fan-in of $\candrpx{G}$.
+
+%     Case 1: If the clusters of $C$ have pairwise trivial intersections, then node $C$ has the same set of children and fan-in in both $\seqdrpx{G}$ and $\candrpx{G}$.
+
+%     Case 2: Otherwise, the clusters of $C$ have pairwise non-trivial intersection, and we call the common intersection the core. The children of node $C$ in $\seqdrpx{G}$ will be the components of the appendage, $A_1$, and its partner, $T_1$. In $\candrpx{G}$, there will be some node $D$ that is $A_1$ union the core; $D$ can have clusters with either trivial or non-trivial intersections.
+
+%     Case 2a: In the trivial case, node $D$ decomposes into the core and the components of $A_1$; thus, the fan-in of node $C$ in $\seqdrpx{G}$ is equal to the fan-in of $D$ in $\candrpx{G}$ and they both have the components of $A_1$ as children, leaving $T_1$ to be shown to be optimally decomposed in $\seqdrpx{G}$.
+
+%     Case 2b: In the non-trivial case, there is some new core of $D$, so there will be some node $D'$ in $\candrpx{G}$ that is $A_1$ union the core of $D$; this pattern will continue until we eventually find $D^*$ with clusters that intersect trivially. Similar to Case (2b), the fan-in of node $C$ in $\seqdrpx{G}$ is equal to the fan-in of $D^*$ in $\candrpx{G}$ and they both have the components of $A_1$ as children, leaving $T_1$ to be shown to be optimally decomposed in $\seqdrpx{G}$.
+
+%     The decomposition of $T_1$ in $\seqdrpx{G}$ will be the components of appendage $A_2$ and its partner $T_2$. Similarly, $\candrpx{G}$ will contain core union $A_2$, and so we must now show $T_3$ is decomposed optimally in a sequential DR-plan. This continues to the node containing $T_{N-1}$, the core union appendage $A_N$, in $\seqdrpx{G}$, which we know to be a node in $\candrpx{G}$.
+% \end{proof}
+
+
+\begin{definition}
+[\Branch]
+    Given a \pseudosequential\ DR-plan $P_G$ for an isostatic graph $G$, and an edge $e \in G$, the \branchGePG\ is the subtree of the DR-plan consisting of the path from the leaf containing $e$ to the root containing $G$, together with the children of all the nodes on this path, which are the leaves of \branchGePG. See Figure~\ref{fig:seq_proof} for examples.
+\end{definition}
+
+\begin{observation}
+[\Pseudosequential\ DR-plan recursively from \branches]
+\label{obs:seqplan_rec_from_branches}
+    A \pseudosequential\ DR-plan $P_G$ for an isostatic graph $G$ is obtained from \branchGePG\ by recursively attaching to each of its leaves $L$ a \pseudosequential\ DR-plan $P_L$ for $L$.
+\end{observation}
+
+The next two Lemmas are the crux of our $O(|V|^3)$ algorithm to find a \pseudosequential\ DR-plan.
+
+\begin{lemma}
+[\Branch\ leaves from components]
+    Let $G$ be isostatic, $e$ be an edge in $G$, and $\componentsx{G\setminus e}$ be the set of maximal rigid components of $G\setminus e$. Then there is a \pseudosequential\ DR-plan $P_G$ for $G$ such that $\componentsx{G\setminus e}$ is exactly the set of leaves of \branchGePG\ (minus $e$ itself).
+\end{lemma}
+
+\begin{proof}
+    Follows from the structure of a \pseudosequential\ DR-plan and the definition of \branchGePG.
+\end{proof}
+
+
+
+% \ClearMyMinHeight
+% \SetMyMinHeight{0.195}{../../img/svg/seq_proof_figs_a}
+% \SetMyMinHeight{0.195}{../../img/svg/seq_proof_figs_b}
+% \SetMyMinHeight{0.195}{../../img/svg/seq_proof_figs_c}
+% \SetMyMinHeight{0.195}{../../img/svg/seq_proof_figs_d}
+% \SetMyMinHeight{0.195}{../../img/svg/seq_proof_figs_e}
+\ClearMyMinHeight
+\SetMyMinHeight{0.3}{../../img/svg/seq_proof_figs_a}
+\SetMyMinHeight{0.3}{../../img/svg/seq_proof_figs_b}
+\SetMyMinHeight{0.3}{../../img/svg/seq_proof_figs_c}
+\SetMyMinHeight{0.3}{../../img/svg/seq_proof_figs_d}
+\SetMyMinHeight{0.3}{../../img/svg/seq_proof_figs_e}
+
+\begin{figure*}\centering%
+    % \begin{subfigure}[t]{0.27\linewidth}
+    %     \includegraphics[width=\linewidth]{../../img/svg/seq_proof_figs_a}
+    %     \caption{}\label{fig:seq_proof:a}
+    % \end{subfigure}%
+
+
+    % \begin{subfigure}{0.195\linewidth}\centering
+    %     \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_a}
+    %     \caption{}\label{fig:seq_proof:a}
+    % \end{subfigure}%
+    % %
+    % \hfill
+    % \begin{subfigure}{0.195\linewidth}\centering
+    %     \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_b}
+    %     \caption{}\label{fig:seq_proof:b}
+    % \end{subfigure}%
+    % %
+    % \begin{subfigure}{0.195\linewidth}\centering
+    %     \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_c}
+    %     \caption{}\label{fig:seq_proof:c}
+    % \end{subfigure}%
+    % %
+    % \hfill
+    % \begin{subfigure}{0.195\linewidth}\centering
+    %     \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_d}
+    %     \caption{}\label{fig:seq_proof:d}
+    % \end{subfigure}%
+    % %
+    % \hfill
+    % \begin{subfigure}{0.195\linewidth}\centering
+    %     \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_e}
+    %     \caption{}\label{fig:seq_proof:e}
+    % \end{subfigure}%
+
+
+    \begin{subfigure}{0.3\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_a}
+        \caption{}\label{fig:seq_proof:a}
+    \end{subfigure}%
+    %
+    \hfill
+    \begin{subfigure}{0.3\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_b}
+        \caption{}\label{fig:seq_proof:b}
+    \end{subfigure}%
+    %
+    \hfill
+    \begin{subfigure}{0.3\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_c}
+        \caption{}\label{fig:seq_proof:c}
+    \end{subfigure}%
+
+    % \hspace{1cm}
+    \begin{subfigure}{0.3\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_d}
+        \caption{}\label{fig:seq_proof:d}
+    \end{subfigure}%
+    %
+    \hspace{2cm}
+    \begin{subfigure}{0.3\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_e}
+        \caption{}\label{fig:seq_proof:e}
+    \end{subfigure}%
+    % \hspace{1cm}
+
+    \caption{
+    This figure illustrates the notion of a \branch, how it relates to the components of $G\setminus e$, and the variety of cases discussed in the proof of Lemma~\ref{lem:branch-from-branch-leaves}. Each subfigure is $\branchx{G,e,P_G}$ for some edge $e$ (resp.\ $\branchx{G,f,P_G}$), the white nodes are the path from $G$ to $e$ (resp.\ $f$), and the black nodes are the set $\componentsx{G\setminus e}$ (resp.\ $G\setminus f$). In subfigures (\ref{fig:seq_proof:b}), (\ref{fig:seq_proof:c}), and (\ref{fig:seq_proof:d}), nodes are labeled with the case they fall under in the proof of Lemma~\ref{lem:branch-from-branch-leaves} if they are chosen to be $D$ (given the choice of $L$ discussed below), any unlabeled node falls under Case (1b).
+    %
+    Figure (\ref{fig:seq_proof:a}) has nodes labeled $L_1$ and $L_2$ ($L_1'$ will be discussed later), from which different edges $f$ are taken in subsequent figures. Note that the node labeled `Core+$A_1$+$A_2$' is a subgraph of $G$ that has 2 isostatic vertex-maximal proper subgraphs intersecting non-trivially. The core is the intersection of these subgraphs and $A_i$ is an appendage.
+    %
+    Figure (\ref{fig:seq_proof:b}) uses $f=L_1$.
+    %
+    Figure (\ref{fig:seq_proof:c}) uses an arbitrary $f\in L_2$.
+    %
+    Figure (\ref{fig:seq_proof:d}) uses an $f$ in the core in $L_3$.
+    % Note that based on the choice of $e$ as the first edge, we get a \pseudosequential\ DR-plan that looks like Figure (\ref{fig:seq_proof:c}), if we had chosen an edge from appendage $A_2$ the second and third level would be flipped. \todo{Shows cases...}
+    %
+    Figure (\ref{fig:seq_proof:e}) uses an $f$ in the appendage $A_1$ in $L_3$. Note that this contains a node $D$ that has Case (3). With this $D$, $D\cup L_3$ is `Core+$A_1$+$A_2$' and $D\cap L_3$ is `Core'. The leaves labeled $L_3'$ in Figure (\ref{fig:seq_proof:a}) are the leaves that will allow us to find the node on the path from $G$ to $e$ that is their sibling (the parent of $e$).
+    %
+    % Figure (\ref{fig:seq_proof:a}) depicts $\branchx{G,e,P_G}$, the black nodes are the $\componentsx{G\setminus e}$. The node labeled `Core+$A_1$+$A_2$' is a subgraph of $G$ that has 2 isostatic vertex-maximal proper subgraphs intersecting non-trivially.
+    %
+    % Figure (\ref{fig:seq_proof:b}) depicts $\branchx{G,f,P_G}$ of the edge labeled $f\in L_2$ (from Figure (\ref{fig:seq_proof:a})). Similarly, the black nodes are the $\componentsx{G\setminus f}$. These leaves are labeled with the cases discussed in the proof of Lemma~\ref{lem:branch-from-branch-leaves}. \todo{emphasize in beginning.}
+    %
+    % Figure (\ref{fig:seq_proof:c}) depicts $\branchx{G,f,P_G}$ of the edge labeled $f$ in the core in $L_1$ (from Figure (\ref{fig:seq_proof:a})). Note that based on the choice of $e$ as the first edge, we get a \pseudosequential\ DR-plan that looks like Figure (\ref{fig:seq_proof:c}), if we had chosen an edge from appendage $A_2$ the second and third level would be flipped.
+    %
+    % Figure (\ref{fig:seq_proof:d}) depicts $\branchx{G,f,P_G}$ of the edge labeled $f$ in the appendage $A_1$ in $L_1$ (from Figure (\ref{fig:seq_proof:a})). Note that this contains a node $D$ that has Case 3. With this $D$, $D\cup L_1$ is `Core+$A_1$+$A_2$' and $D\cap L_1$ is `Core'. The leaves labeled $L_1'$ in Figure (\ref{fig:seq_proof:a}) are the leaves that will allow us to find the node on the path from $G$ to $e$ that is their sibling (the parent of $e$).
+    %
+    % Take edge $a\in G$, the $\componentsx{G\setminus a}$ is the set of nodes marked with an `x' in figure xx. The entire figure shows $\branchx{G,a,P_G}$, where $P_G$ is the \pseudosequential\ DR-plan of $G$, however, we do not yet know the contents of the `circle' nodes or the order of the nodes in the \branch.
+    %
+    % So we take leaf $L$ (an element of $\componentsx{G\setminus a}$) and edge $b\in L$, and find $\components{G\setminus b}$. The this set is the leaves of the $\branchx{G,b,P_G}$, shown in figure xx.
+    }
+    \label{fig:seq_proof}
+\end{figure*}
+
+
+\begin{lemma}
+[\Branch\ from \branch\ leaves]
+\label{lem:branch-from-branch-leaves}
+    For an isostatic graph $G$ containing an edge $e$, the \branchGePG\ for a \pseudosequential\ DR-plan $P_G$ can be constructed from $\componentsx{G\setminus e}$, i.e.\ from the set of leaves of \branchGePG, by carrying out -- for each leaf $L$ -- one computation of $\componentsx{G\setminus f}$, where $f$ is any edge in $L$.
+\end{lemma}
+
+% \begin{proof}
+%     First note that in order to obtain \branchGePG\ from the set of subgraphs at its leaves, it is sufficient to find the subgraphs at the nodes along the path from $e$ to $G$ in $P_G$. Once these non-leaf nodes of the \branch\ are known, the \branch\ leaves can be organized by parent node (and level) thereby obtaining the \branch.
+
+%     Now observe that for a leaf $L$ and edge $f\in L$, there exists component $D\in \componentsx{G\setminus f}$ can be classified as one of the following cases.
+
+%     Each case either discovers at least one node $C$ on the path from $e$ to $G$, and a sibling of $D$ in $P_G$, and partitions the leaves of \branchGePG\ into two sets, namely descendants of $C$ or children of ancestors of $C$; or finds a leaf of \branchLfPL\ ($\componentsx{L\setminus f}$ for the next recursion level of the algorithm).
+
+%     % \todo{
+%     % Case (0):
+%     % $D$ is exactly some component $C$ of $\componentsx{G\setminus e}$.... The only true 1a is the leftmost in subfig 2, everything else is 0... In this case, we know $C=D$ to be some child of an ancestor of $C$.
+%     % }
+
+%     Case (1):
+%     $D$ contains some components $C$ of $\componentsx{G\setminus e}$ (i.e.\ leaves of \branchGePG) and intersects all other leaves of \branchGePG\ trivially. One occurrence of this case (Case 1a) is when $L$'s siblings in (any \pseudosequential\ DR-plan) $P_G$ have trivial pairwise intersection. Another occurrence of this case (Case 1b) is when $L$'s siblings in (any \pseudosequential\ DR-plan) $P_G$ have non-trivial pairwise intersections, but the edge $f$ is in their common intersection, i.e.\ the core \todo{mentions core!}. In both cases, $D$ is a node along the path from $e$ to $G$ in $P_G$, with the components $C$ being its descendants, $L$ being its sibling and all other components in $\componentsx{G\setminus e}$ (i.e.\ leaves of \branchGePG) being children of $D$'s ancestors in \branchGePG.
+%     \todo{(1c), it contains no components.}
+
+
+%     Case (2):
+%     $D$ is contained in $L$ and intersects all other leaves of \branchGePG\ trivially. In this case, $D$ is a leaf of \branchLfPL, to be used in the next level recursion of the algorithm.
+
+%     Case (3):
+%     $D$ intersects $L$ non-trivially, neither contains nor is contained in $L$, but contains some components $C$ of $\componentsx{G\setminus e}$ (leaves of \branchGePG). This happens when the siblings of $L$ in a canonical DR-plan for $G$ intersect $L$ non-trivially. In this case, $D\cup L$ is a node along the path from $e$ to $G$ with the components $C$ being its descendants, $L$ being its  child and all other components in $\componentsx{G\setminus e}$ (i.e.\ leaves of \branchGePG) being children of $D$'s ancestors in \branchGePG. In addition, $D\cap L$ is a leaf of \branchLfPL\ to be used in the next recursion level of the algorithm.
+
+%     One subtle obstacle to overcome in Case 3 is that the newly found node along the path from $e$ to $G$ is the parent of $L$ as opposed to a sibling of $L$ as in Case (1). On the surface, this is problematic because the sibling $D'$ of $L$ along the path from $e$ to $G$ may never be found. However a closer inspection of Case 3 reveals that $L$ is the partner of an appendage $A$ containing $e$, and $A$, being underconstrained by Observation~\ref{lemma:union_intersection} and Lemma~\ref{lemma:combined_lemma}, must have maximal rigid components with nontrivial intersections, which means that there must be another sibling of $D'$ that is a leaf $L'$ of \branchGePG. Hence for some edge $f'$ in $L'$, $\componentsx{G\setminus f'}$ will find $D'$ within Case 1.
+
+%     Since each node along the path from $e$ to $G$ is found by the above procedure, the proof is complete.
+% \end{proof}
+
+\begin{proof}
+    First note that in order to obtain \branchGePG\ from the set of subgraphs at its leaves, it is sufficient to find the subgraphs at the nodes along the path from $G$ to $e$ in $P_G$. Once these non-leaf nodes of the \branch\ are known, the \branch\ leaves can be organized by parent node (and level) thereby obtaining the \branch.
+
+    For a leaf $L$ and edge $f\in L$, we can classify the component $D\in \componentsx{G\setminus f}$ as being one of the following cases:
+
+    Case (1):
+    $D$ and $L$ are edge disjoint, and $D$ contains
+    (1a) no elements,
+    (1b) exactly one element, or
+    % originally 1a and 1b
+    (1c) more than one element
+    of $\componentsx{G\setminus e}$.
+    %
+    Case (2):
+    $D$ and $L$ have non-empty intersection of edge sets, and $D$ is
+    % originally 2
+    (2a)
+    a proper subgraph or
+    % originally 3
+    (2b)
+    not a subgraph
+    of $L$.
+    %
+    Note that this list is exhaustive. If $D$ and $L$ are edge disjoint, $D$ cannot contain subgraphs of elements of $\componentsx{G\setminus e}$. If $D$ and $L$ have non-empty intersection of edge sets, $D$ cannot be exactly $L$.
+    See Figure~\ref{fig:seq_proof} for examples of the cases.
+
+    Now observe that it is impossible for all $D\in \componentsx{G\setminus f}$ to be Case (1b), as this would imply $f=e$.
+
+    Case (1a) implies that $D=e$, and is therefore a sibling of $L$ and an element on the path from $G$ to $e$. Furthermore, we can classify the rest of the leaves (i.e.\ $\componentsx{G\setminus e}$) as children of the ancestors of $D$.
+
+    Similarly, Case (1c) implies that $D$ is a sibling of $L$ on the path from $G$ to $e$. It also allows us to partition the leaves as either children of $L$ (those components which are subgraphs of $D$) or as children of the ancestors of $D$. This case occurs when the siblings of $L$ in (any \pseudosequential\ DR-plan) $P_G$ have either (1c1) trivial pairwise intersection or (1c2) non-trivial pairwise intersections, but the edge $f$ is in their common intersection, i.e.\ the core.
+
+    Case (2a) implies that $D$ is a leaf in \branchLfPL\ to be used in the next level of recursion of the algorithm.
+
+    Case (2b) implies that $D$ is the partner to the appendage containing $f$. Node $D$ will also contain some other leaves from $\componentsx{G\setminus e}$, namely the siblings of $L$ and their descendants. In this case, $D\cup L$ is a node along the path from $G$ to $e$ with the leaves contained in $L$ being its descendants, $L$ being its child, and all other components in $\componentsx{G\setminus e}$ being children of the ancestors of $D\cup L$ in \branchGePG. In addition, $D\cap L$ is a leaf of \branchLfPL\ to be used in the next recursion level of the algorithm.
+
+    One subtle obstacle to overcome in Case (2b) is that the newly found node along the path from $G$ to $e$ is the parent of $L$ as opposed to a sibling of $L$ as in Case (1a) and (1c). On the surface, this is problematic because the sibling $D'$ of $L$ along the path from $G$ to $e$ may never be found. However a closer inspection of Case (2b) reveals that $L$ is the partner of an appendage $A$ containing $e$, and $A$, being underconstrained by Observation~\ref{lemma:union_intersection} and Lemma~\ref{lemma:combined_lemma}, must have maximal rigid components with nontrivial intersections, which means that there must be another sibling of $D'$ that is a leaf $L'$ of \branchGePG. Hence for some edge $f'$ in $L'$, $\componentsx{G\setminus f'}$ will find $D'$ within Case (1a) or (1c).
+
+    % Since each level of \branchGePG\ will contain some $L$ and $f\in L$ with a $D\in \componentsx{G\setminus f}$ that is either of Case (1a), (1c), or (2b) all nodes in the path from $G$ to $e$ can be found, which completes the proof.
+    Since each node along the path from $e$ to $G$ is found by the above procedure, the proof is complete.
+\end{proof}
+
+
+\begin{theorem}
+[Complexity of the algorithm]
+\label{theorem:algo_complexity}
+    Computing a \pseudosequential\ DR-plan for a graph $G$ has time complexity $O(|V(G)|^3)$.
+\end{theorem}
+
+\begin{proof}
+    The previous two Lemmas and the $O(|V(G)|^2)$ complexity of the pebble game algorithm for computing $\componentsx{G\setminus e}$ show that the procedure for computing \branchGePG\ given $G$ and $e$ takes time $O(M|V(G)|^2)$, using $M$ $\componentsx{}$ computations, where $M$ is the number of leaves $L$ of \branchGePG. Furthermore, in the process, the leaves of all the \branches\ \branchLfPL\ have already been computed. Recursive computation of a \pseudosequential\ DR-plan $P_G$ as in Observation~\ref{obs:seqplan_rec_from_branches} now proceeds by computing \branches\ \branchLfPL\ for each leaf $L$ of \branchGePG. Since each node of $P_G$ appears as the leaf $L$ of a \branch\ exactly once during the above recursive procedure, overall one $O(|V(L)|^2)$ computation of $\componentsx{}$ is carried out for each of the $O(|V(G)|)$ nodes $L$ of $P_G$, resulting in an overall complexity of $O(|V(G)|^3)$.
+\end{proof}
+
+
+
+\subsection{The `Essentially Unique' Sequential DR-Plan}
+
+The class of sequential DR-plans is defined as a subset of \pseudosequential\ and satisfies all properties discussed in the previous section. Furthermore, we show that a sequential DR-plan can always be obtained from a \pseudosequential\ DR-plan. A sequential DR-plan is desirable because it is `essentially' unique, and illustrates that the canonical DR-plan in fact retains the essential uniqueness of a complete DR-plan.
+ % which will be elaborated upon following the definition.
+
+\begin{definition}
+[Sequential DR-plan, core]
+\label{def:seqdrp}
+    A \dfn{sequential DR-plan} is a \pseudosequential\ DR-plan that additionally satisfies the following requirement:
 
     \begin{enumerate}
         \setcounter{enumi}{3}
@@ -396,34 +689,61 @@ Now we define the sequential DR-plan in a manner analogous to Definition~\ref{de
         %
     \end{enumerate}
 
-    When the graph is independent and the DR-plan is sequential (Property (4) holds), if the parent of $C\cup C_s$ falls under Property (2), while $C\cup C_s$ falls under Property (3), then the lowest descendant $D$ as above is called the \dfn{core} of $C\cup C_s$.
+    % When the graph is independent and the DR-plan is sequential (Property (4) holds), if the parent of $C\cup C_s$ falls under Property (2), while $C\cup C_s$ falls under Property (3), then the lowest descendant $D$ as above is called the \dfn{core} of $C\cup C_s$.
+    Take an independent graph with a sequential DR-plan (i.e.\ Property (4) holds). Now, if the parent of $C\cup C_s$ falls under Property (2) of Definition~\ref{def:pseudoseqdrp}, while $C\cup C_s$ falls under Property (3) of Definition~\ref{def:pseudoseqdrp}, then the lowest descendant $D$ as above is called the \dfn{core} of $C\cup C_s$.
 \end{definition}
 
-\begin{figure}\centering
-    \includegraphics[width=\linewidth]{../../img/svg/drp_triv_and_non}
-    \caption{Two sequential DR-plans of the same isostatic input graph. \todo{More caption.}}
-    \label{fig:seqdrp_nonuniqueness}
-\end{figure}
-
+For sequential DR-plans of independent graphs, Property (3) of Definition~\ref{def:pseudoseqdrp} appears asymmetric with respect to $i$ and $j$; but in fact, $i$ and $j$ can be switched, using the appendage $C_i\setminus C_j$ instead. Let $C_1, C_2, \ldots, C_N$ be a complete list of proper vertex-maximal rigid subgraphs of $C$. Their pairwise intersections must all be nontrivial, and their common intersection, called a \dfn{core}, is isostatic by Lemma~\ref{lemma:combined_lemma}. Denote by $A_i$ the $i^\text{th}$ appendage, where $A_i = C_j\setminus C_i$, for any $j\neq i$. Note that $C_i = C\setminus A_i$; and $C_i = \bigcap_i{C_i} \bigcup_{j\ne i}{A_j}$. Choosing a particular ordering of the $C_i$, i.e.\ choosing the maximal rigid components of a particular appendage, say $A_1$, and its partner $C_1$ to be the children of $C$ simply pushes down the nodes corresponding to the appendages $A_2, A_3, \ldots, A_N$ to a lower level of the sequential DR-plan and the corresponding partners are created as $C_1\cap C_2, C_1\cap C_2\cap C_3, \ldots$; the last appendage, $A_N$, will always have the core, $\bigcap_i{C_i}$, as its partner. Thus, we come to the following conclusion.
 
 \begin{remark}
 [Essential uniqueness of sequential DR-plans]
 \label{remark:seq_is_essentially_unique}
-    For sequential DR-plans of independent graphs, Property (3) of the above definition appears asymmetric with respect to $i$ and $j$; but in fact, $i$ and $j$ can be switched, using the appendage $C_i\setminus C_j$ instead. Let $C_1, C_2, \ldots, C_N$ be a complete list of proper vertex-maximal rigid subgraphs of $C$. Their pairwise intersections must all be nontrivial, and their common intersection, called a \dfn{core}, is isostatic by Lemma~\ref{lemma:combined_lemma}. Denote by $A_i$ the $i^\text{th}$ appendage, where $A_i = C_j\setminus C_i$, for any $j\neq i$. Note that $C_i = C\setminus A_i$; and $C_i = \bigcap_i{C_i} \bigcup_{j\ne i}{A_j}$. Choosing a particular ordering of the $C_i$, i.e.\ choosing the maximal rigid components of a particular appendage, say $A_1$, and its partner $C_1$ to be the children of $C$ simply pushes down the nodes corresponding to the appendages $A_2, A_3, \ldots, A_N$ to a lower level of the sequential DR-plan and the corresponding partners are created as $C_1\cap C_2, C_1\cap C_2\cap C_3, \ldots$; the last appendage, $A_N$, will always have the core, $\bigcap_i{C_i}$, as its partner. Thus, modulo the ordering of appendages, the sequential DR-plan is in fact unique. See Figure~\ref{fig:seqdrp_nonuniqueness}.
-
-    Furthermore, any rigid subgraph appears in at most one node of a sequential DR-plan. Also, if an edge $e$ of $G$ belongs in the rigid subgraph at any two nodes $A$ and $B$ of a sequential DR-plan, then either $A\subset B$ or $B\subset A$. Since the leaves of sequential DR-plan tree are the $O(|V(G)|)$ edges of the independent input graph, this implies the size of the tree is $O(|V(G)|)$.
+    Modulo the ordering of appendages and the corresponding partners, the sequential DR-plan is unique.
 \end{remark}
 
+% \begin{figure}\centering
+%     \includegraphics[width=\linewidth]{../../img/svg/drp_triv_and_non}
+%     \caption{Two sequential DR-plans of the same isostatic input graph. \todo{More caption. Show \pseudosequential\ that isn't sequential.}}
+%     \label{fig:seqdrp_nonuniqueness}
+% \end{figure}
+
+
+\ClearMyMinHeight
+\SetMyMinHeight{.3}{../../img/svg/pseudoseq_vs_seq_seq}
+\SetMyMinHeight{.3}{../../img/svg/pseudoseq_vs_seq_pseudoseq}
+
+\begin{figure}\centering
+    \begin{subfigure}{0.48\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/pseudoseq_vs_seq_seq}
+        \caption{}\label{fig:pseudoseq_vs_seq:seq}
+    \end{subfigure}%
+    %
+    \hfill
+    \begin{subfigure}{0.48\linewidth}\centering
+        \includegraphics[height=\myMinHeight]{../../img/svg/pseudoseq_vs_seq_pseudoseq}
+        \caption{}\label{fig:pseudoseq_vs_seq:pseudoseq}
+    \end{subfigure}%
+    %
+    % \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_c}
+
+    \caption{Two \pseudosequential\ DR-plans of the same isostatic input graph, further decomposition of the diamonds is omitted. Figure (\ref{fig:pseudoseq_vs_seq:seq})) also satisfies Property (4) of Definition~\ref{def:seqdrp} and is therefore a sequential DR-plan as well. The core and the appendages are marked in the figure. Figure (\ref{fig:pseudoseq_vs_seq:pseudoseq}) uses an alternative decomposition of the partner of appendage 1; since the isostatic vertex-maximal proper subgraphs of this node have non-trivial intersections as well, there is a choice in which appendage to decompose first. This choice pushes appendage 2 of the input graph further down the plan and the core is not present.}
+    \label{fig:pseudoseq_vs_seq}
+\end{figure}
+
+For an example of a \pseudosequential\ DR-plan that is not sequential (i.e.\ Property (4) does not hold), see Figure~\ref{fig:pseudoseq_vs_seq}. Note that the core is not present in the \pseudosequential\ DR-plan (Figure~\ref{fig:pseudoseq_vs_seq:pseudoseq}) and the order of the appendages cannot be easily changed.
+Nevertheless, we will now
+% Now we wish to
+show that a sequential DR-plan can be found from any \pseudosequential\ DR-plan in linear time (in the size of the input graph), making it a worthwhile tool in practice.
 
 \begin{lemma}
-[Pseudo-sequential to sequential DR-plan]
-    Any pseudo-sequential DR-plan for an independent graph can be converted to a sequential DR-plan (satisfying Property (4)) in time $O(|V(G)|)$.
+[\Pseudosequential\ to sequential DR-plan]
+    Any \pseudosequential\ DR-plan for an independent graph can be converted to a sequential DR-plan (satisfying Property (4)) in time $O(|V(G)|)$.
 \end{lemma}
 
 \begin{proof}
-    For independent graphs, note that Property (2) and (3) of Definition~\ref{def:seqdrp} automatically imply that the following holds for a pseudo-sequential DR-plan: for a node $G$ that falls under Property (2), there is no child $C$ of $G = C\cup C_s$ for which there is a descendant $D$ with siblings $D_s$ possessing the property that $C\cup C_s \setminus D_s$ is rigid; for a node $G$ that falls under Property (3), such a descendant $D$ exists for a unique child $C$ of the node $G=C\cup C_s$, as well as for unique children of all $D'$ on the path from $C$ to $D$. Furthermore, for all such $D'$, it automatically holds that $D'\cup D'_s \setminus D_s$ is rigid. We call this \emph{Property (4')} (since it is a parallel property of Property (4) of Definition~\ref{def:seqdrp}).
+    For independent graphs, note that Property (2) and (3) of Definition~\ref{def:pseudoseqdrp} automatically imply that the following holds for a \pseudosequential\ DR-plan: for a node $G$ that falls under Property (2), there is no child $C$ of $G = C\cup C_s$ for which there is a descendant $D$ with siblings $D_s$ possessing the property that $C\cup C_s \setminus D_s$ is rigid; for a node $G$ that falls under Property (3), such a descendant $D$ exists for a unique child $C$ of the node $G=C\cup C_s$, as well as for unique children of all $D'$ on the path from $C$ to $D$. Furthermore, for all such $D'$, it automatically holds that $D'\cup D'_s \setminus D_s$ is rigid. We call this \emph{Property (4')} (since it is a parallel property of Property (4) of Definition~\ref{def:seqdrp}).
 
-    Given a pseudo-sequential DR-plan of an independent graph where nodes with Property (3) of Definition~\ref{def:seqdrp} are labeled, we show how to enforce Property (4) of Definition~\ref{def:seqdrp}, for a node $C\cup C_s$ with Property (3), i.e.\ when there is a descendant $D$ with siblings $D_s$ possessing the property that $C\setminus D_s \cup C_s$ is rigid.
+    Given a \pseudosequential\ DR-plan of an independent graph where nodes with Property (3) of Definition~\ref{def:pseudoseqdrp} are labeled, we show how to enforce Property (4) of Definition~\ref{def:seqdrp}, for a node $C\cup C_s$ with Property (3), i.e.\ when there is a descendant $D$ with siblings $D_s$ possessing the property that $C\setminus D_s \cup C_s$ is rigid.
 
     Let $D$ be any such descendant where Property (4) does not hold and let $D^*$ (with siblings $D^*_s$) be the highest node along the path from $C$ to $D$ where $C\cup C_s \setminus D^*_s$ is not rigid.
     Since we know that $C\cup C_s \setminus D_s$ is in fact rigid by the hypothesis of Property (4), and since Property (4') holds for $D^*$, i.e.\ $D^*\cup D^*_s \setminus D_s$, we ``switch $D^*_s$ with $D_s$'' by setting up the partners and appendages along the path from $D^*$ to $D$ as follows.
@@ -451,181 +771,7 @@ Now we define the sequential DR-plan in a manner analogous to Definition~\ref{de
 %     A sequential DR-plan for an independent graph $G$ can be converted to a canonical DR-plan in time linear in the number of its nodes, which is $O(|V(G)|)$. \todo{This isn't true... in O(nodes) of which plan?... there could be $n^2$ nodes in the canonical...}
 % \end{observation}
 
-\begin{observation}
-[Sequential is optimal]
-    A \todo{psuedo-}sequential DR-plan of an independent graph is optimal.
-    \todo{(Psuedo-)sequential DR-plans of independent graphs are optimal.}
-\end{observation}
 
-\begin{proof}
-    We need to show the statement:
-    (*) the max fan-in (i.e.\ number of children) of any sequential DR-plan for an independent graph $G$ is no larger that of some canonical DR-plan for $G$. By Theorem~\ref{theorem:canonical_is_optimal}, this would imply that the sequential DR-plan is optimal.
-
-    Recall that both sequential and canonical DR-plans are defined recursively. We will prove the statement (*) by induction on the height of a sequential DR-plan for $G$. Induction hypothesis: (*) holds for independent graphs $G$ with sequential DR-plans of height $h$. Induction step: a sequential DR-plan of height $h+1$ rooted at a node $G$ consists of sequential DR-plans (of height at most $h$) rooted at its children $C$.
-    The base case (height of 0, i.e.\ single edges) trivially holds.
-
-    It is sufficient to show (a) the children $C$ will exist somewhere in some canonical DR-plan, and (b) $|C|$ is less than or equal to the max fan-in of some canonical DR-plan. Given (a), then by the recursive definition of canonical DR-plans, these nodes are the roots of canonical DR-plans, thus the induction hypothesis applies to the nodes in $C$. Additionally given (b), the proof of the induction step of (*) is complete.
-
-    Case (1):
-    When the isostatic vertex-maximal proper subgraphs of $G$ have trivial intersections, the children of $G$ in any canonical DR-plan are the same set $C$ of children in any sequential DR-plan. Thus both conditions (a) and (b) are immediately satisfied.
-
-    Case (2):
-    When the isostatic vertex-maximal proper subgraphs of $G$ have non-trivial intersections, the children $C$ are the isostatic components of some appendage, $A_i$, and its partner. The partner will be a child of $G$ in some canonical DR-plan. Furthermore, in any canonical DR-plan there will be some node $N-1$ levels below $G$ (where $N$ is the number of appendages) containing the core plus appendage $A_i$. In some canonical DR-plan, the children of this node will be the components of $A_i$ and the core. This node has the same fan-in as $G$ in the sequential DR-plan, satisfying (b), and, along with the partner (a child of $G$), shows that some canonical DR-plan has all the nodes in $C$, thereby satisfying (a).
-\end{proof}
-
-% \begin{proof}
-%     Any sequential DR-plan, $\seqdrpx{G}$, has maximum fan-in no greater than that of some canonical DR-plan, $\candrpx{G}$, of the same independent graph $G$. By Theorem~\ref{theorem:canonical_is_optimal}, this implies a sequential DR-plan is also optimal. Consider node $C$ that appears in both $\seqdrpx{G}$ and $\candrpx{G}$ with isostatic vertex-maximal proper subgraphs (clusters) $C_1, C_2, \ldots, C_N$.
-%     We prove this recursively by showing that node $C$ in $\seqdrpx{G}$ and any descendant of $C$ that is not in $\candrpx{G}$ has fan-in less than or equal to the maximum fan-in of $\candrpx{G}$.
-
-%     Case 1: If the clusters of $C$ have pairwise trivial intersections, then node $C$ has the same set of children and fan-in in both $\seqdrpx{G}$ and $\candrpx{G}$.
-
-%     Case 2: Otherwise, the clusters of $C$ have pairwise non-trivial intersection, and we call the common intersection the core. The children of node $C$ in $\seqdrpx{G}$ will be the components of the appendage, $A_1$, and its partner, $T_1$. In $\candrpx{G}$, there will be some node $D$ that is $A_1$ union the core; $D$ can have clusters with either trivial or non-trivial intersections.
-
-%     Case 2a: In the trivial case, node $D$ decomposes into the core and the components of $A_1$; thus, the fan-in of node $C$ in $\seqdrpx{G}$ is equal to the fan-in of $D$ in $\candrpx{G}$ and they both have the components of $A_1$ as children, leaving $T_1$ to be shown to be optimally decomposed in $\seqdrpx{G}$.
-
-%     Case 2b: In the non-trivial case, there is some new core of $D$, so there will be some node $D'$ in $\candrpx{G}$ that is $A_1$ union the core of $D$; this pattern will continue until we eventually find $D^*$ with clusters that intersect trivially. Similar to Case (2b), the fan-in of node $C$ in $\seqdrpx{G}$ is equal to the fan-in of $D^*$ in $\candrpx{G}$ and they both have the components of $A_1$ as children, leaving $T_1$ to be shown to be optimally decomposed in $\seqdrpx{G}$.
-
-%     The decomposition of $T_1$ in $\seqdrpx{G}$ will be the components of appendage $A_2$ and its partner $T_2$. Similarly, $\candrpx{G}$ will contain core union $A_2$, and so we must now show $T_3$ is decomposed optimally in a sequential DR-plan. This continues to the node containing $T_{N-1}$, the core union appendage $A_N$, in $\seqdrpx{G}$, which we know to be a node in $\candrpx{G}$.
-% \end{proof}
-
-
-\begin{definition}
-[\Branch]
-    Given a sequential DR-plan $P_G$ for an isostatic graph $G$, and an edge $e \in G$, the \branchGePG\ is the subtree of the DR-plan consisting of the path from the leaf containing $e$ to the root containing $G$, together with the children of all the nodes on this path, which are the leaves of \branchGePG.
-\end{definition}
-
-\begin{observation}
-[Sequential DR-plan recursively from \branches]
-\label{obs:seqplan_rec_from_branches}
-    A sequential DR-plan $P_G$ for an isostatic graph $G$ is obtained from \branchGePG\ by recursively attaching to each of its leaves $L$ a sequential DR-plan $P_L$ for $L$.
-\end{observation}
-
-The next two Lemmas are the crux of our $O(|V|^3)$ algorithm to find a sequential DR-plan.
-
-\begin{lemma}
-[\Branch\ leaves from components]
-    Let $G$ be isostatic, $e$ be an edge in $G$, and $\componentsx{G\setminus e}$ be the set of maximal rigid components of $G\setminus e$. Then there is a sequential DR-plan $P_G$ for $G$ such that $\componentsx{G\setminus e}$ is exactly the set of leaves of \branchGePG\ (minus $e$ itself).
-\end{lemma}
-
-\begin{proof}
-    Follows from the structure of a sequential DR-plan and the definition of \branchGePG.
-\end{proof}
-
-
-
-\ClearMyMinHeight
-\SetMyMinHeight{0.240}{../../img/svg/seq_proof_figs_a}
-\SetMyMinHeight{0.24}{../../img/svg/seq_proof_figs_b}
-\SetMyMinHeight{0.240}{../../img/svg/seq_proof_figs_c}
-\SetMyMinHeight{0.24}{../../img/svg/seq_proof_figs_d}
-
-\begin{figure*}\centering%
-    % \begin{subfigure}[t]{0.27\linewidth}
-    %     \includegraphics[width=\linewidth]{../../img/svg/seq_proof_figs_a}
-    %     \caption{}\label{fig:seq_proof:a}
-    % \end{subfigure}%
-    % %
-    % \hfill
-    % \begin{subfigure}[t]{0.17\linewidth}
-    %     \includegraphics[width=\linewidth]{../../img/svg/seq_proof_figs_b}
-    %     \caption{}\label{fig:seq_proof:b}
-    % \end{subfigure}%
-    % %
-    % \hfill
-    % \begin{subfigure}[t]{0.25\linewidth}
-    %     \includegraphics[width=\linewidth]{../../img/svg/seq_proof_figs_c}
-    %     \caption{}\label{fig:seq_proof:c}
-    % \end{subfigure}%
-    % %
-    % \hfill
-    % \begin{subfigure}[t]{0.23\linewidth}
-    %     \includegraphics[width=\linewidth]{../../img/svg/seq_proof_figs_d}
-    %     \caption{}\label{fig:seq_proof:d}
-    % \end{subfigure}%
-    \begin{subfigure}{0.240\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_a}
-        \caption{}\label{fig:seq_proof:a}
-    \end{subfigure}%
-    %
-    \hfill
-    \begin{subfigure}{0.24\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_b}
-        \caption{}\label{fig:seq_proof:b}
-    \end{subfigure}%
-    %
-    \begin{subfigure}{0.240\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_c}
-        \caption{}\label{fig:seq_proof:c}
-    \end{subfigure}%
-    %
-    \hfill
-    \begin{subfigure}{0.24\linewidth}\centering
-        \includegraphics[height=\myMinHeight]{../../img/svg/seq_proof_figs_d}
-        \caption{}\label{fig:seq_proof:d}
-    \end{subfigure}%
-
-    \caption{
-    Figure (\ref{fig:seq_proof:a}) depicts $\branchx{G,e,P_G}$, the black nodes are the $\componentsx{G\setminus e}$. The node labeled `Core+A$_1$+A$_2$' is a subgraph of $G$ that has 2 isostatic vertex-maximal proper subgraphs intersecting non-trivially.
-    %
-    Figure (\ref{fig:seq_proof:b}) depicts $\branchx{G,f,P_G}$ of the edge labeled $f\in L_2$ (from Figure (\ref{fig:seq_proof:a})). Similarly, the black nodes are the $\componentsx{G\setminus f}$. These leaves are labeled with the cases discussed in the proof of Lemma~\ref{lem:branch-from-branch-leaves}.
-    %
-    Figure (\ref{fig:seq_proof:c}) depicts $\branchx{G,f,P_G}$ of the edge labeled $f$ in the core in $L_1$ (from Figure (\ref{fig:seq_proof:a})). Note that based on the choice of $e$ as the first edge, we get a sequential DR-plan that looks like Figure (\ref{fig:seq_proof:c}), if we had chosen an edge from appendage A$_2$ the second and third level would be flipped.
-    %
-    Figure (\ref{fig:seq_proof:d}) depicts $\branchx{G,f,P_G}$ of the edge labeled $f$ in the appendage A$_1$ in $L_1$ (from Figure (\ref{fig:seq_proof:a})). Note that this contains a node $D$ that has Case 3. With this $D$, $D\cup L_1$ is `Core+A$_1$+A$_2$' and $D\cap L_1$ is `Core'. The leaves labeled L$_1'$ in Figure (\ref{fig:seq_proof:a}) are the leaves that will allow us to find the node on the path from $G$ to $e$ that is their sibling (the parent of $e$).
-    %
-    % Take edge $a\in G$, the $\componentsx{G\setminus a}$ is the set of nodes marked with an `x' in figure xx. The entire figure shows $\branchx{G,a,P_G}$, where $P_G$ is the sequential DR-plan of $G$, however, we do not yet know the contents of the `circle' nodes or the order of the nodes in the \branch.
-    %
-    % So we take leaf $L$ (an element of $\componentsx{G\setminus a}$) and edge $b\in L$, and find $\components{G\setminus b}$. The this set is the leaves of the $\branchx{G,b,P_G}$, shown in figure xx.
-    }
-    \label{fig:seq_proof}
-\end{figure*}
-
-
-\begin{lemma}
-[\Branch\ from \branch\ leaves]
-\label{lem:branch-from-branch-leaves}
-    For an isostatic graph $G$ containing an edge $e$, the \branchGePG\ for a sequential DR-plan $P_G$ can be constructed from $\componentsx{G\setminus e}$, i.e.\ from the set of leaves of \branchGePG, by carrying out---for each leaf $L$---one computation of $\componentsx{G\setminus f}$, where $f$ is any edge in $L$.
-\end{lemma}
-
-\begin{proof}
-    First note that in order to obtain \branchGePG\ from the set of subgraphs at its leaves, it is sufficient to find the subgraphs at the nodes along the path from $e$ to $G$ in $P_G$. Once these non-leaf nodes of the \branch\ are known, the \branch\ leaves can be organized by parent node (and level) thereby obtaining the \branch.
-
-    Now observe that for a leaf $L$ and an edge $f\in L$, each component $D\in \componentsx{G\setminus f}$ can be classified as one of the following cases.
-
-    Each case either discovers at least one node $C$ on the path from $e$ to $G$, and a sibling of $D$ in $P_G$, and partitions the leaves of \branchGePG\ into two sets, namely descendants of $C$ or children of ancestors of $C$; or finds a leaf of \branchLfPL\ ($\componentsx{L\setminus f}$ for the next recursion level of the algorithm).
-
-    \todo{
-    Case (0):
-    $D$ is exactly some component $C$ of $\componentsx{G\setminus e}$.... The only true 1a is the leftmost in subfig 2, everything else is 0... In this case, we know $C=D$ to be some child of an ancestor of $C$.
-    }
-
-    Case (1):
-    $D$ contains some components $C$ of $\componentsx{G\setminus e}$ (i.e.\ leaves of \branchGePG) and intersects all leaves of \branchGePG\ trivially \todo{besides the components $C$ it contains}. One occurrence of this case (Case 1a) is when $L$'s siblings in (any sequential DR-plan) $P_G$ have trivial pairwise intersection. Another occurrence of this case (Case 1b) is when $L$'s siblings in (any sequential DR-plan) $P_G$ have non-trivial pairwise intersections, but the edge $f$ is in their common intersection, i.e.\ the core. In both cases, $D$ is a node along the path from $e$ to $G$ in $P_G$, with the components $C$ being its descendants, $L$ being its sibling and all other components in $\componentsx{G\setminus e}$ (i.e.\ leaves of \branchGePG) being children of $D$'s ancestors in \branchGePG.
-
-
-    Case (2):
-    $D$ is contained in $L$ and intersects all \todo{other} leaves of \branchGePG\ trivially. In this case, $D$ is a leaf of \branchLfPL, to be used in the next level recursion of the algorithm.
-
-    Case (3):
-    $D$ intersects $L$ non-trivially, neither contains nor is contained in $L$, but contains some components $C$ of $\componentsx{G\setminus e}$ (leaves of \branchGePG). This happens when the siblings of $L$ in a canonical DR-plan for $G$ intersect $L$ non-trivially. In this case, $D\cup L$ is a node along the path from $e$ to $G$ with the components $C$ being its descendants, $L$ being its  child and all other components in $\componentsx{G\setminus e}$ (i.e.\ leaves of \branchGePG) being children of $D$'s ancestors in \branchGePG. In addition, $D\cap L$ is a leaf of \branchLfPL\ to be used in the next recursion level of the algorithm.
-
-    One subtle obstacle to overcome in Case 3 is that the newly found node along the path from $e$ to $G$ is the parent of $L$ as opposed to a sibling of $L$ as in Case (1). On the surface, this is problematic because the sibling $D'$ of $L$ along the path from $e$ to $G$ may never be found. However a closer inspection of Case 3 reveals that $L$ is the partner of an appendage $A$ containing $e$, and $A$, being underconstrained by Observation~\ref{lemma:union_intersection} and Lemma~\ref{lemma:combined_lemma}, must have maximal rigid components with nontrivial intersections, which means that there must be another sibling of $D'$ that is a leaf $L'$ of \branchGePG. Hence for some edge $f'$ in $L'$, $\componentsx{G\setminus f'}$ will find $D'$ within Case 1.
-
-    Since each node along the path from $e$ to $G$ is found by the above procedure, the proof is complete.
-\end{proof}
-
-
-
-
-\begin{theorem}
-[Complexity of the algorithm]
-\label{theorem:algo_complexity}
-    Computing a sequential DR-plan for a graph $G$ has time complexity $O(|V(G)|^3)$.
-\end{theorem}
-
-\begin{proof}
-    The previous two Lemmas and the $O(|V(G)|^2)$ complexity of the pebble game algorithm for computing $\componentsx{G\setminus e}$ show that the procedure for computing \branchGePG\ given $G$ and $e$ takes time $O(M|V(G)|^2)$, using $M$ $\componentsx{}$ computations, where $M$ is the number of leaves $L$ of \branchGePG. Furthermore, in the process, the leaves of all the \branches\ \branchLfPL\ have already been computed. Recursive computation of a sequential DR-plan $P_G$ as in Observation~\ref{obs:seqplan_rec_from_branches} now proceeds by computing \branches\ \branchLfPL\ for each leaf $L$ of \branchGePG. Since each node of $P_G$ appears as the leaf $L$ of a \branch\ exactly once during the above recursive procedure, overall one $O(|V(L)|^2)$ computation of $\componentsx{}$ is carried out for each of the $O(|V(G)|)$ nodes $L$ of $P_G$, resulting in an overall complexity of $O(|V(G)|^3)$.
-\end{proof}
 
 
 
@@ -643,29 +789,40 @@ The next two Lemmas are the crux of our $O(|V|^3)$ algorithm to find a sequentia
 
 
 \ClearMyMinHeight
-\SetMyMinHeight{.6}{../../img/svg/new_overconstrained_not_optimal}
-\SetMyMinHeight{.4}{../../img/svg/new_overconstrained_optimal}
+\SetMyMinHeight{.6}{../../img/svg/new2_overconstrained_not_optimal}
+\SetMyMinHeight{.4}{../../img/svg/new2_overconstrained_optimal}
 
 \begin{figure*}\centering%
     %
+    % \begin{subfigure}{0.5\linewidth}\centering
+    %     \scalebox{1}[.9]{
+    %     \includegraphics[height=\myMinHeight]{../../img/svg/new2_overconstrained_optimal}
+    %     }
+    %     \caption{}\label{fig:overconstrained:optimal}
+    % \end{subfigure}%
+    % %
+    % \hfill
+    % \begin{subfigure}{0.5\linewidth}\centering
+    %     \scalebox{1}[.9]{
+    %     \includegraphics[height=\myMinHeight]{../../img/svg/new2_overconstrained_not_optimal}
+    %     }
+    %     \caption{}\label{fig:overconstrained:not_optimal}
+    % \end{subfigure}%
+    %
     \begin{subfigure}{0.5\linewidth}\centering
-        \scalebox{1}[.9]{
-        \includegraphics[height=\myMinHeight]{../../img/svg/new_overconstrained_optimal}
-        }
+        \includegraphics[height=\myMinHeight]{../../img/svg/new2_overconstrained_optimal}
         \caption{}\label{fig:overconstrained:optimal}
     \end{subfigure}%
     %
     \hfill
     \begin{subfigure}{0.5\linewidth}\centering
-        \scalebox{1}[.9]{
-        \includegraphics[height=\myMinHeight]{../../img/svg/new_overconstrained_not_optimal}
-        }
+        \includegraphics[height=\myMinHeight]{../../img/svg/new2_overconstrained_not_optimal}
         \caption{}\label{fig:overconstrained:not_optimal}
     \end{subfigure}%
     %
     \caption{
     % (\ref{fig:overconstrained:optimal}) An optimal DR-plan of a singly overconstrained rigid graph with a fan-in of 5. Decomposition of triangles is omitted. (\ref{fig:overconstrained:not_optimal}) A canonical and cluster-minimal DR-plan of the same graph. The DR-plan has a fan-in of 9 and is non-optimal, shown by the preceding counter-example. Since the nontrivial intersection of the two children of the root is underconstrained, their decompositions are separate, causing the large fan-in.
-    Both figures are canonical and cluster-minimal DR-plans of the same singly overconstrained rigid graph. Decomposition of triangles are omitted and dashed lines indicate a decomposition similar to the other nodes on the same level. (\ref{fig:overconstrained:optimal}) is an optimal DR-plan, with a fan-in of 5. (\ref{fig:overconstrained:not_optimal}) has a fan-in of 9 and is non-optimal, shown by the preceding counter-example.
+    Both figures are canonical and cluster-minimal DR-plans of the same singly overconstrained rigid graph. Further decomposition of the bottom level is omitted (indicated by tree edges) and dashed lines indicate a decomposition similar to the other nodes on the same level. (\ref{fig:overconstrained:optimal}) is an optimal DR-plan, with a fan-in of 5. (\ref{fig:overconstrained:not_optimal}) has a fan-in of 9 and is non-optimal, shown by the preceding counter-example.
     }
     \label{fig:overconstrained}
 \end{figure*}%

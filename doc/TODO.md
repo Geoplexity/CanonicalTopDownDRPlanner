@@ -11,7 +11,7 @@ Paper
 Still Want to Change
 =============
 - Point out that the plan contains the minimal and maximal subgraphs (NP-hard to find in general)
-
+- Observation vs. remark? When to use which?
 
 
 ============
