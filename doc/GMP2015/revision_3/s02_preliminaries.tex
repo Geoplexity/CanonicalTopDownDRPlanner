@@ -10,7 +10,7 @@ We first give basic definitions and concepts in combinatorial rigidity, leading 
 \label{sec:appendix:defs}
 
 
-In this paper, a \dfn{geometric constraint system} is a multivariate polynomial (usually bilinear or quadratic) system $G(x,\delta)=0$, representing constraints with parameters $\delta$ between geometric primitives  in $\mathbb{R}^2$ represented collectively as $x\in \mathbb{R}^n$.
+In this paper, a \dfn{geometric constraint system} is a multivariate polynomial (usually bilinear or quadratic) system $G(x,\delta)=0$, representing constraints with parameters $\delta$ between geometric primitives in $\mathbb{R}^2$ represented collectively as $x\in \mathbb{R}^n$.
 %
 When the type of constraint (system) is fixed, the system is simply represented as $(G,\delta)$, where $G$ is the underlying constraint (hyper)graph $G = (V,E)$ with the vertices $V$ representing the geometric primitives in $\mathbb{R}^2$ and (hyper)edges $E$ representing the constraints, each with an associated parameter $\delta$.
 %
@@ -362,10 +362,15 @@ However, both for self-similar or just aperiodic 2D qusecs, it is imperative to 
 
 \subsubsection{Optimal Recursive Decomposition (DR-Planning)}
 Recursive decomposition of geometric constraint systems has been formalized \cite{hoffman2001decompositionI,hoffman2001decompositionII} and well-studied \cite{lomonosov2004graph,sitharam2005combinatorial,jermann2006decomposition} as the \dfn {Decomposition-Recombination (DR-) planning} problem \seedefsprelim. For the abovementioned classes of 2D qusecs, generic rigidity is a combinatorial property and hence each level of the decomposition should, in principle, be achievable by a graph-based algorithm without involving the geometric information in the constraint system. Since many such decompositions can exist for a given constraint system, criteria defining desirable or optimal DR-plans and DR-planning algorithms were given in~\cite{hoffman2001decompositionI}.
+%
+We conjecture (in Section~\ref{sec:open}) that one such decomposition, a version of \frontier~\cite{hoffman2001decompositionI, hoffman2001decompositionII,lomonosov2004graph,sitharam2005combinatorial}, which is a bottom-up, polynomial time method, also generates optimal DR-plans for independent systems.
+% We additionally conjecture in Section~\ref{sec:open} that versions of \frontier, a previously given, bottom-up, polynomial time method for obtaining DR-plans with various desired properties~\cite{hoffman2001decompositionI, hoffman2001decompositionII,lomonosov2004graph,sitharam2005combinatorial}, in fact generate an optimal DR-plan for non-overconstrained systems.
+
 %An \dfn{optimal DR-plan} is one that minimizes the \dfn{size} \seedefsprelim, i.e., the maximum number of child subsystems of any parent system. Being exponential in the size, the complexity of solving the parent constraint system is overwhelmingly dominated by the complexity of solving the child systems.
 
 However, for overconstrained 2D qusecs, even when restricted to bar-joint systems, the optimal DR-planning problem was shown to be NP-hard \cite{lomonosov2004graph, sitharam2005combinatorial}.
 The NP-hardness of the optimal DR-planning problem for 2D bar-joint graphs is partly the consequence of possibly exponential number of DR-plans. On the other hand, although the complete DR-plan is unique it could have large average fan-in and exponentially many nodes making it far from optimal.
+
 
 \subsubsection{DR-plans for Special Classes and with Other Criteria}
 For a special class of 2D qusecs, namely \dfn{tree-decomposable} systems~\cite{owen1991algebraic,fudos1997graph,joan-arinyo2004revisiting} common in computer aided mechanical design (which includes ruler-and-compass and Henneberg-I constructible systems), all DR-plans turn out to be optimal. This satisfies the Church-Rosser property, leading to highly efficient DR-planning algorithms. For general 2D qusecs, alternate criteria were suggested such as \dfn{cluster minimality} requiring parent systems to have a minimal set of at least 2 rigid proper subsystems as children (i.e.\ the union of no proper subset of size at least 2 child subsystems forms a rigid system); and \dfn{proper maximality}, requiring child subsystems to be maximal rigid proper subsystems of the parent system. \seedefsc.

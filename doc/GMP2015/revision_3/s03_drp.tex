@@ -37,7 +37,7 @@ To this end, we first introduce a canonical DR-plan to capture those aspects of 
 While useful for proving optimality, the canonical DR-plan is difficult to work with algorithmically. Therefore, we define the \pseudosequential\ DR-plan which is derived from the canonical and is still optimal.
 However, the \pseudosequential\ DR-plan lacks the essential uniqueness of the complete DR-plan. From the \pseudosequential, we derive the sequential DR-plan, which can be found in the same time complexity and is essentially unique.
 
-In this section and in Section~\ref{sec:recomb}, any reference to a graph $G$ without further specification is assumed to be isostatic (i.e.\ well-constrained or $(k,l)$-tight). Furthermore, we only consider unions and intersections of graphs that are induced subgraphs of a single parent graph $G$. In this case unions and intersections are well defined. For example, the union (resp.\ intersection) of $F_1 = (V_1, E_1)$ and $F_2 = (V_2, E_2)$ is the subgraph of $G$ induced by $V_1\cup V_2$ (resp.\ $V_1\cap V_2$).
+In this section and in Section~\ref{sec:recomb}, any reference to a graph $G$ without further specification is assumed to be isostatic (i.e.\ wellconstrained or $(k,l)$-tight). Furthermore, we only consider unions and intersections of graphs that are induced subgraphs of a single parent graph $G$. In this case unions and intersections are well defined. For example, the union (resp.\ intersection) of $F_1 = (V_1, E_1)$ and $F_2 = (V_2, E_2)$ is the subgraph of $G$ induced by $V_1\cup V_2$ (resp.\ $V_1\cap V_2$).
 
 
 
@@ -121,7 +121,7 @@ Definition~\ref{def:canonical_drplan} gives the canonical DR-plan a surprisingly
 
     The proof of optimality of a canonical DR-plan is by induction on its height. The base case trivially holds for canonical DR-plans of height 0, i.e.\ for single edges. The induction hypothesis is that canonical DR-plans of height $t$ are optimal for the root node.
     For the induction step consider a canonical DR-plan $\candrpx{C}$ rooted at node $C$ with height $t+1$.
-    Notice that $\candrpx{C}$ contains a canonical DR-plan $\candrpx{C_i}$ for the graphs $C_i$ corresponding to each of $C$'s descendent nodes.
+    Notice that $\candrpx{C}$ contains a canonical DR-plan $\candrpx{C_i}$ for the graphs $C_i$ corresponding to each of $C$'s descendant nodes.
     Thus, from the induction hypothesis, we know that the $\candrpx{C_i}$ is optimal for $C_i$.
 
     To carry out the induction step, it is sufficient to demonstrate a set of nodes $S$ (of height at most $t$) that must be present in any DR-plan $\drpx{C}$ of graph $C$ that satisfies Property (\ref{def:canonical_drplan:prop1}), including a known optimal one; and furthermore, for any such DR-plan $\drpx{C}$, either (Claim 1) $S$ must be the set of children of $C$; or (Claim 2) all the ancestors $A$ of $S$ that are descendants of $C$ have the minimum possible fan-in of 2.
@@ -169,9 +169,9 @@ Definition~\ref{def:canonical_drplan} gives the canonical DR-plan a surprisingly
 
         To prove Claim 2, notice that if $C_i\cap C_j$ is isostatic, then, by Observation \ref{lemma:union_intersection}, $C_i\cup C_j$ is also isostatic. This means that, by Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc}, the union of any two children of $C$ is $C$ itself. Thus, any two children can be chosen to make a canonical DR-plan and that is the minimum fan-in possible for a node of the DR-plan.
 
-        \newcommand{\induceonc}[1]{Idc\left(C,#1\right)}
-        \renewcommand{\induceonc}[1]{#1}
-        \newcommand{\iunion}[1]{\induceonc{I\cup\bigcup_{k\in [N]\setminus\{#1\}}{R_k}}}
+        % \newcommand{\induceonc}[1]{Idc\left(C,#1\right)}
+        % \renewcommand{\induceonc}[1]{#1}
+        % \newcommand{\iunion}[1]{\induceonc{I\cup\bigcup_{k\in [N]\setminus\{#1\}}{R_k}}}
 
         However, to guarantee that any two are the \vemph{optimal} choice, it must ensure minimum fan-in over all descendants leading up to a common maximal antichain $S$ of subgraphs.
 
@@ -416,7 +416,7 @@ Now we define the \pseudosequential\ DR-plan in a manner analogous to Definition
 \end{remark}
 
 \begin{observation}
-[Sequential is optimal]
+[\Pseudosequential\ is optimal]
     Any \pseudosequential\ DR-plan of an independent graph is optimal.
 \end{observation}
 
@@ -453,7 +453,7 @@ Now we define the \pseudosequential\ DR-plan in a manner analogous to Definition
 
 \begin{definition}
 [\Branch]
-    Given a \pseudosequential\ DR-plan $P_G$ for an isostatic graph $G$, and an edge $e \in G$, the \branchGePG\ is the subtree of the DR-plan consisting of the path from the leaf containing $e$ to the root containing $G$, together with the children of all the nodes on this path, which are the leaves of \branchGePG. See Figure~\ref{fig:seq_proof} for examples.
+    Given a \pseudosequential\ DR-plan $P_G$ for an isostatic graph $G$, and an edge $e \in G$, the \branchGePG\ is the subtree of the DR-plan consisting of the path from the root containing $G$ to the leaf containing $e$, together with the children of all the nodes on this path, which are the leaves of \branchGePG. See Figure~\ref{fig:seq_proof} for examples.
 \end{definition}
 
 \begin{observation}
@@ -642,7 +642,6 @@ The next two Lemmas are the crux of our $O(|V|^3)$ algorithm to find a \pseudose
     of $L$.
     %
     Note that this list is exhaustive. If $D$ and $L$ are edge disjoint, $D$ cannot contain subgraphs of elements of $\componentsx{G\setminus e}$. If $D$ and $L$ have non-empty intersection of edge sets, $D$ cannot be exactly $L$.
-    See Figure~\ref{fig:seq_proof} for examples of the cases.
 
     Now observe that it is impossible for all $D\in \componentsx{G\setminus f}$ to be Case (1b), as this would imply $f=e$.
 
@@ -657,7 +656,8 @@ The next two Lemmas are the crux of our $O(|V|^3)$ algorithm to find a \pseudose
     One subtle obstacle to overcome in Case (2b) is that the newly found node along the path from $G$ to $e$ is the parent of $L$ as opposed to a sibling of $L$ as in Case (1a) and (1c). On the surface, this is problematic because the sibling $D'$ of $L$ along the path from $G$ to $e$ may never be found. However a closer inspection of Case (2b) reveals that $L$ is the partner of an appendage $A$ containing $e$, and $A$, being underconstrained by Observation~\ref{lemma:union_intersection} and Lemma~\ref{lemma:combined_lemma}, must have maximal rigid components with nontrivial intersections, which means that there must be another sibling of $D'$ that is a leaf $L'$ of \branchGePG. Hence for some edge $f'$ in $L'$, $\componentsx{G\setminus f'}$ will find $D'$ within Case (1a) or (1c).
 
     % Since each level of \branchGePG\ will contain some $L$ and $f\in L$ with a $D\in \componentsx{G\setminus f}$ that is either of Case (1a), (1c), or (2b) all nodes in the path from $G$ to $e$ can be found, which completes the proof.
-    Since each node along the path from $e$ to $G$ is found by the above procedure, the proof is complete.
+    Since each node along the path from $G$ to $e$ is found by the above procedure, the proof is complete.
+    See Figure~\ref{fig:seq_proof} for examples of the cases.
 \end{proof}
 
 
