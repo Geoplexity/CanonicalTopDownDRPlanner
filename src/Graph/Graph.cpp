@@ -439,6 +439,16 @@ std::pair<Vertex_ID, Vertex_ID> Graph::vertices_incident(Edge_ID e) const {
     return std::make_pair(boost::source(e, *this), boost::target(e, *this));
 }
 
+std::set<Vertex_ID> Graph::vertices_incident(std::set<Edge_ID> es) const {
+    std::set<Vertex_ID> ret;
+    for (std::set<Edge_ID>::iterator e_it = es.begin(); e_it != es.end(); e_it++) {
+        std::pair<Vertex_ID, Vertex_ID> vs = vertices_incident(*e_it);
+        ret.insert(vs.first);
+        ret.insert(vs.second);
+    }
+    return ret;
+}
+
 std::set<Edge_ID> Graph::edges_incident(Vertex_ID v) const {
     std::set<Edge_ID> ret;
     std::pair<in_edge_iterator, in_edge_iterator> es = boost::in_edges(v, *this);
@@ -454,6 +464,18 @@ std::set<Edge_ID> Graph::edges_incident(std::set<Vertex_ID> vs) const {
         std::pair<in_edge_iterator, in_edge_iterator> es = boost::in_edges(*v_it, *this);
         for (in_edge_iterator e_it = es.first; e_it != es.second; e_it++) {
             ret.insert(*e_it);
+        }
+    }
+    return ret;
+}
+
+std::set<Edge_ID> Graph::edges_induced(std::set<Vertex_ID> vs) const {
+    std::set<Edge_ID> ret;
+
+    for (std::pair<Edge_Iterator, Edge_Iterator> es = edges(); es.first != es.second; es.first++) {
+        std::pair<Vertex_ID, Vertex_ID> vis = vertices_incident(*(es.first));
+        if (vs.find(vis.first) != vs.end() && vs.find(vis.second) != vs.end()) {
+            ret.insert(*(es.first));
         }
     }
     return ret;
@@ -943,6 +965,21 @@ Mapped_Graph_Copy::Mapped_Graph_Copy(const Graph *g, std::set<Vertex_ID> &vertic
         std::pair<Vertex_ID, Vertex_ID> vs = orig->vertices_incident(*e);
         if (vertices.find(vs.first) != vertices.end() && vertices.find(vs.second) != vertices.end())
             add_edge(orig_to_copy[vs.first], orig_to_copy[vs.second], (*orig)[*e].length);
+    }
+}
+
+Mapped_Graph_Copy::Mapped_Graph_Copy(const Graph *g, std::set<Edge_ID> &edges) : orig(g) {
+    for (std::set<Edge_ID>::iterator e_it = edges.begin(); e_it != edges.end(); e_it++) {
+        // add incident vertices if they're not already in the copy
+        std::pair<Vertex_ID, Vertex_ID> vs = orig->vertices_incident(*e_it);
+        if (orig_to_copy.find(vs.first) == orig_to_copy.end())
+            add_original_vertex(vs.first);
+        if (orig_to_copy.find(vs.second) == orig_to_copy.end())
+            add_original_vertex(vs.second);
+
+        // add the edge
+        add_edge(orig_to_copy[vs.first], orig_to_copy[vs.second], (*orig)[*e_it].length);
+        // add_original_edge(*e_it);
     }
 }
 

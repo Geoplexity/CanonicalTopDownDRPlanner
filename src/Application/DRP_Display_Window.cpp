@@ -11,7 +11,7 @@ DRP_Display_Window::DRP_Display_Window(
     update_graph_positions();
 }
 
-void DRP_Display_Window::highlight_drp_node(DRP_Node *node, std::set<DRP_Node*> ancestors) {
+void DRP_Display_Window::highlight_drp_node(DRP_Node_v *node, std::set<DRP_Node_v*> ancestors) {
     current_drp_node = node;
     current_and_ancestors = ancestors;
     // current_and_ancestors = current_drp_node->ancestors();
@@ -29,10 +29,10 @@ void DRP_Display_Window::update_graph_positions() {
     std::vector<unsigned int> width_per_level = drp->root()->width_per_level();
     unsigned int height = width_per_level.size();
 
-    std::map<DRP_Node*, gl_obj::pos_vec> node_position;
+    std::map<DRP_Node_v*, gl_obj::pos_vec> node_position;
 
 
-    std::vector<DRP_Node*> this_level, next_level;
+    std::vector<DRP_Node_v*> this_level, next_level;
     this_level.push_back(drp->root());
 
     gl_obj::pos_vec parent(0, 1);
@@ -43,7 +43,7 @@ void DRP_Display_Window::update_graph_positions() {
         position[i] = 0;
         float y = (height == 1)? 0 : 1 - ((float)i)/(height-1)*2;
 
-        for (std::vector<DRP_Node*>::iterator c = this_level.begin(); c != this_level.end(); c++) {
+        for (std::vector<DRP_Node_v*>::iterator c = this_level.begin(); c != this_level.end(); c++) {
             float x = (width_per_level[i] == 1)? 0 : ((float)position[i])/(width_per_level[i]-1)*2 - 1;
             position[i]++;
 
@@ -65,7 +65,7 @@ void DRP_Display_Window::update_graph_positions() {
                 }
             }
 
-            for (DRP_Node *child = (*c)->first_child(); child != NULL; child = child->next()) {
+            for (DRP_Node_v *child = (*c)->first_child(); child != NULL; child = child->next()) {
                 next_level.push_back(child);
             }
         }

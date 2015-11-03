@@ -43,13 +43,13 @@ unsigned int Pebbled_Graph::pebble_game_2D() {
 
 
 
-std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
+std::set<Cluster_v*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
     // init pebbles
     reset_pebbles();
 
     // std::cout << "Pebbled_Graph::component_pebble_game_2D: here0" << std::endl;
     // for differencing
-    Cluster all_vertices;
+    Cluster_v all_vertices;
     std::pair<Sg_Vertex_Iterator, Sg_Vertex_Iterator> vs = this->in_subgraph->vertices();
     for (Sg_Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++) {
         all_vertices.insert(*v_it);
@@ -57,7 +57,7 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
 
 
     // the clusters found
-    std::set<Cluster*> clusters_found;
+    std::set<Cluster_v*> clusters_found;
 
     // true if they're in the same cluster, not in map if not
     std::map<std::pair<Vertex_ID, Vertex_ID>, bool> in_same_clust;
@@ -186,7 +186,7 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
 
         // std::cout << "  Visited       : "; print_verts(visited);
 
-        Cluster *c = new Cluster();
+        Cluster_v *c = new Cluster_v();
 
         // get -- V \ visited
         // std::set<Vertex_ID> unvisited;
@@ -200,8 +200,8 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
         // unvisited is the new cluster!
 
         // TODO: this is quite inefficient, the paper says there is a better way
-        std::vector<std::set<Cluster*>::iterator> to_erase;
-        for (std::set<Cluster*>::iterator c_it = clusters_found.begin(); c_it != clusters_found.end(); c_it++) {
+        std::vector<std::set<Cluster_v*>::iterator> to_erase;
+        for (std::set<Cluster_v*>::iterator c_it = clusters_found.begin(); c_it != clusters_found.end(); c_it++) {
             std::set<Vertex_ID> old_diff_new;
             std::set_difference(
                 (*c_it)->begin(), (*c_it)->end(),
@@ -224,7 +224,7 @@ std::set<Cluster*> Pebbled_Graph::component_pebble_game_2D(Vertex_ID *exclude) {
     }
 
     // std::cout << "\n" << std::endl;
-    // for (std::set<Cluster*>::iterator c_it = clusters_found.begin(); c_it != clusters_found.end(); c_it++) {
+    // for (std::set<Cluster_v*>::iterator c_it = clusters_found.begin(); c_it != clusters_found.end(); c_it++) {
     //     std::cout << "Cluster: ";
     //     for (std::set<Vertex_ID>::iterator v_it = (*c_it)->vertices.begin(); v_it != (*c_it)->vertices.end(); v_it++) {
     //         std::cout << (*g)[*v_it].name << " ";

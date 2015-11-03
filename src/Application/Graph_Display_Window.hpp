@@ -19,7 +19,7 @@ public:
     ~Graph_Display_Window();
 
     void update_graph_positions();
-    void highlight_drp_node(DRP_Node* node);
+    void highlight_drp_node(DRP_Node_v* node);
 
     void get_drp();
 
@@ -59,7 +59,7 @@ private:
 
     DRP_Display_Window* drp_display_window;
     DR_Plan* drp;
-    DRP_Node* current_drp_node;
+    DRP_Node_v* current_drp_node;
 
     bool vertex_drag() const;
     void vertex_drag_begin(int index);

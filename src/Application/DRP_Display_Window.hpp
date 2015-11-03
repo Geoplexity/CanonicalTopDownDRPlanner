@@ -14,7 +14,7 @@ public:
         Main_GUI_Manager *mgm,
         DR_Plan *drp);
 
-    void highlight_drp_node(DRP_Node *node, std::set<DRP_Node*> ancestors);
+    void highlight_drp_node(DRP_Node_v *node, std::set<DRP_Node_v*> ancestors);
 
     void update_graph_positions();
 
@@ -24,8 +24,8 @@ private:
     std::vector<gl_obj::pos_vec> edges, edges_highlight;
 
     DR_Plan *drp;
-    DRP_Node *current_drp_node;
-    std::set<DRP_Node*> current_and_ancestors;
+    DRP_Node_v *current_drp_node;
+    std::set<DRP_Node_v*> current_and_ancestors;
 };
 
 

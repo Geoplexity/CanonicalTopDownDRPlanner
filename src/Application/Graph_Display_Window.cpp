@@ -85,7 +85,7 @@ void Graph_Display_Window::update_graph_positions() {
     edges_highlight.clear();
     edges_dashed.clear();
     // non_edges.clear();
-    
+
 
     if (drp)
         _update_graph_positions_drp();
@@ -93,7 +93,7 @@ void Graph_Display_Window::update_graph_positions() {
         _update_graph_positions_none();
 }
 
-void Graph_Display_Window::highlight_drp_node(DRP_Node* node) {
+void Graph_Display_Window::highlight_drp_node(DRP_Node_v* node) {
     assert(node);
 
     this->current_drp_node = node;
@@ -202,13 +202,13 @@ void Graph_Display_Window::key_callback(int key, int scancode, int action, int m
                 highlight_drp_node(current_drp_node->first_child());
         } else if (key == GLFW_KEY_RIGHT) {
             if (this->current_drp_node != NULL) {
-                DRP_Node *next = current_drp_node->next();
+                DRP_Node_v *next = current_drp_node->next();
                 if (!next) next = current_drp_node->first_sibling();
                 highlight_drp_node(next);
             }
         } else if (key == GLFW_KEY_LEFT) {
             if (this->current_drp_node != NULL) {
-                DRP_Node *prev = current_drp_node->prev();
+                DRP_Node_v *prev = current_drp_node->prev();
                 if (!prev) prev = current_drp_node->last_sibling();
                 highlight_drp_node(prev);
             }

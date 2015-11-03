@@ -125,9 +125,14 @@ public:
     std::set<Vertex_ID> vertices_adjacent(std::set<Vertex_ID> &v_set) const;
 
     std::pair<Vertex_ID, Vertex_ID> vertices_incident(Edge_ID e) const;
+    std::set<Vertex_ID> vertices_incident(std::set<Edge_ID> es) const;
+    // std::pair<Vertex_ID, Vertex_ID> vertices_induced(Edge_ID e) const;
 
     std::set<Edge_ID> edges_incident(Vertex_ID v) const;
+    // incident to any vertex (one or more) in the set
     std::set<Edge_ID> edges_incident(std::set<Vertex_ID> vs) const;
+    // incident to any two vertices in the set
+    std::set<Edge_ID> edges_induced(std::set<Vertex_ID> vs) const;
 
     std::set<Edge_ID> edges_in_induced_subgraph(std::set<Vertex_ID> vs) const;
 
@@ -167,6 +172,10 @@ public:
 
     // Creates an induced subgraph on g
     Mapped_Graph_Copy(const Graph *g, std::set<Vertex_ID> &vertices);
+
+    // Creates a subgraph containing the given edges and only those vertices
+    // incident to the given edges
+    Mapped_Graph_Copy(const Graph *g, std::set<Edge_ID> &edges);
 
 
     void add_original_vertex(Vertex_ID orig_v);

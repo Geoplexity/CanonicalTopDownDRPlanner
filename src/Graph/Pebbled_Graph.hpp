@@ -29,7 +29,7 @@ public:
     // if there are exactly 2 pebbles free in the end, the graph is rigid
     unsigned int pebble_game_2D();
     // if there is exactly 1 DR_Plan, the graph is rigid
-    std::set<Cluster*> component_pebble_game_2D(Vertex_ID *exclude = NULL);
+    std::set<Cluster_v*> component_pebble_game_2D(Vertex_ID *exclude = NULL);
 
     // can only be called if pebble_game_2D has been called
     bool independent();
