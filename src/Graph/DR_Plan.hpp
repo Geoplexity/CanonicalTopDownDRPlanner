@@ -45,7 +45,8 @@ inline bool operator<(const Cluster_e &c0, const Cluster_e &c1) {
 // DR-plan. While technically an underconstrained graph's DRP should be
 // a forest, for convenience it's stored as a tree where the root is
 // the input graph and the trees rooted at the second level are the true
-// DR-plan.
+// DR-plan. The configuration can be checked with DR_Plan::rigid(), if true
+// it's supposed to be tree, if false it's a forest.
 
 //Runs in O(V^3).
 
@@ -74,6 +75,17 @@ private:
     DRP_Node_e _root_e;
     bool _rigid;
 
+
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+
+
+    // works in time O(V^3)
+    // It finds a sequential DR-plan, guaranteed to be optimal
+    // fills in _root_v and _root_e, sets rigid
+    void make_DR_plan();
+
     // 'node' is expected to contain an isostatic cluster_v, C
     // 'M' maps each edge, e, in 'node' to the set of components in C\e
     // 'P' is a 2D array where element P[i][j] is the component in M[i] that contains edge j
@@ -94,11 +106,14 @@ private:
     static bool is_subseteq(const Cluster_e &c1, const Cluster_e &c2); // is c1 subset of c2
 
 
-
-
-
     ////////////////////////////////////////////
     ////////////////////////////////////////////
+    ////////////////////////////////////////////
+
+
+    // works in time O(V^4)
+    // fills in _root_v, doesn't fill in _root_e, sets rigid
+    void make_DR_plan_OV4();
 
     DRP_Node_v* add_uncomputed_child(DRP_Node_v *parent, Cluster_v *child);
     void add_and_compute_child(DRP_Node_v *parent, Cluster_v *child);

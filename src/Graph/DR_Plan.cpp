@@ -4,22 +4,6 @@
 
 #include <iostream>
 
-// DR_Plan::DR_Plan(const Graph &graph) :
-//     graph(graph),
-//     _root_v(Cluster_v()),
-//     _root_e(Cluster_e())
-// {
-//     std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph.vertices();
-//     for (Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++)
-//         _root_v.load.insert(*v_it);
-//     _rigid = Pebbled_Graph(&graph).pebble_game_2D() == Pebbled_Graph::l;
-
-//     _DRP_2D_linear_aux(&_root_v);
-
-//     _root_v.sort_children_descending_recursively();
-// }
-
-
 
 
 
@@ -28,111 +12,11 @@ DR_Plan::DR_Plan(const Graph &graph) :
     _root_v(Cluster_v()),
     _root_e(Cluster_e())
 {
-    std::pair<Edge_Iterator, Edge_Iterator> es = graph.edges();
-
-    // Generate the root node (all the edges)
-    for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++)
-        this->_root_e.load.insert(*e_it);
-
-
-    // Find the components of every subgraph (graph minus one edge)
-    Cluster_e all_edges;
-    for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++) {
-        all_edges.insert(*e_it);
-    }
-
-    std::map<Edge_ID, std::set<Cluster_e*> > M;
-    std::map<Edge_ID, std::map<Edge_ID, Cluster_e*> > P;
-    for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++) {
-        // remove this edge
-        all_edges.erase(*e_it);
-
-        // make a copy
-        Mapped_Graph_Copy mgc(&graph, all_edges);
-
-        // get the components
-        Pebbled_Graph mgc_pebbled(&mgc);
-        std::set<Cluster_v*> mgc_components = mgc_pebbled.component_pebble_game_2D();
-
-        // Get components in terms of the input graph edges
-        M[*e_it] = std::set<Cluster_e*>();
-        for (std::set<Cluster_v*>::iterator c_it = mgc_components.begin(); c_it != mgc_components.end(); c_it++) {
-            Cluster_v c_v = mgc.original_vertices(**c_it);
-            Cluster_e *c_e = new Cluster_e();
-            *c_e = graph.edges_induced(c_v);
-            M[*e_it].insert(c_e);
-            delete(*c_it);
-        }
-
-        // construct P[*e_it]
-        // for (Edge_Iterator e_it2 = es.first; e_it2 != es.second; e_it2++) {
-        //     if (e_it == e_it2)
-        //         continue;
-
-        //     for (std::set<Cluster_e*>::iterator c_it = M[*e_it].begin(); c_it != M[*e_it].end(); c_it++) {
-        //         if ((*c_it)->find(*e_it) != (*c_it)->end()) {
-        //             P[*e_it][*e_it2] = *c_it;
-        //         }
-        //     }
-        // }
-        for (std::set<Cluster_e*>::iterator c_it = M[*e_it].begin(); c_it != M[*e_it].end(); c_it++) {
-            for (Cluster_e::iterator e_it2 = (*c_it)->begin(); e_it2 != (*c_it)->end(); e_it2++) {
-                P[*e_it][*e_it2] = *c_it;
-            }
-        }
-
-        // add this edge back in
-        all_edges.insert(*e_it);
-    }
-
-
-    // Determine if the input is isostatic
-    // this->_rigid = Pebbled_Graph(&graph).pebble_game_2D() == Pebbled_Graph::l;
-    Pebbled_Graph graph_pebbled(&graph);
-    std::set<Cluster_v*> graph_components = graph_pebbled.component_pebble_game_2D();
-    if (graph_components.size() == 1) {
-        // the graph is rigid
-        this->_rigid = true;
-
-        decompose_isostatic_component(&this->_root_e, M, P);
-    } else {
-        // the graph is underconstrained, set each component as a child
-        this->_rigid = false;
-
-        for (std::set<Cluster_v*>::iterator c_it = graph_components.begin(); c_it != graph_components.end(); c_it++) {
-            // DRP_Node_v *child = new DRP_Node_v(**c_it);
-            // this->_root_e.add_child(child);
-            // decompose_isostatic_component(child, M, P);
-            DRP_Node_e *child = new DRP_Node_e(graph.edges_induced(**c_it));
-            this->_root_e.add_child(child);
-            decompose_isostatic_component(child, M, P);
-        }
-    }
-
-
-    // Clear out M (and consequently everything to which P points)
-    for (std::map<Edge_ID, std::set<Cluster_e*> >::iterator m_it = M.begin(); m_it != M.end(); m_it++)
-        for (std::set<Cluster_e*>::iterator c_it = m_it->second.begin(); c_it != m_it->second.end(); c_it++)
-            delete(*c_it);
-
+    // make_DR_plan_OV4();
+    make_DR_plan();
 
     // sort the tree (DR-Plan)
     _root_e.sort_children_descending_recursively();
-
-
-    // find the vertex based tree, using root_e
-    _root_v.load = graph.vertices_incident(_root_e.load);
-    DRP_Node_e *child_e = _root_e.first_child();
-    while (child_e != NULL) {
-        _root_v.add_child(get_DRP_in_terms_of_vertices(child_e));
-        child_e = child_e->next();
-    }
-
-    // TODO: How do I do this without unrolling the first level of recursion
-    // here? I'd like it to look like:
-        // DRP_Node_v *root_v = get_DRP_in_terms_of_vertices(&_root_e);
-        // _root_v = *root_v;
-        // delete(root_v);
 
     // sort the tree (DR-Plan)
     _root_v.sort_children_descending_recursively();
@@ -202,15 +86,106 @@ void DR_Plan::print_depth_first(DRP_Node_e *node, unsigned int tabs) const {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+
+void DR_Plan::make_DR_plan() {
+    std::pair<Edge_Iterator, Edge_Iterator> es = graph.edges();
+
+    // Generate the root node (all the edges)
+    for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++)
+        this->_root_e.load.insert(*e_it);
+
+
+    // Find the components of every subgraph (graph minus one edge)
+    Cluster_e all_edges;
+    for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++) {
+        all_edges.insert(*e_it);
+    }
+
+    std::map<Edge_ID, std::set<Cluster_e*> > M;
+    std::map<Edge_ID, std::map<Edge_ID, Cluster_e*> > P;
+    for (Edge_Iterator e_it = es.first; e_it != es.second; e_it++) {
+        // remove this edge
+        all_edges.erase(*e_it);
+
+        // make a copy
+        Mapped_Graph_Copy mgc(&graph, all_edges);
+
+        // get the components
+        Pebbled_Graph mgc_pebbled(&mgc);
+        std::set<Cluster_v*> mgc_components = mgc_pebbled.component_pebble_game_2D();
+
+        // Get components in terms of the input graph edges
+        M[*e_it] = std::set<Cluster_e*>();
+        for (std::set<Cluster_v*>::iterator c_it = mgc_components.begin(); c_it != mgc_components.end(); c_it++) {
+            Cluster_v c_v = mgc.original_vertices(**c_it);
+            Cluster_e *c_e = new Cluster_e();
+            *c_e = graph.edges_induced(c_v);
+            M[*e_it].insert(c_e);
+            delete(*c_it);
+        }
+
+        // construct P[*e_it]
+        for (std::set<Cluster_e*>::iterator c_it = M[*e_it].begin(); c_it != M[*e_it].end(); c_it++) {
+            for (Cluster_e::iterator e_it2 = (*c_it)->begin(); e_it2 != (*c_it)->end(); e_it2++) {
+                P[*e_it][*e_it2] = *c_it;
+            }
+        }
+
+        // add this edge back in
+        all_edges.insert(*e_it);
+    }
+
+
+    // Determine if the input is isostatic
+    // this->_rigid = Pebbled_Graph(&graph).pebble_game_2D() == Pebbled_Graph::l;
+    Pebbled_Graph graph_pebbled(&graph);
+    std::set<Cluster_v*> graph_components = graph_pebbled.component_pebble_game_2D();
+    if (graph_components.size() == 1) {
+        // the graph is rigid
+        this->_rigid = true;
+
+        decompose_isostatic_component(&this->_root_e, M, P);
+    } else {
+        // the graph is underconstrained, set each component as a child
+        this->_rigid = false;
+
+        for (std::set<Cluster_v*>::iterator c_it = graph_components.begin(); c_it != graph_components.end(); c_it++) {
+            // DRP_Node_v *child = new DRP_Node_v(**c_it);
+            // this->_root_e.add_child(child);
+            // decompose_isostatic_component(child, M, P);
+            DRP_Node_e *child = new DRP_Node_e(graph.edges_induced(**c_it));
+            this->_root_e.add_child(child);
+            decompose_isostatic_component(child, M, P);
+        }
+    }
+
+
+    // Clear out M (and consequently everything to which P points)
+    for (std::map<Edge_ID, std::set<Cluster_e*> >::iterator m_it = M.begin(); m_it != M.end(); m_it++)
+        for (std::set<Cluster_e*>::iterator c_it = m_it->second.begin(); c_it != m_it->second.end(); c_it++)
+            delete(*c_it);
+
+
+    // find the vertex based tree, using root_e
+    _root_v.load = graph.vertices_incident(_root_e.load);
+    DRP_Node_e *child_e = _root_e.first_child();
+    while (child_e != NULL) {
+        _root_v.add_child(get_DRP_in_terms_of_vertices(child_e));
+        child_e = child_e->next();
+    }
+    // TODO: How do I do the above without unrolling the first level of recursion
+    // here? I'd like it to look like:
+        // DRP_Node_v *root_v = get_DRP_in_terms_of_vertices(&_root_e);
+        // _root_v = *root_v;
+        // delete(root_v);
+}
+
+
 void DR_Plan::decompose_isostatic_component(
     DRP_Node_e* node,
     const std::map<Edge_ID, std::set<Cluster_e*> > &M,
     const std::map<Edge_ID, std::map<Edge_ID, Cluster_e*> > &P)
 {
-    std::cout << "decompose_isostatic_component: 0" << std::endl;
-    std::cout << "Edges: " << node->load.size() << " of " <<  graph.num_edges() << std::endl;
-    print_cluster(graph, node->load);
-
     //////
     // BASE CASE
     //////
@@ -222,54 +197,44 @@ void DR_Plan::decompose_isostatic_component(
     // Step 1: find all clusters (isostatic vertex-maximal proper subgraphs) of
     // the node's cluster
     //////
-    std::cout << "decompose_isostatic_component: 1" << std::endl;
-    std::set<Cluster_e*> clusters;
-    // for (Cluster_e::iterator e_it = edges.begin(); e_it != edges.end(); e_it++) {
-    //     unsigned int max_cardinality = 0;
-    //     Cluster_e *c_max;
-    //     for (Cluster_e::iterator e_it2 = edges.begin(); e_it2 != edges.end(); e_it2++) {
-    //         Cluster_e *c = P.at(*e_it2).at(*e_it);
-    //         // Cluster_v *c = P[*e_it2][*e_it];
+    std::vector<Cluster_e> clusters_orig;
 
-    //         // if the edge count is higher.... which means vertex count is higher....
-    //         if (c->size() > max_cardinality) {
-    //             max_cardinality = c->size();
-    //             c_max = c;
-    //         }
-    //     }
-    //     clusters.insert(c_max);
-
-    //     ////////
-    //     // TODO: Check for duplicates
-    //     ////////
-    // }
     Cluster_e edges = node->load;
     while (edges.size() > 0) {
-        Cluster_e::iterator e_it = edges.begin();
-        // Edge_ID e = *e_it;
-        // edges.erase(e_it);
+        // select an arbitrary edge e
+        Cluster_e::iterator e_in_cluster_it = edges.begin();
 
-        // find the largest cluster containing edge e
+        // Find the largest cluster containing edge e, by checking every edge f
+        // in node->load such that |P[f][e]| is maximized
         unsigned int max_cardinality = 0;
         Cluster_e *c_max;
-        for (Cluster_e::iterator e_it2 = node->load.begin(); e_it2 != node->load.end(); e_it2++) {
-            if (*e_it == *e_it2)
+        for (Cluster_e::iterator e_not_in_cluster_it = node->load.begin(); e_not_in_cluster_it != node->load.end(); e_not_in_cluster_it++) {
+            if (*e_in_cluster_it == *e_not_in_cluster_it)
                 continue;
 
-            Cluster_e *c = P.at(*e_it2).at(*e_it);
-            // Cluster_v *c = P[*e_it2][*e_it];
+            Cluster_e *c = P.at(*e_not_in_cluster_it).at(*e_in_cluster_it);
 
-            // if the edge count is higher.... which means vertex count is higher....
+            // If the edge count is higher (i.e. vertex count is higher) then
+            // it's the new contender for the cluster containing e
             if (c->size() > max_cardinality) {
                 max_cardinality = c->size();
                 c_max = c;
             }
         }
-        clusters.insert(c_max);
 
-        // erase all edges in this cluster from the set
-        for (Cluster_e::iterator e_it2 = c_max->begin(); e_it2 != c_max->end(); e_it2++) {
-            edges.erase(*e_it2);
+        // At lower levels of recursion, the largest cluster containing e may
+        // contain some edge not in node->load, so we instead take:
+        // c_max n node->load
+        // This will still be rigid.
+        clusters_orig.push_back(Cluster_e());
+        std::set_intersection(
+            node->load.begin(), node->load.end(),
+            c_max->begin(), c_max->end(),
+            std::inserter(clusters_orig.back(), clusters_orig.back().begin()));
+
+        // erase all edges in this cluster from the set "edges"
+        for (Cluster_e::iterator e_to_delete_it = c_max->begin(); e_to_delete_it != c_max->end(); e_to_delete_it++) {
+            edges.erase(*e_to_delete_it);
         }
     }
 
@@ -278,33 +243,21 @@ void DR_Plan::decompose_isostatic_component(
     //////
     // Step 2: Determine intersection type
     //////
-    std::cout << "decompose_isostatic_component: 2" << std::endl;
-    std::cout << "clusters.size() = " << clusters.size() << std::endl;
-    assert(clusters.size() > 1);
+    assert(clusters_orig.size() > 1);
 
-    bool trivially_intersecting_clusters;
-
-    {
-        std::set<Cluster_e*>::iterator c_it = clusters.begin();
-        Cluster_e *c1, *c2;
-        c1 = *(c_it++);
-        c2 = *(c_it);
-
-        trivially_intersecting_clusters = is_trivial_intersection(*c1, *c2);
-    }
+    bool trivially_intersecting_clusters = is_trivial_intersection(clusters_orig[0], clusters_orig[1]);
 
 
 
     //////
     // Step 3a: Handle trivial intersections
     //////
-    std::cout << "decompose_isostatic_component: 3" << std::endl;
     if (trivially_intersecting_clusters) {
-        std::cout << "decompose_isostatic_component: 3a: trivial" << std::endl;
-        assert(clusters.size() > 2);
+        assert(clusters_orig.size() > 2);
 
-        for (std::set<Cluster_e*>::iterator c_it = clusters.begin(); c_it != clusters.end(); c_it++) {
-            DRP_Node_e *child = new DRP_Node_e(**c_it);
+        // Make a new child node for each cluster
+        for (std::vector<Cluster_e>::iterator c_it = clusters_orig.begin(); c_it != clusters_orig.end(); c_it++) {
+            DRP_Node_e *child = new DRP_Node_e(*c_it);
             node->add_child(child);
             decompose_isostatic_component(child, M, P);
         }
@@ -315,28 +268,21 @@ void DR_Plan::decompose_isostatic_component(
     // Step 3b: Handle non-trivial intersections
     //////
     else {
-        std::cout << "decompose_isostatic_component: 3b: nontrivial" << std::endl;
-        assert(clusters.size() == 2);
+        // if it's non-trivial, you will have found exactly 2 clusters_orig. These
+        // will be the largest (most edges) and the largest that contains the
+        // appendage corresponding to the first
+        assert(clusters_orig.size() == 2);
 
-        // Get the two clusters
-        Cluster_e *c1, *c2;
-        {
-            std::set<Cluster_e*>::iterator c_it = clusters.begin();
-            c1 = *(c_it++);
-            c2 = *(c_it);
-        }
+        // Get the first cluster
+        Cluster_e *c1 = &clusters_orig[0];
 
-        //
-        std::cout << "First cluster (" << c1->size() << "): ";
-        print_cluster(graph, *c1);
-        std::cout << "Second cluster (" << c2->size() << "): ";
-        print_cluster(graph, *c2);
-
-        //
+        // We will fill these vectors in, down to the core
+        std::vector<Cluster_e> clusters;
         std::vector<Cluster_e> partners;
         std::vector<Cluster_e> appendages;
 
-        // Get the first partner, i.e. c1
+        // Get the first cluster and partner, i.e. c1
+        clusters.push_back(*c1);
         partners.push_back(*c1);
 
         // Get the first appendage, i.e. r1 = G\c1
@@ -349,129 +295,132 @@ void DR_Plan::decompose_isostatic_component(
         // Get an arbitrary edge in r1 (i.e. not in c1)
         Edge_ID arbitrary_edge_in_appendage = *(appendages.back().begin());
 
-        //
-        std::cout << "First partner (" << partners.back().size() << "): ";
-        print_cluster(graph, partners.back());
-        std::cout << "First appendage (" << appendages.back().size() << "): ";
-        print_cluster(graph, appendages.back());
-        // assert(false);
-
-        // Find the remaining partners and appendages
-        Cluster_e edges = partners.back();
+        // Find the rest of the clusters
+        Cluster_e edges = partners[0];
         while (edges.size() > 0) {
-            std::cout << "Edges before (" << edges.size() << "): "; print_cluster(graph, edges);
-
-            // find a new rigid component
-            Edge_ID edge_in_partner = *(edges.begin());
-            Cluster_e *ck = P.at(edge_in_partner).at(arbitrary_edge_in_appendage);
+            // pick the edge that corresponds to the largest cluster containing
+            // the arbitrary edge in the appendage
+            Cluster_e::iterator edge_in_partner_it;
+            Cluster_e *ck;
+            unsigned int ck_size = 0;
+            for (Cluster_e::iterator e_it = edges.begin(); e_it != edges.end(); e_it++) {
+                Cluster_e *potential_ck = P.at(*e_it).at(arbitrary_edge_in_appendage);
+                if (potential_ck->size() > ck_size) {
+                    ck_size = potential_ck->size();
+                    ck = potential_ck;
+                    edge_in_partner_it = e_it;
+                }
+            }
 
             // determine if it's a cluster
-            if (is_trivial_intersection(*c1, *ck)) {
-                // the edge is in the core
-                edges.erase(edges.begin());
-                // edges.erase(edge_in_partner);
+            if (is_trivial_intersection(clusters[0], *ck)) {
+                edges.erase(edge_in_partner_it);
             } else {
-                std::cout << "Nontrivial - ck (" << ck->size() << "): "; print_cluster(graph, *ck);
+                // Since we've taken all the largest clusters, if it's the subset
+                // of an already chosen cluster, then we are done, we're now
+                // trying to break down the core
+                bool subset = false;
+                for (std::vector<Cluster_e>::iterator c_it = clusters.begin(); c_it != clusters.end(); c_it++) {
+                    if (is_subseteq(*ck, *c_it)) {
+                        subset = true;
+                        break;
+                    }
+                }
+                if (subset) break;
 
-                // reduce the edge set
+                // add to list of clusters
+                clusters.push_back(*ck);
+
+                // reduce the edge set (edges = edges n ck)
                 Cluster_e edges_new;
                 std::set_intersection(
                     edges.begin(), edges.end(),
                     ck->begin(), ck->end(),
                     std::inserter(edges_new, edges_new.begin()));
                 edges = edges_new;
-
-                // find and add the new partner
-                // Cluster_e &current_partner = partners.back();
-                partners.push_back(Cluster_e());
-                Cluster_e &current_partner = partners[partners.size()-2];
-                std::cout << "Nontrivial - cp (" << current_partner.size() << "): "; print_cluster(graph, current_partner);
-                std::set_intersection(
-                    current_partner.begin(), current_partner.end(),
-                    ck->begin(), ck->end(),
-                    std::inserter(partners.back(), partners.back().begin()));
-                // partners.push_back(edges);
-
-                // add the appendage
-                appendages.push_back(Cluster_e());
-                std::set_difference(
-                    node->load.begin(), node->load.end(),
-                    ck->begin(), ck->end(),
-                    std::inserter(appendages.back(), appendages.back().begin()));
-
-
-                // // need to check that c isn't a subgraph of anything else, and that
-                // // anything else isn't a subgraph of it. This ensures that the
-                // // resulting plan is sequential.
-
-
-                // // This means it didn't come from the core (assuming there are
-                // // none of the strange events at the bottom)
-
-                // ////////
-                // // TODO: Check if it's a duplicate
-                // //
-                // // could compare to each thing already in the set
-                // //
-                // // or, could simplify P by deleting repeat clusters in the same
-                // // column and using the same pointer. That is, if P[i][j] and
-                // // P[k][j] are the same, set P[k][j]= P[i][j]
-                // ////////
-                // clusters.insert(ck);
-
-
-                // // delete all the edges from the set....
-
             }
-
-            std::cout << "Edges after (" << edges.size() << "): "; print_cluster(graph, edges);
         }
 
-        for (unsigned int i = 0; i < partners.size(); i++) {
-            std::cout << "Partner "<< i << " (" << partners[i].size() << "): ";
-            print_cluster(graph, partners[i]);
-            std::cout << "Appendage "<< i << " (" << appendages[i].size() << "): ";
-            print_cluster(graph, appendages[i]);
+        // Compute the partners and appendages
+        for (unsigned int c_idx = 1; c_idx < clusters.size(); c_idx++) {
+            // find and add the new partner (partner[i] = partner[i-1] n cluster[i])
+            partners.push_back(Cluster_e());
+            std::set_intersection(
+                partners[c_idx-1].begin(), partners[c_idx-1].end(),
+                clusters[c_idx].begin(), clusters[c_idx].end(),
+                std::inserter(partners[c_idx], partners[c_idx].begin()));
+
+            // add the appendage (appendage[i] = partner[i-1] \ cluster[i])
+            appendages.push_back(Cluster_e());
+            std::set_difference(
+                partners[c_idx-1].begin(), partners[c_idx-1].end(),
+                // node->load.begin(), node->load.end(),
+                clusters[c_idx].begin(), clusters[c_idx].end(),
+                std::inserter(appendages[c_idx], appendages[c_idx].begin()));
+
+            // test... should be true
+            assert(partners[c_idx].size() + appendages[c_idx].size() == partners[c_idx-1].size());
         }
-        // assert(false);
+
 
         // make the rest of the DR_Plan
         DRP_Node_e *current_node = node;
-        Edge_ID arbitrary_edge_from_core = *(partners[partners.size()-1].begin());
-        for (unsigned int i = 0; i < partners.size(); i++) {
-            Cluster_e &current_appendage = appendages[i];
-
-            // add the partner
-            DRP_Node_e *next_partner = new DRP_Node_e(partners[i]);
+        Cluster_e &core_cluster = partners.back();
+        for (unsigned int p_idx = 0; p_idx < partners.size(); p_idx++) {
+            // add the partner, but don't decompose. We will be explicitly
+            // finding the children for all but the core_cluster (partners.back)
+            DRP_Node_e *next_partner = new DRP_Node_e(partners[p_idx]);
             current_node->add_child(next_partner);
 
-            // Find all the clusters in the appendage. This is done by getting
-            // P[i][j] where i is an arbitrary edge in the core, for all j in
-            // the appendage, deleting duplicates.
-            std::set<Cluster_e*> clusters_of_appendage;
+            // Find all of the clusters in the appendage. Since the appendages
+            // are underconstrained, there are more than one. We can't run
+            // the pebble game again because that would increase the complexity.
+            Cluster_e &current_appendage = appendages[p_idx];
+            std::vector<Cluster_e> clusters_of_appendage;
             while (current_appendage.size() != 0) {
+                // get an edge from the appendage, e
                 Edge_ID edge_from_appendage = *(current_appendage.begin());
-                Cluster_e *cluster_in_appendage = P.at(arbitrary_edge_from_core).at(edge_from_appendage);
-                clusters_of_appendage.insert(cluster_in_appendage);
 
-                // remove edges in this cluster from appendage to avoid duplicates
-                for (Cluster_e::iterator e_it = cluster_in_appendage->begin(); e_it != cluster_in_appendage->end(); e_it++) {
+                // Find the cluster in the appendage containing that edge. We do
+                // this by finding the edge in the core, f, such that |P[f][e]|
+                // if minimized.
+                Cluster_e *cluster_in_appendage;
+                unsigned int cia_size = graph.num_edges();
+                for (Cluster_e::iterator e_it = core_cluster.begin(); e_it != core_cluster.end(); e_it++) {
+                    Cluster_e *potential_cia = P.at(*e_it).at(edge_from_appendage);
+                    if (potential_cia->size() < cia_size) {
+                        cia_size = potential_cia->size();
+                        cluster_in_appendage = potential_cia;
+                    }
+                }
+
+                // Add (cluster_in_appendage n node->load). It will still be rigid.
+                clusters_of_appendage.push_back(Cluster_e());
+                std::set_intersection(
+                    node->load.begin(), node->load.end(),
+                    cluster_in_appendage->begin(), cluster_in_appendage->end(),
+                    std::inserter(clusters_of_appendage.back(), clusters_of_appendage.back().begin()));
+
+                // remove edges in this cluster from appendage to iterate and
+                // avoid duplicates
+                for (Cluster_e::iterator e_it = clusters_of_appendage.back().begin(); e_it != clusters_of_appendage.back().end(); e_it++) {
                     current_appendage.erase(*e_it);
                 }
             }
 
             // Make DRP_Nodes corresponding to these appendage clusters
-            for (std::set<Cluster_e*>::iterator c_it = clusters_of_appendage.begin(); c_it != clusters_of_appendage.end(); c_it++) {
-                DRP_Node_e *app_child = new DRP_Node_e(**c_it);
+            for (std::vector<Cluster_e>::iterator c_it = clusters_of_appendage.begin(); c_it != clusters_of_appendage.end(); c_it++) {
+                DRP_Node_e *app_child = new DRP_Node_e(*c_it);
                 current_node->add_child(app_child);
                 decompose_isostatic_component(app_child, M, P);
             }
+            clusters_of_appendage.clear();
 
             // iterate
             current_node = next_partner;
         }
 
-        // Decompose the core
+        // Recursively decompose the core
         decompose_isostatic_component(current_node, M, P);
     }
 }
@@ -527,6 +476,25 @@ bool DR_Plan::is_subseteq(const Cluster_e &c1, const Cluster_e &c2) {
     return true;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -538,7 +506,14 @@ bool DR_Plan::is_subseteq(const Cluster_e &c1, const Cluster_e &c2) {
 
 
 
+void DR_Plan::make_DR_plan_OV4() {
+    std::pair<Vertex_Iterator, Vertex_Iterator> vs = graph.vertices();
+    for (Vertex_Iterator v_it = vs.first; v_it != vs.second; v_it++)
+        _root_v.load.insert(*v_it);
+    _rigid = Pebbled_Graph(&graph).pebble_game_2D() == Pebbled_Graph::l;
 
+    _DRP_2D_linear_aux(&_root_v);
+}
 
 DRP_Node_v* DR_Plan::add_uncomputed_child(DRP_Node_v *parent, Cluster_v *child) {
     DRP_Node_v *new_node = new DRP_Node_v(*child);
