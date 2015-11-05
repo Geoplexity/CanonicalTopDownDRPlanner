@@ -84,7 +84,7 @@ endif
 
 
 
-_DEPS = Graph/Graph.hpp Graph/DR_Plan.hpp \
+_DEPS = Graph/Graph.hpp Graph/Cluster.hpp Graph/DR_Plan.hpp \
 	Graph/Pebbled_Graph.hpp Graph/Isostatic_Graph_Realizer.hpp \
 	Graph/Tree.hpp Graph/Min_Priority_Queue.hpp \
 	Recombination/Recombination.hpp \
@@ -94,7 +94,7 @@ DEPS = $(patsubst %,$(SOURCE_DIRECTORY)/%,$(_DEPS))
 
 
 _OBJ = main.o \
-	Graph/Graph.o Graph/DR_Plan.o \
+	Graph/Graph.o Graph/Cluster.o Graph/DR_Plan.o \
 	Graph/Pebbled_Graph.o Graph/Isostatic_Graph_Realizer.o \
 	Recombination/Recombination.o \
 	GUI/Main_GUI_Manager.o GUI/Camera_2D.o GUI/Shader_Program.o GUI/Drawer.o \

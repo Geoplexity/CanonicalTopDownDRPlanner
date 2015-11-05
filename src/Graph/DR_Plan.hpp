@@ -2,6 +2,7 @@
 #define DR_PLAN_HPP
 
 #include "Graph.hpp"
+#include "Cluster.hpp"
 #include "Tree.hpp"
 
 #include <set>
@@ -9,36 +10,8 @@
 #include <map>
 
 
-// TODO: Make cluster class, take out static functions of DR_Plan
-// could be template class, with two classes that inherit
-
-// class Cluster_e : public std::set<Edge_ID> {
-
-// };
-
-// inline bool operator=(const std::set<Edge_ID> &set, const Cluster_e &clust) {
-//     return c0.size() < c1.size();
-// }
-
-typedef std::set<Vertex_ID> Cluster_v;
-typedef std::set<Edge_ID>   Cluster_e;
-
 typedef Tree<Cluster_v> DRP_Node_v;
 typedef Tree<Cluster_e> DRP_Node_e;
-
-// std::ostream& operator<<(std::ostream& os, const Cluster_v &obj);
-// bool operator<(const Cluster_v &c0, const Cluster_v &c1);
-
-inline bool operator<(const Cluster_v &c0, const Cluster_v &c1) {
-    return c0.size() < c1.size();
-}
-inline bool operator<(const Cluster_e &c0, const Cluster_e &c1) {
-    return c0.size() < c1.size();
-}
-
-
-
-
 
 
 // Takes an independent input graph and computes a pseudo-sequential
@@ -65,8 +38,7 @@ public:
     // returns whether or not the input graph was rigid
     bool rigid() const;
 
-    static void print_cluster(const Graph &g, Cluster_v &c);
-    static void print_cluster(const Graph &g, Cluster_e &c);
+    // Output functions
     void print_depth_first(DRP_Node_v *node, unsigned int tabs = 0) const;
     void print_depth_first(DRP_Node_e *node, unsigned int tabs = 0) const;
 private:
@@ -99,11 +71,6 @@ private:
     DRP_Node_v* get_DRP_in_terms_of_vertices(const DRP_Node_e *root);
     // void get_DRP_in_terms_of_vertices(DRP_Node_e *root_e, DRP_Node_e *root_e);
 
-
-    // Functions for clusters
-    static bool is_trivial_intersection(const Cluster_e &c1, const Cluster_e &c2);
-    static unsigned int intersection_size(const Cluster_e &c1, const Cluster_e &c2);
-    static bool is_subseteq(const Cluster_e &c1, const Cluster_e &c2); // is c1 subset of c2
 
 
     ////////////////////////////////////////////

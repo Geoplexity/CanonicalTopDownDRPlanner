@@ -6,6 +6,13 @@
 
 
 
+void print_depth_first(Graph &g, DRP_Node_v *node, unsigned int tabs = 0);
+void print_depth_first(Graph &g, DRP_Node_e *node, unsigned int tabs = 0);
+
+
+
+
+
 
 DR_Plan::DR_Plan(const Graph &graph) :
     graph(graph),
@@ -32,22 +39,6 @@ DRP_Node_v* DR_Plan::root() {
 
 bool DR_Plan::rigid() const {
     return _rigid;
-}
-
-void DR_Plan::print_cluster(const Graph &g, Cluster_v &c) {
-    for (Cluster_v::iterator v_it = c.begin(); v_it != c.end(); v_it++) {
-        std::cout << g[*v_it].name << " ";
-    }
-    std::cout << std::endl;
-}
-
-void DR_Plan::print_cluster(const Graph &g, Cluster_e &c) {
-    for (Cluster_e::iterator e_it = c.begin(); e_it != c.end(); e_it++) {
-        std::pair<Vertex_ID, Vertex_ID> vs = g.vertices_incident(*e_it);
-
-        std::cout << "(" << g[vs.first].name << ", " << g[vs.second].name << ") ";
-    }
-    std::cout << std::endl;
 }
 
 void DR_Plan::print_depth_first(DRP_Node_v *node, unsigned int tabs) const {
@@ -440,40 +431,6 @@ DRP_Node_v* DR_Plan::get_DRP_in_terms_of_vertices(const DRP_Node_e *root) {
         child_e = child_e->next();
     }
     return root_v;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-bool DR_Plan::is_trivial_intersection(const Cluster_e &c1, const Cluster_e &c2) {
-    if (intersection_size(c1, c2) == 0)
-        return true;
-    return false;
-}
-
-unsigned int DR_Plan::intersection_size(const Cluster_e &c1, const Cluster_e &c2) {
-    Cluster_e intersection;
-    std::set_intersection(
-        c1.begin(), c1.end(),
-        c2.begin(), c2.end(),
-        std::inserter(intersection, intersection.begin()));
-
-    return intersection.size();
-}
-
-bool DR_Plan::is_subseteq(const Cluster_e &c1, const Cluster_e &c2) {
-    if (c1.size() > c2.size())
-        return false;
-
-    for (Cluster_e::iterator e = c1.begin(); e != c1.end(); e++)
-        if (c2.find(*e) == c2.end())
-            return false;
-
-    return true;
 }
 
 
