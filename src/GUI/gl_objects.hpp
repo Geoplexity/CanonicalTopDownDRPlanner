@@ -3,9 +3,9 @@
 
 #define GLM_FORCE_RADIANS
 
-#include "../../ext/glm/glm.hpp"
+#include "../../ext/include/glm/glm.hpp"
 
-#include "../../ext/glm/gtx/rotate_vector.hpp"
+#include "../../ext/include/glm/gtx/rotate_vector.hpp"
 
 // #include <GLFW/glfw3.h>
 

@@ -29,7 +29,7 @@
 
 
 
-#include "../../ext/glm/glm.hpp"
+#include "../../ext/include/glm/glm.hpp"
 
 
 
@@ -51,6 +51,16 @@ public:
     Drawer(std::string vs_file, std::string fs_file);
 
     ~Drawer();
+
+    ////
+    //// BEGIN GETTER FUNCTIONS
+    const std::string& vertex_shader_file() const;
+    const std::string& fragment_shader_file() const;
+    //// END GETTER FUNCTIONS
+    ////
+
+
+
 
     ////
     //// BEGIN INITIALIZATION FUNCTIONS
@@ -107,6 +117,9 @@ public:
     int stencil_at_pixel(int x, int y); // -1 if background
 
 private:
+    // File locations
+    std::string _vertex_shader_file, _fragment_shader_file;
+
     // program info
     Shader_Program shader_program;
 

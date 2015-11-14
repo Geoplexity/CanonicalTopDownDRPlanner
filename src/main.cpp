@@ -30,9 +30,10 @@ void test(const string& dot_file);
 
 namespace global {
     // Program *myProg;
+    string root_dir_relative_to_exe_dir = "../";
 
     namespace dflt {
-        string dot_file = "test_files/test.dot";
+        string dot_file = root_dir_relative_to_exe_dir + "test_files/test.dot";
         runtime_options runtime_option = ro_drp_2d;
     }
 
@@ -41,6 +42,8 @@ namespace global {
         // const int width_screen_coords = 1000, height_screen_coords = 1000;
         // int width_px = 1000, height_px = 1000;
         // const char *title = "Demo";
+        string vertex_shader   = root_dir_relative_to_exe_dir + "src/GUI/shaders/vs.glsl";
+        string fragment_shader = root_dir_relative_to_exe_dir + "src/GUI/shaders/fs.glsl";
     }
 }
 
@@ -147,7 +150,9 @@ void drp_2d(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_drawer();
+    myWindow.init_drawer(
+        global::window::vertex_shader.c_str(),
+        global::window::fragment_shader.c_str());
 
     myWindow.update_display();
 
@@ -182,7 +187,9 @@ void display_linkage(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_drawer();
+    myWindow.init_drawer(
+        global::window::vertex_shader.c_str(),
+        global::window::fragment_shader.c_str());
 
     myWindow.update_display();
 
@@ -212,7 +219,9 @@ void display_framework(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_drawer();
+    myWindow.init_drawer(
+        global::window::vertex_shader.c_str(),
+        global::window::fragment_shader.c_str());
 
     myWindow.update_display();
 
@@ -247,7 +256,9 @@ void omd(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_drawer();
+    myWindow.init_drawer(
+        global::window::vertex_shader.c_str(),
+        global::window::fragment_shader.c_str());
 
     myWindow.update_display();
 
@@ -283,7 +294,9 @@ void test(const string& dot_file) {
         3,
         2,
         true);
-    myWindow.init_drawer();
+    myWindow.init_drawer(
+        global::window::vertex_shader.c_str(),
+        global::window::fragment_shader.c_str());
 
     myWindow.update_display();
 

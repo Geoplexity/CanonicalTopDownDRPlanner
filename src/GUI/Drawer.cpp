@@ -2,7 +2,7 @@
 
 #include "easy_font.hpp"
 
-#include "../../ext/glm/gtc/matrix_transform.hpp"
+#include "../../ext/include/glm/gtc/matrix_transform.hpp"
 
 // #include <cstring>
 // #include <cstdio>
@@ -66,6 +66,12 @@ namespace color {
 
 
 Drawer::Drawer(std::string vs_file, std::string fs_file) {
+    //
+    this->_vertex_shader_file   = vs_file;
+    this->_fragment_shader_file = fs_file;
+
+
+
     // swallow error from glewInit
     glGetError();
 
@@ -101,6 +107,20 @@ Drawer::~Drawer() {
     // Delete the VAOs
     glDeleteVertexArrays(1, &vao);
 }
+
+////
+//// BEGIN GETTER FUNCTIONS
+
+const std::string& Drawer::vertex_shader_file() const {
+    return _vertex_shader_file;
+}
+
+const std::string& Drawer::fragment_shader_file() const {
+    return _fragment_shader_file;
+}
+
+//// END GETTER FUNCTIONS
+////
 
 
 
@@ -170,8 +190,8 @@ Drawer::~Drawer() {
 
 void Drawer::init_basic_2d_shaders() {
     // compile, attach, link
-    shader_program.compile_and_attach_vertex_shader("src/GUI/shaders/basic_2d.vs.glsl");
-    shader_program.compile_and_attach_fragment_shader("src/GUI/shaders/basic_2d.fs.glsl");
+    shader_program.compile_and_attach_vertex_shader("../src/GUI/shaders/basic_2d.vs.glsl");
+    shader_program.compile_and_attach_fragment_shader("../src/GUI/shaders/basic_2d.fs.glsl");
     shader_program.link();
 
     // // get the input attribute locations in this shader

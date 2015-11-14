@@ -234,7 +234,9 @@ void Graph_Display_Window::key_callback(int key, int scancode, int action, int m
                     "DR-Plan",
                     3,
                     2);
-                drp_display_window->init_drawer();
+                drp_display_window->init_drawer(
+                    this->drawer->vertex_shader_file().c_str(),
+                    this->drawer->fragment_shader_file().c_str());
                 // std::cout << "key_callback: Here 3" << std::endl;
 
                 if (current_drp_node)

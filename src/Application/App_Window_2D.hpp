@@ -12,7 +12,7 @@ public:
     App_Window_2D(Main_GUI_Manager *mgm);
     ~App_Window_2D();
 
-    void init_drawer();
+    void init_drawer(const char* vertex_shader, const char* fragment_shader);
     void init_camera();
 
     // void update_view_matrix();

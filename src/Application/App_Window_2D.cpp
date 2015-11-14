@@ -9,9 +9,9 @@ App_Window_2D::~App_Window_2D() {
     delete(camera);
 }
 
-void App_Window_2D::init_drawer() {
+void App_Window_2D::init_drawer(const char* vertex_shader, const char* fragment_shader) {
     set_as_context();
-    this->drawer = new Drawer("src/GUI/shaders/vs.glsl", "src/GUI/shaders/fs.glsl");
+    this->drawer = new Drawer(vertex_shader, fragment_shader);
 
     init_camera();
 }

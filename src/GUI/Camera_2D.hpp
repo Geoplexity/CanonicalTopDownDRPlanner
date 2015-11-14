@@ -2,11 +2,11 @@
 #define CAMERA_2D_HPP
 
 #define GLM_FORCE_RADIANS
-#include "../../ext/glm/glm.hpp"
-#include "../../ext/glm/gtc/matrix_transform.hpp"
-#include "../../ext/glm/gtx/rotate_vector.hpp"
-// #include "../ext/glm/gtc/matrix_transform.hpp"
-// #include "../ext/glm/gtx/vector_angle.hpp"
+#include "../../ext/include/glm/glm.hpp"
+#include "../../ext/include/glm/gtc/matrix_transform.hpp"
+#include "../../ext/include/glm/gtx/rotate_vector.hpp"
+// #include "../ext/include/glm/gtc/matrix_transform.hpp"
+// #include "../ext/include/glm/gtx/vector_angle.hpp"
 
 
 // TODO: Deal with aspect ratio....
