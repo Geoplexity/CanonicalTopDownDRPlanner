@@ -1,0 +1,40 @@
+Clarifications at the end, in (c)  below.
+
+==============================
+
+Folks,
+
+At the beginning of our discussion Thursday, I should have taken the time to read/review the  algorithm/complexity analysis first.
+
+I feel like I have made this statement multiple times this semester! I advocate a thinking style that is heavily frontloaded with quiet and careful reading instead of jumping into a discussion/interaction. That would have saved a lot of time (its been a while since  generating those ideas, back in April in India). I finally had time today to think about it properly -- see below.
+
+=======
+
+As we know, Lemma 17 as stated is false. That's a fact.
+
+Also as we suspected, there are much "worse" examples than the one  we discussed. Just take a diamond where e is the diagonal edge. Now 2-sum to the edges of the diamond, multiple ladders (2 sums of diamonds). Dropping e will give the ladders as components, or if the ladder is pasted to e, then the ladder plus a few edges.
+
+==========
+
+Bottomline, however, is that Lemma 17 is both very important, fundamentally captures the idea of the algorithm and complexity, AND is easily fixable. Here's the argument:
+
+(a)
+In the cases where Lemma 17 is correct, the algorithm creates the pseudosequential DR-plan P_G by  "expanding"   one branch  (by computing the components G\e) and successively expanding the graphs G' at the leaves of the branch, thereby sweeping across the DR-plan. The key is that in the end,  EVERYTHING is expanded down to leaves. Each expansion  takes O(V^2) steps and there are at most O(V) expansions.
+
+(b)
+The KEY POINT is that even if we didn't get a fully expanded branch in any given component computation, it doesn't matter in the least, as long as each component we do obtain is uniquely associated with some node in the output sequential DR-plan. We simply expand the components again, since we have to expand down to the edges in any case, and the total complexity doesn't change.
+
+
+(c)
+Lemma 17 is quick to fix.
+
+Either "the set of components of G\e is exactly the leaves of the branch (P_G,e) " (as in the current version).
+
+OR, for those components that are NOT leaves of the branch  the following is true:
+  "Each leaf of the branch is contained in a unique component of G\e. Each component C is associated with a  distinct node Q_C along the path from e to the root in P_G, where Q_C is the minimal node along this path that contains C. For two distinct components C and D, Q_C and Q_D are distinct"
+
+You could make more claims like this (doublecheck please!).
+
+Lemma 17 (as currently stated) is true if and only if there is no proper rigid subgraph of G (i) that contains e and at least one component of G\e, and (ii) intersects another nontrivial component nontrivially.
+
+Assume Lemma 17 does not hold, and let G' be a minimal rigid subgraph of G that satisfies (i) and (ii) in the previous paragraph. Let C_i be all the components in (ii) intersected by G'. Branch (P_G,e) is obtained by gluing together the P_{C_i} in a successive chain (in any order), where P_{C_i} is a pseudosequential DR-plan for C_i; in this case, the branch rooted at Q_{C_i}  contains all the C_j, j\le i

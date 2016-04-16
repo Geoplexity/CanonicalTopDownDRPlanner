@@ -1,0 +1,241 @@
+\newcommand{\faninx}[1]{\textsc{FanIn}(#1)}
+\newcommand{\faninxy}[2]{\textsc{FanIn}_{#1}(#2)}
+\newcommand{\numberofleavesx}[1]{\textsc{NL}(#1)}
+\newcommand{\numberofparametersx}[1]{\textsc{NP}(#1)}
+\newcommand{\numberofchildrenxy}[2]{\textsc{NC}_{#1}(#2)}
+
+
+\section{Proofs}
+\label{sec:appendix:a}
+\label{sec:appendix:proofs}
+
+\subsection{Proofs from Section \ref{sec:DRP}}
+
+
+% \subsubsection{Proof of Theorem \ref{theorem:main}}
+% \label{theorem:main:proof}
+
+
+
+
+
+
+
+\subsubsection{Proof of Observation \ref{lemma:union_intersection}}
+
+\begin{proof}
+    For (1), simply note that if $F_i\cup F_j$ were trivial, then, by definition, $F_i$ and $F_j$ must be trivial.
+
+    For the next parts, we use the quantity $d(G)=2|V|-|E|$, which we call \dfn{density}.
+    For (2), observe that underconstrained subgraphs of isostatic graphs must have density less than 3.
+    For (3), observe that, given an isostatic graph, a subgraph with density $3$ must also be isostatic. Then, use the fact that, by definition, $d(F_i)=3$ and $d(F_j)=3$. Then it is straightforward application of the inclusion-exclusion $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
+
+    For (4), because subgraphs of a isostatic graph can only be trivial, underconstrained, or isostatic, all cases have already been exhausted.
+\end{proof}
+
+
+% \begin{proof}
+% Use the fact that, by definition, $d(F_i)=k$ and $d(F_j)=k$. Also, the equation $d(F_i\cap F_j)=d(F_i)+d(F_j)-d(F_i\cup F_j)$.
+% \begin{enumerate}
+%     \item If $F_i\cup F_j$ were trivial, then, by definition, $F_i$ and $F_j$ must be trivial.
+
+%     \item Observe that  Then it is straightforward application of the equation above.
+
+%     % \item Observe that, given a isostatic graph, an underconstrained subgraph must have density less than $k$. Then it is straightforward application of the equation above.
+
+%     \item Observe that, given a isostatic graph, a subgraph with density $k$ must also be isostatic. Then it is straightforward application of the equation above.
+
+%     % \item \textit{Forward direction:} Since $F_i\cup F_j$ is underconstrained and a subgraph of isostatic $F$, it must be that $d(F_i\cup F_j)=l<k$. Therefore $d(F_i\cap F_j)=2k-l>k$. This means $F_i\cap F_j$ is trivial. \textit{Reverse direction:} We know that $d(F_i\cap F_j)>k$ because it is trivial. By the same math, we find that $d(F_i\cup F_j)<k$, showing it is underconstrained.
+
+%     % \item \textit{Forward direction:} We have that $d(F_i\cup F_j)=k$, therefore $d(F_i\cap F_j)=k$. Being a subgraph of isostatic $F$, $F_i\cap F_j$ is also isostatic. \textit{Reverse direction:} By the same math, we find that $d(F_i\cup F_j)=k$ and, since it is also a subgraph of $F$, it is isostatic.
+
+%     \item Subgraphs of a isostatic graph can only be trivial, under-, or isostatic. All cases are already exhausted.
+% \end{enumerate}
+% \end{proof}
+
+
+
+
+\subsubsection{Proof of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_is_C}}
+
+\begin{proof}
+    Assume $C_i\cup C_j \neq C$. This would contradict the proper vertex-maximality of $C_i,C_j$.
+    %
+    In the reverse direction, we know $C$ is either a non-leaf node (isostatic by definition of a DR-plan) or $G$ itself (isostatic by definition of the problem). Thus, $C_i\cup C_j=C$ is isostatic.
+\end{proof}
+
+
+\subsubsection{Proof of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc}}
+
+\begin{proof}
+    % (Of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc})
+    %
+    Take two children of node $C$, called $C_i$ and $C_j$. Let $R_i$ be the graph induced in node $C$ by the edge set of $C$ minus the edge set of child $C_i$ ($C\setminus C_i$ for convenience); let $R_j=C\setminus C_j$. Let $D_{i,j}=C_i\cap C_j=C\setminus (R_i\cup R_j)$. Let $R'_i\subset R_i$, $R'_j\subset R_j$, and $D'_{i,j}\subset D_{i,j}$, and take these proper subgraphs to be non-empty.
+
+    If there are two children ($N=2$) then the proof is simple, it follows from the definition of a DR-plan: the union of the children is the parent which is isostatic. Assume that $N>2$ and take a third child, called $C_k$.
+    % Let $R_k=C\setminus C_k$.
+    We want to determine what $C_k$ can be, in terms of $i$ and $j$. $C_k$ can possibly be composed of an element from $\{\emptyset, D'_{i,j}, D_{i,j}\}$, an element from $\{\emptyset, R'_i, R_i\}$, and an element from $\{\emptyset, R'_j, R_j\}$, for a total of 27 cases. We will exhaustively show that it must be $R_i\cup R_j\cup D'_{i,j}$. First, we make the following observation:
+
+    \begin{observation}\label{observation:no_edges_between_diff}
+        If $C_i\cup C_j$ is isostatic, then there can be no edges in $C$ between the vertices of $R_i$ and $R_j$.
+    \end{observation}
+
+    \begin{proof}
+        Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_is_C}, shows that $C_i\cup C_j$ must equal the parent graph $C$.
+    \end{proof}
+
+
+
+
+
+    % Take $R_i=C\setminus C_i$, $R_j=C\setminus C_j$, and $D_{i,j}=C_i\cap C_j=(C\setminus R_i)\setminus R_j$ (note that $R_j\subset C_i$, $R_i\subset C_j$ and $D_{i,j}\subset C_i,C_j$). Furthermore, take the proper subgraphs $R'_i\subset R_i$, $R'_j\subset R_j$, and $D'_{i,j}\subset D_{i,j}$ that are non-empty.
+
+    % Assume that there is a third isostatic vertex-maximal proper subgraph $C_k$ (with $C'_k=C\setminus C_k$). There are $3\times 3\times 3 = 27$ possible cases for what this subgraph could be.
+
+    % Without loss of generality, all graphs are the induced subgraphs of $C$.
+
+    % The notation $Idc(G,X)$ is the subgraph of $G$ induced by the vertex set $X\subseteq V$. For a subgraph $H=(W,F)$ of $G$, $Idc(G,H)=Idc(G,W)$.
+
+    \newcommand{\inducedOnC}[1]{#1}
+    % \newcommand{\inducedOnC}[1]{Idc\left(C,#1\right)}
+
+    \begin{itemize}
+        \item 3 cases: $C_k$ cannot be $C=\inducedOnC{R_i\cup R_j\cup D_{i,j}}$, $C_i=\inducedOnC{R_j\cup D_{i,j}}$, or $C_j=\inducedOnC{R_i\cup D_{i,j}}$. This is by definition.
+
+        \item 13 cases: $C_k$ cannot be a proper subgraph of $C_i$ and $C_j$ or else $C_k$ would not be vertex-maximal. These are the graphs $\inducedOnC{R'_i\cup D_{i,j}}$, $\inducedOnC{R'_j\cup D_{i,j}}$, $\inducedOnC{ D_{i,j}}$, $\inducedOnC{R_i\cup D'_{i,j}}$, $\inducedOnC{R_j\cup D'_{i,j}}$, $\inducedOnC{R'_i\cup D'_{i,j}}$, $\inducedOnC{R'_j\cup D'_{i,j}}$, $\inducedOnC{ D'_{i,j}}$, $\inducedOnC{R_i}$, $\inducedOnC{R_j}$, $\inducedOnC{R'_i}$, $\inducedOnC{R'_j}$, and $\inducedOnC{\emptyset}$.
+
+        \item 2 cases: $C_k$ cannot contain $C_i$ or $C_j$ as proper subgraphs, or else they are not vertex-maximal. These are the graphs $\inducedOnC{R'_i\cup R_j\cup D_{i,j}}$ and $\inducedOnC{R_i\cup R'_j\cup D_{i,j}}$ respectively.
+
+        \item 4 cases: \usestwod $C_k$ cannot be $\inducedOnC{R_i\cup R_j}$, $\inducedOnC{R'_i\cup R_j}$, $\inducedOnC{R_i\cup R'_j}$, or $\inducedOnC{R'_i\cup R'_j}$ because these are all disconnected (Observation \ref{observation:no_edges_between_diff}) and cannot be isostatic.
+
+        \item 1 case: $C_k=\inducedOnC{R'_i\cup R'_j\cup D_{i,j}}$ is not possible. Since $C_i\cup C_k = \inducedOnC{R'_i\cup R_j\cup D_{i,j}}\neq C$ we have from Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_is_C}, that $C_i\cup C_k$ cannot be isostatic. We also know it cannot be trivial because it contains isostatic subgraphs. This means it must be underconstrained. From Observation \ref{lemma:union_intersection}, we know that $C_i\cap C_k=\inducedOnC{R'_j\cup D_{i,j}}$ must then be trivial. This is impossible because $D_{i,j}$ is isostatic, thereby contradicting the assumption that $C_k$ is isostatic.
+
+        \item 1 case: \usestwod $C_k=\inducedOnC{R'_i\cup R'_j\cup D'_{i,j}}$ is not possible. Since $C_i\cup C_k\neq C$ (and $C_j\cup C_k\neq C$), we know by the same logic as the previous case that the $C_i\cap C_k$ must be trivial (a single node). However, $C_i\cap C_k=\inducedOnC{R'_j\cup D'_{i,j}}$. This causes a contradiction, the intersection cannot be trivial because $R'_j$ and $D'_{i,j}$ are not empty sets and are disjoint.
+
+        \item 2 cases: \usestwod $C_k=\inducedOnC{R'_i\cup R_j\cup D'_{i,j}}$ and $C_k=\inducedOnC{R_i\cup R'_j\cup D'_{i,j}}$ are not possible. The proof mirrors the previous case, except here you must choose $C_i$ and $C_j$ respectively.
+
+        \item 1 case: $C_k=\inducedOnC{R_i\cup R_j\cup D'_{i,j}}$ is all that remains.
+    \end{itemize}
+
+    Since $D_{i,j}\subset C_i, C_j$ it means that $C_k\cup C_i = C_k \cup C_j = C$, thus proving Point \ref{lemma:wc_intersection_makes_all_wc}.
+    The alternative phrasing of this Point is straightforward from Point \ref{lemma:wc_intersection_is_C}.
+    %
+    % \todo{Need a figure?}
+\end{proof}
+
+\subsubsection{Proof of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:uc_intersection_makes_all_uc}}
+
+\begin{proof}
+    Assume there is some $k$ such that $C_i\cap C_k$ is not trivial. By Observation \ref{lemma:union_intersection}, $C_i\cap C_k$ must be isostatic. Then, by Lemma \ref{lemma:combined_lemma}, point \ref{lemma:wc_intersection_makes_all_wc}, the intersection between any two children must be isostatic. This means that $C_i\cap C_j$ is isostatic. Therefore, such a $k$ cannot exist and all intersections are trivial.
+\end{proof}
+
+
+% \subsubsection{Proof of Theorem \ref{theorem:algo_complexity}}
+
+
+
+
+\subsection{Proofs from Section \ref{sec:recomb}}
+
+% \subsubsection{Proof of Theorem \ref{theorem:omdk}}
+
+
+\subsubsection{Proof of Theorem \ref{theorem:criterionc}}
+\begin{proof}
+    The Cartesian realization space of $(H,\left<\delta_{E'}, \lambda_F\right>)$ is computed easily with a DR-plan of size 2, and is the union of $2^t$ solutions (modulo orientation preserving isometries) each with a distinct orientation type, where $t$ is the number of triangles in the 2-tree $H$; here $\delta_{S}$ is the restriction of the length vector $\delta$ to the edges in $S$. A desired solution $p$ (or connected component of a solution space) of $(G,\delta)$ of an orientation type $\sigma_p$ can be found by a subdivided binary search of the Cartesian realization space of $(H, \left<\delta_{E'}, \lambda_F\right>)$ of orientation type $\sigma_p$, as $\lambda_F$ ranges over the discretized convex polytope $\Phi_F(G',\delta_E')$ with bounding hyperplanes described in Theorem \ref{theorem:convexcayley}. A solution $p$ is found  when the lengths for nonedges in $D$ match $\delta_D$.
+\end{proof}
+
+
+\subsection{Proofs from Section \ref{sec:bodypin}}
+
+\subsubsection{Proof of Remark \ref{rem:bodypin_is_barjoint}}
+\begin{proof}
+    We can replace each body that has only one pin by a single vertex. A body with 2 pins can be replaced by an edge. In general, a body with $n$ pins can be replaced by a 2-tree on $n$ vertices. When finding a DR-plan, we treat each body as trivial, so they become the leaves of the DR-plan. The optimal recombination problem and approach of Section \ref{sec:recomb} are unchanged. The optimal completion via the optimal modification problem in Section \ref{sec:recomb} now has an additional restriction that all edges in the 2-tree representation of the bodies must be removed together, not individually.
+\end{proof}
+
+\subsubsection{Proof of Observation \ref{obs:bodypin_drp}}
+\begin{proof}
+    The existence of this canonical DR-plan follows from the same arguments as in the proof of Theorem \ref{theorem:main}. The only difference is the definition of a trivial intersection. In this case, when two subgraphs share more than 1 body, they become rigid (in fact over constrained). Sharing a pin is not considered an intersection. Such a structure is viewed as two subgraphs each sharing 1 body with a third 1-dof subgraph which essentially just consists of those two bodies pinned together.
+\end{proof}
+
+\subsubsection{Proof of Theorem \ref{thm:1dofcase}}
+\begin{proof}
+    Suppose we are given a body-pin graph and its corresponding body-bar graph $G$ and have obtained the 1-dof DR-plan $T$. Each node of $T$ is then a vertex-maximal proper 1-dof subgraph of $G$.
+
+    To make the graph isostatic, we need only add one body and pin it to 2 other bodies. Doing so will cause $G$ to become $(3,3)$-tight.
+
+    We adopt the following algorithm. Choose the 2 bodies to pin to by choosing a node $b$ in $T$ and looking at its children. From Observation \ref{rem:1dofcanon}, we know that the children can only share  a single pin or a subgraph. Pin the new body to bodies in two separate children. Doing so will ensure that all children of $b$ will have 1-dof and all ancestors of $b$ (including $b$) will now be isostatic.
+
+    % Then, we can form a valid isostatic DR-plan $T_b$ from $T$. In $T_b$, $\faninx{b}$is the number of leaves in the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $\faninx{w}$ is the the number leaf nodes in the tree rooted at $w$, excluding the subtree containing $b$, plus 1 (for the node leading to $b$).  Then, for any node $b$ that we choose, $T_b$ is a valid DR-plan. The size of $T_b$ will just be the maximum fan-in of all nodes in $T_b$. Thus, if we want to minimize the size of our DR-plan, we simply need to take the $b$ that has the $T_b$ of smallest size.
+
+    Such a pinning covers all possible ways of adding a new body. Assume a new body $b$ is added to the input  graph and pin it to $b_i$ and $b_j$ to make it isostatic. Then, there is a lowest 1-dof node $v$ in $T$ such that $b_i$ and $b_j$ appear in $v$. Thus, pinning $v$ in the manner described yields an equivalent isostatic DR-plan to pinning $b$ to $b_i$ and $b_j$.
+
+    For each node $b$, assign a size of the $T_b$ denoted $|T_b|$. $|T_b| = \displaystyle\max_{v \in T_b} \faninx{v}$. We are looking for $b$ that minimizes $|T_b|$. Denote the sub-tree of $T$ rooted at $v$ by $T^v$ and the number of leaves in a tree $T$ by $\numberofleavesx{T}$. Note that $\faninx{b}= \numberofleavesx{T^b}$ because no descendant of $b$ is isostatic. Similarly, for any ancestor $w$ of $b$, $\faninx{w} = \numberofleavesx{T^w}-\numberofleavesx{T^{b'}}+1$, where $b'$ is the child leading to $b$. All other nodes are not isostatic and hence do not appear in the isostatic DR-plan.
+    % Then, we can form a valid isostatic DR-plan $T_b$ from $T$. In $T_b$, $b$'s children are now all of the leaf nodes of the subtree rooted at $b$ because no child of $b$ in $T$ is isostatic. Similarly, for any other node $w$ that is an ancestor of $b$, $w$'s children will be the node that leads to $b$, denoted $b'$, along with all of the other leaf nodes in the tree rooted at $w$, excluding $b'$. Then, for any node $b$ that we choose, $T_b$ is a valid DR-plan. The size of $T_b$ will just be the maximum fan-in of all nodes in $T_b$. Thus, if we want to minimize the size of our DR-plan, we simply need to take the $b$ that has the $T_b$ of smallest size.
+
+    The node to be pinned is always the the deepest nontrivial node of some path in $T$. Suppose a node $b$ is pinned that has a nontrivial child $v$. Then, $\faninxy{b}{b} = \numberofleavesx{T^b} = \numberofleavesx{T^v} + n$, where $n$ is essentially the number of leaves between $b$ and $v$. If we had instead chosen to pin $v$, then $\faninxy{v}{b} = \numberofleavesx{T^b} - \numberofleavesx{T^{b'}} + 1 \leq \faninxy{b}{v}$. And for each ancestor $w$ of $b$, $\faninx{w}$ is unchanged, meaning $|T_v| \leq |T_b|$. Thus we only have to check the deepest non-trivial nodes.
+
+    Running the above algorithm brute force  gives running time quadratic in the number of bodies of the given body-pin system.
+
+    For the multi-triangle pin graphs, we can do the same thing, except we need to add a single triangle to one of the nodes to cause it to become isostatic.
+    % Don't leave a blank line between last paragraph and end!
+    % For the 2-dof case, we can do something very similar, except instead of pinning a single body 2 times to a node, we can pin another body 2 times to a node. These can be the same node, and if it is the same node, we can find a wellconstrained DR-plan in quadratic time, we would just be doing the same thing as the 1-dof case.
+\end{proof}
+
+\subsubsection{Proof of Observation \ref{obs:2dof_case}}
+\begin{proof}
+    The only difference from the 1-dof case is that now we need to remove
+    2-dofs from our graph. Start with a 2-dof DR-plan $T$. Like in the previous proof, we need to add a body and 2 pins to 2 nodes to obtain an isostatic DR-plan.
+
+    Suppose we pin 2 distinct nodes $v_i$ and $v_j$. Then, there must exist a common ancestor $a$ of $v_i$ and $v_j$. Then, in $T_{v_i,v_j}$, $\faninxy{v_i,v_j}{a} = \numberofleavesx{T^a}$. However, if we chose to pin one of $v_i$ and $v_j$ twice, then $\faninxy{v}{a} = \numberofleavesx{T^a} - \numberofleavesx{T^{a'}} +1$ . Thus $\faninxy{v}{a}' \leq \faninxy{v_i,v_j}{a}$. All ancestors of $a$ are unchanged. So $|T_v| \leq |T_{v_i,v_j}|$.
+
+    Thus the only choice is to pin a single node twice. Hence, we can run the same algorithm as the 1-dof case and simply pin twice instead of once.
+\end{proof}
+
+\subsubsection{Proof of Observation \ref{obs:algebraic_completion}}
+\begin{proof}
+    An isostatic graph has 3 parameters that define its position and orientation. These are the Euclidean motions. A 1-dof graph has 4 parameters: the 3 Euclidean motions and a dof parameter. A 2-dof has 5 parameters. The number of parameters roughly correlates with the algebraic complexity of obtaining a realization.
+
+    Thus, starting with a $T$ as described in the proof for Remark \ref{thm:1dofcase}, when a node $b$ is pinned, the same structure is preserved as before. Suppose  $v$ is an isostatic node after pinning $b$. Then, the children of $v$ (except one if $v \neq b$) have 1-dof. The realization complexity for $v$ is simply that of realizing each of its children. In general, the number of parameters for $v$ will be $\numberofparametersx{v} = 4\numberofchildrenxy{1}{v}+3$, if $v \neq b$ and $\numberofparametersx{b} = 4\numberofchildrenxy{1}{b}$, where $\numberofchildrenxy{k}{v}$ is the number of $k$-dof children of $v$.
+
+    Minimizing the algebraic complexity requires minimizing the maximum $\numberofparametersx{v}$ for any node $v$. In this case, it is not possible to always choose to pin a node closest to a leaf in the tree, because it could have high fan-in. So we try brute force by pinning all nodes to  pick the one with the lowest algebraic complexity. This algorithm is still quadratic for the 1-dof case.
+
+    For the 2-dof situation, there are more cases to consider. If we pin the same node twice as above, we have $\numberofparametersx{v} = 5\numberofchildrenxy{2}{v}+3$ for any ancestor $v \neq b$ and $\numberofparametersx{b} = 5\numberofchildrenxy{2}{b}$. If we pin a node $v$ and one of its ancestors $v'$, then any nodes between $v'$ and $v$ will be 1-dof, any nodes above $v'$ will be isostatic, and nodes below $v$ will be 2-dof. Note that solving or realizing $v'$ will also realize $v$.  Next, we need to consider nodes above and including $v'$ in our complexity: $\numberofparametersx{v'} = 5\numberofchildrenxy{2}{v'} + 4$ and $\numberofparametersx{a} = 3 + 5\numberofchildrenxy{2}{a}$ for $a$ an ancestor of $v'$.
+
+    The only remaining case is pinning two nodes that are incomparable, i.e.\ do not have a descendant/ancestor relationship. The only change from the previous case is that for the lowest common ancestor of the nodes $v'$, $\numberofparametersx{v'} = 2*4+5\numberofchildrenxy{2}{v'}$. For any ancestor $a$ of $v'$, we still have $\numberofparametersx{a} = 3 + 5\numberofchildrenxy{2}{a}$.
+
+    Like the 1-dof case, we again cannot simply choose the nodes deepest in the tree to pin. However, neither can we assume pinning one node twice will give us the best algebraic complexity. Hence, we will need to check each pair of nodes to pin. This makes our brute-force algorithm $O(b^3)$, where $b$ is the number of bodies.
+\end{proof}
+
+
+
+
+\subsection{Proofs from Section \ref{sec:pinnedline}}
+\subsubsection{Proof of Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc} --- for 2-dimensional pinned line incidence graphs}
+\label{sec:appendix_pinned}
+
+\begin{proof} %[Proof of Lemma~\ref{lemma:wc_intersection_makes_all_wc} for 2D pinned line incidence graphs]
+We use the same notation as in the original proof of  Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_makes_all_wc}, given above.
+Without loss of generality, all graphs are the induced graphs on $C$.
+
+First notice that since $C_i \cup C_j$ is isostatic, by Observation~\ref{lem:pinned_union_intersection}, both $C_i$ and $C_j$ are connected isostatic vertex-maximal proper subgraphs of  $C$. Since $C_j \cup C_j = C$, there are no edges in $C$ that is not contained in a isostatic subgraph, so $C$ does not have any single-edge child node, and $C_k$ is a connected isostatic vertex-maximal proper subgraph of  $C$.
+
+
+\newcommand{\inducedOnC}[1]{#1}
+% \newcommand{\inducedOnC}[1]{Idc\left(C,#1\right)}
+
+We analyze all the possible cases for $C_k$.
+\begin{itemize}
+    \item 1 case: $C_k=\inducedOnC{R'_i\cup R'_j\cup D_{i,j}}$ is not possible. Since $C_k\cup C_i = \inducedOnC{R'_i\cup R_j\cup D_{i,j}}\neq C$ we have from Lemma \ref{lemma:combined_lemma}, Point \ref{lemma:wc_intersection_is_C}, that $C_k\cup C_i$ cannot be isostatic.
+    By Lemma~\ref{lem:pinned_union_intersection}, it must be underconstrained,
+    so one of $C_i$ and $C_k$ must be an edge, contradicting the assumption that both $C_i$ and $C_k$ are isostatic.
+
+    \item 1 case: $C_k=\inducedOnC{R'_i\cup R'_j\cup D'_{i,j}}$ is not possible. The proof is similar to the previous case.
+
+    \item 2 cases: $C_k=\inducedOnC{R'_i\cup R_j\cup D'_{i,j}}$ and $C_k=\inducedOnC{R_i\cup R'_j\cup D'_{i,j}}$ are not possible.
+    The proof is similar to the previous case.
+\end{itemize}
+
+All remaining cases are similar to the original proof for 2D bar-joint graphs.
+\end{proof}
+
