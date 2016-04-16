@@ -1,0 +1,292 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mathHW}
+
+
+% Special macros for math environment:
+%     unit, p (parentheses), set, abs, floor, ceil, vec, norm, inner, krn[sub]{1}{2}, krnv, evaluatedat, dgr (degrees)
+% Convenient complexity notation
+%     bigO{}, bigOn, bigOlogn, bigOnlogn, bigOnsq
+% contains special environments for homework:
+%     hwproblem, hwsolution
+% contains special macros for homework:
+%     hwprob, hwanswer, hwplaceholder, todo
+% contains useful all-purpose macros:
+%     n, lessSeparation, append
+
+
+
+% \tiny, \scriptsize, \footnotesize, \small, \normalsize, \large, \Large, \LARGE, \huge, \Huge
+
+% --------------------------------------------------------------
+%                       Some packages
+% --------------------------------------------------------------
+
+%\usepackage[top=1in, bottom=1.5in, left=1in, right=1in]{geometry}
+
+% \usepackage[top=0.5in, bottom=1in, left=0.5in, right=0.5in]{geometry}
+% \usepackage[margin=0.5in]{geometry}
+
+\usepackage{amsmath}
+% \usepackage{amsthm}
+\usepackage{amssymb}
+% \usepackage{algpseudocode}
+% \usepackage{breqn}
+\usepackage{qtree}
+
+\usepackage{enumerate}
+
+\usepackage{color}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage{tikz}
+\newcommand{\tedge}[5]{\draw[#3] (#1)-- node[e, #5] (e#4) {#4} (#2)}
+
+
+% --------------------------------------------------------------
+%                         Title
+% --------------------------------------------------------------
+
+\def\@hwnumber {X}               \def\hwnumber#1{\def\@hwnumber{#1}}
+\def\@hwcourse {CLS 1001: Class} \def\hwcourse#1{\def\@hwcourse{#1}}
+\def\@hwauthor {John Doe}        \def\hwauthor#1{\def\@hwauthor{#1}}
+\def\@hwdate   {January 1, 2000} \def\hwdate  #1{\def\@hwdate  {#1}}
+\def\@hwdisclaimer {I don't cheat!} \def\hwdisclaimer#1{\def\@hwdisclaimer  {#1}}
+
+\def\hwmaketitle{
+    \begin{center}
+        \Large\textbf{Homework \@hwnumber}
+
+        \footnotesize\text{\@hwcourse}
+        \vspace*{0.2 in}
+
+        \large\textit{\@hwauthor}
+        \vspace*{0.2 in}
+
+        \normalsize\text{\@hwdate}
+    \end{center}
+}
+
+% \def\hwmaketitle{
+%     \title{Homework \@hwnumber\\\@hwcourse}
+%     \author{\@hwauthor}
+%     \date{\@hwdate}
+%     \maketitle
+% }
+
+\def\hwmaketitledisclaimer{
+    \begin{center}
+        \textbf{\@hwdisclaimer}
+
+        \Large\textbf{Homework \@hwnumber}
+
+        \footnotesize\text{\@hwcourse}
+        \vspace*{0.2 in}
+
+        \large\textit{\@hwauthor}
+        \vspace*{0.2 in}
+
+        \normalsize\text{\@hwdate}
+    \end{center}
+}
+
+
+% --------------------------------------------------------------
+%                       Header and Footer
+% --------------------------------------------------------------
+
+%specifying header stuff
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\def\hwmakefooter{
+    \pagestyle{fancy}
+    \lhead{}
+    \chead{}
+    \rhead{}
+    \lfoot{}
+    \cfoot{}
+    \rfoot{\@hwauthor{} -- \textbf{\thepage} of \textbf{\pageref{LastPage}}}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0.8pt}
+}
+
+
+% --------------------------------------------------------------
+%                       Algorithms
+% --------------------------------------------------------------
+
+\usepackage{listings}
+\lstset{ %
+  % backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  % basicstyle=\ttfamily\footnotesize,        % the size of the fonts that are used for the code
+  basicstyle=\ttfamily,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  % commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  % keywordstyle=\ttfamily\bf,       % keyword style
+  keywordstyle=\ttfamily,       % keyword style
+  language=C++,                 % the language of the code
+  morekeywords={func,array,*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=10pt,                   % how far the line-numbers are from the code
+  %numberstyle=\small\color{mygray}, % the style that is used for the line-numbers
+  % rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  % stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname,                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  columns=fullflexible,
+  xleftmargin=.05\textwidth,
+  xrightmargin=.05\textwidth,
+  literate=
+    % {<=}{{$\leq$}}1 %      \leq
+    % {>=}{{$\geq$}}1 %      \geq
+    % {~=}{{$\neq$}}1 %      \neq
+}
+
+% --------------------------------------------------------------
+%                     "New" Declarations
+% --------------------------------------------------------------
+
+% \newcommand{\N}{\mathbb{N}}
+% \newcommand{\Z}{\mathbb{Z}}
+
+% \newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+% \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+% \newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+% \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+% \newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+% \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+% \newenvironment{question}[2][Question]{\begin{trivlist}
+% \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+% \newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+% \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+
+
+
+
+\newcommand{\hwprob}[1]{
+    \addvspace{15pt}
+    \hrule
+    \begin{center}
+        \large \bf Problem \hskip \labelsep #1
+    \end{center}
+    \hrule
+}
+
+%\newcommand{\hwanswer}[1]{\frame{\bf{#1}}}
+\newcommand{\hwanswer}[1]{{\textbf{#1}}}
+
+
+% \newenvironment{problem}[2][Problem]{\begin{trivlist}
+% \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{hwproblem}[2][Problem] {
+    \normalsize
+    % \scriptsize
+    \addvspace{15pt}
+    \hrule
+    % \begin{samepage}
+    \begin{trivlist}
+        \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]
+        \hfill
+
+        \nopagebreak
+}
+{
+    \end{trivlist}
+    % \end{samepage}
+}
+
+\newenvironment{hwsolution}[2][Solution] {
+    % \begin{samepage}
+    \begin{trivlist}
+        \item[\hskip \labelsep {\bfseries #1} \hskip \labelsep {\bfseries #2.}]
+        \hfill
+
+        \nopagebreak
+}
+{
+    \end{trivlist}
+    % \end{samepage}
+}
+
+\newcommand{\hwplaceholder}{\vskip\baselineskip\hrule\hrule\hrule\hrule\hrule\hrule\hrule\hrule\hrule\hrule\vskip\baselineskip}
+
+% \newenvironment{myalgo}[2][Algorithm]{
+%     \hrule
+%     #1 {\bf #2}
+%     \hrule
+%     \VerbatimEnvironment
+%     % \begin{verbatim}
+% }
+% {
+%     % \end{verbatim}
+%     \hrule
+% }
+
+
+\newcommand{\todo}[1]{\textsc{{\color{red}#1}}}
+
+
+% --------------------------------------------------------------
+%                        Definitions
+% --------------------------------------------------------------
+
+\def\n{\vskip\baselineskip}
+% \def\.{\item}
+\def\lessSeparation{\vspace*{-\baselineskip}}
+
+% mathematical notation
+% \mathopen{}\left. and \right.\mathclose{} get rid of the spurious space automatically inserted. Now it renders as if you weren't using right or left (w/ regards to the space)
+\newcommand   {\unit}[1]   {\text{ #1}}
+\newcommand   {\p}[1]      {\mathopen{}\left({#1}\right)\mathclose{}}
+\newcommand   {\set}[1]    {\mathopen{}\left\{{#1}\right\}\mathclose{}}
+\newcommand   {\abs}[1]    {\mathopen{}\left|{#1}\right|\mathclose{}}
+\newcommand   {\floor}[1]  {\mathopen{}\lfloor{#1}\rfloor\mathclose{}}
+\newcommand   {\ceil}[1]   {\mathopen{}\lceil{#1}\rceil\mathclose{}}
+% \renewcommand {\vec}[1]    {\mathbf{#1}}          % overwrite
+\renewcommand {\vec}[1]    {\boldsymbol{#1}}
+\newcommand   {\norm}[1]   {\mathopen{}\left\|{#1}\right\|\mathclose{}}
+\newcommand   {\inner}[2]  {\mathopen{}\left<{#1,#2}\right>\mathclose{}}
+\newcommand   {\krn}[3][]  {k_{#1}\p{#2,#3}}
+\newcommand   {\krnv}[3][] {k_{#1}\p{\vec{#2},\vec{#3}}}
+\newcommand   {\evaluatedat}[2] {\biggr\rvert_{#1}^{#2}}
+
+\newcommand{\dgr}{^{\circ}}
+
+\newcommand{\bigO}[1]{$O\p{#1}$}
+\newcommand{\bigOn}{\bigO{n}}
+\newcommand{\bigOlogn}{\bigO{\log{n}}}
+\newcommand{\bigOnlogn}{\bigO{n\log{n}}}
+\newcommand{\bigOnsq}{\bigO{n^2}}
+
+
+% --------------------------------------------------------------
+%                       Random things
+% --------------------------------------------------------------
+
+% not so useful, more a demo of if. \pred{1}{0}{1}
+\newcommand{\tnt}[3]{\if0#1\if0#3{\textbf{\underline{NT}}}\else{NT}\fi\else\if0#3{\textbf{\underline{T}}}\else{T}\fi\fi/\if0#2\if1#3{\textbf{\underline{NT}}}\else{NT}\fi\else\if1#3{\textbf{\underline{T}}}\else{T}\fi\fi}
+
+% give it a macro and text and it redefines that macro with the text appended. \append{\test}{hi}
+\newcommand{\append}[2]{\expandafter\def\expandafter#1\expandafter{#1#2}}
+
+
+
+% --------------------------------------------------------------
+%                            End
+% --------------------------------------------------------------
+\endinput
