@@ -1,8 +1,8 @@
-#Canonical DR-Planner
+# Canonical DR-Planner #
 
 A software implementation of the canonical DR-planner and OMD solver for 2D, independent, bar-joint constraint systems (see publications).
 
-##Installation
+## Installation
 1. Install all dependencies.
     - OpenGL 3.3
     - GLEW
@@ -12,7 +12,7 @@ A software implementation of the canonical DR-planner and OMD solver for 2D, ind
 3. Run `make` from the repository root directory. You may need to alter `Makefile` to reflect the location of libraries on your system.
 4. Test with `./drp -opt=0 -dot test_files/test.dot`.
 
-##Usage
+## Usage
 Command line flags (subject to change, check `main.cpp`):
 
 - `-dot XX` where `XX` is the location of the desired input dot. Default is `test_files/test.dot`.
@@ -26,8 +26,8 @@ This software recognizes dot files with vertex properties `x` and `y` and edge p
 
 Sample dot files are available in the `test_files` directory.
 
-##Publications
+## Publications
 "Optimal Decomposition and Recombination of Isostatic Geometric Constraint Systems for Designing Layered Materials"
 
-##Website
+## Website
 [The homepage for this software can be found here.](http://cise.ufl.edu/~tbaker/drp)
