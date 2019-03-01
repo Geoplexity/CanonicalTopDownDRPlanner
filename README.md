@@ -36,5 +36,3 @@ The GNU GPL license can be found at [http://www.gnu.org/licenses/](http://www.gn
 ## Publications
 "Optimal Decomposition and Recombination of Isostatic Geometric Constraint Systems for Designing Layered Materials"
 
-## Website
-[The homepage for this software can be found here.](http://cise.ufl.edu/~tbaker/drp)
